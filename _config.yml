@@ -32,6 +32,10 @@ auto_dir_categorize:
 	enable: true  # options:true, false; default is true
 	force: true # options:true, false; default is false
 
+auto_excerpt:
+  enable: true
+  length: 32
+
 # Writing
 new_post_name: :title.md # File name of new posts
 default_layout: post
