@@ -298,174 +298,6 @@
       
         
   <h2 class="title">
-    <a href="/EMBEDDED/JTAG基本原理与调试.html">
-      JTAG基本原理与调试
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-07-21</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/EMBEDDED/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>EMBEDDED</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <blockquote>
-<p>JTAG(Joint Test Action Group)联合测试行动小组)是一种国际标准测试协议（IEEE 1149.1兼容），主要用于芯片内部测试。现在多数的高级器件都支持JTAG协议，如DSP、FPGA器件等。标准的JTAG接口是4线：TMS、 TCK、TDI、TDO，分别为模式选择、时钟、数据输入和数据输出线。　　JTAG最初是用来对芯片进行测试的，基本原理是在器件内部定义一个TAP（Test Access Port?测试访问口）通过专用的JTAG测试工具对进行内部节点进行测试。JTAG测试允许多个器件通过JTAG接口串联在一起，形成一个JTAG链，能实现对各个器件分别测试。现在，JTAG接口还常用于实现ISP（In-System Programmable?在线编程），对FLASH等器件进行编程。　　JTAG编程方式是在线编程，传统生产流程中先对芯片进行预编程实现再装到板上因此而改变，简化的流程为先固定器件到电路板上，再用JTAG编程，从而大大加快工程进度。JTAG接口可对PSD芯片内部的所有部件进行编程</p>
-</blockquote>
-<p>上面的信息是从度娘百科引用过来的，对于jtag没有了解过的人来说，上面的大部分内容都不知道说什么，当然，我是一开始看的时候也看不懂。</p>
-<p>不过从上面得出来的信息知道，jtag是一个协议，标准有4个引脚，用于芯片的测试与编程调试。</p>
-<p>jtag是有硬件实现的。</p>
-<p><strong>在cpu</strong>（注意：这里的cpu是指运算处理单元，只包含了内部寄存器以及运算单元等基本部件）<strong>外围，处理器</strong>（即cpu扩展芯片，不是soc）<strong>内部包含了jtag的硬件实现，并且向外界提供接口，也就是上面所说的TMS，TCK，TDI，TDO，四个引脚。</strong></p>
-<p>如图：</p>
-<p><img src="http://images.cnitblog.com/blog/421096/201212/20171048-49f682eac36b429bbd608615efd8bf53.jpg" alt=""></p>
-<p><strong>边界扫描链</strong></p>
-<p>jtag如何用于芯片测试呢？　其中用到的最主要部件就是边界扫描链。</p>
-<p>命名为边界扫描链，是由于它位置处于处理器的边界上。</p>
-<p>我们知道cpu是通过引脚与外围交流的，所有的数据都会通过引脚输入或者输出，而jtag就是通过监控引脚的信号达到芯片测试的目的。</p>
-<p>而边界扫描链就是在引脚上的一个部件。如下图：</p>
-<p><img src="http://images.cnitblog.com/blog/421096/201212/20174816-55688b71b7674c4480147f4a53502afc.jpg" alt=""></p>
-<p>通过边界扫描链，当有信号输入的时候，边界扫描链就能获取信号，当cpu要输出信号的时候，边界扫描链也能获取要输出的信号。</p>
-<p>另外也可以通过边界扫描链来直接向外部输出信号。</p>
-<p>无论是信号的抓取还是输出，都需要有接口来保存这些信号，TDI跟TDO就是做这样一些工作的。</p>
-<p>如图：</p>
-<p><img src="http://images.cnitblog.com/blog/421096/201212/20175937-9a32b061824745ef89a815ba914309ae.jpg" alt=""></p>
-<p>本来边界扫描链保存着引脚上的信号，当通过TDI引脚输入我们自己的信号的时候，会发生沿上面红线方向的移位操作，</p>
-<p>　　　　　　　　TDI ——〉 边界扫描链 —— 〉 TDO</p>
-<p>就能从TDO获取边界扫描链上的信号，我们从TDI输入的信号也会到边界扫描链上去。</p>
-<p>在cpu跟外界通信的引脚上的数据无非就是 指令 跟 数据信号（包括地址跟数据） 两种。但是这两者的结合形成了一个完整的程序，能对它们进行监控就表明我们能进行程序的调试。</p>
-<p>上面的只是jtag最基本的原理，要对程序更好的调试还需要控制部件，还有更多寄存器的结合等等。</p>
-<p>下面是一个完整的jtag调试部件：</p>
-<p><img src="http://images.cnitblog.com/blog/421096/201212/20181708-f5ce131936894c24b52b746aefab1965.jpg" alt=""></p>
-<p>更详细的jtag信息可以看看<a href="http://www.micetek.com.cn/technic/jtag.pdf" target="_blank" rel="external">http://www.micetek.com.cn/technic/jtag.pdf</a></p>
-<hr>
-<p><strong>下面来讲讲arm上的jtag调试，openocd就是一个jtag的调试工具</strong></p>
-<p>以下基于s3c2440，openocd</p>
-<p>我们在调试程序的时候，通常需要设置断点，断点也就是指令所在的位置，</p>
-<p>断点分为两种：<strong>硬件断点跟软件断点</strong></p>
-<p>　　<strong>硬件断点</strong>：指令的地址。当cpu要去某个地址取指令的时候，就暂停cpu的运行。在s3c2440上只支持两个硬件断点</p>
-<p>　　<strong>软件断点</strong>：软件断点不限制断点的个数，因此硬件断点的方法是不可用的。当我们需要在某个指令上打断点的时候，openocd会先去取得断点的地址，然后把每个断点处的值替换成某个特定的值（如deeedeee），当cpu取数据的时候得到该特定的值，就知道到达了断点地址，暂停cpu的运行，去除断点的时候再把原本的值换回去。如果没指定硬件断点的话，一般都默认是软件断点。</p>
-<p><strong>另外openocd对于软件断点有特定的要求：</strong></p>
-<p>　　1.程序必须位于它的链接地址上，即如果指定了. = 0x30000000,那么程序必须实际上是位于0x30000000这个地方，也就是说程序必须已经重定位好，位于它的链接地址。</p>
-<p>　　2.程序必须按照某种特定的顺序排放：</p>
-<pre><code>SECTIONS{
-
-. = 0x30000000;
-.text    :{
-head.o(.text)
-init.o(.text)
-nand.o
-*(.text)
-}
-.rodata ALIGN(4)    :    {*(.rodata)}
-.data ALIGN(4)    :    {*(.data)}
-.bss ALIGN(4)    :    {*(.bss)    *(COMMON)}
-}
-</code></pre><p>gdb调试就是基于软件断点的调试，我们可以用gdb对程序代码的某一行进行断点设置，那么它是如何定位到某个指令的地址的？</p>
-<p>这就需要有调试信息，也就是在编译的时候加上 -g 给程序添加调试信息。</p>
-<p><strong>eclipse对gdb进行了进一步的封装（GUI），我们可以通过对eclipse进行某些设置达到调试arm程序的目的。</strong></p>
-<p><strong>1.首先把文件加入工程</strong></p>
-<p><strong>2.设置调试配置：</strong></p>
-<p>　　点工具栏上的小虫子</p>
-<p>　　Debug Configurations…</p>
-<p>　　新建一个调试配置</p>
-<p>　　选择选项卡Main，在C/C++ Application:　　选项上选择要调试的elf文件</p>
-<p>　　选择选项卡Debugger，GDB debugger： 选择为arm-elf-gdb</p>
-<p>　　选择选项卡Commands， ‘Initialize’conmmands 下输入命令：</p>
-<pre><code>　　　　target remote 127.0.0.1:3333　　　　//连接openocd
-　　　　load　　　　　　　　　　　　　　　　//加载程序到内存
-　　　　break _start　　　　　　　　　　　　//设置断点到_start
-　　　　c　　　　　　　　//continue继续执行
-</code></pre><p>　　然后Apply ，最后Debug开始调试</p>
-<p><strong>3.当然，上述程序是在内存执行的，但是开发板一开始的时候内存还没初始化，是不可用的，因此我们需要先设置内存</strong></p>
-<p>　　在openocd的命令控制台上（telnet 127.0.0.1 4444进入openocd控制台）</p>
-<pre><code>　　　　halt　　　　//暂停cpu
-       //加载内存初始化程序 init.bin 到 0 地址
-　　　　load_image　　init.bin　　0 　　
-　　　　resume 　0　　　　//在0地址开始运行
-　　　　halt　　//暂停cpu
-</code></pre><p>　　然后就可以Debug了</p>
-<p>Debug时，当运行到断点处的时候，我们可以看到某些寄存器或者变量的值，这些值在eclipse上显示：</p>
-<p><img src="http://images.cnitblog.com/blog/421096/201212/20193612-671ab99c310b4f7a8482c08843a85ce6.jpg" alt=""></p>
-
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
     <a href="/EMBEDDED/S3C6410中断以及外部中断.html">
       S3C6410中断以及外部中断
     </a>
@@ -2034,6 +1866,98 @@ int MqttClient_NetDisconnect(MqttClient *client);
 // Helper functions:
 const char* MqttClient_ReturnCodeToString(int return_code);
 </code></pre>
+      
+    </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/EMBEDDED/linux 下jansson安装和使用.html">
+      linux 下jansson安装和使用
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2017-07-12</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/EMBEDDED/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>EMBEDDED</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <p><a href="http://www.cnblogs.com/etangyushan/p/3724017.html" target="_blank" rel="external">http://www.cnblogs.com/etangyushan/p/3724017.html</a></p>
+
       
     </div>
     

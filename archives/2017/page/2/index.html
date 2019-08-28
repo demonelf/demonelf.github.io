@@ -1294,8 +1294,8 @@ git push
       
         
   <h2 class="title">
-    <a href="/NETWORK/Gentoo下利用pptpd搭建PPTP服务器 .html">
-      Gentoo下利用pptpd搭建PPTP服务器
+    <a href="/DEVELOP/pty示例代码.html">
+      pty示例代码
     </a>
   </h2>
 
@@ -1323,7 +1323,7 @@ git push
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-18</p>
+    <p>2017-08-17</p>
   </a>
 </div>
 
@@ -1333,9 +1333,9 @@ git push
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/NETWORK/' rel="nofollow">
+    <a href='/categories/DEVELOP/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>NETWORK</p>
+      <p>DEVELOP</p>
     </a>
   </div>
 
@@ -1362,36 +1362,64 @@ git push
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>首先检查当前系统的linux kernel有没有支持ppp, netfilter, mppe和 netfilter的nat,如果没有，请先配置支持这些组建，编译更新内核，然后重启系统。这块不再详述，如果想知道详细情况，可以留言问我。<br>接着安装必要软件</p>
-<blockquote>
-<p>emerge ppp</p>
-<p>emerge pptpd</p>
-</blockquote>
-<p>然后修改配置文件<br>先是pptpd的配置文件 /etc/pptpd.conf</p>
-<pre><code>ppp /usr/sbin/pppd
-option /etc/ppp/options.pptpd
-logwtmp
-localip 172.16.0.1
-remoteip 172.16.0.2-254
-</code></pre><p>接着是ppp的配置文件 /etc/ppp/options.pptpd </p>
-<pre><code>ms-dns 8.8.8.8
-ms-dns 8.8.4.4
-</code></pre><p>最后是用户密码文件 /etc/ppp/chap-secret </p>
-<pre><code>#name server secret ip
-test@test.com pptpd test *
-</code></pre><p>第一项是登录vpn时使用的用户名，第二项是vpn服务器名（pptpd，l2tpd，xl2tpd等，也可以用*号），第三项是密码，第四项是分配给客户端的ip，如果是＊号，vpn服务器则会从自己的配置文件中选择一个ip分配给客户端。 </p>
-<p>开启系统的封包转发： </p>
-<blockquote>
-<p>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</p>
-</blockquote>
-<p>最后别忘了启动pptpd服务</p>
-<blockquote>
-<p>/etc/init.d/pptpd start </p>
-</blockquote>
-<p>gentoo下客户端示例</p>
-<blockquote>
-<p>pptp 192.168.2.12 user test@test.com password test</p>
-</blockquote>
+      <pre><code class="c">#define _XOPEN_SOURCE
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;string.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;pty.h&gt;
+
+int main()
+{
+        int fd_m, fd_s;
+        int len;
+        const char *pts_name;
+        char send_buf[64] = &quot;abc\ndefghijk\nlmn&quot;;
+        char recv_buf[64] = {0};
+
+        fd_m = open(&quot;/dev/ptmx&quot;, O_RDWR | O_NOCTTY);
+        if (fd_m &lt; 0) {
+                printf(&quot;open /dev/ptmx fail1\n&quot;);
+                return -1;
+        }
+
+        if (grantpt(fd_m) &lt; 0 || unlockpt(fd_m) &lt; 0) {
+                printf(&quot;grantpt and unlockpt fail\n&quot;);
+                goto err;
+        }
+
+        pts_name = (const char *)ptsname(fd_m);
+        fd_s = open(pts_name, O_RDONLY | O_NOCTTY);
+        if (fd_s &lt; 0) {
+                printf(&quot;open /dev/ptmx fail2\n&quot;);
+                goto err;
+        }
+
+        len = write(fd_m, send_buf, strlen(send_buf));
+        printf(&quot;write len=%d\n&quot;, len);
+
+        len = read(fd_s, recv_buf, sizeof(recv_buf));
+        printf(&quot;read len=%d, recv_buf=[%s]\n&quot;, len, recv_buf);
+
+        len = read(fd_s, recv_buf, sizeof(recv_buf));
+        printf(&quot;read len=%d, recv_buf=[%s]\n&quot;, len, recv_buf);
+
+        close(fd_m);
+        close(fd_s);
+        return 0;
+
+err:
+        if (fd_m)
+                close(fd_m);
+        if (fd_s)
+                close(fd_s);
+
+        return -1;
+}
+</code></pre>
 
       
     </div>
