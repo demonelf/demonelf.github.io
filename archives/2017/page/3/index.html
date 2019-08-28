@@ -1579,123 +1579,6 @@ V
       
         
   <h2 class="title">
-    <a href="/SYSTEM/x11vnc利用xvfd实现远程vncserver.html">
-      x11vnc利用xvfd实现远程vncserver
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-09</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/SYSTEM/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>SYSTEM</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p>当然你可以直接安装vncserver实现以下功能。<br>例如：TigerVNC</p>
-<p>环境：gentoo</p>
-<p>安装：xvfd</p>
-<blockquote>
-<p>sudo USE=”xvfb” emerge -av xorg-server</p>
-</blockquote>
-<p>启动：xvfd</p>
-<blockquote>
-<p>Xvfb :2 -screen 0 800x600x24 -nolisten tcp &amp;<br>export DISPLAY=:2</p>
-</blockquote>
-<p>安装：x11vnc</p>
-<blockquote>
-<p>sudo emerge -av x11vnc</p>
-</blockquote>
-<p>启动：x11vnc</p>
-<blockquote>
-<p>x11vnc -listen 0.0.0.0 -rfbport 5900 -noipv6 -passwd password -display :2 -forever</p>
-</blockquote>
-<p>启动桌面：</p>
-<blockquote>
-<p>gnome-session –debug –disable-acceleration-check</p>
-</blockquote>
-<p>然后启动你喜欢的vnc客户端连接吧</p>
-<blockquote>
-<p>官方客户端为：ssvn 用此客户端可以实现自动缩放</p>
-</blockquote>
-
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
     <a href="/SYSTEM/gentoo_stage_diy.html">
       gentoo_stage_diy
     </a>
@@ -1803,6 +1686,123 @@ V
 
 参考：https://wiki.gentoo.org/wiki/Portage
 </code></pre>
+      
+    </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/SYSTEM/x11vnc利用xvfd实现远程vncserver.html">
+      x11vnc利用xvfd实现远程vncserver
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2017-08-09</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/SYSTEM/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>SYSTEM</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <p>当然你可以直接安装vncserver实现以下功能。<br>例如：TigerVNC</p>
+<p>环境：gentoo</p>
+<p>安装：xvfd</p>
+<blockquote>
+<p>sudo USE=”xvfb” emerge -av xorg-server</p>
+</blockquote>
+<p>启动：xvfd</p>
+<blockquote>
+<p>Xvfb :2 -screen 0 800x600x24 -nolisten tcp &amp;<br>export DISPLAY=:2</p>
+</blockquote>
+<p>安装：x11vnc</p>
+<blockquote>
+<p>sudo emerge -av x11vnc</p>
+</blockquote>
+<p>启动：x11vnc</p>
+<blockquote>
+<p>x11vnc -listen 0.0.0.0 -rfbport 5900 -noipv6 -passwd password -display :2 -forever</p>
+</blockquote>
+<p>启动桌面：</p>
+<blockquote>
+<p>gnome-session –debug –disable-acceleration-check</p>
+</blockquote>
+<p>然后启动你喜欢的vnc客户端连接吧</p>
+<blockquote>
+<p>官方客户端为：ssvn 用此客户端可以实现自动缩放</p>
+</blockquote>
+
       
     </div>
     
@@ -2412,9 +2412,9 @@ return -1; \
         
           <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(11)</div></a></li>
+          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(12)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(13)</div></a></li>
+          <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
         
           <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
@@ -2539,7 +2539,7 @@ return -1; \
 </div>
   <div>
     本站使用
-    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Witkit</a>
     作为主题
     
       ，
