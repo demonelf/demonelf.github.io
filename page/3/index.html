@@ -1056,6 +1056,141 @@ pptp_disable: 1. 关闭ppp任务, 关闭copy功能
       
         
   <h2 class="title">
+    <a href="/NETWORK/linux 下创建GRE隧道.html">
+      linux 下创建GRE隧道
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2017-08-15</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/NETWORK/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>NETWORK</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <p>其他国家的互联网如同一个孤岛。要想访问国外网站异常的缓慢，甚至被和谐了。可以建立一条隧道来避免这种情况，下面说说GRE隧道如何建立。</p>
+<ol>
+<li>GRE介绍<br>GRE隧道是一种IP-over-IP的隧道，是通用路由封装协议，可以对某些网路层协议的数据报进行封装，使这些被封装的数据报能够在IPv4/IPv6 网络中传输。<br>Tunnel 是一个虚拟的点对点的连接，提供了一条通路使封装的数据报文能够在这个通路上传输，并且在一个Tunnel 的两端分别对数据报进行封装及解封装。　一个X协议的报文要想穿越IP网络在Tunnel中传输，必须要经过加封装与解封装两个过程。<br>要在Linux上创建GRE隧道，需要ip_gre内核模块，它是GRE通过IPv4隧道的驱动程序。</li>
+<li>查看是否有加载ip_gre模块<pre><code># modprobe ip_gre
+# lsmod | grep gre
+ip_gre                 22432  0
+gre                    12989  1 ip_gre
+# modprobe ip_gre
+# lsmod | grep gre
+ip_gre                 22432  0
+gre                    12989  1 ip_gre
+</code></pre></li>
+<li>创建步骤<br>环境如下：<br>host A :  121.207.22.123<br>host B: 111.2.33.28<br>在host A上面：<pre><code># ip tunnel add gre1 mode gre remote 111.2.33.28 local 121.207.22.123 ttl 255
+# ip link set gre1 up
+# ip addr add 10.10.10.1 peer 10.10.10.2 dev gre1
+# ip tunnel add gre1 mode gre remote 111.2.33.28 local 121.207.22.123 ttl 255
+# ip link set gre1 up
+# ip addr add 10.10.10.1 peer 10.10.10.2 dev gre1
+</code></pre>创建一个GRE类型隧道设备gre0, 并设置对端IP为111.2.33.28。隧道数据包将被从121.207.22.123也就是本地IP地址发起，其TTL字段被设置为255。隧道设备分配的IP地址为10.10.10.1，掩码为255.255.255.0。<br>在host B上面：<pre><code>#  ip tunnel add gre1 mode gre remote  121.207.22.123 local 111.2.33.28 ttl 255
+#  ip link set gre1 up
+#  ip addr add 10.10.10.2 peer 10.10.10.1 dev gre1
+#  ip tunnel add gre1 mode gre remote  121.207.22.123 local 111.2.33.28 ttl 255
+#  ip link set gre1 up
+#  ip addr add 10.10.10.2 peer 10.10.10.1 dev gre1
+</code></pre>此时，host A 和 host B 建立起GRE隧道了。</li>
+<li>检测连通性</li>
+</ol>
+<pre><code># ping 10.10.10.2 (host A)
+PING 10.10.10.2 (10.10.10.2) 56(84) bytes of data.
+64 bytes from 10.10.10.2: icmp_req=1 ttl=64 time=0.319 ms
+64 bytes from 10.10.10.2: icmp_req=2 ttl=64 time=0.296 ms
+64 bytes from 10.10.10.2: icmp_req=3 ttl=64 time=0.287 ms
+# ping 10.10.10.2 (host A)
+PING 10.10.10.2 (10.10.10.2) 56(84) bytes of data.
+64 bytes from 10.10.10.2: icmp_req=1 ttl=64 time=0.319 ms
+64 bytes from 10.10.10.2: icmp_req=2 ttl=64 time=0.296 ms
+64 bytes from 10.10.10.2: icmp_req=3 ttl=64 time=0.287 ms
+</code></pre><ol>
+<li>撤销GRE隧道<br>在任一一端操作下面命令<pre><code># ip link set gre1 down
+# ip tunnel del gre1
+# ip link set gre1 down
+# ip tunnel del gre1
+</code></pre>转载请注明来自运维生存时间: <a href="http://www.ttlsa.com/html/4138.html" target="_blank" rel="external">http://www.ttlsa.com/html/4138.html</a></li>
+</ol>
+
+      
+    </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
     <a href="/NETWORK/Linux PPP 框架分析.html">
       Linux PPP 框架分析
     </a>
@@ -1173,141 +1308,6 @@ pptp_disable: 1. 关闭ppp任务, 关闭copy功能
 <p>Ø PPP过程</p>
 <p>Ø 设置上网主机</p>
 <p>3.1 PPPoE Discovery 过程</p>
-
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/NETWORK/linux 下创建GRE隧道.html">
-      linux 下创建GRE隧道
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-15</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/NETWORK/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>NETWORK</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p>其他国家的互联网如同一个孤岛。要想访问国外网站异常的缓慢，甚至被和谐了。可以建立一条隧道来避免这种情况，下面说说GRE隧道如何建立。</p>
-<ol>
-<li>GRE介绍<br>GRE隧道是一种IP-over-IP的隧道，是通用路由封装协议，可以对某些网路层协议的数据报进行封装，使这些被封装的数据报能够在IPv4/IPv6 网络中传输。<br>Tunnel 是一个虚拟的点对点的连接，提供了一条通路使封装的数据报文能够在这个通路上传输，并且在一个Tunnel 的两端分别对数据报进行封装及解封装。　一个X协议的报文要想穿越IP网络在Tunnel中传输，必须要经过加封装与解封装两个过程。<br>要在Linux上创建GRE隧道，需要ip_gre内核模块，它是GRE通过IPv4隧道的驱动程序。</li>
-<li>查看是否有加载ip_gre模块<pre><code># modprobe ip_gre
-# lsmod | grep gre
-ip_gre                 22432  0
-gre                    12989  1 ip_gre
-# modprobe ip_gre
-# lsmod | grep gre
-ip_gre                 22432  0
-gre                    12989  1 ip_gre
-</code></pre></li>
-<li>创建步骤<br>环境如下：<br>host A :  121.207.22.123<br>host B: 111.2.33.28<br>在host A上面：<pre><code># ip tunnel add gre1 mode gre remote 111.2.33.28 local 121.207.22.123 ttl 255
-# ip link set gre1 up
-# ip addr add 10.10.10.1 peer 10.10.10.2 dev gre1
-# ip tunnel add gre1 mode gre remote 111.2.33.28 local 121.207.22.123 ttl 255
-# ip link set gre1 up
-# ip addr add 10.10.10.1 peer 10.10.10.2 dev gre1
-</code></pre>创建一个GRE类型隧道设备gre0, 并设置对端IP为111.2.33.28。隧道数据包将被从121.207.22.123也就是本地IP地址发起，其TTL字段被设置为255。隧道设备分配的IP地址为10.10.10.1，掩码为255.255.255.0。<br>在host B上面：<pre><code>#  ip tunnel add gre1 mode gre remote  121.207.22.123 local 111.2.33.28 ttl 255
-#  ip link set gre1 up
-#  ip addr add 10.10.10.2 peer 10.10.10.1 dev gre1
-#  ip tunnel add gre1 mode gre remote  121.207.22.123 local 111.2.33.28 ttl 255
-#  ip link set gre1 up
-#  ip addr add 10.10.10.2 peer 10.10.10.1 dev gre1
-</code></pre>此时，host A 和 host B 建立起GRE隧道了。</li>
-<li>检测连通性</li>
-</ol>
-<pre><code># ping 10.10.10.2 (host A)
-PING 10.10.10.2 (10.10.10.2) 56(84) bytes of data.
-64 bytes from 10.10.10.2: icmp_req=1 ttl=64 time=0.319 ms
-64 bytes from 10.10.10.2: icmp_req=2 ttl=64 time=0.296 ms
-64 bytes from 10.10.10.2: icmp_req=3 ttl=64 time=0.287 ms
-# ping 10.10.10.2 (host A)
-PING 10.10.10.2 (10.10.10.2) 56(84) bytes of data.
-64 bytes from 10.10.10.2: icmp_req=1 ttl=64 time=0.319 ms
-64 bytes from 10.10.10.2: icmp_req=2 ttl=64 time=0.296 ms
-64 bytes from 10.10.10.2: icmp_req=3 ttl=64 time=0.287 ms
-</code></pre><ol>
-<li>撤销GRE隧道<br>在任一一端操作下面命令<pre><code># ip link set gre1 down
-# ip tunnel del gre1
-# ip link set gre1 down
-# ip tunnel del gre1
-</code></pre>转载请注明来自运维生存时间: <a href="http://www.ttlsa.com/html/4138.html" target="_blank" rel="external">http://www.ttlsa.com/html/4138.html</a></li>
-</ol>
 
       
     </div>
@@ -2472,7 +2472,7 @@ return -1; \
 </div>
   <div>
     本站使用
-    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Witkit</a>
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
     作为主题
     
       ，
