@@ -298,127 +298,6 @@
       
         
   <h2 class="title">
-    <a href="/NETWORK/Gentoo下利用pptpd搭建PPTP服务器 .html">
-      Gentoo下利用pptpd搭建PPTP服务器
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-18</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/NETWORK/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>NETWORK</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p>首先检查当前系统的linux kernel有没有支持ppp, netfilter, mppe和 netfilter的nat,如果没有，请先配置支持这些组建，编译更新内核，然后重启系统。这块不再详述，如果想知道详细情况，可以留言问我。<br>接着安装必要软件</p>
-<blockquote>
-<p>emerge ppp</p>
-<p>emerge pptpd</p>
-</blockquote>
-<p>然后修改配置文件<br>先是pptpd的配置文件 /etc/pptpd.conf</p>
-<pre><code>ppp /usr/sbin/pppd
-option /etc/ppp/options.pptpd
-logwtmp
-localip 172.16.0.1
-remoteip 172.16.0.2-254
-</code></pre><p>接着是ppp的配置文件 /etc/ppp/options.pptpd </p>
-<pre><code>ms-dns 8.8.8.8
-ms-dns 8.8.4.4
-</code></pre><p>最后是用户密码文件 /etc/ppp/chap-secret </p>
-<pre><code>#name server secret ip
-test@test.com pptpd test *
-</code></pre><p>第一项是登录vpn时使用的用户名，第二项是vpn服务器名（pptpd，l2tpd，xl2tpd等，也可以用*号），第三项是密码，第四项是分配给客户端的ip，如果是＊号，vpn服务器则会从自己的配置文件中选择一个ip分配给客户端。 </p>
-<p>开启系统的封包转发： </p>
-<blockquote>
-<p>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</p>
-</blockquote>
-<p>最后别忘了启动pptpd服务</p>
-<blockquote>
-<p>/etc/init.d/pptpd start </p>
-</blockquote>
-<p>gentoo下客户端示例</p>
-<blockquote>
-<p>pptp 192.168.2.12 user test@test.com password test</p>
-</blockquote>
-
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
     <a href="/DEVELOP/pty示例代码.html">
       pty示例代码
     </a>
@@ -1122,141 +1001,6 @@ pptp_disable: 1. 关闭ppp任务, 关闭copy功能
       
         
   <h2 class="title">
-    <a href="/NETWORK/linux 下创建GRE隧道.html">
-      linux 下创建GRE隧道
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-15</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/NETWORK/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>NETWORK</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p>其他国家的互联网如同一个孤岛。要想访问国外网站异常的缓慢，甚至被和谐了。可以建立一条隧道来避免这种情况，下面说说GRE隧道如何建立。</p>
-<ol>
-<li>GRE介绍<br>GRE隧道是一种IP-over-IP的隧道，是通用路由封装协议，可以对某些网路层协议的数据报进行封装，使这些被封装的数据报能够在IPv4/IPv6 网络中传输。<br>Tunnel 是一个虚拟的点对点的连接，提供了一条通路使封装的数据报文能够在这个通路上传输，并且在一个Tunnel 的两端分别对数据报进行封装及解封装。　一个X协议的报文要想穿越IP网络在Tunnel中传输，必须要经过加封装与解封装两个过程。<br>要在Linux上创建GRE隧道，需要ip_gre内核模块，它是GRE通过IPv4隧道的驱动程序。</li>
-<li>查看是否有加载ip_gre模块<pre><code># modprobe ip_gre
-# lsmod | grep gre
-ip_gre                 22432  0
-gre                    12989  1 ip_gre
-# modprobe ip_gre
-# lsmod | grep gre
-ip_gre                 22432  0
-gre                    12989  1 ip_gre
-</code></pre></li>
-<li>创建步骤<br>环境如下：<br>host A :  121.207.22.123<br>host B: 111.2.33.28<br>在host A上面：<pre><code># ip tunnel add gre1 mode gre remote 111.2.33.28 local 121.207.22.123 ttl 255
-# ip link set gre1 up
-# ip addr add 10.10.10.1 peer 10.10.10.2 dev gre1
-# ip tunnel add gre1 mode gre remote 111.2.33.28 local 121.207.22.123 ttl 255
-# ip link set gre1 up
-# ip addr add 10.10.10.1 peer 10.10.10.2 dev gre1
-</code></pre>创建一个GRE类型隧道设备gre0, 并设置对端IP为111.2.33.28。隧道数据包将被从121.207.22.123也就是本地IP地址发起，其TTL字段被设置为255。隧道设备分配的IP地址为10.10.10.1，掩码为255.255.255.0。<br>在host B上面：<pre><code>#  ip tunnel add gre1 mode gre remote  121.207.22.123 local 111.2.33.28 ttl 255
-#  ip link set gre1 up
-#  ip addr add 10.10.10.2 peer 10.10.10.1 dev gre1
-#  ip tunnel add gre1 mode gre remote  121.207.22.123 local 111.2.33.28 ttl 255
-#  ip link set gre1 up
-#  ip addr add 10.10.10.2 peer 10.10.10.1 dev gre1
-</code></pre>此时，host A 和 host B 建立起GRE隧道了。</li>
-<li>检测连通性</li>
-</ol>
-<pre><code># ping 10.10.10.2 (host A)
-PING 10.10.10.2 (10.10.10.2) 56(84) bytes of data.
-64 bytes from 10.10.10.2: icmp_req=1 ttl=64 time=0.319 ms
-64 bytes from 10.10.10.2: icmp_req=2 ttl=64 time=0.296 ms
-64 bytes from 10.10.10.2: icmp_req=3 ttl=64 time=0.287 ms
-# ping 10.10.10.2 (host A)
-PING 10.10.10.2 (10.10.10.2) 56(84) bytes of data.
-64 bytes from 10.10.10.2: icmp_req=1 ttl=64 time=0.319 ms
-64 bytes from 10.10.10.2: icmp_req=2 ttl=64 time=0.296 ms
-64 bytes from 10.10.10.2: icmp_req=3 ttl=64 time=0.287 ms
-</code></pre><ol>
-<li>撤销GRE隧道<br>在任一一端操作下面命令<pre><code># ip link set gre1 down
-# ip tunnel del gre1
-# ip link set gre1 down
-# ip tunnel del gre1
-</code></pre>转载请注明来自运维生存时间: <a href="http://www.ttlsa.com/html/4138.html" target="_blank" rel="external">http://www.ttlsa.com/html/4138.html</a></li>
-</ol>
-
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
     <a href="/NETWORK/Linux PPP 框架分析.html">
       Linux PPP 框架分析
     </a>
@@ -1374,6 +1118,141 @@ PING 10.10.10.2 (10.10.10.2) 56(84) bytes of data.
 <p>Ø PPP过程</p>
 <p>Ø 设置上网主机</p>
 <p>3.1 PPPoE Discovery 过程</p>
+
+      
+    </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/NETWORK/linux 下创建GRE隧道.html">
+      linux 下创建GRE隧道
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2017-08-15</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/NETWORK/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>NETWORK</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <p>其他国家的互联网如同一个孤岛。要想访问国外网站异常的缓慢，甚至被和谐了。可以建立一条隧道来避免这种情况，下面说说GRE隧道如何建立。</p>
+<ol>
+<li>GRE介绍<br>GRE隧道是一种IP-over-IP的隧道，是通用路由封装协议，可以对某些网路层协议的数据报进行封装，使这些被封装的数据报能够在IPv4/IPv6 网络中传输。<br>Tunnel 是一个虚拟的点对点的连接，提供了一条通路使封装的数据报文能够在这个通路上传输，并且在一个Tunnel 的两端分别对数据报进行封装及解封装。　一个X协议的报文要想穿越IP网络在Tunnel中传输，必须要经过加封装与解封装两个过程。<br>要在Linux上创建GRE隧道，需要ip_gre内核模块，它是GRE通过IPv4隧道的驱动程序。</li>
+<li>查看是否有加载ip_gre模块<pre><code># modprobe ip_gre
+# lsmod | grep gre
+ip_gre                 22432  0
+gre                    12989  1 ip_gre
+# modprobe ip_gre
+# lsmod | grep gre
+ip_gre                 22432  0
+gre                    12989  1 ip_gre
+</code></pre></li>
+<li>创建步骤<br>环境如下：<br>host A :  121.207.22.123<br>host B: 111.2.33.28<br>在host A上面：<pre><code># ip tunnel add gre1 mode gre remote 111.2.33.28 local 121.207.22.123 ttl 255
+# ip link set gre1 up
+# ip addr add 10.10.10.1 peer 10.10.10.2 dev gre1
+# ip tunnel add gre1 mode gre remote 111.2.33.28 local 121.207.22.123 ttl 255
+# ip link set gre1 up
+# ip addr add 10.10.10.1 peer 10.10.10.2 dev gre1
+</code></pre>创建一个GRE类型隧道设备gre0, 并设置对端IP为111.2.33.28。隧道数据包将被从121.207.22.123也就是本地IP地址发起，其TTL字段被设置为255。隧道设备分配的IP地址为10.10.10.1，掩码为255.255.255.0。<br>在host B上面：<pre><code>#  ip tunnel add gre1 mode gre remote  121.207.22.123 local 111.2.33.28 ttl 255
+#  ip link set gre1 up
+#  ip addr add 10.10.10.2 peer 10.10.10.1 dev gre1
+#  ip tunnel add gre1 mode gre remote  121.207.22.123 local 111.2.33.28 ttl 255
+#  ip link set gre1 up
+#  ip addr add 10.10.10.2 peer 10.10.10.1 dev gre1
+</code></pre>此时，host A 和 host B 建立起GRE隧道了。</li>
+<li>检测连通性</li>
+</ol>
+<pre><code># ping 10.10.10.2 (host A)
+PING 10.10.10.2 (10.10.10.2) 56(84) bytes of data.
+64 bytes from 10.10.10.2: icmp_req=1 ttl=64 time=0.319 ms
+64 bytes from 10.10.10.2: icmp_req=2 ttl=64 time=0.296 ms
+64 bytes from 10.10.10.2: icmp_req=3 ttl=64 time=0.287 ms
+# ping 10.10.10.2 (host A)
+PING 10.10.10.2 (10.10.10.2) 56(84) bytes of data.
+64 bytes from 10.10.10.2: icmp_req=1 ttl=64 time=0.319 ms
+64 bytes from 10.10.10.2: icmp_req=2 ttl=64 time=0.296 ms
+64 bytes from 10.10.10.2: icmp_req=3 ttl=64 time=0.287 ms
+</code></pre><ol>
+<li>撤销GRE隧道<br>在任一一端操作下面命令<pre><code># ip link set gre1 down
+# ip tunnel del gre1
+# ip link set gre1 down
+# ip tunnel del gre1
+</code></pre>转载请注明来自运维生存时间: <a href="http://www.ttlsa.com/html/4138.html" target="_blank" rel="external">http://www.ttlsa.com/html/4138.html</a></li>
+</ol>
 
       
     </div>
@@ -1556,6 +1435,224 @@ V
     unsigned char s_dirt;
 };
 </code></pre><p><img src="超级块结构.JPG" alt=""></p>
+
+      
+    </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/SYSTEM/gentoo【显卡-驱动-xorg-gnome-gui】如何工作.html">
+      gentoo【显卡-驱动-xorg-gnome-gui】工作原理
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2017-08-09</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/SYSTEM/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>SYSTEM</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <blockquote>
+<p>显卡-&gt;驱动-&gt;xorg-&gt;gnome-&gt;gui</p>
+</blockquote>
+<p>查看显卡：lspci  | grep -i VGA</p>
+<p>查看驱动：lspci  -vvv<br>​          </p>
+<blockquote>
+<p>/dev/nvidia0, /dev/nvidiactl</p>
+<p>是NV 官方驱动引入的两个设备文件</p>
+</blockquote>
+<p>驱动安装：x11-drivers/xf86-video-nouveau<br>    x11-drivers/xf86-video-virtualbox</p>
+<p>xorg支持： VIDEO_CARDS=”nouveau virtualbox”<br>    emerge -pv xorg-drivers</p>
+<blockquote>
+<p>现在的xorg也不需要/etc/X11/xorg.conf<br>注意把/etc/X11/xorg.conf.d/下默认的配置删除 例如:01-nv.conf</p>
+</blockquote>
+<pre><code>当然你就想手动指定驱动等信息添加xorg.conf
+也是没有问题的。例如：
+Section &quot;Device&quot;                                     
+        Identifier      &quot;Configured Video Device&quot;     
+        Driver          &quot;fbdev&quot;                  
+EndSection 
+以上显卡设备为lcd 驱动设备为：/dev/fb0
+驱动类型为：framebuffer xf86-video-fbdev
+大家可以看看韦东山介绍 mini2440就是用此驱动。
+framebuffer表示显卡不具备任何计算能力，完全利用cpu计算。
+</code></pre><p>startx：为以上xorg gnome协同作战的脚本</p>
+<pre><code>不用startx ，手动
+xorg的xinit和
+gnome的gnome-session
+都是可以的。
+xinit 找的是/dev/nvidia0, /dev/nvidiactl
+gnome-session 找的是export DISPLAY=:2
+</code></pre><p>配置文件：.xinitrc</p>
+<pre><code>export GTK_IM_MODULE=ibus
+export XMODIFIERS=@im=ibus
+export QT_IM_MODULE=ibus
+export XDG_MENU_PREFIX=gnome-
+xrandr --setprovideroutputsource modesetting NVIDIA-0
+xrandr --auto
+exec gnome-session
+dbus-launch nm-applet &amp;
+</code></pre><pre><code>01:00.0 VGA compatible controller: NVIDIA Corporation G84GLM [Quadro FX 570M] (rev a1) (prog-if 00 [VGA controller])
+        Subsystem: Lenovo ThinkPad T61p
+        Physical Slot: 1
+        Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
+        Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast &gt;TAbort- &lt;TAbort- &lt;MAbort- &gt;SERR- &lt;PERR- INTx-
+        Latency: 0
+        Interrupt: pin A routed to IRQ 16
+        Region 0: Memory at d6000000 (32-bit, non-prefetchable) [size=16M]
+        Region 1: Memory at e0000000 (64-bit, prefetchable) [size=256M]
+        Region 3: Memory at d4000000 (64-bit, non-prefetchable) [size=32M]
+        Region 5: I/O ports at 2000 [size=128]
+        [virtual] Expansion ROM at 000c0000 [disabled] [size=128K]
+        Capabilities: [60] Power Management version 2
+                Flags: PMEClk- DSI- D1- D2- AuxCurrent=0mA PME(D0-,D1-,D2-,D3hot-,D3cold-)
+                Status: D0 NoSoftRst- PME-Enable- DSel=0 DScale=0 PME-
+        Capabilities: [68] MSI: Enable- Count=1/1 Maskable- 64bit+
+                Address: 0000000000000000  Data: 0000
+        Capabilities: [78] Express (v1) Endpoint, MSI 00
+                DevCap: MaxPayload 128 bytes, PhantFunc 0, Latency L0s &lt;512ns, L1 &lt;4us
+                        ExtTag+ AttnBtn- AttnInd- PwrInd- RBE+ FLReset- SlotPowerLimit 75.000W
+                DevCtl: Report errors: Correctable- Non-Fatal- Fatal- Unsupported-
+                        RlxdOrd+ ExtTag+ PhantFunc- AuxPwr- NoSnoop+
+                        MaxPayload 128 bytes, MaxReadReq 512 bytes
+                DevSta: CorrErr- UncorrErr- FatalErr- UnsuppReq- AuxPwr- TransPend-
+                LnkCap: Port #0, Speed 2.5GT/s, Width x16, ASPM L0s L1, Exit Latency L0s &lt;512ns, L1 &lt;4us
+                        ClockPM- Surprise- LLActRep- BwNot- ASPMOptComp-
+                LnkCtl: ASPM L0s Enabled; RCB 128 bytes Disabled- CommClk+
+                        ExtSynch- ClockPM- AutWidDis- BWInt- AutBWInt-
+                LnkSta: Speed 2.5GT/s, Width x16, TrErr- Train- SlotClk+ DLActive- BWMgmt- ABWMgmt-
+        Capabilities: [100 v1] Virtual Channel
+                Caps:   LPEVC=0 RefClk=100ns PATEntryBits=1
+                Arb:    Fixed- WRR32- WRR64- WRR128-
+                Ctrl:   ArbSelect=Fixed
+                Status: InProgress-
+                VC0:    Caps:   PATOffset=00 MaxTimeSlots=1 RejSnoopTrans-
+                        Arb:    Fixed- WRR32- WRR64- WRR128- TWRR128- WRR256-
+                        Ctrl:   Enable+ ID=0 ArbSelect=Fixed TC/VC=01
+                        Status: NegoPending- InProgress-
+        Capabilities: [128 v1] Power Budgeting &lt;?&gt;
+        Capabilities: [600 v1] Vendor Specific Information: ID=0001 Rev=1 Len=024 &lt;?&gt;
+        Kernel driver in use: nvidia
+        Kernel modules: nouveau, nvidia_drm, nvidia
+</code></pre><p>注:</p>
+<p>之前virtualbox的驱动总是不能成功, <strong>改为vesa折中解决</strong>.          </p>
+<p>具体为删除virtualbox驱动, emerge -C virtualbox-guest-additions          </p>
+<p>如果启动还是加载vboxvideo等驱动, </p>
+<p>那就直接删除重新安装</p>
+<pre><code class="shell"> rm /lib/modules/* -rf          
+ cd /usr/src/linux &amp;&amp;  make modules_install
+ emerge -av @module-rebuild
+</code></pre>
+<p>并且添加/etc/X11/xorg.conf.d/10-monitor.conf</p>
+<pre><code class="shell">Section &quot;Monitor&quot;
+    Identifier    &quot;Monitor0&quot;
+EndSection
+
+Section &quot;Device&quot;
+    Identifier    &quot;Device0&quot;
+    Driver        &quot;vesa&quot; #Choose the driver used for this monitor
+EndSection
+
+Section &quot;Screen&quot;
+    Identifier    &quot;Screen0&quot;  #Collapse Monitor and Device section to Screen section
+    Device        &quot;Device0&quot;
+    Monitor       &quot;Monitor0&quot;
+    DefaultDepth  16 #Choose the depth (16||24)
+    SubSection &quot;Display&quot;
+        Depth     16
+        Modes     &quot;1024x768_75.00&quot; #Choose the resolution
+    EndSubSection
+EndSection
+</code></pre>
+<p>这样省了virtualbox 驱动版本等匹配问题.当然性能也下降了.</p>
+<p>当然我自己还挖了个坑 那就是还要删除</p>
+<p> /etc/local.d/nvidia.start<br>不然重启又修改了</p>
+<p><img src="virtualbox.JPG" alt="virtualbox"></p>
+<p>当然安装vboxvideo 会提高性能 只要在/etc/portage/make.conf添加</p>
+<blockquote>
+<p>VIDEO_CARDS=”virtualbox vesa fbdev”</p>
+</blockquote>
+<p>并更新下系统就可以</p>
+<blockquote>
+<p>emerge -avtuDN world</p>
+</blockquote>
+<p>如果/etc/X11/xorg.conf 和/etc/X11/xorg.conf.d 不会配置 建议直接删除就可以了</p>
+<p>同时可参考:</p>
+<p><a href="https://wiki.gentoo.org/wiki/VirtualBox" target="_blank" rel="external">https://wiki.gentoo.org/wiki/VirtualBox</a></p>
 
       
     </div>
@@ -1825,224 +1922,6 @@ V
       
         
   <h2 class="title">
-    <a href="/SYSTEM/gentoo【显卡-驱动-xorg-gnome-gui】如何工作.html">
-      gentoo【显卡-驱动-xorg-gnome-gui】工作原理
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-09</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/SYSTEM/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>SYSTEM</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <blockquote>
-<p>显卡-&gt;驱动-&gt;xorg-&gt;gnome-&gt;gui</p>
-</blockquote>
-<p>查看显卡：lspci  | grep -i VGA</p>
-<p>查看驱动：lspci  -vvv<br>​          </p>
-<blockquote>
-<p>/dev/nvidia0, /dev/nvidiactl</p>
-<p>是NV 官方驱动引入的两个设备文件</p>
-</blockquote>
-<p>驱动安装：x11-drivers/xf86-video-nouveau<br>    x11-drivers/xf86-video-virtualbox</p>
-<p>xorg支持： VIDEO_CARDS=”nouveau virtualbox”<br>    emerge -pv xorg-drivers</p>
-<blockquote>
-<p>现在的xorg也不需要/etc/X11/xorg.conf<br>注意把/etc/X11/xorg.conf.d/下默认的配置删除 例如:01-nv.conf</p>
-</blockquote>
-<pre><code>当然你就想手动指定驱动等信息添加xorg.conf
-也是没有问题的。例如：
-Section &quot;Device&quot;                                     
-        Identifier      &quot;Configured Video Device&quot;     
-        Driver          &quot;fbdev&quot;                  
-EndSection 
-以上显卡设备为lcd 驱动设备为：/dev/fb0
-驱动类型为：framebuffer xf86-video-fbdev
-大家可以看看韦东山介绍 mini2440就是用此驱动。
-framebuffer表示显卡不具备任何计算能力，完全利用cpu计算。
-</code></pre><p>startx：为以上xorg gnome协同作战的脚本</p>
-<pre><code>不用startx ，手动
-xorg的xinit和
-gnome的gnome-session
-都是可以的。
-xinit 找的是/dev/nvidia0, /dev/nvidiactl
-gnome-session 找的是export DISPLAY=:2
-</code></pre><p>配置文件：.xinitrc</p>
-<pre><code>export GTK_IM_MODULE=ibus
-export XMODIFIERS=@im=ibus
-export QT_IM_MODULE=ibus
-export XDG_MENU_PREFIX=gnome-
-xrandr --setprovideroutputsource modesetting NVIDIA-0
-xrandr --auto
-exec gnome-session
-dbus-launch nm-applet &amp;
-</code></pre><pre><code>01:00.0 VGA compatible controller: NVIDIA Corporation G84GLM [Quadro FX 570M] (rev a1) (prog-if 00 [VGA controller])
-        Subsystem: Lenovo ThinkPad T61p
-        Physical Slot: 1
-        Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
-        Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast &gt;TAbort- &lt;TAbort- &lt;MAbort- &gt;SERR- &lt;PERR- INTx-
-        Latency: 0
-        Interrupt: pin A routed to IRQ 16
-        Region 0: Memory at d6000000 (32-bit, non-prefetchable) [size=16M]
-        Region 1: Memory at e0000000 (64-bit, prefetchable) [size=256M]
-        Region 3: Memory at d4000000 (64-bit, non-prefetchable) [size=32M]
-        Region 5: I/O ports at 2000 [size=128]
-        [virtual] Expansion ROM at 000c0000 [disabled] [size=128K]
-        Capabilities: [60] Power Management version 2
-                Flags: PMEClk- DSI- D1- D2- AuxCurrent=0mA PME(D0-,D1-,D2-,D3hot-,D3cold-)
-                Status: D0 NoSoftRst- PME-Enable- DSel=0 DScale=0 PME-
-        Capabilities: [68] MSI: Enable- Count=1/1 Maskable- 64bit+
-                Address: 0000000000000000  Data: 0000
-        Capabilities: [78] Express (v1) Endpoint, MSI 00
-                DevCap: MaxPayload 128 bytes, PhantFunc 0, Latency L0s &lt;512ns, L1 &lt;4us
-                        ExtTag+ AttnBtn- AttnInd- PwrInd- RBE+ FLReset- SlotPowerLimit 75.000W
-                DevCtl: Report errors: Correctable- Non-Fatal- Fatal- Unsupported-
-                        RlxdOrd+ ExtTag+ PhantFunc- AuxPwr- NoSnoop+
-                        MaxPayload 128 bytes, MaxReadReq 512 bytes
-                DevSta: CorrErr- UncorrErr- FatalErr- UnsuppReq- AuxPwr- TransPend-
-                LnkCap: Port #0, Speed 2.5GT/s, Width x16, ASPM L0s L1, Exit Latency L0s &lt;512ns, L1 &lt;4us
-                        ClockPM- Surprise- LLActRep- BwNot- ASPMOptComp-
-                LnkCtl: ASPM L0s Enabled; RCB 128 bytes Disabled- CommClk+
-                        ExtSynch- ClockPM- AutWidDis- BWInt- AutBWInt-
-                LnkSta: Speed 2.5GT/s, Width x16, TrErr- Train- SlotClk+ DLActive- BWMgmt- ABWMgmt-
-        Capabilities: [100 v1] Virtual Channel
-                Caps:   LPEVC=0 RefClk=100ns PATEntryBits=1
-                Arb:    Fixed- WRR32- WRR64- WRR128-
-                Ctrl:   ArbSelect=Fixed
-                Status: InProgress-
-                VC0:    Caps:   PATOffset=00 MaxTimeSlots=1 RejSnoopTrans-
-                        Arb:    Fixed- WRR32- WRR64- WRR128- TWRR128- WRR256-
-                        Ctrl:   Enable+ ID=0 ArbSelect=Fixed TC/VC=01
-                        Status: NegoPending- InProgress-
-        Capabilities: [128 v1] Power Budgeting &lt;?&gt;
-        Capabilities: [600 v1] Vendor Specific Information: ID=0001 Rev=1 Len=024 &lt;?&gt;
-        Kernel driver in use: nvidia
-        Kernel modules: nouveau, nvidia_drm, nvidia
-</code></pre><p>注:</p>
-<p>之前virtualbox的驱动总是不能成功, <strong>改为vesa折中解决</strong>.          </p>
-<p>具体为删除virtualbox驱动, emerge -C virtualbox-guest-additions          </p>
-<p>如果启动还是加载vboxvideo等驱动, </p>
-<p>那就直接删除重新安装</p>
-<pre><code class="shell"> rm /lib/modules/* -rf          
- cd /usr/src/linux &amp;&amp;  make modules_install
- emerge -av @module-rebuild
-</code></pre>
-<p>并且添加/etc/X11/xorg.conf.d/10-monitor.conf</p>
-<pre><code class="shell">Section &quot;Monitor&quot;
-    Identifier    &quot;Monitor0&quot;
-EndSection
-
-Section &quot;Device&quot;
-    Identifier    &quot;Device0&quot;
-    Driver        &quot;vesa&quot; #Choose the driver used for this monitor
-EndSection
-
-Section &quot;Screen&quot;
-    Identifier    &quot;Screen0&quot;  #Collapse Monitor and Device section to Screen section
-    Device        &quot;Device0&quot;
-    Monitor       &quot;Monitor0&quot;
-    DefaultDepth  16 #Choose the depth (16||24)
-    SubSection &quot;Display&quot;
-        Depth     16
-        Modes     &quot;1024x768_75.00&quot; #Choose the resolution
-    EndSubSection
-EndSection
-</code></pre>
-<p>这样省了virtualbox 驱动版本等匹配问题.当然性能也下降了.</p>
-<p>当然我自己还挖了个坑 那就是还要删除</p>
-<p> /etc/local.d/nvidia.start<br>不然重启又修改了</p>
-<p><img src="virtualbox.JPG" alt="virtualbox"></p>
-<p>当然安装vboxvideo 会提高性能 只要在/etc/portage/make.conf添加</p>
-<blockquote>
-<p>VIDEO_CARDS=”virtualbox vesa fbdev”</p>
-</blockquote>
-<p>并更新下系统就可以</p>
-<blockquote>
-<p>emerge -avtuDN world</p>
-</blockquote>
-<p>如果/etc/X11/xorg.conf 和/etc/X11/xorg.conf.d 不会配置 建议直接删除就可以了</p>
-<p>同时可参考:</p>
-<p><a href="https://wiki.gentoo.org/wiki/VirtualBox" target="_blank" rel="external">https://wiki.gentoo.org/wiki/VirtualBox</a></p>
-
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
     <a href="/EMBEDDED/mini2440/编写操作系统思路.html">
       编写操作系统思路
     </a>
@@ -2179,6 +2058,133 @@ return -1; \
 <p>想要实现文件系统，根据上面的图，大家发现我们要先实现块设备。<br>呵呵。我们又要先实现字符设备和块设备驱动程序。</p>
 <p>字符设备先放放，我们先看看块设备。</p>
 <p>块设备底下为nand flash，我们这个块设备要把nand flash抽象后给文件系统提供接口。</p>
+
+      
+    </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/EMBEDDED/openocd+jlink为mini2440调试u-boot.html">
+      openocd+jlink为mini2440调试u-boot
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2017-07-21</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/EMBEDDED/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>EMBEDDED</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <p>需要安装openocd，如果已经安装了系统默认的openocd(默认是0.5.0，版本太低），需要先卸载掉。</p>
+<p>在安装前需要安装必需的一些库文件：</p>
+<p>  sudo apt-get install libusb-1.0-0-dev libusb-1.0-0 automake autconf libtool pkg-config</p>
+<p>然后执行安装：</p>
+<p> <a title="复制代码"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<pre><code>git clone git://git.code.sf.net/p/openocd/code openocd
+cd openocd
+./bootstrap
+./configure --prefix=/usr/local \
+    --enable-stlink --enable-jlink
+echo -e &quot;all:\ninstall:&quot; &gt; doc/Makefile
+make
+sudo make install
+</code></pre><p> <a title="复制代码"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>默认情况下openocd会安装到/usr/local/bin文件夹下，有可能会无法执行openocd命令，如果无法执行，可以将/usr/local/bin加入到PATH变量即可。</p>
+<p>将mini2440和jlink以及pc连接起来，然后执行下面的命令：</p>
+<p> sudo openocd -f interface/jlink.cfg  -f board/mini2440.cfg</p>
+<p>但是会提示下面的错误：</p>
+<p> Runtime Error: /usr/local/share/openocd/scripts/board/mini2440.cfg:124: jtag interface: command requires more arguments</p>
+<p>将/usr/local/share/openocd/scripts/board/mini2440.cfg的124行注释掉（此行最前面添加一个‘#’符号，类似于bash注释)</p>
+<p>然后在执行openocd：</p>
+<p> sudo openocd -f interface/jlink.cfg  -f board/mini2440.cfg</p>
+<p>另开一个控制台，查看串口信息：</p>
+<p> sudo minicom</p>
+<p>还需要打开一个控制台，在该控制台下执行下面的命令：</p>
+<p> telnet localhost 4444<br>halt<br>init_2440<br>load_image /home/host/soft/mini2440/u-boot/u-boot.bin 0x33f80000 bin<br>resume 0x33f80000</p>
+<p>/home/host/soft/mini2440/u-boot/u-boot.bin是我的u-boot.bin文件路径，可以将其修改成自己的文件路径即可。</p>
+<p>这几条命令是从/usr/local/share/openocd/scripts/board/mini2440.cfg中几个预定义的命令代码中提取出来的，可以执行help_2440显示当前所支持的自定义命令列表。</p>
+<p>可惜的是，openocd没有检测到mini2440上的nand flash,所以无法烧写,后来经过调查，voltcraft_dso-3062c.cfg中采用了相同的nand flash。<br>貌似是openocd代码修改了，但是mini2440.cfg中配置却没有改掉，将/usr/local/share/openocd/scripts/board/mini2440.cfg文件中的nand device s3c2440 0<br>这一行修改成voltcraft_dso-3062c.cfg中的对应行：<br>    nand device $_CHIPNAME.nand s3c2440 $_TARGETNAME</p>
+<p>重新启动openocd:</p>
+<p> sudo openocd -f interface/jlink.cfg  -f board/mini2440.cfg</p>
+<p>然后在另外一个控制台烧写uboot:</p>
+<p> <a title="复制代码"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>telnet localhost 4444<br>halt<br>init_2440<br>nand erase 0 0x0 0x100000<br>nand write 0 /home/host/soft/mini2440/u-boot/u-boot.bin 0<br>reset<br> <a title="复制代码"><img src="http://common.cnblogs.com/images/copycode.gif" alt="复制代码"></a></p>
+<p>刚开始遇到好几次烧写不成功，后来执行了一次nand erase 0将整个nand flash擦除后才能成功执行烧写，</p>
+<p>这个问题有可能是nand flash坏块多引起的（我的mini2440是二手开发板）。</p>
 
       
     </div>
