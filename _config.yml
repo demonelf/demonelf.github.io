@@ -30,7 +30,7 @@ skip_render:
 
 auto_dir_categorize:
 	enable: true  # options:true, false; default is true
-	force: false # options:true, false; default is false
+	force: true # options:true, false; default is false
 
 # Writing
 new_post_name: :title.md # File name of new posts
