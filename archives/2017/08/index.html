@@ -49,7 +49,7 @@
     <cover class='cover  half'>
       
         
-  <h1 class='title'>Material X</h1>
+  <h1 class='title'>WitKit</h1>
 
 
   <div class="m_search">
@@ -135,12 +135,12 @@
 							</li>
       			
   						<li>
-								<a class="nav flat-box" href="/blog/categories/"
+								<a class="nav flat-box" href="/categories/"
                   
                     rel="nofollow"
                   
                   
-                  id="blogcategories">
+                  id="categories">
 									<i class='fas fa-folder-open fa-fw'></i>&nbsp;分类
 								</a>
 							</li>
@@ -1739,135 +1739,6 @@ V
       
         
   <h2 class="title">
-    <a href="/SYSTEM/gentoo_stage_diy.html">
-      gentoo_stage_diy
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-09</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/SYSTEM/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>SYSTEM</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p>stage1：</p>
-<pre><code>    包含bootstrap.sh，
-    scripts/bootstrap.sh用于安装
-    glibc、gcc、zlib、binutils、textinfo、ncurses、gettext、sed、emerge、portage等
-    创建stage2 包含emerge的环境
-    执行：scripts/bootstrap.sh
-</code></pre><p>stage2:    </p>
-<pre><code>   包含了完整的emerge的环境
-   构建system系统，编译没有替代物的系统软件包。
-   执行：emerge -e system
-</code></pre><p>构想：</p>
-<ol>
-<li><p>stage1可以通过lfs方法得到</p>
-<p>stage1要保证能运行bootstrap.sh和emerge </p>
-<p> bootstrap.sh：bash</p>
-<p> portage:bash python</p>
-</li>
-<li><p>stage1 在通过bootstrap.sh生成stage2</p>
-<p>参考： <a href="https://wiki.gentoo.org/wiki/Project:Prefix/Bootstrap" target="_blank" rel="external">https://wiki.gentoo.org/wiki/Project:Prefix/Bootstrap</a></p>
-</li>
-<li><p>我们可以运行：emerge -e system 生成官方提供的的stage3了。</p>
-</li>
-</ol>
-<pre><code>以上stage2环境可以由lfs替代.直接在lfs或其它系统上安装porage，
-
-所以共有两种安装方法：
-第一种：
-    1.下载stage1 
-    2.bootstrap.sh
-    3.emerge system
-    4.stage3正常安装
-第二种：
-    1.创建lfs
-    2.安装portage
-    3.emerge system
-    4.emerge world
-
-参考：https://wiki.gentoo.org/wiki/Portage
-</code></pre>
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
     <a href="/SYSTEM/x11vnc利用xvfd实现远程vncserver.html">
       x11vnc利用xvfd实现远程vncserver
     </a>
@@ -2181,6 +2052,135 @@ EndSection
 <p>同时可参考:</p>
 <p><a href="https://wiki.gentoo.org/wiki/VirtualBox" target="_blank" rel="external">https://wiki.gentoo.org/wiki/VirtualBox</a></p>
 
+      
+    </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/SYSTEM/gentoo_stage_diy.html">
+      gentoo_stage_diy
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2017-08-09</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/SYSTEM/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>SYSTEM</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <p>stage1：</p>
+<pre><code>    包含bootstrap.sh，
+    scripts/bootstrap.sh用于安装
+    glibc、gcc、zlib、binutils、textinfo、ncurses、gettext、sed、emerge、portage等
+    创建stage2 包含emerge的环境
+    执行：scripts/bootstrap.sh
+</code></pre><p>stage2:    </p>
+<pre><code>   包含了完整的emerge的环境
+   构建system系统，编译没有替代物的系统软件包。
+   执行：emerge -e system
+</code></pre><p>构想：</p>
+<ol>
+<li><p>stage1可以通过lfs方法得到</p>
+<p>stage1要保证能运行bootstrap.sh和emerge </p>
+<p> bootstrap.sh：bash</p>
+<p> portage:bash python</p>
+</li>
+<li><p>stage1 在通过bootstrap.sh生成stage2</p>
+<p>参考： <a href="https://wiki.gentoo.org/wiki/Project:Prefix/Bootstrap" target="_blank" rel="external">https://wiki.gentoo.org/wiki/Project:Prefix/Bootstrap</a></p>
+</li>
+<li><p>我们可以运行：emerge -e system 生成官方提供的的stage3了。</p>
+</li>
+</ol>
+<pre><code>以上stage2环境可以由lfs替代.直接在lfs或其它系统上安装porage，
+
+所以共有两种安装方法：
+第一种：
+    1.下载stage1 
+    2.bootstrap.sh
+    3.emerge system
+    4.stage3正常安装
+第二种：
+    1.创建lfs
+    2.安装portage
+    3.emerge system
+    4.emerge world
+
+参考：https://wiki.gentoo.org/wiki/Portage
+</code></pre>
       
     </div>
     
@@ -2516,7 +2516,7 @@ EndSection
 </div>
   <div>
     本站使用
-    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Witkit</a>
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
     作为主题
     
       ，
