@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>linux上通过netns创建vrf模拟MCE设备 | 芯机智</title>
+  
+  
+
+  
+  <link rel="alternate" href="/atom.xml" title="芯机智">
+  
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.10.1/css/all.min.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-material-x@19.5/css/style.css">
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  
+  <div class="cover-wrapper">
+    <cover class='cover post half'>
+      
+        
+  <h1 class='title'>WitKit</h1>
+
+
+  <div class="m_search">
+    <form name="searchform" class="form u-search-form">
+      <input type="text" class="input u-search-input" placeholder="" />
+      <i class="icon fas fa-search fa-fw"></i>
+    </form>
+  </div>
+
+<div class='menu navgation'>
+  <ul class='h-list'>
+    
+      
+        <li>
+          <a class="nav home" href="/"
+            
+            
+            id="home">
+            <i class='fas fa-rss fa-fw'></i>&nbsp;博文
+          </a>
+        </li>
+      
+        <li>
+          <a class="nav home" href="/projects/"
+            
+            
+            id="projects">
+            <i class='fas fa-code-branch fa-fw'></i>&nbsp;项目
+          </a>
+        </li>
+      
+        <li>
+          <a class="nav home" href="/friends/"
+            
+              rel="nofollow"
+            
+            
+            id="friends">
+            <i class='fas fa-link fa-fw'></i>&nbsp;友链
+          </a>
+        </li>
+      
+        <li>
+          <a class="nav home" href="/about/"
+            
+              rel="nofollow"
+            
+            
+            id="about">
+            <i class='fas fa-info-circle fa-fw'></i>&nbsp;关于
+          </a>
+        </li>
+      
+    
+  </ul>
+</div>
+
+      
+    </cover>
+    <header class="l_header pure">
+  <div id="loading-bar-wrapper">
+    <div id="loading-bar" class="pure"></div>
+  </div>
+
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/' >
+        
+          芯机智
+        
+      </a>
+			<div class='menu navgation'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a class="nav flat-box" href="/"
+                  
+                  
+                  id="home">
+									<i class='fas fa-grin fa-fw'></i>&nbsp;示例
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/blog/categories/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="blogcategories">
+									<i class='fas fa-folder-open fa-fw'></i>&nbsp;分类
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/blog/tags/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="blogtags">
+									<i class='fas fa-hashtag fa-fw'></i>&nbsp;标签
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/blog/archives/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="blogarchives">
+									<i class='fas fa-archive fa-fw'></i>&nbsp;归档
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="搜索" />
+						<i class="icon fas fa-search fa-fw"></i>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a class="fas fa-search fa-fw" href='javascript:void(0)'></a></li>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+        
+          <li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+        
+			</ul>
+		</div>
+	</div>
+</header>
+	<aside class="menu-phone">
+    <header>
+		<nav class="menu navgation">
+      <ul>
+        
+          
+            <li>
+							<a class="nav flat-box" href="/"
+                
+                
+                id="home">
+								<i class='fas fa-clock fa-fw'></i>&nbsp;近期文章
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/blog/archives/"
+                
+                  rel="nofollow"
+                
+                
+                id="blogarchives">
+								<i class='fas fa-archive fa-fw'></i>&nbsp;文章归档
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/projects/"
+                
+                
+                id="projects">
+								<i class='fas fa-code-branch fa-fw'></i>&nbsp;开源项目
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/friends/"
+                
+                  rel="nofollow"
+                
+                
+                id="friends">
+								<i class='fas fa-link fa-fw'></i>&nbsp;我的友链
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="https://xaoxuu.com/wiki/material-x/"
+                
+                  rel="nofollow"
+                
+                
+                id="https:xaoxuu.comwikimaterial-x">
+								<i class='fas fa-book fa-fw'></i>&nbsp;主题文档
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/about/"
+                
+                  rel="nofollow"
+                
+                
+                id="about">
+								<i class='fas fa-info-circle fa-fw'></i>&nbsp;关于小站
+							</a>
+            </li>
+          
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      <div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/EMBEDDED/linux上通过netns创建vrf模拟MCE设备.html">
+        linux上通过netns创建vrf模拟MCE设备
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2016-08-10</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/arm/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>arm</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          <p><span style="font-family:幼圆">转：<a href="http://blog.csdn.net/dog250/article/details/26147357" target="_blank" rel="external">http://blog.csdn.net/dog250/article/details/26147357</a><br>        </span></p>
+<a id="more"></a>
+<p><span style="font-family:幼圆">上周有厂商到公司测试，拿了一块据说很猛的网络处理加速PCIe板卡，拎在手里沉甸甸的很有分量，最让人意淫的是那4个万兆光口，于是我迫不及待的想要一览光口转发时那种看不见的震撼。<br></span></p>
+<p><span style="font-family:幼圆">       可是，仅凭4个光口怎么测试？起码你要有个”对端”啊！任何人应该都不想扛着三台机器在客户们之间跑来跑去测试其转发性能，当然你也不能指望客户那里就一定有你需要的”对端”设备，比如我们公司就没有这种和万兆光口对接的设备，不过赶巧的是，那天还真有一台设备带有万兆光口，但是只是碰巧了。最佳的测试方式当然是不依赖任何外部设备了，显而易见的方法就是做自环。<br></span></p>
+<p><span style="font-family:幼圆">       RJ45口的双绞线可以做物理层自环，1/3，2/6短接即可，这样一台机器的一块网卡自己就可以既发又收了，但是你能对比头发略粗的光纤做什么呢？真实的做法当然是用软件解决了，在Linux上可以使用netns来解决，即net namespace。<br></span></p>
+<p><span style="font-family:幼圆">       netns是一个很好玩的东西，它可以让你在一台机器上模拟多个网络设备，这样做的意义是非同一般的：<br></span></p>
+<p><span style="font-family:幼圆">1.使用netns可以充分利用闲置的处理器资源，特别是你的多块网卡性能压不满CPU的时候；<br></span></p>
+<p><span style="font-family:幼圆">2.使用netns可以将不同类型的网络应用隔离，针对每一类实施不同的策略；<br></span></p>
+<p><span style="font-family:幼圆">3.使用netns有点玩虚拟化的意思，不过比虚拟机更灵活。<br></span></p>
+<p><span style="font-family:幼圆">一个net namespace有自己独立的路由表，iptables策略，设备管理机构，和其它的netns完全隔离，比如你将eth0加入了netns1，那么netns2中的应用程序就看不到eth0，网卡设备管理只是netns中的一个元素，还有很多，比如你在netns1中配置的iptables策略对netns2中的数据包没有任何影响。总之，如果你懂Linux内核源码，那么只要附着有net结构体字段的那些结构，比如skb，net_device，都和netns有关。<br></span></p>
+<p><span style="font-family:幼圆">       那么我应该怎么做自环呢？我的设备有4个网卡，我希望1和4之间通信，通过2和3转发，它的逻辑拓扑如下：<br></span></p>
+<p><span style="font-family:幼圆">PC1/eth0—-PC2/eth1(forward)PC2/eth2—-PC3/eth3<br></span></p>
+<p><img src="http://www.madhex.com/wp-content/uploads/2017/04/041717_0826_linuxnetns1.png" alt=""><span style="font-family:幼圆"><br>        </span></p>
+<p><span style="font-family:幼圆">很简单，将eth0和eth3设置在两个不同的netns，然后用线缆连接eth0和eth1，同样连接eth2和eth3，最后将eth0和eth1的IP地址设置在一个网段，将eth2和eth3的IP地址设置在另一个不同的网段即可。光说不练假把式，具体应该怎么做呢？同样很简单：<br></span></p>
+<p><span style="font-family:幼圆">1.添加两个netns<br></span></p>
+<p><span style="font-family:幼圆">ip netns add t1<br></span></p>
+<p><span style="font-family:幼圆">ip netns add t2<br></span></p>
+<p><span style="font-family:幼圆">2.将eth0加入t1，并且设置IP地址<br></span></p>
+<p><span style="font-family:幼圆"><a name="OLE_LINK1">ip link set eth0 netns t1<br></a></span></p>
+<p><span style="font-family:幼圆">此时再ifconfig就看不到eth0了，你甚至执行ls /sys/class/net也看不到eth0了，只有执行<span style="color:red">ip netns exec t1 ls /sys/class/net</span>才能看到。<br></span></p>
+<p><span style="color:red; font-family:幼圆">ip netns exec t1 ifconfig eth0 192.168.1.200/24<br></span></p>
+<p><span style="font-family:幼圆">3.将eth3加入t2，并且设置IP地址<br></span></p>
+<p><span style="font-family:幼圆">ip link set eth3 netns t2<br></span></p>
+<p><span style="font-family:幼圆">此时ifconfig就看不到eth3了，你甚至执行ls /sys/class/net也看不到eth3了，只有执行<span style="color:red"><a name="OLE_LINK5">ip netns exec t2 ls /sys/class/net</a></span>才能看到。<br></span></p>
+<p><span style="color:red; font-family:幼圆"><a name="OLE_LINK3">ip netns exec t1 ifconfig eth3 172.16.1.200/24<br></a></span></p>
+<p><span style="font-family:幼圆">4.设置eth1和eth2的地址<br></span></p>
+<p><span style="font-family:幼圆">ifconfig eth1 192.168.1.1/24<br></span></p>
+<p><span style="font-family:幼圆">ifconfig eth2 172.16.1.1/24<br></span></p>
+<p><span style="font-family:幼圆">5.设置两个netns的默认路由<br></span></p>
+<p><span style="font-family:幼圆">ip netns exec t1 route add default gw 192.168.1.1<br></span></p>
+<p><span style="font-family:幼圆">ip netns exec t2 route add default gw 172.16.1.1<br></span></p>
+<p><span style="font-family:幼圆">6.测试<br></span></p>
+<p><span style="font-family:幼圆">在netns t1中ping netns t2中的eth3地址<br></span></p>
+<p><span style="font-family:幼圆">ip netns exec t1 ping 172.16.1.200<br></span></p>
+<p><span style="font-family:幼圆">上述配置之后，从eth0发出的包会通过网线到达eth1(而不是走local路由表的loopback)，然后经过eth1的forward从eth2发出。经由网线到达目的地eth3杯接收。整个过程中就一台机器，展示出的效果好像三台机器的样子。有了这个机制，是不是再也不用为搭建测试环境而发愁了呢？<br></span></p>
+<p><span style="font-family:幼圆">       除了自环测试之外，netns还可以用于设置策略路由，这种策略路由不需要ip rule。试想一种场景，你同时运行了P1和P2两个程序，本机所在的局域网有两个出口到达外网，你希望P1通过gw1和外界通信，P2通过gw2和外界通信，约束条件是你的机器只有一张网卡eth0，怎么办呢？通过iptables为P1和P2的数据包打上不同的mark，然后通过ip rule设置策略路由无疑可以解决，另外直接在P1和P2应用程序中用setsockopt也是可以设置ipmark的，这就不需要iptables了。然而这一切都过时了，2014年我需要一种不同的方式。<br></span></p>
+<p><span style="font-family:幼圆">       我不知道怎么表达我思考的过程，但是给出一个操作序列是简单的事情，因为照着这么做确实可以满足需求，然后看到这篇文章的人照着操作步骤倒推回去，就可以得到一个思考过程。首先你要明白的是Linux内核支持一种虚拟网卡类型，即veth，一般而言veth是成对的，从一个veth发出的数据包可以直接到达它的peer veth，感兴趣的可以看Linux内核的drivers/net/veth.c，和drivers/net/tun.c没什么不同，更简单些罢了。第一步要做的就是建立一对veth：<br></span></p>
+<p><span style="font-family:幼圆">ip link add veth1 type veth peer name veth2<br></span></p>
+<p><span style="font-family:幼圆">此时系统中除了eth0之外又多了两块网卡，所有的网卡为lo，eth0，veth1，veth2。中间隐含着一个事实，即veth1和veth2之间有一条虚拟的链路将两块网卡连接起来，就好像一条双绞线连接的两块物理网卡一样。我现在希望P1的数据包通过veth1发出，然后自然而然地就能发到veth2，但是随后怎么通过eth0发到物理线路呢？太简单，太简单，使用bridge吧：<br></span></p>
+<p><span style="font-family:幼圆">brctl addbr br0<br></span></p>
+<p><span style="font-family:幼圆">brctl addif br0 eth0 veth2<br></span></p>
+<p><span style="font-family:幼圆">同时，veth1和br0所在的局域网设置在一个IP网段中，这下子就全通了，该二层网络的逻辑拓扑为：<br></span></p>
+<p><span style="font-family:幼圆">veth1—-veth2(bridge)eth0—-gw(1,2)<br></span></p>
+<p><span style="font-family:幼圆">怎么设置netns我本来不想说了，但是由于小小暂时不跟我玩了，我还是写完吧。首先将veth1设置到netns1(具体怎么创建netns，不再赘述)并设置路由：<br></span></p>
+<p><span style="font-family:幼圆">ip link set veth1 netns netns1<br></span></p>
+<p><span style="font-family:幼圆">ip netns exec netns1 route add default gw $gw1<br></span></p>
+<p><span style="font-family:幼圆">route add default gw $gw2<br></span></p>
+<p><span style="font-family:幼圆">这就完了？是的，完事了。事实上，保留br0的默认netns即可，没有必要创建netns2了。接下来需要做的就是启动P1和P2了：<br></span></p>
+<p><span style="font-family:幼圆">ip netns exec netns1 P1<br></span></p>
+<p><span style="font-family:幼圆">P2<br></span></p>
+<p><span style="font-family:幼圆">好了，一切结束。<br></span></p>
+<p><span style="font-family:幼圆">       我始终都觉得，在Linux上一般都是不用修改源码就能解决问题，可是我还是喜欢修改代码，原因何在？很简单，源码很容易获得，并且源码很容易修改，我走火入魔般地写了大量的Netfilter扩展以及做了大量的nf_conntrack修改，甚至还添加了一些该死的socket filter…虽然这些行为都是自娱自乐型的，并没有被应用在工作中，但是这些行为说明我不是网络管理员，而是一名程序员，哈哈，自封的资深软件工程师(我还是觉得这些成果能被应用)。然而，做一名技术精湛的网络管理人员的难度却远远超过做程序员的难度。这不，又一次遇到了OpenVPN的多实例问题，我觉得，单纯的程序员搞不定它，单纯的网管也不行。<br></span></p>
+<p><span style="font-family:幼圆">       TAP模式的多实例已经被我用Linux Bridge完美蹂躏了，但是TUN模式的多实例问题仍然没有完美的方案，虽然修改tun驱动，使用broadcast mode bonding+tun filter可以解决，但是我还是觉得那是一种走火入魔的方式，因此就算在公司我也没能将整个调试测试进行下去，结果落了个不了了之，事实上，是我太不喜欢那种方式。tun的IP filter是我改出来的方案，并非标准的，能不能使用标准的方式进行寻址呢？使用netns，答案就是肯定的。<br></span></p>
+<p><span style="font-family:幼圆">       假设在GW上启动了2个OpenVPN实例ovpn1和ovpn2，虚拟网卡分别为tun1和tun2，在client-connect脚本中得知ovpn2负责N1，ovpn2负责N2。现在问题的关键是，GW后方出发的数据包如何知道是将数据包发送到tun1还是tun2，这个判断能不能自动进行？如果使用netns，那就是可以的，我可以将2个tun分别设置在不同的netns，然后每一个netns对应一个同处一个netns的veth虚拟网卡，这些veth的peer们处在另外一个netns中，这样就可以实现IP层TUN模式虚拟网卡到以太网的TAP模式虚拟网卡的适配。最后将这些peer们Bridge成一个br0，那么TUN模式的OpenVPN就能和TAP模式的OpenVPN采用同一种方式处理了。<br></span></p>
+<p><span style="font-family:幼圆">       不管怎样，当你玩弄netns的时候，你要知道你并不是在玩弄冷酷无情的虚拟化操作系统，也不是真的模拟了两台物理上相互隔离的机器，因为虽然两个程序的网络是隔离的，但是文件系统却是共享的。你要时刻准备着，使用网络隔离和使用内存，文件系统共享相结合。将一台机器既可以作为多台机器使用，又可以作为一台机器共享资源！<br></span></p>
+<p><span style="font-family:幼圆">       不管怎样，当你玩弄netns的时候，你要知道你并不是在玩弄冷酷无情的虚拟化操作系统，也不是真的模拟了两台物理上相互隔离的机器，因为虽然两个程序的网络是隔离的，但是文件系统却是共享的。你要时刻准备着，使用网络隔离和使用内存，文件系统共享相结合。将一台机器既可以作为多台机器使用，又可以作为一台机器共享资源！<br></span></p>
+<p><span style="font-family:幼圆">       理解了上述的例子和最后的总结，那么我来发问，单网卡或者没有网卡怎么玩自环？这个需求可能就是为了测试一下协议栈而已。略去思考的过程，很简单，多加一个层次。比如你有一台机器一块网卡也没有，那么你只需要下面的命令就可以在你的机器上实现IP转发或者bridge转发了：<br></span></p>
+<p><span style="font-family:幼圆">ip link add v1 type veth peer name vp1<br></span></p>
+<p><span style="font-family:幼圆">ip link add v2 type veth peer name vp2<br></span></p>
+<p><span style="font-family:幼圆">brctl addbr br0<br></span></p>
+<p><span style="font-family:幼圆">brctl addif vp1 vp2<br></span></p>
+<p><span style="font-family:幼圆">ifconfig vp1 up<br></span></p>
+<p><span style="font-family:幼圆">ifconfig vp2 up<br></span></p>
+<p><span style="font-family:幼圆">sysctl -w net.ipv4.ip_forward=1<br></span></p>
+<p><span style="font-family:幼圆">ip netns add t1<br></span></p>
+<p><span style="font-family:幼圆">ip netns add t2<br></span></p>
+<p><span style="font-family:幼圆">ip link set v1 netns t1<br></span></p>
+<p><span style="font-family:幼圆">ip link set v2 netns t2<br></span></p>
+<p><span style="font-family:幼圆">ip netns exec t1 ifconfig v1 1.1.1.1/24<br></span></p>
+<p><span style="font-family:幼圆">ip netns exec t2 ifconfig v2 1.1.1.2/24<br></span></p>
+<p><span style="font-family:幼圆">ip netns exec t1 ping 1.1.1.2<br></span></p>
+<p><span style="font-family:幼圆">…</span></p>
+
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <hr>
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2017-07-10T16:44:09+08:00">
+  <a class='notlink'>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>最后更新于 2017年7月10日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://demonelf.github.io/EMBEDDED/linux上通过netns创建vrf模拟MCE设备.html&title=linux上通过netns创建vrf模拟MCE设备 | 芯机智&summary=转：http://blog.csdn.net/dog250/article/details/26147357        "
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://demonelf.github.io/EMBEDDED/linux上通过netns创建vrf模拟MCE设备.html&title=linux上通过netns创建vrf模拟MCE设备 | 芯机智&summary=转：http://blog.csdn.net/dog250/article/details/26147357        "
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=http://demonelf.github.io/EMBEDDED/linux上通过netns创建vrf模拟MCE设备.html&title=linux上通过netns创建vrf模拟MCE设备 | 芯机智&summary=转：http://blog.csdn.net/dog250/article/details/26147357        "
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+            <div class="prev-next">
+                
+                    <section class="prev">
+                        <span class="art-item-left">
+                            <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
+                            <h4>
+                                <a href="/EMBEDDED/vrf-linux-network-name-space.html" rel="prev" title="VRF &amp; Linux Network Name Space">
+                                  
+                                      VRF &amp; Linux Network Name Space
+                                  
+                                </a>
+                            </h4>
+                            
+                        </span>
+                    </section>
+                
+                
+                    <section class="next">
+                        <span class="art-item-right" aria-hidden="true">
+                            <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                            <h4>
+                                <a href="/EMBEDDED/手机、电脑辐射比太阳光安全.html" rel="prev" title="手机、电脑辐射比太阳光安全？">
+                                    
+                                        手机、电脑辐射比太阳光安全？
+                                    
+                                </a>
+                            </h4>
+                            
+                        </span>
+                    </section>
+                
+            </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'linux上通过netns创建vrf模拟MCE设备',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+    
+    
+      
+        
+          
+          
+            <section class='widget author'>
+  <div class='content pure'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='http://bbs.dnsnat.com/discuz/uc_server/data/avatar/000/00/00/01_avatar_big.jpg'/>
+      </div>
+    
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="mailto:me@xaoxuu.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://github.com/xaoxuu"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://music.163.com/#/user/home?id=63035382"
+              class="social fas fa-headphones-alt flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+          
+        
+      
+        
+          
+          
+            
+
+          
+        
+      
+        
+          
+          
+            <section class='widget grid'>
+  
+<header class='pure'>
+  <div><i class="fas fa-map-signs fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;站内导航</div>
+  
+</header>
+
+  <div class='content pure'>
+    <ul class="grid navgation">
+      
+        <li><a class="flat-box" title="/" href="/"
+          
+          
+          id="home">
+          
+            <i class="fas fa-clock fa-fw" aria-hidden="true"></i>
+          
+          近期文章
+        </a></li>
+      
+        <li><a class="flat-box" title="/blog/archives/" href="/blog/archives/"
+          
+            rel="nofollow"
+          
+          
+          id="blogarchives">
+          
+            <i class="fas fa-archive fa-fw" aria-hidden="true"></i>
+          
+          文章归档
+        </a></li>
+      
+        <li><a class="flat-box" title="/projects/" href="/projects/"
+          
+          
+          id="projects">
+          
+            <i class="fas fa-code-branch fa-fw" aria-hidden="true"></i>
+          
+          开源项目
+        </a></li>
+      
+        <li><a class="flat-box" title="/friends/" href="/friends/"
+          
+            rel="nofollow"
+          
+          
+          id="friends">
+          
+            <i class="fas fa-link fa-fw" aria-hidden="true"></i>
+          
+          我的友链
+        </a></li>
+      
+        <li><a class="flat-box" title="https://xaoxuu.com/wiki/material-x/" href="https://xaoxuu.com/wiki/material-x/"
+          
+            rel="nofollow"
+          
+          
+          id="https:xaoxuu.comwikimaterial-x">
+          
+            <i class="fas fa-book fa-fw" aria-hidden="true"></i>
+          
+          主题文档
+        </a></li>
+      
+        <li><a class="flat-box" title="/about/" href="/about/"
+          
+            rel="nofollow"
+          
+          
+          id="about">
+          
+            <i class="fas fa-info-circle fa-fw" aria-hidden="true"></i>
+          
+          关于小站
+        </a></li>
+      
+    </ul>
+  </div>
+</section>
+
+          
+        
+      
+        
+          
+          
+            
+  <section class='widget category'>
+    
+<header class='pure'>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/blog/categories/"
+    title="blog/categories/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content pure'>
+      <ul class="entry">
+        
+          <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(9)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(10)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(82)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/embedded/" href="/categories/embedded/"><div class='name'>embedded</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(1)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+          
+        
+      
+        
+          
+          
+            
+
+          
+        
+      
+        
+          
+          
+            
+
+
+  <section class='widget music'>
+    
+<header class='pure'>
+  <div><i class="fas fa-compact-disc fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;最近在听</div>
+  
+    <a class="rightBtn"
+    
+      rel="external nofollow noopener noreferrer"
+    
+    
+      target="_blank"
+    
+    href="https://music.163.com/#/user/home?id=63035382"
+    title="https://music.163.com/#/user/home?id=63035382">
+    <i class="far fa-heart fa-fw"></i></a>
+  
+</header>
+
+    <div class='content pure'>
+      
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.7.0/dist/APlayer.min.css">
+  <div class="aplayer"
+    data-theme="#1BCDFC"
+    
+    
+    data-mode="circulation"
+    data-server="netease"
+    data-type="playlist"
+    data-id="2615636388"
+    data-volume="0.7">
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/aplayer@1.7.0/dist/APlayer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/meting@1.1.0/dist/Meting.min.js"></script>
+
+
+    </div>
+  </section>
+
+
+          
+        
+      
+    
+
+  
+</aside>
+
+<footer id="footer" class="clearfix">
+  
+  
+    <div class="social-wrapper">
+      
+        
+          <a href="/atom.xml"
+            class="social fas fa-rss flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="mailto:me@xaoxuu.com"
+            class="social fas fa-envelope flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://github.com/xaoxuu"
+            class="social fab fa-github flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://music.163.com/#/user/home?id=63035382"
+            class="social fas fa-headphones-alt flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+    </div>
+  
+  <br>
+  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+  <div>
+    本站使用
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
+    作为主题
+    
+      ，
+      总访问量为
+      <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+      次
+    
+    。
+  </div>
+</footer>
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+
+  <script>
+    var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+    var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+    var ALGOLIA_API_KEY = "";
+    var ALGOLIA_APP_ID = "";
+    var ALGOLIA_INDEX_NAME = "";
+    var AZURE_SERVICE_NAME = "";
+    var AZURE_INDEX_NAME = "";
+    var AZURE_QUERY_KEY = "";
+    var BAIDU_API_ID = "";
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/"||"/";
+    if(!ROOT.endsWith('/'))ROOT += '/';
+  </script>
+
+<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
+
+
+  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      const $reveal = $('.reveal');
+      if ($reveal.length === 0) return;
+      const sr = ScrollReveal({ distance: 0 });
+      sr.reveal('.reveal');
+    });
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        if ('.cover') {
+          $('.cover').backstretch(
+          ["https://img.vim-cn.com/6d/a0c9e6f9efad8b731cb7376504bd10d79d2053.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        } else {
+          $.backstretch(
+          ["https://img.vim-cn.com/6d/a0c9e6f9efad8b731cb7376504bd10d79d2053.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-material-x@19.5/js/app.js"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-material-x@19.5/js/search.js"></script>
+
+
+
+
+<!-- 复制 -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  let COPY_SUCCESS = "复制成功";
+  let COPY_FAILURE = "复制失败";
+  /*页面载入完成后，创建复制按钮*/
+  !function (e, t, a) {
+    /* code */
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+
+      clipboard.on('success', function(e) {
+        //您可以加入成功提示
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        success_prompt(COPY_SUCCESS);
+        e.clearSelection();
+      });
+      clipboard.on('error', function(e) {
+        //您可以加入失败提示
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        fail_prompt(COPY_FAILURE);
+      });
+    }
+    initCopyCode();
+
+  }(window, document);
+
+  /**
+   * 弹出式提示框，默认1.5秒自动消失
+   * @param message 提示信息
+   * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+   * @param time 消失时间
+   */
+  var prompt = function (message, style, time)
+  {
+      style = (style === undefined) ? 'alert-success' : style;
+      time = (time === undefined) ? 1500 : time*1000;
+      $('<div>')
+          .appendTo('body')
+          .addClass('alert ' + style)
+          .html(message)
+          .show()
+          .delay(time)
+          .fadeOut();
+  };
+
+  // 成功提示
+  var success_prompt = function(message, time)
+  {
+      prompt(message, 'alert-success', time);
+  };
+
+  // 失败提示
+  var fail_prompt = function(message, time)
+  {
+      prompt(message, 'alert-danger', time);
+  };
+
+  // 提醒
+  var warning_prompt = function(message, time)
+  {
+      prompt(message, 'alert-warning', time);
+  };
+
+  // 信息提示
+  var info_prompt = function(message, time)
+  {
+      prompt(message, 'alert-info', time);
+  };
+
+</script>
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

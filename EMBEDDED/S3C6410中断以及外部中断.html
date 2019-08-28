@@ -1,0 +1,1151 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>S3C6410中断以及外部中断 | 芯机智</title>
+  
+  
+
+  
+  <link rel="alternate" href="/atom.xml" title="芯机智">
+  
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.10.1/css/all.min.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-material-x@19.5/css/style.css">
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  
+  <div class="cover-wrapper">
+    <cover class='cover post half'>
+      
+        
+  <h1 class='title'>WitKit</h1>
+
+
+  <div class="m_search">
+    <form name="searchform" class="form u-search-form">
+      <input type="text" class="input u-search-input" placeholder="" />
+      <i class="icon fas fa-search fa-fw"></i>
+    </form>
+  </div>
+
+<div class='menu navgation'>
+  <ul class='h-list'>
+    
+      
+        <li>
+          <a class="nav home" href="/"
+            
+            
+            id="home">
+            <i class='fas fa-rss fa-fw'></i>&nbsp;博文
+          </a>
+        </li>
+      
+        <li>
+          <a class="nav home" href="/projects/"
+            
+            
+            id="projects">
+            <i class='fas fa-code-branch fa-fw'></i>&nbsp;项目
+          </a>
+        </li>
+      
+        <li>
+          <a class="nav home" href="/friends/"
+            
+              rel="nofollow"
+            
+            
+            id="friends">
+            <i class='fas fa-link fa-fw'></i>&nbsp;友链
+          </a>
+        </li>
+      
+        <li>
+          <a class="nav home" href="/about/"
+            
+              rel="nofollow"
+            
+            
+            id="about">
+            <i class='fas fa-info-circle fa-fw'></i>&nbsp;关于
+          </a>
+        </li>
+      
+    
+  </ul>
+</div>
+
+      
+    </cover>
+    <header class="l_header pure">
+  <div id="loading-bar-wrapper">
+    <div id="loading-bar" class="pure"></div>
+  </div>
+
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/' >
+        
+          芯机智
+        
+      </a>
+			<div class='menu navgation'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a class="nav flat-box" href="/"
+                  
+                  
+                  id="home">
+									<i class='fas fa-grin fa-fw'></i>&nbsp;示例
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/blog/categories/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="blogcategories">
+									<i class='fas fa-folder-open fa-fw'></i>&nbsp;分类
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/blog/tags/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="blogtags">
+									<i class='fas fa-hashtag fa-fw'></i>&nbsp;标签
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/blog/archives/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="blogarchives">
+									<i class='fas fa-archive fa-fw'></i>&nbsp;归档
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="搜索" />
+						<i class="icon fas fa-search fa-fw"></i>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a class="fas fa-search fa-fw" href='javascript:void(0)'></a></li>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+        
+          <li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+        
+			</ul>
+		</div>
+	</div>
+</header>
+	<aside class="menu-phone">
+    <header>
+		<nav class="menu navgation">
+      <ul>
+        
+          
+            <li>
+							<a class="nav flat-box" href="/"
+                
+                
+                id="home">
+								<i class='fas fa-clock fa-fw'></i>&nbsp;近期文章
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/blog/archives/"
+                
+                  rel="nofollow"
+                
+                
+                id="blogarchives">
+								<i class='fas fa-archive fa-fw'></i>&nbsp;文章归档
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/projects/"
+                
+                
+                id="projects">
+								<i class='fas fa-code-branch fa-fw'></i>&nbsp;开源项目
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/friends/"
+                
+                  rel="nofollow"
+                
+                
+                id="friends">
+								<i class='fas fa-link fa-fw'></i>&nbsp;我的友链
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="https://xaoxuu.com/wiki/material-x/"
+                
+                  rel="nofollow"
+                
+                
+                id="https:xaoxuu.comwikimaterial-x">
+								<i class='fas fa-book fa-fw'></i>&nbsp;主题文档
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/about/"
+                
+                  rel="nofollow"
+                
+                
+                id="about">
+								<i class='fas fa-info-circle fa-fw'></i>&nbsp;关于小站
+							</a>
+            </li>
+          
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+<script>setLoadingBarProgress(40);</script>
+
+  </div>
+
+
+  <div class="l_body">
+    <div class='body-wrapper'>
+      <div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/EMBEDDED/S3C6410中断以及外部中断.html">
+        S3C6410中断以及外部中断
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2017-07-19</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          <p>6410的中断系统：</p>
+<p><a href="http://lib.csdn.net/base/embeddeddevelopment" title="嵌入式开发知识库" target="_blank" rel="external">嵌入式</a>软件里的中断处理，除了中断初始化，主要工作就是编写ISR.</p>
+<p>  在嵌入式的SOC的CPU里，在CPU里内部会带一些设备模块，它们产生的中断称为内部中断。因为联线比较固定，因此编程比较简单。而且在物理上CPU分离的芯片产生的中断，称为外部中断，外部中断可以联接不同的中断脚上，因此需要对中断IO进行较复杂的配置。</p>
+<p>  轮询模式是否一无是处？<strong>轮询的优点是在重负荷的情况下，轮询比中断效率会高很多。</strong>比如一个教室很多学生不断的问问题，这样与其不断被中断，老师还不如起身在教室走动，随机处理学生问题会高很多。</p>
+<h2 id="异常-Exception"><a href="#异常-Exception" class="headerlink" title="异常(Exception)"></a>异常(Exception)</h2><p>Exception(异常), 计算机体系结构中，异常或者中断是处理系统中突发事件的一种机制，几乎所有的处理器都提供这种机制。异常主要是从处理器被动接受的角度出发的一种描述，指意外操作引起的异常。而中断则带有向处理器主动申请的意味。但这两种情况具有一定的共性，都是请求处理器打断正常的程序执行流程，进入特定程序的一种机制。</p>
+<p>从结构来看,外部设备产生的中断可以看成一种特殊的异常.除了中断之外,还有ARM不少固定的异常.包括以下七种:</p>
+<p>1.      复位(Reset)</p>
+<p>当按下RESET键后,会产生一个复位异常,此时程序跳转到复位异常处理程序处执行.当CPU重启后.一般刚好跳到这个复位异常来</p>
+<p>2.      未定义指令</p>
+<p>当ARM的处理器或协处理器遇到不能处理的指令时,产生未定义指令异常,采用这个机制,可以通过软件仿真扩展ARM或Thumb 指令集.</p>
+<p>3.      软件中断(SWI)</p>
+<p>硬件中断是有固定的硬件产生的中断,而软中断是指没具体的硬件产生,是CPU虚拟出来的.该异常由程序执行汇编SWI产生.软中断的优点,</p>
+<p>可用于用户模式下的程序调用特权操作指令.<a href="http://lib.csdn.net/base/linux" title="Linux知识库" target="_blank" rel="external">Linux</a> 系统调用就是使用这个异常来实现的.</p>
+<p>有利用程序结构的优化.比如在<a href="http://lib.csdn.net/base/linux" title="Linux知识库" target="_blank" rel="external">linux</a> 驱动里,硬件中断不能长时间运行.但是很多软件的长时间操作依赖的于中断的调用.有时为解决这个冲突,会在驱动设计两级,从硬件存取用硬件中断,而长时间操作用软件中断的模拟.</p>
+<p>4.      指令预取中止</p>
+<p>若处理预取的指令的地址不存在,或该地址不允许当前指令访问,存储器会向处理器发出中止信号,但当预取的指令被执行时,才会产生指令预取中止的异常.比如用ADS把程序下载到开发板上0x8000地址上.就会产生Abort异常.</p>
+<p>5.      数据中止</p>
+<p>若处理器数据访问数据的地址不存在,或该地址不允许当前指令访问时,产生数据中止异常</p>
+<p>6.      IRQ</p>
+<p>当外部设备在外部中断脚产生中断信号时.即触发了IRQ中断.这是外部设备使用最常用的一种手段.</p>
+<p>在S3C24X0是一个集成的SOC,内部除了ARM模块以外.还其它内部集成的模块,如USB,RTC,等.这一些模块在CPU内部也会有相应的中断线连到ARM920T的内核上.但这一些管脚在CPU外部是不可见的,只能用于寄存器去控制.</p>
+<p>还一些GPIO脚就充当外部中断控制线,外部IC可以把自己中断信号线连到相应的中断脚上.当外部产中断信号后,CPU就可以知道,外设有中断发来.</p>
+<p>7.      FIQ</p>
+<p>快速中断,类似于IRQ,但是具有较快响应速度.而且设为FIQ的条件也比较严格,比如一次触发只能有一个FIQ</p>
+<p>一句话，中断（IRQ，FIQ，SWI）是异常中的一个特例。当产生外部中断时，大部分CPU会只产生一个异常。在异常处理程序里软件再去读不同的中断寄存器分析后来调用ISR。这里ISR是由软件来执行的。象S3C2440就是这样机制。</p>
+<p>   在S3C6410中，还可以采用简化的中断处理流程。由CPU直接去调用中断的ISR来处理。 这样中断处理软件的编写难度就大大下降了。</p>
+<p>向量(vector)</p>
+<p>  异常处理函数或中断处理函数的地址都会按中断号的顺离顺序排列在一个连续的内存当中，从<a href="http://lib.csdn.net/base/c" title="C语言知识库" target="_blank" rel="external">C语言</a>的角度来看，可以看成是一个指针数组。数组又称为向量(Vector).</p>
+<p>如果你熟悉S3C2440的中断处理机制，可以发现S3C6410大大简化的中断编程处理。</p>
+<p>   相对于S3C2440详细而丰富的关于中断的解释，S3C6410的dataSheet明显是赶工之作，关于中断只有短短的15页，大量内容还是寄存器表格。</p>
+<p>   因此以下大部分我从S3C6410的<a href="http://lib.csdn.net/base/softwaretest" title="软件测试知识库" target="_blank" rel="external">测试</a>程序和Application Note反推出来的。并且重新用ADS写程序验证了。</p>
+<p>S3C6410的中断主要改进是.</p>
+<p>  增加中断向量控制器，这样在S3C2440里需要用软件来跳转的中断处理机制，在S3C6410完全由硬件来跳转。你只要把ISR地址是存在连续向量寄存器空间，而不是象S3C2440自行分配空间自行管理。</p>
+<p>  换句话说，在S3C2440下是由CPU触发IRQ/FIQ异常，由异常处理函数里再查找相关中断寄存器来跳到指定的ISR，而可以全部由S3C6410的VIC硬件来自动处理。 这个大大简化中断处理编程。</p>
+<p> 另一个是外部中断加入滤波电路，这样原来需要软件去毛刺的地方均可以采用硬件来进行滤波了，这样大大简化外部中断处理。<br><img src="http://hi.csdn.net/attachment/201112/12/0_13236810030POa.gif" alt=""></p>
+<h2 id="S3C6410-中断操作"><a href="#S3C6410-中断操作" class="headerlink" title="S3C6410 中断操作"></a>S3C6410 中断操作</h2><p>S3C6410 中断号</p>
+<p><img src="http://hi.csdn.net/attachment/201112/12/0_1323681086386P.gif" alt=""><img src="http://hi.csdn.net/attachment/201112/12/0_1323681100pcPv.gif" alt=""></p>
+<p><img src="http://hi.csdn.net/attachment/201112/12/0_13236811343tvV.gif" alt=""></p>
+<p>64个中断按硬件分组分成VIC0, VIC1两个组，各组由一个相应寄存器来处理。<br>     中断号为0-31是VIC0组<br>     中断号为32-63是VIC1组</p>
+<p>S3C6410中断操作很简单。</p>
+<p>打开中断 VICxINTENABLE<br>  x为0,1,0-31中断使用VIC0INTENABLE,32-63中断使用VIC1INTENABLE.以下各寄存器均同，不再重复.</p>
+<p>对应位为1表示这个中断可用,如0号中断有效，是VIC0INTENABLE的第0位为1</p>
+<p><img src="http://hi.csdn.net/attachment/201112/12/0_1323681232Szii.gif" alt=""></p>
+<p>关闭一个中断<br>    向VICxINTENCLEAR对应位置1表示关闭这个中断.</p>
+<p><img src="http://hi.csdn.net/attachment/201112/12/0_13236813234Ljx.gif" alt=""></p>
+<p>设置中断类型<br>  设置某一个中断是IRQ还是FIQ,注意只有一个中断才能FIQ.设置对应位1表示设为FIQ模式。</p>
+<p><img src="http://hi.csdn.net/attachment/201112/12/0_1323681421H6x6.gif" alt=""></p>
+<p>设置S3C6410的向量地址（ISR地址）<br>   注意在S3C6410自已从了各用32个地址连续的寄存器然成两个寄存器数组。首地址分别是0x71200100和0x71300100.你可以象指针数组一样来操作它们，数组的下标就是中断号,每个中断源对应自己的中断地址位，共64个中断源，所以是两个32*32的数组。<br>   这样设置让开发者大大简单化ISR的向量组织。</p>
+<p><img src="http://hi.csdn.net/attachment/201112/12/0_1323681550qQe3.gif" alt=""></p>
+<p>设置中断优先级<br>   这个也采用用32*2寄存器形成两个优先级数组。每一个寄存器对应优先级别，取值范围在0-15之间.<br><img src="http://hi.csdn.net/attachment/201112/12/0_1323686293frqm.gif" alt=""></p>
+<p>中断运行后指示<br>   这个因为了用VIC，现在省掉了S3C2440一大堆的SRCPND,INTPND,INTOFFSET,SUBSRCPND等寄存器。直接由VICxADDRESS来指示当前的ISR地址。  </p>
+<p>  注意这个VICxADDRESS的寄存器，在S3C6410里称为在System BUS.调用。这种方式不建议调用,因为这种模式相当于S3C2440的用软件进行ISR跳转.<br>   这三星的给的参考流程。</p>
+<p><img src="http://hi.csdn.net/attachment/201112/12/0_132368644595M9.gif" alt=""></p>
+<p>更为简单的调用方式.是VIC port 模式，是我强烈推荐的模式，它是系统产生中断后，将由VIC直接去执行相应的ISR。这不仅上编程变成简单，而且效率上更快，因为它没有访问VICxADDRESS和在System BUS执行的时间<br>使用这种模式，只需要在启动加上特定的代码<br><img src="http://hi.csdn.net/attachment/201112/12/0_13236864630581.gif" alt=""></p>
+<p>外部中断编程</p>
+<p>除INT_EINT0-INT_EINT4以外，全部中断是由S3C6410内部的模块触发的。称为内部中断</p>
+<p>  INT_EINT0-INT_EINT4是外部中断，是由CPU外的外设来触发的，它的触发哪一个中断取决外设联接哪一个GPIO中断脚。<br>   象开发板的网络控制器,按钮等都是挂在某一些GPIO脚上。它们都是使用典形外部中断.</p>
+<p>外部中断脚<br>S3C6410 分9组GPIO脚来充当外部中断脚<br>  第0组,共28脚.GPN0-GPN15 (16脚),GPL8-GPL14(7脚),GPM0-GPM4 (5脚)<br>  第1组,由GPA0-GPA7,8个中断脚，GPB0-GPB7,8个中断脚<br>  第2组,由GPC0-GPC0,共8个中断脚…<br>     …<br>  第8组,由GPP0-GPP14,共15个中断脚<br>  第9组,由GPQ0-GPQ8,共9个中断脚</p>
+<p>外部中断号</p>
+<p>第0组的第0脚到第3脚的设备将触INT_EINT0=0中断<br>第0组的第4-11脚将触发INT_EINT1=1中断<br>第0组的第12-19脚将触发INT_EINT2=32中断<br>第0组的第20-27脚将触发INT_EINT3=33中断<br>第1组-第9组所有设备只触发INT_EINT4=53中断</p>
+<p>我们可以看到，每一个组都是多个中断脚共享一个中断号的。其中第0组比较常用，占用了3个中断号，每个管脚都有各自的子中断。1-9组共享一个中断号，每一组一个子中断源。</p>
+<p><img src="http://hi.csdn.net/attachment/201112/12/0_1323677969t4Ht.gif" alt=""></p>
+<p><img src="http://hi.csdn.net/attachment/201112/12/0_1323677986uizZ.gif" alt=""></p>
+<p><img src="http://hi.csdn.net/attachment/201112/12/0_1323677996rRrf.gif" alt=""></p>
+<p>在ISR中，如何判断是哪一个中断脚的产生中断？</p>
+<p>不同的IO脚上多个设备产生同一个中断，软件如何知道是哪一个脚？<br>由External Interrupt Pending Register 来判断</p>
+<p>第0组由EINT0PEND来判断，脚位对应可以参考上图，不是很规整。</p>
+<p>第1，2组由EINT12PEND来判断</p>
+<p><img src="http://hi.csdn.net/attachment/201112/12/0_1323678141k06i.gif" alt=""><img src="http://hi.csdn.net/attachment/201112/12/0_13236781569Fp0.gif" alt=""><br>依此类推，EINT34PEND，EINT56PEND， 一直到EINT9PEND 来指示</p>
+<p>外部中断信号类型</p>
+<p>  这里设置中断产生何种信号才会被捕获。主要是五种，低电平，高电平，上升沿，下降沿或者两者均可，<br>第0组用 EINT0CON0/EINT0CON1两个寄存器来设定.</p>
+<p>第1，2组采用 EINT12CON ,<br>第3,4组采用EINT34CON,<br>依此类推</p>
+<p><img src="http://hi.csdn.net/attachment/201112/12/0_132367841711Ow.gif" alt=""></p>
+<p>临时关闭外部中断<br>EINTxMask是临时性关闭中断<br>为1表示关闭某一个中断,为表示打开0,一般只要需要使用中断才会打开。 </p>
+<p>EINT0MASK是第0组的使用</p>
+<p>EINT12MASK是第1,2组的中断掩码</p>
+<p> 依次类推…</p>
+<p><img src="http://hi.csdn.net/attachment/201112/12/0_1323678476nwn2.gif" alt=""></p>
+<p>定义硬件滤波类型</p>
+<p>  对于一些波形不规整的外部中断信号，可以通过滤波电路让其变成规整，这样会简化软件的编写.</p>
+<p> S3C6410有两种滤波电路，一种延时滤波（如按钮类中断可以采用这一类型）,一种是数字采样滤波.第二种滤波电路还要设采样宽度。</p>
+<p>  第0组的滤波用EINT0FLTCON0，EINT0FLTCON1， EINT0FLTCON2， EINT0FLTCON3配置.</p>
+<p> FLTEN表示是否打开滤波功能,FLTSEL是设置滤波方式，EINTn表示数字滤波采校的宽度</p>
+<p><img src="http://hi.csdn.net/attachment/201112/12/0_1323678530gMsD.gif" alt=""></p>
+<p>第1,2组的滤波采用 EINT12FLTCON<br>第3,4组的滤波采用 EINT34FLTCON</p>
+<p>第9组滤波 采用EINT9FLTCON<br><img src="http://hi.csdn.net/attachment/201112/12/0_1323678530gMsD.gif" alt=""></p>
+<p>外部中断编程</p>
+<p>  外部中断除了中断编程所有流程外，<br>  一般额外配置相应的GPxCON配置成中断脚。<br>   还要配置滤波方式和中断信号方式。</p>
+<p>  还要打开外部中断掩码</p>
+<p>  在ISR中，在最后除了要把VICxADDRESS清0外，还需要清除 VICxSOFTINTCLEAR相应位。</p>
+<h2 id="软件中断编程"><a href="#软件中断编程" class="headerlink" title="软件中断编程"></a>软件中断编程</h2><p> 在S3C6410有64个软中断(与硬件中断对应）,这一段描述是非常含糊。是同一硬件中断可以用软件触发还是是，有一个完全对应的软件中断？这个需要软件来验证.</p>
+<p>  软中断除硬件中断的所有流程还要加上如下两条.<br>  用VICxSOFTINT来触发软中断<br>  ISR退出时使用VICxSOFTINTCLEAR清除状态<br><img src="http://hi.csdn.net/attachment/201112/12/0_1323678647QoAt.gif" alt=""><br>软中断编程流程</p>
+<p><img src="http://hi.csdn.net/attachment/201112/12/0_132367867928Kz.gif" alt=""></p>
+
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <hr>
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2017-07-19T15:18:42+08:00">
+  <a class='notlink'>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>最后更新于 2017年7月19日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://demonelf.github.io/EMBEDDED/S3C6410中断以及外部中断.html&title=S3C6410中断以及外部中断 | 芯机智&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://demonelf.github.io/EMBEDDED/S3C6410中断以及外部中断.html&title=S3C6410中断以及外部中断 | 芯机智&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=http://demonelf.github.io/EMBEDDED/S3C6410中断以及外部中断.html&title=S3C6410中断以及外部中断 | 芯机智&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+            <div class="prev-next">
+                
+                    <section class="prev">
+                        <span class="art-item-left">
+                            <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
+                            <h4>
+                                <a href="/EMBEDDED/JTAG基本原理与调试.html" rel="prev" title="JTAG基本原理与调试">
+                                  
+                                      JTAG基本原理与调试
+                                  
+                                </a>
+                            </h4>
+                            
+                        </span>
+                    </section>
+                
+                
+                    <section class="next">
+                        <span class="art-item-right" aria-hidden="true">
+                            <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                            <h4>
+                                <a href="/SYSTEM/git reset revert 回退回滚取消提交返回上一版本.html" rel="prev" title="git reset revert 回退回滚取消提交返回上一版本">
+                                    
+                                        git reset revert 回退回滚取消提交返回上一版本
+                                    
+                                </a>
+                            </h4>
+                            
+                        </span>
+                    </section>
+                
+            </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'S3C6410中断以及外部中断',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+    
+    
+      
+        
+          
+          
+            <section class='widget author'>
+  <div class='content pure'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='http://bbs.dnsnat.com/discuz/uc_server/data/avatar/000/00/00/01_avatar_big.jpg'/>
+      </div>
+    
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="mailto:me@xaoxuu.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://github.com/xaoxuu"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://music.163.com/#/user/home?id=63035382"
+              class="social fas fa-headphones-alt flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+          
+        
+      
+        
+          
+          
+            
+  <section class='widget toc-wrapper'>
+    
+<header class='pure'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div>
+  
+</header>
+
+    <div class='content pure'>
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#异常-Exception"><span class="toc-text">异常(Exception)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#S3C6410-中断操作"><span class="toc-text">S3C6410 中断操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#软件中断编程"><span class="toc-text">软件中断编程</span></a></li></ol>
+    </div>
+  </section>
+
+
+          
+        
+      
+        
+          
+          
+            <section class='widget grid'>
+  
+<header class='pure'>
+  <div><i class="fas fa-map-signs fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;站内导航</div>
+  
+</header>
+
+  <div class='content pure'>
+    <ul class="grid navgation">
+      
+        <li><a class="flat-box" title="/" href="/"
+          
+          
+          id="home">
+          
+            <i class="fas fa-clock fa-fw" aria-hidden="true"></i>
+          
+          近期文章
+        </a></li>
+      
+        <li><a class="flat-box" title="/blog/archives/" href="/blog/archives/"
+          
+            rel="nofollow"
+          
+          
+          id="blogarchives">
+          
+            <i class="fas fa-archive fa-fw" aria-hidden="true"></i>
+          
+          文章归档
+        </a></li>
+      
+        <li><a class="flat-box" title="/projects/" href="/projects/"
+          
+          
+          id="projects">
+          
+            <i class="fas fa-code-branch fa-fw" aria-hidden="true"></i>
+          
+          开源项目
+        </a></li>
+      
+        <li><a class="flat-box" title="/friends/" href="/friends/"
+          
+            rel="nofollow"
+          
+          
+          id="friends">
+          
+            <i class="fas fa-link fa-fw" aria-hidden="true"></i>
+          
+          我的友链
+        </a></li>
+      
+        <li><a class="flat-box" title="https://xaoxuu.com/wiki/material-x/" href="https://xaoxuu.com/wiki/material-x/"
+          
+            rel="nofollow"
+          
+          
+          id="https:xaoxuu.comwikimaterial-x">
+          
+            <i class="fas fa-book fa-fw" aria-hidden="true"></i>
+          
+          主题文档
+        </a></li>
+      
+        <li><a class="flat-box" title="/about/" href="/about/"
+          
+            rel="nofollow"
+          
+          
+          id="about">
+          
+            <i class="fas fa-info-circle fa-fw" aria-hidden="true"></i>
+          
+          关于小站
+        </a></li>
+      
+    </ul>
+  </div>
+</section>
+
+          
+        
+      
+        
+          
+          
+            
+  <section class='widget category'>
+    
+<header class='pure'>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/blog/categories/"
+    title="blog/categories/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content pure'>
+      <ul class="entry">
+        
+          <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(9)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(10)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(82)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/embedded/" href="/categories/embedded/"><div class='name'>embedded</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(1)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+          
+        
+      
+        
+          
+          
+            
+
+          
+        
+      
+        
+          
+          
+            
+
+
+  <section class='widget music'>
+    
+<header class='pure'>
+  <div><i class="fas fa-compact-disc fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;最近在听</div>
+  
+    <a class="rightBtn"
+    
+      rel="external nofollow noopener noreferrer"
+    
+    
+      target="_blank"
+    
+    href="https://music.163.com/#/user/home?id=63035382"
+    title="https://music.163.com/#/user/home?id=63035382">
+    <i class="far fa-heart fa-fw"></i></a>
+  
+</header>
+
+    <div class='content pure'>
+      
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.7.0/dist/APlayer.min.css">
+  <div class="aplayer"
+    data-theme="#1BCDFC"
+    
+    
+    data-mode="circulation"
+    data-server="netease"
+    data-type="playlist"
+    data-id="2615636388"
+    data-volume="0.7">
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/aplayer@1.7.0/dist/APlayer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/meting@1.1.0/dist/Meting.min.js"></script>
+
+
+    </div>
+  </section>
+
+
+          
+        
+      
+    
+
+  
+</aside>
+
+<footer id="footer" class="clearfix">
+  
+  
+    <div class="social-wrapper">
+      
+        
+          <a href="/atom.xml"
+            class="social fas fa-rss flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="mailto:me@xaoxuu.com"
+            class="social fas fa-envelope flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://github.com/xaoxuu"
+            class="social fab fa-github flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://music.163.com/#/user/home?id=63035382"
+            class="social fas fa-headphones-alt flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+    </div>
+  
+  <br>
+  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+  <div>
+    本站使用
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
+    作为主题
+    
+      ，
+      总访问量为
+      <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+      次
+    
+    。
+  </div>
+</footer>
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+
+  <script>
+    var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+    var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+    var ALGOLIA_API_KEY = "";
+    var ALGOLIA_APP_ID = "";
+    var ALGOLIA_INDEX_NAME = "";
+    var AZURE_SERVICE_NAME = "";
+    var AZURE_INDEX_NAME = "";
+    var AZURE_QUERY_KEY = "";
+    var BAIDU_API_ID = "";
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/"||"/";
+    if(!ROOT.endsWith('/'))ROOT += '/';
+  </script>
+
+<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
+
+
+  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      const $reveal = $('.reveal');
+      if ($reveal.length === 0) return;
+      const sr = ScrollReveal({ distance: 0 });
+      sr.reveal('.reveal');
+    });
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        if ('.cover') {
+          $('.cover').backstretch(
+          ["https://img.vim-cn.com/6d/a0c9e6f9efad8b731cb7376504bd10d79d2053.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        } else {
+          $.backstretch(
+          ["https://img.vim-cn.com/6d/a0c9e6f9efad8b731cb7376504bd10d79d2053.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-material-x@19.5/js/app.js"></script>
+
+
+  <script src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-material-x@19.5/js/search.js"></script>
+
+
+
+
+<!-- 复制 -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  let COPY_SUCCESS = "复制成功";
+  let COPY_FAILURE = "复制失败";
+  /*页面载入完成后，创建复制按钮*/
+  !function (e, t, a) {
+    /* code */
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+
+      clipboard.on('success', function(e) {
+        //您可以加入成功提示
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        success_prompt(COPY_SUCCESS);
+        e.clearSelection();
+      });
+      clipboard.on('error', function(e) {
+        //您可以加入失败提示
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        fail_prompt(COPY_FAILURE);
+      });
+    }
+    initCopyCode();
+
+  }(window, document);
+
+  /**
+   * 弹出式提示框，默认1.5秒自动消失
+   * @param message 提示信息
+   * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+   * @param time 消失时间
+   */
+  var prompt = function (message, style, time)
+  {
+      style = (style === undefined) ? 'alert-success' : style;
+      time = (time === undefined) ? 1500 : time*1000;
+      $('<div>')
+          .appendTo('body')
+          .addClass('alert ' + style)
+          .html(message)
+          .show()
+          .delay(time)
+          .fadeOut();
+  };
+
+  // 成功提示
+  var success_prompt = function(message, time)
+  {
+      prompt(message, 'alert-success', time);
+  };
+
+  // 失败提示
+  var fail_prompt = function(message, time)
+  {
+      prompt(message, 'alert-danger', time);
+  };
+
+  // 提醒
+  var warning_prompt = function(message, time)
+  {
+      prompt(message, 'alert-warning', time);
+  };
+
+  // 信息提示
+  var info_prompt = function(message, time)
+  {
+      prompt(message, 'alert-info', time);
+  };
+
+</script>
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
