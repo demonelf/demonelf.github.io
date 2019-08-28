@@ -298,6 +298,274 @@
       
         
   <h2 class="title">
+    <a href="/EMBEDDED/mqtt的c语言客户端库和实例使用.html">
+      mqtt的c语言客户端库和实例使用
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2017-07-12</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/EMBEDDED/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>EMBEDDED</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <script src="http://cdn.bootcss.com/highlight.js/9.1.0/languages/vbscript.min.js"></script>
+
+<p><strong>C 客户端</strong></p>
+<p>Eclipse Paho C</p>
+<ol>
+<li>支持 TCP/SSL Socket 连接</li>
+<li>支持自动重连</li>
+<li>支持 WebSocket</li>
+<li>代码样例</li>
+</ol>
+<pre><code>#include &quot;stdio.h&quot;
+#include &quot;stdlib.h&quot;
+#include &quot;string.h&quot;
+#include &quot;MQTTClient.h&quot;
+
+#define ADDRESS     &quot;tcp://localhost:1883&quot;
+#define CLIENTID    &quot;ExampleClientPub&quot;
+#define TOPIC       &quot;MQTT Examples&quot;
+#define PAYLOAD     &quot;Hello World!&quot;
+#define QOS         1
+#define TIMEOUT     10000L
+
+int main(int argc, char* argv[])
+{
+    MQTTClient client;
+    MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
+    MQTTClient_message pubmsg = MQTTClient_message_initializer;
+    MQTTClient_deliveryToken token;
+    int rc;
+
+    MQTTClient_create(&amp;client, ADDRESS, CLIENTID,
+        MQTTCLIENT_PERSISTENCE_NONE, NULL);
+    conn_opts.keepAliveInterval = 20;
+    conn_opts.cleansession = 1;
+
+    if ((rc = MQTTClient_connect(client, &amp;conn_opts)) != MQTTCLIENT_SUCCESS)
+    {
+        printf(&quot;Failed to connect, return code %d\n&quot;, rc);
+        exit(-1);
+    }
+    pubmsg.payload = PAYLOAD;
+    pubmsg.payloadlen = strlen(PAYLOAD);
+    pubmsg.qos = QOS;
+    pubmsg.retained = 0;
+    MQTTClient_publishMessage(client, TOPIC, &amp;pubmsg, &amp;token);
+    printf(&quot;Waiting for up to %d seconds for publication of %s\n&quot;
+            &quot;on topic %s for client with ClientID: %s\n&quot;,
+            (int)(TIMEOUT/1000), PAYLOAD, TOPIC, CLIENTID);
+    rc = MQTTClient_waitForCompletion(client, token, TIMEOUT);
+    printf(&quot;Message with delivery token %d delivered\n&quot;, token);
+    MQTTClient_disconnect(client, 10000);
+    MQTTClient_destroy(&amp;client);
+    return rc;
+}
+</code></pre><p>mqttc</p>
+<p>1.支持消息发布、主题订阅以及取消订阅<br>2.代码样例</p>
+<pre><code>mqttc -h host -p port -u username -P password -k keepalive
+</code></pre><p>Eclipse Paho Embedded C</p>
+<p>1.支持 MQTT V3.1 以及 V3.1.1 协议<br>2.支持 TCP/SSL Socket 连接<br>3.代码样例</p>
+<pre><code>#define MQTTCLIENT_QOS2 1
+#include &quot;MQTTClient.h&quot;
+#define DEFAULT_STACK_SIZE -1
+#include &quot;linux.cpp&quot;
+
+int arrivedcount = 0;
+
+void messageArrived(MQTT::MessageData&amp; md)
+{
+    MQTT::Message &amp;message = md.message;
+
+    printf(&quot;Message %d arrived: qos %d, retained %d, dup %d, packetid %d\n&quot;,
+        ++arrivedcount, message.qos, message.retained, message.dup, message.id);
+    printf(&quot;Payload %.*s\n&quot;, (int)message.payloadlen, (char*)message.payload);
+}
+
+int main(int argc, char* argv[])
+{
+    IPStack ipstack = IPStack();
+    float version = 0.3;
+    const char* topic = &quot;mbed-sample&quot;;
+
+    printf(&quot;Version is %f\n&quot;, version);
+
+    MQTT::Client client = MQTT::Client(ipstack);
+
+    const char* hostname = &quot;iot.eclipse.org&quot;;
+    int port = 1883;
+    printf(&quot;Connecting to %s:%d\n&quot;, hostname, port);
+    int rc = ipstack.connect(hostname, port);
+    if (rc != 0)
+        printf(&quot;rc from TCP connect is %d\n&quot;, rc);
+
+    printf(&quot;MQTT connecting\n&quot;);
+    MQTTPacket_connectData data = MQTTPacket_connectData_initializer;
+    data.MQTTVersion = 3;
+    data.clientID.cstring = (char*)&quot;mbed-icraggs&quot;;
+    rc = client.connect(data);
+    if (rc != 0)
+        printf(&quot;rc from MQTT connect is %d\n&quot;, rc);
+    printf(&quot;MQTT connected\n&quot;);
+
+    rc = client.subscribe(topic, MQTT::QOS2, messageArrived);
+    if (rc != 0)
+        printf(&quot;rc from MQTT subscribe is %d\n&quot;, rc);
+
+    MQTT::Message message;
+
+    // QoS 0
+    char buf[100];
+    sprintf(buf, &quot;Hello World!  QoS 0 message from app version %f&quot;, version);
+    message.qos = MQTT::QOS0;
+    message.retained = false;
+    message.dup = false;
+    message.payload = (void*)buf;
+    message.payloadlen = strlen(buf)+1;
+    rc = client.publish(topic, message);
+    if (rc != 0)
+        printf(&quot;Error %d from sending QoS 0 message\n&quot;, rc);
+    else while (arrivedcount == 0)
+        client.yield(100);
+
+    rc = client.unsubscribe(topic);
+    if (rc != 0)
+        printf(&quot;rc from unsubscribe was %d\n&quot;, rc);
+
+    rc = client.disconnect();
+    if (rc != 0)
+        printf(&quot;rc from disconnect was %d\n&quot;, rc);
+
+    ipstack.disconnect();
+
+    return 0;
+}
+</code></pre><p>libmosquitto</p>
+<p>libmosquitto 是 C 语言共享库，可以创建 MQTT 客户端程序。所有的 API 函数都有 mosquitto_ 前缀。</p>
+<pre><code>// 获取库的版本信息，返回到三个参数中
+int mosquitto_lib_version(int *major,int *minor,int *revision)
+
+// 初始化和清除
+int mosquitto_lib_init();    
+int mosquitto_lib_cleanup(); 
+
+// 新建一个 mosquitto 客户端对象，并返回 struct mosquitto
+struct mosquitto *mosquitto_new(const char *id, bool clean_session, void *userdata);    
+
+// 释放一个 mosquitto 客户端对象
+void mosquitto_destroy(struct mosquitto *mosq);
+</code></pre><p>libemqtt</p>
+<p>1.Embedded C client library for the MQTT protocol. It also provides a binding for Python.<br>2.编译</p>
+<pre><code>// C Library
+$ make
+
+// Python binding
+$ make python
+</code></pre><p>wolfMQTT</p>
+<p>This is an implementation of the MQTT Client written in C for embedded use, which supports SSL/TLS via the wolfSSL library. This library was built from the ground up to be multi-platform, space conscience and extensible. Integrates with wolfSSL to provide TLS support.</p>
+<p>Example code</p>
+<pre><code>// This is where the top level application interfaces for the MQTT client reside.
+int MqttClient_Init(MqttClient *client, MqttNet *net, MqttMsgCb msg_cb, byte *tx_buf, int tx_buf_len, byte *rx_buf, int rx_buf_len, int cmd_timeout_ms);
+
+// These API&#39;s are blocking on MqttNet.read until error/timeout (cmd_timeout_ms):
+int MqttClient_Connect(MqttClient *client, MqttConnect *connect);
+int MqttClient_Publish(MqttClient *client, MqttPublish *publish);
+int MqttClient_Subscribe(MqttClient *client, MqttSubscribe *subscribe);
+int MqttClient_Unsubscribe(MqttClient *client, MqttUnsubscribe *unsubscribe);
+int MqttClient_Ping(MqttClient *client);
+int MqttClient_Disconnect(MqttClient *client);
+
+// This function blocks waiting for a new publish message to arrive for a maximum duration of timeout_ms.
+int MqttClient_WaitMessage(MqttClient *client, MqttMessage *message, int timeout_ms);
+
+// These are the network connect / disconnect interfaces that wrap the MqttNet callbacks and handle WolfSSL TLS:
+int MqttClient_NetConnect(MqttClient *client, const char* host, word16 port, int timeout_ms, int use_tls, MqttTlsCb cb);
+int MqttClient_NetDisconnect(MqttClient *client);
+
+// Helper functions:
+const char* MqttClient_ReturnCodeToString(int return_code);
+</code></pre>
+      
+    </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
     <a href="/EMBEDDED/linux 下jansson安装和使用.html">
       linux 下jansson安装和使用
     </a>
