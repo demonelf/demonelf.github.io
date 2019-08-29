@@ -301,7 +301,11 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>问题一：</p>
+      问题一：
+
+nl80211: Could not configure driver mode
+nl80211 driver initialization failed.
+hostapd_free_hapd_data: Interface wlan0 was
       
         <div class="readmore">
           <a href="/EMBEDDED/解决gentoo启动hostapd时出现的问题.html" class="flat-box">
@@ -399,8 +403,12 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span class="chapnum">1.  </span>简介</p>
-<p>内核是Portage树中少数几个需要部分人工介入方可完成更新的包之一。Portage会为你下载并安装内核源码，但需要你手动编译新的内核，才能让更改生效。<br>
+      1. 简介
+
+内核是Portage树中少数几个需要部分人工介入方可完成更新的包之一。Portage会为你下载并安装内核源码，但需要你手动编译新的内核，才能让更改生效。
+
+
+这份指南是关于如何从一个内核版本更新到另一个版本的，然而，对希望切换到另一个内核包的
       
         <div class="readmore">
           <a href="/EMBEDDED/Gentoo Linux 内核更新指南.html" class="flat-box">
@@ -498,7 +506,10 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span style="color:#666666; font-family:宋体; font-size:12pt"><strong>二层转发</strong>：在链路层，根据报文的目的MAC地址来对报文进行转发，因为是在链路层，我们称为二层转发。二层转发过程中不用对报文的头部做任何的修改。而三层转发则是根据报文的IP地址来进行转发，并且要对报文的二层头部进行相应的修改。<br></span></p>
+      二层转发：在链路层，根据报文的目的MAC地址来对报文进行转发，因为是在链路层，我们称为二层转发。二层转发过程中不用对报文的头部做任何的修改。而三层转发则是根据报文的IP地址来进行转发，并且要对报文的二层头部进行相应的修改。
+
+
+桥接：既把两台在同一网段的设
       
         <div class="readmore">
           <a href="/EMBEDDED/一、桥接及二层转发.html" class="flat-box">
@@ -596,7 +607,19 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi1.png" alt=""><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi2.png" alt=""><span style="font-family:Times New Roman; font-size:10pt"><br>        </span></p>
+      交叉编译工具链的命名规则为：arch [-vendor] [-os] [-(gnu)eabi]
+
+
+arch - 体系架构，如 ARM，MIPS
+
+
+vendor - 工具链提供商
+
+
+os - 目标操作系统
+
+
+eabi - 嵌入式应用二进制接口（Emb
       
         <div class="readmore">
           <a href="/EMBEDDED/arm交叉编译器gnueabi、none-eabi、arm-eabi、gnueabihf、gnueabi区别.html" class="flat-box">

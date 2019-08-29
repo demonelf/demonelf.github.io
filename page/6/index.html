@@ -300,9 +300,12 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>1. 硬件收到数据，驱动取出数据，通过netif_rx把数据放到queue-&gt;input_pkt_queue中，</p>
-<pre><code> 并产生NET_RX_SOFTIRQ软中断。
-</code></pre>
+      1. 硬件收到数据，驱动取出数据，通过netif_rx把数据放到queue->input_pkt_queue中，
+
+ 并产生NET_RX_SOFTIRQ软中断。
+
+
+2. 在启动内核时，通过open_softirq(NET_RX_SOFTIRQ, net_
       
         <div class="readmore">
           <a href="/EMBEDDED/linux接收数据包的处理流程.html" class="flat-box">
@@ -400,7 +403,9 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>dpkg –search /usr/bin/amidi # debian/ubuntu, local search</p>
+      dpkg –search /usr/bin/amidi # debian/ubuntu, local search
+
+apt-file update;apt-file search amidi # debian/ubuntu, remote seach. 
       
         <div class="readmore">
           <a href="/EMBEDDED/find-which-package-contains-a-file.html" class="flat-box">
@@ -498,134 +503,17 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <ol>
-<li><div style="background: #4f81bd"><br># <span style="font-family:幼圆">U-BOOT概况总结</span><span style="font-family:Calibri"> </span><span style="font-family:幼圆"></span><br></div>
-
-<ol>
-<li>启动代码为start.S</li>
-<li>由于u-boot为裸板上第一个程序，所以要初始化各个外设，由于u-boot已经初始化了，包括：中断禁用、分配动态内存、初始化BBS区域、初始化页目录、打开缓存等任务。所以linux内核不需要全部再次初始化，所以可以理解bootloader和kernel其实是两兄弟。</li>
-<li>U-boot引导内核第一步要做的的是把内核下到ram中，然后跳到内核的start函数。<br>例:<pre><code>/*start code on reset*/
-Reset:
-bl set_cpu_mode                /*设置特权模式*/
-bl turn_off_watchdog           /*关闭看门狗*/
-bl mask_irqs                   /*关闭中断*/
-bl set_clock                   /*设置时钟*/
-bl disable_id_caches           /*关闭caches*/
-bl init_memory                 /*初始化sram*/
-bl init_stack                  /*初始化栈*/
-bl clean_bss                   /*初始化bss*/
-bl nand_init                   /*初始化nand*/
-bl copy_to_ram                 /*复制自身到ram*/
-ldr pc, =arm_main              /*执行main函数*/
-</code></pre></li>
-</ol>
-</li>
-</ol>
-<p>四、bootloader必须提供5种功能：RAM初始化、串行端口初始化、查找机器类别、构建tagged list内核、将控制移交到内核镜像。</p>
-<ol>
-<li><div style="background: #4f81bd"><br><br># <span style="font-family:幼圆">linux内核初始化流程<br></span></div>
-
-<p><img src="http://www.madhex.com/wp-content/uploads/2016/12/122616_0856_armubootl1.png" alt=""><span style="font-family:幼圆"></span></p>
-</li>
-</ol>
-<p><span style="font-family:幼圆">u-boot跳到linux内核的arch/arm/boot/compressed/head.S中start后<br></span></p>
-<p><img src="http://www.madhex.com/wp-content/uploads/2016/12/122616_0856_armubootl2.png" alt=""><span style="font-family:幼圆"><br>                </span></p>
-<p><span style="font-family:幼圆">内核大致可以理解为三部曲：</span></p>
-<p><span style="font-family:幼圆">第一步 解压内核并跳到start_kernel()。</span></p>
-<p><span style="font-family:幼圆">    1.arch/arm/<span style="background-color:yellow">boot/compressed</span>/<span style="color:red">head.S(<span style="color:#5b9bd5">start<span style="color:red">)<br></span></span></span></span></p>
-<p><span style="font-family:幼圆">准备解压内核<br></span></p>
-<p><span style="font-family:幼圆">    2.arch/arm/<span style="background-color:yellow">boot/compressed</span>/<span style="color:red">head.S</span><br>                </span></p>
-<p><span style="font-family:幼圆">通过<span style="color:#5b9bd5">decompress_kernel</span> 解压zImage</span></p>
-<p><span style="font-family:幼圆">通过<span style="color:#5b9bd5">call_kernel</span>调用已解压后内核vmlinux<br></span></p>
-<p><span style="font-family:幼圆">    3.arch/arm/<span style="background-color:yellow">kernel</span>/<span style="color:red">head.S<br></span></span></p>
-<p><span style="font-family:幼圆">通过<span style="color:#5b9bd5">ENTRY(stext)-&gt;</span></span></p>
-<p><span style="color:#5b9bd5; font-family:幼圆">处理器信息搜寻——__look_processor_type<br></span></p>
-<p><span style="color:#5b9bd5; font-family:幼圆">搜寻我的机型——__lookup_machine_type<br></span></p>
-<p><span style="font-family:幼圆">通过<span style="color:#5b9bd5">__mmap_switched</span>调用<span style="color:#5b9bd5">start_kernel</span><br>                </span></p>
-<p><span style="font-family:幼圆">第二步 跳到真正第一个内核代码<span style="background-color:yellow">init</span>/<span style="color:red">main.c(<span style="color:#5b9bd5">start_kernel()<span style="color:red">)</span>。</span>注</span>:在linux 0.11中为init/main.c main()。<br></span></p>
-<p><span style="font-family:幼圆">其中明星函数（排名不分先后）：<br></span></p>
-<p><span style="font-family:幼圆">1.初始化console(<span style="color:red">此处为平台相关需要hack的地方&lt;1&gt;</span>)<br></span></p>
-<p><span style="font-family:幼圆">  start_kernel-&gt;console_init-&gt;serial_pxa_console_init<br></span></p>
-<p><span style="font-family:幼圆">2.处理与架构相关的一系列事物<br></span></p>
-<p><span style="font-family:幼圆">  start_kernel-&gt;setup-arch()<br></span></p>
-<p><img src="http://www.madhex.com/wp-content/uploads/2016/12/122616_0856_armubootl3.png" alt=""><span style="font-family:幼圆"><br>                </span></p>
-<p><span style="font-family:幼圆">3.初始化驱动平台platform<br></span></p>
-<p><span style="font-family:幼圆">start_kernel→kernel_init()→do_basic_setup()→driver_init()→platform_bus_init()→bus_register(&amp;platform_bus_type)</span></p>
-<p><span style="font-family:幼圆">4.初始化soc(initcall参考 下面的init.h)<br></span></p>
-<p><span style="font-family:幼圆">start_kernel-&gt;kernel_init-&gt;依次调用do_basic_setup()-&gt;do_initcalls()-&gt;do_one_initcall()<br></span></p>
-<p><img src="http://www.madhex.com/wp-content/uploads/2016/12/122616_0856_armubootl4.png" alt=""><span style="font-family:幼圆"><br>                </span></p>
-<p><span style="font-family:幼圆">第三步 就为愉快的init的代码了也就是第一个进程，在linux 0.11中集成在内核中。在之后版本由用户态提供。<br></span></p>
-<p><span style="font-family:幼圆">        当然我已经升级为systemd啦，哈哈。<br></span></p>
-<p><span style="font-family:幼圆">1.  linux初始化代码框架<br></span></p>
-<p><span style="font-family:幼圆">哪部分是只和CPU相关的部分，<br></span></p>
-<p><span style="font-family:幼圆">哪部分是SOC平台相关的部分，<br></span></p>
-<p><span style="font-family:幼圆">也再次标明LINUX下大致逻辑。<br></span></p>
-<h2 id="第一部分代码arch-arm-boot"><a href="#第一部分代码arch-arm-boot" class="headerlink" title="第一部分代码arch/arm/boot/"></a><span style="font-family:幼圆">第一部分代码arch/arm/boot/</span></h2><p><span style="font-family:幼圆">简介：也就是自我解压部分，可以理解为和cpu相关但和SOC无关。<br></span><br><span style="font-family:幼圆">移植：移植时选择对应的cpu。<br></span><br><span style="font-family:幼圆">功能：arch/arm/boot/compressed/head.S自我解压前准备、解压缩。跳到start_kernel。<br></span></p>
-<h2 id="第二部分代码init-main-c"><a href="#第二部分代码init-main-c" class="headerlink" title="第二部分代码init/main.c"></a><span style="font-family:幼圆">第二部分代码init/main.c</span></h2><p><span style="font-family:幼圆">简介：也就是start_kernel（）或0.11中的main（） 可以理解内核真正的第一代码。为平台无关代码。<br></span></p>
-<p><span style="font-family:幼圆">移植：移植时不用管。<br></span></p>
-<p><span style="font-family:幼圆">功能：此代码虽说简单的大几十行，但功能太多，我还是给个linux 0.11中main()的靓照吧~_~！<br></span></p>
-<p><img src="http://www.madhex.com/wp-content/uploads/2016/12/122616_0856_armubootl5.png" alt=""><span style="font-family:幼圆"><br>                </span></p>
-<h2 id="第三部分代码-arch-arm-PLAT-arch-arm-MACH"><a href="#第三部分代码-arch-arm-PLAT-arch-arm-MACH" class="headerlink" title="第三部分代码 arch/arm/PLAT- arch/arm/MACH-"></a><span style="font-family:幼圆">第三部分代码 arch/arm/PLAT- arch/arm/MACH-</span></h2><p></p>
-<p><span style="font-family:幼圆">简介：为了完成start_kernel()中初始化的SOC相关部分。<br></span></p>
-<p><span style="font-family:幼圆">移植：移植时需要考虑对应的SOC。没有对应soc支持时，才是各路玩家大显身手的时候。<br></span></p>
-<p><span style="font-family:幼圆">功能：看下面的介绍吧。<br></span><br><span style="font-family:幼圆">1. Mini2440的plat和mach<br></span><br><span style="font-family:幼圆">plat-s3c24xx</span><br><span style="font-family:幼圆">mach-s3c2440</span><br><span style="font-family:幼圆">mach-s3c2410<br></span></p>
-<p><span style="font-family:幼圆">======================<br></span></p>
-<p><span style="font-family:幼圆"></span></p>
-<ol>
-<li>三星这样分层的理由是s3c系列的soc具有一定的共通性, plat-实现了一些较通用的封装, 这些封装的具体参数一般是宏, 这些宏如寄存器地址可能是在mach-里面被定义;<br></li>
-</ol>
-<p><span style="font-family:幼圆">    linux/arch/arm/plat-s3c24xx/common-smdk.c<br></span></p>
-<p>static struct s3c24xx_led_platdata smdk_pdata_led5 = {</p>
-<pre><code>        .gpio        = S3C2410_GPF5,
-        .flags       = S3C24XX_LEDF_ACTLOW | S3C24XX_LEDF_TRISTATE,
-        .name        = &quot;led5&quot;,
-        .def_trigger    = &quot;nand-disk&quot;,
-    };
-</code></pre><p>linux/include/asm-arm/arch-s3c2410/regs-gpio.h</p>
-<p>#define S3C2410_GPF5        S3C2410_GPIONO(S3C2410_GPIO_BANKF, 5)</p>
-<p><span style="font-family:幼圆"></span></p>
-<ol>
-<li>原则上是把所有s3c系列共同的东西放在    plat-里面去, 具体的io或者比较有mach-特色的部分放到mach-里面;<br></li>
-</ol>
-<p><span style="font-family:幼圆">    改板时, 实际上大多是直接在mach-里面增删自己的功能. (不按三星预设方案的改动除外)<br></span></p>
-<p><span style="font-family:幼圆">    plat里面需要动的相对更少, 不过在linux/arch/arm/plat-s3c24xx/common-smdk.c里面, 我们可以根据实际情形来分配nand的分区(修改static struct mtd_partition smdk_default_nand_part[] );<br></span></p>
-<p><span style="font-family:幼圆">3. 编译时,一般只会选中一个特定的mach-, mach-会调用plat-的功能具体实现平台的资源和设备初始化.<br></span></p>
-<h2 id="MACHINE-START"><a href="#MACHINE-START" class="headerlink" title="MACHINE_START"></a><span style="font-family:幼圆">MACHINE_START</span></h2><p></p>
-<p><span style="font-family:幼圆"><br>以mach-s3c2440/mach-smdk2440.c 为例：<br></span></p>
-<p><span style="font-family:幼圆">MACHINE_START(S3C2440, “SMDK2440”)<br></span></p>
-<p><span style="font-family:幼圆">    /<em> Maintainer: Ben Dooks &lt;ben@fluff.org&gt; </em>/<br></span></p>
-<p><span style="font-family:幼圆">    .phys_io    = S3C2410_PA_UART,<br></span></p>
-<p><span style="font-family:幼圆">    .io_pg_offst    = (((u32)S3C24XX_VA_UART) &gt;&gt; 18) &amp; 0xfffc,<br></span></p>
-<p><span style="font-family:幼圆">    .boot_params    = S3C2410_SDRAM_PA + 0x100,<br></span></p>
-<p><span style="font-family:幼圆">    .init_irq        = s3c24xx_init_irq,<br></span></p>
-<p><span style="font-family:幼圆">    .map_io    = smdk2440_map_io,<br></span></p>
-<p><span style="font-family:幼圆">    .<span style="color:red">init_machine</span>    = smdk2440_machine_init,<br></span></p>
-<p><span style="font-family:幼圆">    .timer        = &amp;s3c24xx_timer,<br></span></p>
-<p><span style="font-family:幼圆">MACHINE_END<br></span></p>
-<p><span style="font-family:幼圆"><span style="color:red">start_kernel</span>里setup_arch：<br></span></p>
-<p><span style="font-family:幼圆">mdesc = setup_machine(machine_arch_type);<br></span></p>
-<p><span style="font-family:幼圆">init_arch_irq = mdesc-&gt;init_irq;<br></span></p>
-<p><span style="font-family:幼圆">system_timer = mdesc-&gt;timer;<br></span></p>
-<p><span style="font-family:幼圆">init_machine = mdesc-&gt;init_machine;<br></span></p>
-<p><span style="font-family:幼圆">mdesc 即是我们定义的machine type，这个结构体里我们定义的借口调用顺序如下：<br></span></p>
-<p><span style="font-family:幼圆">mdesc-&gt;fixup()；          //setup_arch调用<br></span></p>
-<p><span style="font-family:幼圆">mdesc-&gt;map_io()；         //setup_arch-》paging_init-》devicemaps_init<br></span></p>
-<p><span style="font-family:幼圆">init_arch_irq；           //start_kernel-》init_IRQ<br></span></p>
-<p><span style="font-family:幼圆">system_timer-&gt;init();        //start_kernel-》time_init<br></span></p>
-<p><span style="font-family:幼圆"><span style="color:red">init_machine</span>;             //arch_initcall<br></span></p>
-<p><span style="font-family:幼圆">通过本文可以体会到，对于内核，移植它改造它有难度呀。<br></span></p>
-<p><span style="font-family:幼圆">会裸板驱动、会写bootloader只是基础。<br></span></p>
-<p><span style="font-family:幼圆">还要熟悉内核代码，真是上知系统、应用，下知硬件、驱动。<br></span></p>
-<p><span style="font-family:幼圆">参考资料：<br></span></p>
-<p><span style="font-family:幼圆">[console] early printk实现流程<br></span></p>
-<p><a href="http://blog.csdn.net/ooonebook/article/details/52654120" target="_blank" rel="external"><span style="font-family:幼圆">http://blog.csdn.net/ooonebook/article/details/52654120</span></a><span style="font-family:幼圆"><br>                </span></p>
-<p><span style="font-family:幼圆">linux2.6中的console_init初始化的研究<br></span></p>
-<p><a href="http://blog.csdn.net/breeze_vickie/article/details/5563375" target="_blank" rel="external"><span style="font-family:幼圆">http://blog.csdn.net/breeze_vickie/article/details/5563375</span></a><span style="font-family:幼圆"><br>                </span></p>
-<p><span style="font-family:幼圆">linux下tty，控制台，虚拟终端，串口，console（控制台终端）详解<br></span></p>
-<p><a href="http://blog.csdn.net/liaoxinmeng/article/details/5004743" target="_blank" rel="external"><span style="font-family:幼圆">http://blog.csdn.net/liaoxinmeng/article/details/5004743</span></a><span style="font-family:幼圆"><br>                </span></p>
-<p><span style="font-family:幼圆">【原创】s3c2440内核启动时如何注册串口为终端设备<br></span></p>
-<p><a href="http://blog.sina.com.cn/s/blog_70ef2ee90100zc4z.html" target="_blank" rel="external"><span style="font-family:幼圆">http://blog.sina.com.cn/s/blog_70ef2ee90100zc4z.html</span></a><span style="font-family:幼圆"><br>                </span></p>
-
+      1. 
+    # U-BOOT概况总结 
+     1. 启动代码为start.S
+     2. 由于u-boot为裸板上第一个程序，所以要初始化各个外设，由于u-boot已经初始化了，包括：中断禁用、分配动态内存、初始化BBS区域、初始化页目录、打开
+      
+        <div class="readmore">
+          <a href="/EMBEDDED/arm环境u-boot功能和linux启动过程.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -716,7 +604,21 @@ ldr pc, =arm_main              /*执行main函数*/
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span style="font-family:幼圆; font-size:12pt">工业以太网与CAN总线的比较(2008-07-19 20:49:20)<br></span></p>
+      工业以太网与CAN总线的比较(2008-07-19 20:49:20)
+
+
+2008-07-23 10:45
+
+
+
+
+1. 工业以太网的优势及存在问题
+
+
+(1)优势
+
+
+基于TCP / IP的以太网是一种标准开放式的网络,由其组成的系统兼容性和互操作性好
       
         <div class="readmore">
           <a href="/EMBEDDED/CAN与以太网区别.html" class="flat-box">
@@ -814,7 +716,17 @@ ldr pc, =arm_main              /*执行main函数*/
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><strong>gns3对支持三层交换机并不完善。但也可以模拟。</strong></p>
+      gns3对支持三层交换机并不完善。但也可以模拟。
+
+以C3640为例，需要添加NM-16ESW交换模块端口。
+
+添加vlan需在vlan database模式下。
+
+查看为show vlan-switch
+
+如果交换端口直接连接的为PC，
+
+则需要在端口模
       
         <div class="readmore">
           <a href="/EMBEDDED/gns3_C3640模拟三层交换机.html" class="flat-box">
@@ -912,7 +824,11 @@ ldr pc, =arm_main              /*执行main函数*/
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><a href="http://www.cnblogs.com/jinmu190/archive/2011/03/21/1990698.html" target="_blank" rel="external">http://www.cnblogs.com/jinmu190/archive/2011/03/21/1990698.html</a><br>1. 首先下载qemu for mini2440<br>
+      http://www.cnblogs.com/jinmu190/archive/2011/03/21/1990698.html
+1. 首先下载qemu for mini2440
+
+
+git clone git://repo.or.cz/qemu/mini2
       
         <div class="readmore">
           <a href="/EMBEDDED/使用qemu 建立mini2440的模拟仿真环境.html" class="flat-box">
@@ -1010,8 +926,10 @@ ldr pc, =arm_main              /*执行main函数*/
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span style="color:#222222; font-family:Arial; font-size:13pt"><strong>Introduction
-</strong></span><br>
+      Introduction
+
+
+As we know, VRF (Virtual Routing and Forwarding on Switch) and Linux Network Name Space (on Linux hosts) can be u
       
         <div class="readmore">
           <a href="/EMBEDDED/vrf-linux-network-name-space.html" class="flat-box">
@@ -1109,7 +1027,10 @@ ldr pc, =arm_main              /*执行main函数*/
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span style="font-family:幼圆">转：<a href="http://blog.csdn.net/dog250/article/details/26147357" target="_blank" rel="external">http://blog.csdn.net/dog250/article/details/26147357</a><br>        </span></p>
+      转：http://blog.csdn.net/dog250/article/details/26147357
+
+
+上周有厂商到公司测试，拿了一块据说很猛的网络处理加速PCIe板卡，拎在手里沉甸甸的很有分量，最让人意淫的是那4个万兆光口，于是我迫不及待的想要
       
         <div class="readmore">
           <a href="/EMBEDDED/linux上通过netns创建vrf模拟MCE设备.html" class="flat-box">
@@ -1207,7 +1128,9 @@ ldr pc, =arm_main              /*执行main函数*/
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>一提到辐射，大家的第一反应就是怕！手机有辐射、电脑有辐射、安检门有辐射、高压电也有辐射！电脑辐射会致癌、手机放床头会长脑瘤、辐射会引发痴呆……这些有关辐射危害的流言不胫而走，让人闻之色变。</p>
+      一提到辐射，大家的第一反应就是怕！手机有辐射、电脑有辐射、安检门有辐射、高压电也有辐射！电脑辐射会致癌、手机放床头会长脑瘤、辐射会引发痴呆……这些有关辐射危害的流言不胫而走，让人闻之色变。
+
+其实，自然界中的所有物质，只要其温度高于绝对零度0K（即-273
       
         <div class="readmore">
           <a href="/EMBEDDED/手机、电脑辐射比太阳光安全.html" class="flat-box">
@@ -1305,7 +1228,23 @@ ldr pc, =arm_main              /*执行main函数*/
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span style="color:black; font-size:12pt"><span style="font-family:宋体">如果你累了，請看這</span><span style="font-family:Arial"> 9</span><span style="font-family:宋体">張圖！</span><span style="font-family:Arial"><br>            </span></span></p>
+      如果你累了，請看這 9張圖！
+
+
+特別是最後一張…
+
+
+繼續看下去…
+
+
+ 1. 人的一切痛苦，本質上都是，對自己無能的憤怒！
+    
+    
+            </span>
+    
+    
+    
+ 2. 只有經歷最痛苦的堅持，才配得上
       
         <div class="readmore">
           <a href="/EMBEDDED/記住一句話：「越努力，越幸運」！如果你累了，請看這 9張圖！特別是最後一張....html" class="flat-box">

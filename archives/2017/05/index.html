@@ -307,7 +307,21 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span style="color:#222222; font-size:18pt"><strong><span style="font-family:Arial">macvlan </span><span style="font-family:宋体">简介</span><span style="font-family:Arial"><br>                </span></strong></span><br>
+      macvlan 简介
+
+
+
+macvlan 是 linux kernel 比较新的特性，可以通过以下方法判断当前系统是否支持：
+
+
+$ modprobe macvlan
+
+
+$ lsmod | grep macvlan
+
+
+ macvlan 19046
+0
       
         <div class="readmore">
           <a href="/EMBEDDED/linux 网络虚拟化： macvlan.html" class="flat-box">

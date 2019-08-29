@@ -301,7 +301,8 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span style="font-size:12pt"><span style="color:black"><span style="font-family:Arial; background-color:white"> </span><span style="font-family:宋体; background-color:white">如何同时同时使用动态和静态库链接，在</span><span style="font-family:Arial; background-color:white">GCC</span><span style="font-family:宋体; background-color:white">指令参数中具体参数如下：</span><span style="font-family:Arial"><span style="background-color:white"> </span><br><span style="background-color:white">    </span></span><span style="font-family:宋体; background-color:white">－</span><span style="font-family:Arial"><span style="background-color:white">Wl,-Bstatic -L/usr/local/sqlite-arm-linux/.libs -lsqlite -Wl,-Bdynamic -L/usr/local/arm/3.3.2/lib </span><br><span style="background-color:white">  </span><br><span style="background-color:white"> </span></span><span style="font-family:宋体; background-color:white">具体用途解释：</span><span style="font-family:Arial; background-color:white">sqlite</span><span style="font-family:宋体; background-color:white">库静态连接，其它库动态连接。</span><span style="font-family:Arial"><span style="background-color:white"> </span><br></span><span style="font-family:宋体; background-color:white">－</span><span style="font-family:Arial; background-color:white">Wl,-Bstatic </span><span style="font-family:宋体; background-color:white">与</span><span style="font-family:Arial; background-color:white">-Wl,-Bdynamic</span><span style="font-family:宋体; background-color:white">参数，从字面意义上可以理解，有静态和动态的意思，但是具体的真正规则在查找了</span><span style="font-family:Arial; background-color:white">GCC</span><span style="font-family:宋体; background-color:white">的原版手册上有说明。</span><span style="font-family:Arial"><span style="background-color:white"> </span><br><span style="background-color:white">  </span><br></span><span style="font-family:宋体; background-color:white">原文：</span><span style="font-family:Arial"><span style="background-color:white"> </span><br><span style="background-color:white">Note - if the linker is being invoked indirectly, via a compiler driver (eg gcc) then all the linker command line options should be prefixed by -Wl, (or whatever is appropriate for the particular compiler driver) like this: </span><br></span></span><span style="font-family:宋体"><br>            </span></span></p>
+      如何同时同时使用动态和静态库链接，在GCC指令参数中具体参数如下： 
+－Wl,-Bstatic -L/usr/local/sqlite-arm-linux/.libs -lsqlite -Wl,-Bdynamic -L/usr/local/arm/3.3.
       
         <div class="readmore">
           <a href="/EMBEDDED/GCC中同时使用动态和静态库链接的编译.html" class="flat-box">
@@ -399,7 +400,13 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span style="color:#333333; font-family:宋体; font-size:10pt">RPF,reverse path forwarding.<br></span></p>
+      RPF,reverse path forwarding.
+
+
+是组播转发的一个重要基础。只有当RPF检测成功以后，组播流量才能正确的在网络中进行转发。
+
+
+当在baidu或者google里面查询关键字 “CISCO RPF检测机制和工作原理”,我们会轻易得
       
         <div class="readmore">
           <a href="/EMBEDDED/CISCO组播RPF逆向路径转发实验原理.html" class="flat-box">
@@ -497,7 +504,10 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span style="color:black"><span style="font-size:14pt"><strong> CCNP<span style="font-family:宋体">路由实验之十</span> <span style="font-family:宋体">组播（多播）</span></strong></span><span style="font-family:Arial; font-size:10pt"><br>            </span></span></p>
+      CCNP路由实验之十 组播（多播）
+
+
+ 单播（Unicast）：网络节点之间的通信通讯的模式是”一对一”的，此时信息的接收和传递只在两个节点之间进行。例如，你在收发电子邮件、浏览网页时，必须与邮件服务器、Web服务器建立连接，此时使用的就是单播数据传输方
       
         <div class="readmore">
           <a href="/EMBEDDED/CCNP路由实验之十 组播（多播）.html" class="flat-box">
@@ -595,7 +605,7 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span style="color:#252525; font-family:微软雅黑; font-size:12pt">源特定组播(SSM：Source Specific Multicast)是一种区别于传统组播的新的业务模型，它使用组播组地址和组播源地址同时来标识一个组播会话，而不是向传统的组播服务那样只使用组播组地址来标识一个组播会话。SSM保留了传统PIM-SM模式中的主机显示加入组播组的高效性，但是跳过了PIM-SM模式中的共享树和RP(Rendezvous Point，集合点)规程。在传统PIM-SM模式中，共享树和RP规程使用(<em>，G)组对来表示一个组播会话，其中(G)表示一个特定的IP组播组，而(</em>)表示发向组播组G的任何一个源。SSM直接建立由(S,G)标识的一个组播最短路径树(SPT：Shortest Path Tree)，其中(G)表示一个特定的IP组播组地址，而(S)表示发向组播组G的特定源的IP地址。SSM 的一个(S,G)对也被称为一个频道(Channel)，以区分传统PIM-SM组播中的任意源组播组(ASM：Any Source Multicast).<br></span><br>
+      源特定组播(SSM：Source Specific Multicast)是一种区别于传统组播的新的业务模型，它使用组播组地址和组播源地址同时来标识一个组播会话，而不是向传统的组播服务那样只使用组播组地址来标识一个组播会话。SSM保留了传统PIM-SM模式中
       
         <div class="readmore">
           <a href="/EMBEDDED/PIM-SSM简介.html" class="flat-box">
@@ -693,7 +703,15 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>RouteSploit框架是一款开源的漏洞检测及利用框架，其针对的对象主要为路由器等嵌入式设备。</p>
+      RouteSploit框架是一款开源的漏洞检测及利用框架，其针对的对象主要为路由器等嵌入式设备。
+
+asciicast
+
+框架功能
+
+RouteSploit框架主要由可用于渗透测试的多个功能模块组件组成，
+
+1、 Scanners：模块功能主要为检查目标设
       
         <div class="readmore">
           <a href="/EMBEDDED/路由器漏洞检测及利用框架 RouterSploit.html" class="flat-box">
@@ -791,7 +809,12 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span style="color:#444444; font-family:微软雅黑; font-size:10pt"><span style="background-color:white">PIM是 Protocol Independent Multicast（协议无关组播）的简称，表示可以利用静</span><br><span style="background-color:white">态路由或者任意单播路由协议（包括 RIP、OSPF、IS-IS、BGP等）所生成的单播</span><br><span style="background-color:white">路由表为 IP组播提供路由。</span><br>
+      PIM是 Protocol Independent Multicast（协议无关组播）的简称，表示可以利用静
+态路由或者任意单播路由协议（包括 RIP、OSPF、IS-IS、BGP等）所生成的单播
+路由表为 IP组播提供路由。
+
+
+目前常用PIM为版本号2
       
         <div class="readmore">
           <a href="/EMBEDDED/PIM协议报文种类及功能 (2).html" class="flat-box">
@@ -889,7 +912,9 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>PIM-DM理论知识：<a href="http://www.023wg.com/Multicast/216.html" target="_blank" rel="external">http://www.023wg.com/Multicast/216.html</a></p>
+      PIM-DM理论知识：http://www.023wg.com/Multicast/216.html
+
+PIM-DM网络的所有设备使能了PIM-DM后，就可为用户主机提供任意源组播服务，加入同一组播组的用户主机都能收到任意源发往该组的组播数据。配置PIM-
       
         <div class="readmore">
           <a href="/EMBEDDED/组播PIM-DM配置教程.html" class="flat-box">
@@ -987,8 +1012,12 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><a href="http://www.anandnetwork.com/2011/11/multicast-testing-with-vlc-media-player.html" target="_blank" rel="external">Multicast testing with VLC media player step-step-guide</a></p>
-<p>HI STUDENT<br>
+      Multicast testing with VLC media player step-step-guide
+
+HI STUDENT
+
+
+Today I am doing one practical in which we are doing pract
       
         <div class="readmore">
           <a href="/EMBEDDED/Multicast testing with VLC media player step-step-guide.html" class="flat-box">
@@ -1086,7 +1115,7 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span style="color:black; font-family:宋体; font-size:9pt; text-decoration:underline"> <img src="http://www.madhex.com/wp-content/uploads/2016/05/050816_0018_1.jpg" alt=""><br>        </span></p>
+      曾经听一位朋友说起一件事：一次在餐馆吃饭，看见邻桌的一对情侣在吃饭，其漂亮女友被隔壁桌醉汉吹口哨，男友说：“反正吃完了咱走吧“。女友说：“你怎么这么怂啊！是不是男人！“朋友就说：“犯不上跟流氓较劲“。女友急了，骂完朋友又过去骂那群醉汉，结果醉汉围上来开打，
       
         <div class="readmore">
           <a href="/EMBEDDED/珍惜生命，远离“垃圾人”.html" class="flat-box">
@@ -1184,7 +1213,13 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span style="color:black; font-size:10pt"><span style="font-family:宋体">1</span><span style="font-family:宋体">、命运，一半在上帝那里，一半在自己手里。在你绝望的时候，别忘了一半的命运在自己手里；在你得意忘形的时候，别忘了另一半命运在上帝那里。你一生的努力就是：用你自己手中的一半去获取上帝手中的另一半。这就是命运的一生，这就是一生的命运。</span><span style="font-family:宋体"><br>            </span></span></p>
+      1、命运，一半在上帝那里，一半在自己手里。在你绝望的时候，别忘了一半的命运在自己手里；在你得意忘形的时候，别忘了另一半命运在上帝那里。你一生的努力就是：用你自己手中的一半去获取上帝手中的另一半。这就是命运的一生，这就是一生的命运。
+
+
+
+
+
+2、幸福就是每
       
         <div class="readmore">
           <a href="/EMBEDDED/晚安心语：爱情无需太谨慎，缘，让它来，放它走.html" class="flat-box">

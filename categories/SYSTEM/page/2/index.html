@@ -303,46 +303,20 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><img src="http://yijiebuyi.com/file/171efc85cc4adffd24a7007d07c38bc6" alt="" title="index.png"></p>
-<p>总有一天你会遇到下面的问题.</p>
-<p>(1)改完代码匆忙提交,上线发现有问题,怎么办? 赶紧回滚.</p>
-<p>(2)改完代码测试也没有问题,但是上线发现你的修改影响了之前运行正常的代码报错,必须回滚.</p>
-<p>这些开发中很常见的问题,所以git的取消提交,回退甚至返回上一版本都是特别重要的.</p>
-<p>大致分为下面2种情况:</p>
-<p><strong>1.没有push</strong></p>
-<p>这种情况发生在你的本地代码仓库,可能你add ,commit 以后发现代码有点问题,准备取消提交,用到下面命令</p>
-<p>reset<br>git reset [–soft | –mixed | –hard</p>
-<p>上面常见三种类型</p>
-<p>–mixed</p>
-<p>会保留源码,只是将git commit和index 信息回退到了某个版本.</p>
-<p>git reset 默认是 –mixed 模式<br>git reset –mixed  等价于  git reset</p>
-<p>–soft</p>
-<p>保留源码,只回退到commit 信息到某个版本.不涉及index的回退,如果还需要提交,直接commit即可.</p>
-<p>–hard</p>
-<p>源码也会回退到某个版本,commit和index 都回回退到某个版本.(注意,这种方式是改变本地代码仓库源码)</p>
-<p>当然有人在push代码以后,也使用 reset –hard <commit...> 回退代码到某个版本之前,但是这样会有一个问题,你线上的代码没有变,线上commit,index都没有变,当你把本地代码修改完提交的时候你会发现权是冲突…..</commit...></p>
-<p>所以,这种情况你要使用下面的方式</p>
-<p><strong>2.已经push</strong></p>
-<p>对于已经把代码push到线上仓库,你回退本地代码其实也想同时回退线上代码,回滚到某个指定的版本,线上,线下代码保持一致.你要用到下面的命令</p>
-<blockquote>
-<p>revert</p>
-</blockquote>
-<p>git revert用于反转提交,执行evert命令时要求工作树必须是干净的.</p>
-<p>git revert用一个新提交来消除一个历史提交所做的任何修改.</p>
-<p>revert 之后你的本地代码会回滚到指定的历史版本,这时你再 git push 既可以把线上的代码更新.(这里不会像reset造成冲突的问题)</p>
-<p>revert 使用,需要先找到你想回滚版本唯一的commit标识代码,可以用 git log 或者在adgit搭建的web环境历史提交记录里查看.</p>
-<p>git revert c011eb3c20ba6fb38cc94fe5a8dda366a3990c61</p>
-<p>通常,前几位即可</p>
-<p>git revert c011eb3</p>
-<p>git revert是用一次新的commit来回滚之前的commit，git reset是直接删除指定的commit</p>
-<p>看似达到的效果是一样的,其实完全不同.</p>
-<p>第一:</p>
-<p>上面我们说的如果你已经push到线上代码库, reset 删除指定commit以后,你git push可能导致一大堆冲突.但是revert 并不会.</p>
-<p>第二:</p>
-<p>如果在日后现有分支和历史分支需要合并的时候,reset 恢复部分的代码依然会出现在历史分支里.但是revert 方向提交的commit 并不会出现在历史分支里.</p>
-<p>第三:</p>
-<p>reset 是在正常的commit历史中,删除了指定的commit,这时 HEAD 是向后移动了,而 revert 是在正常的commit历史中再commit一次,只不过是反向提交,他的 HEAD 是一直向前的.</p>
+      总有一天你会遇到下面的问题.
 
+(1)改完代码匆忙提交,上线发现有问题,怎么办? 赶紧回滚.
+
+(2)改完代码测试也没有问题,但是上线发现你的修改影响了之前运行正常的代码报错,必须回滚.
+
+这些开发中很常见的问题,所以git的取消提交,回退甚至返回上一版本
+      
+        <div class="readmore">
+          <a href="/SYSTEM/git reset revert 回退回滚取消提交返回上一版本.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -433,54 +407,18 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <h1 id="Github上怎么修改别人的项目并且提交给原作者！图文并茂！"><a href="#Github上怎么修改别人的项目并且提交给原作者！图文并茂！" class="headerlink" title="Github上怎么修改别人的项目并且提交给原作者！图文并茂！"></a>Github上怎么修改别人的项目并且提交给原作者！图文并茂！</h1><hr>
-<blockquote>
-<p>写这篇博客的初衷，是因为我的项目Only需要一些朋友一起参与进来，但是很多的<a href="http://lib.csdn.net/base/git" title="Git知识库" target="_blank" rel="external">Git</a>都不是很熟练，其实<a href="http://lib.csdn.net/base/git" title="Git知识库" target="_blank" rel="external">版本控制</a>这种东西没有什么难度的，只要稍微掌握以下就好了，如果有兴趣的话也可以到Only这个项目进来</p>
-</blockquote>
-<ul>
-<li>Only:<a href="https://github.com/LiuGuiLinAndroid/Only" target="_blank" rel="external">https://github.com/LiuGuiLinAndroid/Only</a></li>
-</ul>
-<blockquote>
-<p>好的，不多说，直接开车了，我们先简单的找一个项目，比如这个项目，我需要更改他的内容，我们就直接fork这个项目</p>
-</blockquote>
-<p><img src="http://img.blog.csdn.net/20160812184548322" alt="这里写图片描述"></p>
-<blockquote>
-<p>紧接着你就可以看到这个项目已经被你fork了</p>
-</blockquote>
-<p><img src="http://img.blog.csdn.net/20160812184707354" alt="这里写图片描述"></p>
-<blockquote>
-<p>现在我们就可以直接clone下我们自己的项目来了</p>
-</blockquote>
-<p><code class="hljs php has-numbering">git clone xxxx</code></p>
-<blockquote>
-<p>我们clone下来之后就可以更改了，这里我就在说明文件里加一句话：到此一游就好了，紧接着，我们提交</p>
-</blockquote>
-<p><img src="http://img.blog.csdn.net/20160812185041421" alt="这里写图片描述"></p>
-<blockquote>
-<p>到这里，我们就可以在Github上看到我们自己的更新了</p>
-</blockquote>
-<p><img src="http://img.blog.csdn.net/20160812185447413" alt="这里写图片描述"></p>
-<blockquote>
-<p>然后我们点击项目上的Pull request去请求</p>
-</blockquote>
-<p><img src="http://img.blog.csdn.net/20160812185521241" alt="这里写图片描述"></p>
-<blockquote>
-<p>在这里写上我们的更新日志和更改了什么东西，然后点击Create pull request</p>
-</blockquote>
-<p><img src="http://img.blog.csdn.net/20160812185605101" alt="这里写图片描述"></p>
-<blockquote>
-<p>到这里，就没有我们什么事了，我们只要等待作者收到邮件同意我们的更新就好了，那作者哪里做了什么呢？</p>
-<p>当他收到这个请求就会看到</p>
-</blockquote>
-<p><img src="http://img.blog.csdn.net/20160812185656071" alt="这里写图片描述"></p>
-<blockquote>
-<p>只要点击同意，我们的提交就合并到他的代码里去了，就可以看到提交信息了</p>
-</blockquote>
-<p><img src="http://img.blog.csdn.net/20160812185722977" alt="这里写图片描述"></p>
-<blockquote>
-<p>这个时候你的代码就静静的躺在作者的Github里了</p>
-</blockquote>
+      Github上怎么修改别人的项目并且提交给原作者！图文并茂！
 
+
+
+写这篇博客的初衷，是因为我的项目Only需要一些朋友一起参与进来，但是很多的Git都不是很熟练，其实版本控制这种东西没有什么难度的，只要稍微掌握以下就好了，如果有兴趣的话也可以到Only这
+      
+        <div class="readmore">
+          <a href="/SYSTEM/Github上怎么修改别人的项目并且提交给原作者！图文并茂！.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     

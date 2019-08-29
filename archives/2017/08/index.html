@@ -323,52 +323,20 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>注: 多进程时所主要解决的就是进程同步问题。</p>
-<ol>
-<li>进程同步:<br>进程同步的主要任务是对多个相关进程在执行次序上进行协调，以使并发执行的诸进程之间能有效地共享资源和相互合作，从而使程序的执行具有可再现性。</li>
-</ol>
-<h1 id="1-1-进程同步存在的问题"><a href="#1-1-进程同步存在的问题" class="headerlink" title="1.1 进程同步存在的问题:"></a>1.1 进程同步存在的问题:</h1><p>一、两种形式的制约关系</p>
-<ol>
-<li>间接相互制约关系(<strong>存在临界资源需要互斥</strong>)</li>
-<li>直接相互制约关系(<strong>进程存在前后执行顺序</strong>)</li>
-</ol>
-<p>二、产生死锁</p>
-<p>1.产生死锁的原因</p>
-<pre><code>  (1) 竞争资源  
-  (2) 进程间推进顺序非法
-</code></pre><p>2.产生死锁的必要条件</p>
-<pre><code>(1)    互斥条件            (不可预防)
-(2)    请求和保持条件        (可预防)
-(3)    不剥夺条件           (可预防)
-(4)    环路等待条件         (可预防)
-</code></pre><p>3.死锁的类型</p>
-<pre><code>(1)    嵌套型 (即便一个临界资源 也会发生死锁)
-(2)    AB-BA 
-(3)    有待完善！
-</code></pre><h1 id="1-2-解决的方法"><a href="#1-2-解决的方法" class="headerlink" title="1.2 解决的方法:"></a>1.2 解决的方法:</h1><p>一、数据结构:    </p>
-<ol>
-<li><p>信号量:<br>(实现互斥 例: APUE中的14.3 记录锁 15.8 XSI IPC的信号量)</p>
-<pre><code>(1) 整型信号量  
-(2) 记录型信号量  
-(3) AND 型信号量  
-(4) 信号量集 
-</code></pre></li>
-</ol>
-<p>二、算法    :</p>
-<pre><code>1 实现同步:
+      注: 多进程时所主要解决的就是进程同步问题。
 
-    (1) 生产者—消费者问题
-    (2) 哲学家进餐问题
-    (3) 读者—写者问题
+ 1. 进程同步:
+    进程同步的主要任务是对多个相关进程在执行次序上进行协调，以使并发执行的诸进程之间能有效地共享资源和相互合作，从而使程序的执行具有可再现性。
 
-
-2 解决死锁:
-
-    (1) 预防死锁: 破坏产生死锁的必要条件
-    (2) 避免死锁: 利用算法防止进入不安全状态(银行家算法)
-    (3) 检测死锁: 产生死锁后采取适当措施
-    (4) 解除死锁: 产生死锁后撤销挂起某些进程
-</code></pre>
+1.1 进程同步存在的问题:
+一、两种
+      
+        <div class="readmore">
+          <a href="/DEVELOP/编写多进程、线程同步问题总结.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -459,65 +427,20 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <pre><code class="c">#define _XOPEN_SOURCE
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;unistd.h&gt;
-#include &lt;string.h&gt;
-#include &lt;sys/types.h&gt;
-#include &lt;sys/stat.h&gt;
-#include &lt;fcntl.h&gt;
-#include &lt;pty.h&gt;
-
-int main()
-{
-        int fd_m, fd_s;
-        int len;
-        const char *pts_name;
-        char send_buf[64] = &quot;abc\ndefghijk\nlmn&quot;;
-        char recv_buf[64] = {0};
-
-        fd_m = open(&quot;/dev/ptmx&quot;, O_RDWR | O_NOCTTY);
-        if (fd_m &lt; 0) {
-                printf(&quot;open /dev/ptmx fail1\n&quot;);
-                return -1;
-        }
-
-        if (grantpt(fd_m) &lt; 0 || unlockpt(fd_m) &lt; 0) {
-                printf(&quot;grantpt and unlockpt fail\n&quot;);
-                goto err;
-        }
-
-        pts_name = (const char *)ptsname(fd_m);
-        fd_s = open(pts_name, O_RDONLY | O_NOCTTY);
-        if (fd_s &lt; 0) {
-                printf(&quot;open /dev/ptmx fail2\n&quot;);
-                goto err;
-        }
-
-        len = write(fd_m, send_buf, strlen(send_buf));
-        printf(&quot;write len=%d\n&quot;, len);
-
-        len = read(fd_s, recv_buf, sizeof(recv_buf));
-        printf(&quot;read len=%d, recv_buf=[%s]\n&quot;, len, recv_buf);
-
-        len = read(fd_s, recv_buf, sizeof(recv_buf));
-        printf(&quot;read len=%d, recv_buf=[%s]\n&quot;, len, recv_buf);
-
-        close(fd_m);
-        close(fd_s);
-        return 0;
-
-err:
-        if (fd_m)
-                close(fd_m);
-        if (fd_s)
-                close(fd_s);
-
-        return -1;
-}
-</code></pre>
-
+      #define _XOPEN_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
+#inc
+      
+        <div class="readmore">
+          <a href="/DEVELOP/pty示例代码.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -608,605 +531,23 @@ err:
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <h2 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h2><h3 id="pppoe总框架原理"><a href="#pppoe总框架原理" class="headerlink" title="pppoe总框架原理"></a>pppoe总框架原理</h3><p><img src="PPP框架原理.jpg" alt=""></p>
-<h3 id="pptp总框架原理"><a href="#pptp总框架原理" class="headerlink" title="pptp总框架原理"></a>pptp总框架原理</h3><p><img src="pptp原理框架.JPG" alt=""></p>
-<h2 id="ppp可行性分析"><a href="#ppp可行性分析" class="headerlink" title="ppp可行性分析"></a>ppp可行性分析</h2><h3 id="本文介绍"><a href="#本文介绍" class="headerlink" title="本文介绍"></a>本文介绍</h3><p>​    现需要在我们自己公司的4G路由器上移植pptp功能. 4G路由器硬件为mips.本来只需把开源的pptp和pppd编译对应的mips版本即可.但是由于4G路由本身有一套ppp库代码.为了实现软件的优化和可控性,我们想把开源的pptp和我们系统已有的ppp库实现融合. 由于ppp库没有使用手册,并且想要修改pptp实现各种我们需要的定制功能,例:按需拨号,自动重连等功能.我们先需要分析ppp vpn框架原理和ppp代码实现.来完成我们的pptp项目软件设计.</p>
-<h3 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h3><p>​    一 需要捋顺整个ppp相关框架也就是以上框架图,同时还要掌握框架中用到的内核关键结构体和index,应用用到的fd等.</p>
-<p>​    二 需要掌握pppd的协议状态机.</p>
-<h3 id="tty简介"><a href="#tty简介" class="headerlink" title="tty简介"></a>tty简介</h3><p>首先需熟悉tty驱动框架,然后再分析ppp是如何结合tty框架实现的.</p>
-<p>整个 uart 框架大概的样子如上图所示，简单来分的话可以说成两层，一层是下层我们的串口驱动层，它直接与硬件相接触，我们需要填充一个 struct uart_ops 的结构体，另一层是上层 tty 层，包括 tty 核心以及线路规程，它们各自都有一个 Ops 结构，用户空通过间是 tty 注册的字符设备节点来访问，这么说来如上图所示涉及到了4个 ops 结构了，层层跳转。。</p>
-<p><img src="tty驱动框架.gif" alt=""></p>
-<h3 id="ppp内核态tty框架实现代码"><a href="#ppp内核态tty框架实现代码" class="headerlink" title="ppp内核态tty框架实现代码"></a>ppp内核态tty框架实现代码</h3><p>ppp利用了tty中的规程层,实现了通过tty截获与发送数据.</p>
-<p>在PPP驱动程序中, </p>
-<p>每一tty终端设备对应于一条PPP传输通道(channel), </p>
-<p>每一ppp网络设备对应于一个PPP接口单元(unit)</p>
-<h4 id="ppp内核态重要结构体"><a href="#ppp内核态重要结构体" class="headerlink" title="ppp内核态重要结构体"></a>ppp内核态重要结构体</h4><pre><code class="c">struct channel{
-    struct ppp /*包含struct ppp_file而ppp_file中包含index*/
-    struct ppp_channel/*也包含struct channel*/
-} /*generic定义*/
+      概览
+pppoe总框架原理
 
-struct ppp {
-    struct ppp_file    file;
-}/*generic定义*/
 
-struct ppp_file {
-    int index;
-}/*generic定义*/
+pptp总框架原理
 
-struct asyncppp{
-    struct ppp_channel/*包含struct channel找到index*/
-}/*ppp_async定义 ppp_asynctty_open中初始化*/
 
-ppp_asynctty_open初始化了
-{
-    struct asyncppp
-    struct ppp_channel
-    struct channel
-    struct ppp_file
-}
-/*此函数很关键,要掌握如何调用此函数,也就更熟悉pppd初始化原理了*/
-/*ppp_asynctty_open初始化了以上大部分结构体*/
-/*调用此ppp_asynctty_open函数的位置比较隐蔽*/
-/*是在pppd通过ioctl绑定规程时内核函数tty_set_ldisc中调用了此函数*/
-/*以上结构体都初始化好后,pppd就可以通过/dev/ppp绑定channel_id了*/
-</code></pre>
-<h4 id="pppd摘要代码框架"><a href="#pppd摘要代码框架" class="headerlink" title="pppd摘要代码框架"></a>pppd摘要代码框架</h4><pre><code class="c">int main(argc, argv){
-      /*配置参数*/
-      ...
-    magic_init();
-    /* Initialize each protocol.*/
-    for (i = 0; (protp = protocols[i]) != NULL; ++i)
-        (*protp-&gt;init)(0);
-    /*创建虚拟接口*/
-    ppp_available();
-    for (i = 0; (protp = protocols[i]) != NULL; ++i)
-        if (protp-&gt;check_options != NULL)
-            (*protp-&gt;check_options)();
-    if (the_channel-&gt;check_options)
-        (*the_channel-&gt;check_options)();
-      /*进入状态机*/
-    for (;;) {
-          lcp_open(0);        /* Start protocol */
-          start_link(0);
-          while (phase != PHASE_DEAD) {
-        }
-        lcp_close(0, &quot;&quot;);
-    }
-}
-</code></pre>
-<h4 id="ppp框架中的-tty用户层"><a href="#ppp框架中的-tty用户层" class="headerlink" title="ppp框架中的(tty用户层)"></a>ppp框架中的(tty用户层)</h4><pre><code class="c">//在tty_register_device中注册
-</code></pre>
-<h4 id="ppp框架中的-tty核心层"><a href="#ppp框架中的-tty核心层" class="headerlink" title="ppp框架中的(tty核心层)"></a>ppp框架中的(tty核心层)</h4><pre><code class="c">//在注册驱动层中注册的核心层  
-1、为线路规程和termios分配空间，并使 tty_driver 相应的成员指向它们。
-2、注册字符设备，名字是 uart_driver-&gt;name 我们这里是“ttySAC”,文件操作函数集是 tty_fops。
-3、将该 uart_driver-&gt;tty_drivers 添加到全局链表 tty_drivers 。
-4、向 proc 文件系统添加 driver ，这个暂时不了解。
-int tty_register_driver(struct tty_driver *driver)  
-{  
-    tty_register_device(driver, i, NULL);  
-    return 0;  
-}
-</code></pre>
-<h4 id="ppp框架中的-tty规程层"><a href="#ppp框架中的-tty规程层" class="headerlink" title="ppp框架中的(tty规程层)"></a>ppp框架中的(tty规程层)</h4><pre><code class="c">ppp_async.c
-static struct tty_ldisc_ops ppp_ldisc = {
-    .owner  = THIS_MODULE,
-    .magic    = TTY_LDISC_MAGIC,
-    .name    = &quot;ppp&quot;,
-    .open    = ppp_asynctty_open,
-    .close    = ppp_asynctty_close,
-    .hangup    = ppp_asynctty_hangup,
-    .read    = ppp_asynctty_read,
-    .write    = ppp_asynctty_write,
-    .ioctl    = ppp_asynctty_ioctl,
-    .poll    = ppp_asynctty_poll,
-    .receive_buf = ppp_asynctty_receive,
-    .write_wakeup = ppp_asynctty_wakeup,
-};
-
-static int __init
-ppp_async_init(void)
-{
-    /*注册tty规程*/
-    err = tty_register_ldisc(N_PPP, &amp;ppp_ldisc);
-}
-
-/*创建channel*/
-static int ppp_asynctty_open(struct tty_struct *tty)
-{
-
-}
-
-static int ppp_asynctty_ioctl(struct tty_struct *tty, struct file *file,
-           unsigned int cmd, unsigned long arg)
-{
-    switch (cmd) {
-    case PPPIOCGCHAN:   //获取channel
-    case PPPIOCGUNIT:   //
-    case TCFLSH:
-    case FIONREAD:
-    }
-}
-</code></pre>
-<h4 id="ppp框架中的-tty驱动层"><a href="#ppp框架中的-tty驱动层" class="headerlink" title="ppp框架中的(tty驱动层)"></a>ppp框架中的(tty驱动层)</h4><pre><code class="c">pty.c  
-1、根据driver支持的最大设备数，申请n个 uart_state 空间，每一个 uart_state 都有一个 uart_port 。
-2、分配一个 tty_driver ，并将drv-&gt;tty_driver 指向它。
-3、对 tty_driver 进行设置，其中包括默认波特率、校验方式等，还有一个重要的 Ops ，uart_ops ，它是tty核心与我们串口驱动通信的接口。
-4、初始化每一个 uart_state 的 tasklet 。
-5、注册 tty_driver 。
-pty_init()
-{
-    tty_set_operations(pty_driver, &amp;pty_ops);
-    tty_register_driver(pty_driver);
-}
-</code></pre>
-<p>​    </p>
-<pre><code class="c">ppp_register_net_channel() {
-    init_ppp_file(&amp;pch-&gt;file, CHANNEL);
-}
-ppp_create_interface(){
-    init_ppp_file(&amp;ppp-&gt;file, INTERFACE);  
-}
-</code></pre>
-<blockquote>
-<p>ppp只需通过pptp知道一个tty_dev就可以了</p>
-</blockquote>
-<h3 id="pppd配置参数"><a href="#pppd配置参数" class="headerlink" title="pppd配置参数"></a>pppd配置参数</h3><h4 id="pppd相关fd"><a href="#pppd相关fd" class="headerlink" title="pppd相关fd"></a>pppd相关fd</h4><pre><code class="c">    /*/dev/pty/n 1.绑定规程 2.获取chindex 
-    connect_tty中第二创建*/
-    ppp_cfg[unit]-&gt;dev_fd = ppp_info-&gt;ttyfd; 
-
-    /*/dev/ppp CHANNEL 
-    pptp_setup_ppp中第三创建*/
-    ppp_cfg[unit]-&gt;lcp_fd = fd;        
-
-    /*/dev/ppp INTERFACE 
-    make_ppp_unit中第一创建*/
-    ppp_cfg[unit]-&gt;ppp_fd =  ppp_info-&gt;ppp_dev_fd;
-</code></pre>
-<p>​    之所以列出此结构,是因为ppp启动状态机之前的所有初始化都和此配置相关.</p>
-<p>​    我们初始化时可以利用此结构依次初始化.</p>
-<h4 id="pppd相关结构体"><a href="#pppd相关结构体" class="headerlink" title="pppd相关结构体"></a>pppd相关结构体</h4><pre><code class="c">/*我们自己定义用于保存ppp配置*/
-struct pptp_ppp_channel
-{
-    int ppp_dev_fd;    
-    int ifunit;            /* Interface unit number */
-    int ioctl_fd;            /*for ioctl*/
-    struct thread *cdma_rth;
-    struct thread *cdma_idle_tth;
-    struct thread *at_rth;
-    struct thread *at_tth;
-    struct thread *auto_down_dial;
-    list pkt_list;
-    int ttyfd;
-    int state;
-    char user[256];    /* Username for authentication */
-    char passwd[256];    /* Password for authentication */
-    struct prefix_ipv4 local_addr;
-    u8     distance;
-    u8     weight;
-    u8     gateway;
-    u8     dns;
-    int idle_time;
-};
-/*pppd状态机用到的结构体*/
-struct ppp_info
-{
-    int unit;
-    int dev_fd;
-    int lcp_fd;
-    int ppp_fd;
-    int remote_id;
-    char    *user;    /* Username for authentication */
-    char    *passwd;    /* Password for authentication */
-    char *ifname;
-    char attach_inter[16];
-    unsigned char distance;
-    unsigned char weight;
-    unsigned char gateway;
-    unsigned char dns;
-    unsigned char auth;
-    unsigned char auth_type;
-    unsigned char down_flag;    
-    unsigned int unique;
-    unsigned int dns_value;
-    unsigned int wins_value;
-    char usergrp[MAXNAMELEN];
-    struct prefix_ipv4 localaddr;
-    unsigned int peer_address;//tunnip
-    int lcp_detect_interval_time;        
-    int lcp_detect_lost_times;        
-    struct thread * lcp_thread;
-    struct thread * ipcp_rthread;
-    void *conn;
-    void *priv_data;
-    int natid;
-    int mtu;
-    Ppp_if_type iftype;
-    int (*manage_auto_down) (char *ifname);
-    int (*ipcp_up_cb) (struct ppp_cb_info *cb_info);
-    int (*ipcp_down_cb) (struct ppp_cb_info *cb_info);
-    int (*lcp_auth) (char *name, char *group, char *password, unsigned char *challenge, int unit, int type);
-    int (*check_rqci)(__u32 addr);
-};
-</code></pre>
-<h3 id="pppd协议初始化原理代码"><a href="#pppd协议初始化原理代码" class="headerlink" title="pppd协议初始化原理代码"></a>pppd协议初始化原理代码</h3><h4 id="pppd对tty做规程绑定"><a href="#pppd对tty做规程绑定" class="headerlink" title="pppd对tty做规程绑定"></a>pppd对tty做规程绑定</h4><pre><code class="c">/* The PPP discpline */
-static int ppp_disc = N_PPP;    
-
-int tty_establish_ppp (int devfd)
-{
-    /*绑定tty规程*/
-    if (ioctl(devfd, TIOCSETD, &amp;ppp_disc) &lt; 0)
-    ret_fd = generic_establish_ppp(devfd);
-}
-</code></pre>
-<h4 id="pppd绑定对应pty-chindex"><a href="#pppd绑定对应pty-chindex" class="headerlink" title="pppd绑定对应pty_chindex"></a>pppd绑定对应pty_chindex</h4><pre><code class="c">//例
-void start_link(unit)
-{
-    /*调用connect_tty*/
-    devfd = the_channel-&gt;connect();
-    /*调用tty_establish_ppp*/
-    fd_ppp = the_channel-&gt;establish_ppp(devfd);
-}
-
-int connect_tty()
-{
-    /*char ppp_devnam[MAXPATHLEN]; //name of PPP tty*//
-    get_pty(&amp;pty_master, &amp;pty_slave, ppp_devnam, uid);
-    return pty_slave;
-}
-
-int tty_establish_ppp (int tty_fd)
-{
-    /*对tty做规程绑定*/
-    if (ioctl(devfd, TIOCSETD, &amp;ppp_disc) &lt; 0)
-    /*通过/dev/ppp设置channel*/
-    ret_fd = generic_establish_ppp(tty_fd);
-}
-int generic_establish_ppp (int devfd)
-{
-    /*通过/dev/pty/n获取channel id*/
-    if (ioctl(devfd, PPPIOCGCHAN, &amp;chindex) == -1)
-    /*打开&quot;/dev/ppp&quot;*/
-    fd = open(&quot;/dev/ppp&quot;, O_RDWR)
-    /*设置channel 到/dev/ppp*/
-    if (ioctl(fd, PPPIOCATTCHAN, &amp;chindex) &lt; 0)
-}
-</code></pre>
-<h4 id="pppd协议发送接口初始化"><a href="#pppd协议发送接口初始化" class="headerlink" title="pppd协议发送接口初始化"></a>pppd协议发送接口初始化</h4><pre><code class="c">static int make_ppp_unit(struct cdma_ppp_channel *ppp_info)
-{
-    ppp_dev_fd = open(&quot;/dev/ppp&quot;, O_RDWR);
-    x = ioctl(ppp_dev_fd, PPPIOCNEWUNIT, &amp;req);
-      ppp_info-&gt;ppp_dev_fd = ppp_dev_fd;
-}
-
-int cdma_setup_ppp(struct cdma_ppp_channel *ppp_info)
-{
-      fd = open(&quot;/dev/ppp&quot;, O_RDWR);
-    if (ioctl(fd, PPPIOCATTCHAN, &amp;chindex);
-    if (ioctl(fd, PPPIOCCONNECT, &amp;ppp_info-&gt;ifunit);
-
-    ppp_cfg[unit]-&gt;dev_fd = ppp_info-&gt;ttyfd;
-    ppp_cfg[unit]-&gt;lcp_fd = fd;
-    ppp_cfg[unit]-&gt;ppp_fd = ppp_info-&gt;ppp_dev_fd;
-}
-
-void output (int unit, unsigned char *p, int len)
-{
-  int fd = ppp_cfg[unit]-&gt;lcp_fd;
-
-  if (ppp_cfg[unit]-&gt;ppp_fd &gt;= 0 &amp;&amp; !(proto &gt;= 0xc000 || proto == PPP_CCPFRAG))
-        fd = ppp_cfg[unit]-&gt;ppp_fd;
-
-  if (write(fd, p, len) &lt; 0)
-}
-</code></pre>
-<h3 id="pppd协议-转状态机原理"><a href="#pppd协议-转状态机原理" class="headerlink" title="pppd协议/转状态机原理"></a>pppd协议/转状态机原理</h3><h4 id="pppd状态机框图"><a href="#pppd状态机框图" class="headerlink" title="pppd状态机框图"></a>pppd状态机框图</h4><p><img src="ppp状态机.jpeg" alt=""></p>
-<p><img src="ppp协商.jpeg" alt=""></p>
-<h4 id="pppd状态机启动代码"><a href="#pppd状态机启动代码" class="headerlink" title="pppd状态机启动代码"></a>pppd状态机启动代码</h4><pre><code class="c">int cdma_setup_ppp(struct cdma_ppp_channel *ppp_info){
-    magic_init();
-    for (i = 0; (protp = protocols[i]) != NULL; ++i)
-        (*protp-&gt;init)(unit);
-    new_phase(unit,PHASE_ESTABLISH);
-    lcp_lowerup(unit);
-    lcp_open(unit);        /* Start protocol */
-    ppp_cfg[unit]-&gt;lcp_thread = thread_add_read(master, pppd_read, (void *)unit, fd);
-    ppp_cfg[unit]-&gt;ipcp_rthread = thread_add_read(master, pppd_read, (void *)unit,  ppp_info-&gt;ppp_dev_fd);
-}
-</code></pre>
-<h4 id="pppd协议发包流程"><a href="#pppd协议发包流程" class="headerlink" title="pppd协议发包流程"></a>pppd协议发包流程</h4><pre><code class="c">//ppp_generic.c
-//ppp_xmit_process 通过虚拟网口
-//ppp_channel_push 通过tty
-
-switch (cmd) {
-case PPPIOCNEWUNIT:
-ppp = ppp_create_interface(net, unit, &amp;err);
-file-&gt;private_data = &amp;ppp-&gt;file;
-}
-ppp_write(){
-struct ppp_file *pf = file-&gt;private_data;
-switch (pf-&gt;kind) {
-case INTERFACE:
-    ppp_xmit_process(PF_TO_PPP(pf));
-    break;
-case CHANNEL:
-    ppp_channel_push(PF_TO_CHANNEL(pf));
-    break;
-}
-</code></pre>
-<h4 id="虚拟网口发包流程"><a href="#虚拟网口发包流程" class="headerlink" title="虚拟网口发包流程"></a>虚拟网口发包流程</h4><pre><code>ppp_start_xmit-&gt;ppp_xmit_process-&gt;
-ppp_push调用pch-&gt;chan-&gt;ops-&gt;start_xmit发送数据包。    
-ppp_asynctty_open中注册的ppp_async_send函数，    
----规程层---
-ppp_async_send经ppp_async_push函数调用
-tty-&gt;driver-&gt;write把数据发送串口
----驱动层---
-pty_ops
-</code></pre><p>例如:tty-&gt;driver-&gt;write为pty_ops中的write   </p>
-<pre><code class="c">//注:其中pty-master可以理解为tty硬件层
-//内核中pty.c 设置驱动层操作函数
-pty_init()
-{
-    tty_set_operations(pty_driver, &amp;pty_ops);
-}
-//pppd为以上pty和disc做了绑定
-//也就是驱动层到规程层关联
-int tty_establish_ppp (int devfd)
-{
-    /*绑定tty规程*/
-    if (ioctl(devfd, TIOCSETD, &amp;ppp_disc) &lt; 0)
-    ret_fd = generic_establish_ppp(devfd);
-}
-//其中channel_id为以上操作标识
-</code></pre>
-<h4 id="ppp-channel-push-PF-TO-CHANNEL-pf"><a href="#ppp-channel-push-PF-TO-CHANNEL-pf" class="headerlink" title="ppp_channel_push(PF_TO_CHANNEL(pf))"></a>ppp_channel_push(PF_TO_CHANNEL(pf))</h4><pre><code>        ppp = ppp_create_interface(net, unit, &amp;err);
-        if (!ppp)
-            break;
-        file-&gt;private_data = &amp;ppp-&gt;file;
-</code></pre><h4 id="ppp-xmit-process-PF-TO-PPP-pf"><a href="#ppp-xmit-process-PF-TO-PPP-pf" class="headerlink" title="ppp_xmit_process(PF_TO_PPP(pf))"></a>ppp_xmit_process(PF_TO_PPP(pf))</h4><pre><code>        ppp = ppp_create_interface(net, unit, &amp;err);
-        if (!ppp)
-            break;
-        file-&gt;private_data = &amp;ppp-&gt;file;
-</code></pre><p>ppp_设置网口ip</p>
-<h2 id="pptp原理与设计"><a href="#pptp原理与设计" class="headerlink" title="pptp原理与设计"></a>pptp原理与设计</h2><p>值得一提的是 ppp的LCP协商Configure-Request,是在pptp中发的.</p>
-<pre><code class="c">数据结构:
-pptp_cfg
-{
-    int instance_id;
-    int gre_fd;
-    int tty_fd;
-    int call_id;
-    int peer_call_id;
-    char username[];
-    char password[];
-}
-操作函数:
-启动
-1. 创建gre_fd
-2. 创建tty_fd;
-3. 通过pptp协商获取call_id
-4. 启动gre_copy线程
-5. 执行ppp协商,创建虚拟接口
-关闭
-1. 协商断开ppp连接, 协商断开pptp连接.
-2. 关闭虚拟接口
-2. gre_copy通过pptp_cfg标记退出线程并释放对应pptp_cfg
-</code></pre>
-<h2 id="PPTP模块简易软件设计"><a href="#PPTP模块简易软件设计" class="headerlink" title="PPTP模块简易软件设计"></a>PPTP模块简易软件设计</h2><ol>
-<li>改造PPTP</li>
-<li>初始化PPPD相关设置</li>
-<li>启动PPPD状态机</li>
-</ol>
-<h2 id="PPTP软件设计方案"><a href="#PPTP软件设计方案" class="headerlink" title="PPTP软件设计方案"></a>PPTP软件设计方案</h2><h3 id="多实例原理与设计"><a href="#多实例原理与设计" class="headerlink" title="多实例原理与设计"></a>多实例原理与设计</h3><p>考虑多实例, 可以把每个实例运行一个线程. </p>
-<ol>
-<li><p>多线程问题,就要考虑:<br><strong>全局变量</strong> <strong>互斥条件</strong> <strong>执行顺序</strong> <strong>信号</strong> 等.<br>pptp 本身是多进程实现多个连接,<br>所以想要多线程实现多个连接, 还需解决变量问题.  </p>
-</li>
-<li><p>也可以用多进程实现多实例<br>但是又要考虑控制进程时,需要进程间通信.  </p>
-</li>
-<li><p>多进程合并为线程和合并pppd需要考虑信号, 输入输出等问题.</p>
-</li>
-</ol>
-<p>pptp 完成二层点对点通道<br>ppp 完成三层ip通道</p>
-<p>一. 完成pppd和pptp的整合, 使pptp可以和pppd.a编译在一起运行.  </p>
-<pre><code>    1.分析pppd原理.  
-        包含:pppd 利用/dev/ppp0字符设备,通过内核到pptp_gre. 
-        这需要分析内核的实现.  
-    2.分析pptp原理.
-</code></pre><p>二. 完成pptp初始化和二层点对点环境的建立.</p>
-<p>三. 完成cli的demon融合</p>
-<p>接口描述：</p>
-<pre><code>pptp_init    : 1.初始化pptp默认参数 2.开启ctrl
-pptp_set     : 1.设置定制参数 
-pptp_enable : 1. Ctrl连接, Gre隧道建立, 获取call_id
-              2. 开启ppp任务, 开启copy功能任务
-pptp_disable: 1. 关闭ppp任务, 关闭copy功能 
-</code></pre><pre><code>1. Ctrl连接, Gre隧道断开任务
-     pppd通过字符设备/dev/ppp 和内核通信和发送协商报文
-</code></pre><p>通过以上字符设备实现,发现ppp内核字符设备就一个.<br>如果要多个要注册多个ppp字符设备.<br>并且发送协商报文出口是在字符设备的私有数据段中.</p>
-<p>pppd主要完成功能:<br>1.链路协商<br>2.创建虚拟接口</p>
-<p>链路协商需要提供:</p>
-<p>创建虚拟接口提供:</p>
-<p>pppd输入: 1.pptp参数 2.pptp协商后信息<br>pppd输出: 1.设置虚拟接口</p>
-<ol>
-<li>其中启动ppp任务,pptp需要传入tty_fd相关信息</li>
-</ol>
-<p>pppd接口 </p>
-<ol>
-<li>l2tp_setup_pppd</li>
-<li>establlish_session</li>
-</ol>
-<p>pppd所有配置参数</p>
-<pre><code class="c">typedef struct {
-    char    *name;        /* name of the option */
-    enum opt_type type;
-    void    *addr;
-    char    *description;
-    unsigned int flags;
-    void    *addr2;
-    int    upper_limit;
-    int    lower_limit;
-    const char *source;
-    short int priority;
-    short int winner;
-} option_t;
-</code></pre>
-<p>pppd中的ppp_main.c<br>中的main函数改为ppp_setup只是避免main冲突和做参考,并没有用.</p>
-<p>真正的pppd启动函数在l2tp中模仿之前的main函数改为l2pd_pppox.c中<strong>l2tp_setup_pppd</strong></p>
-<p>l2tp_peer 是用来和对端通信的接口</p>
-<p>ppp_ioctl  配置了ppp_channel *chan<br>ppp_write  </p>
-<p>移植<br>l2tp_ppp(sync_pppd) -&gt; pptp_ppp<br>l2tp_pppox -&gt; pptp_pppox   </p>
-<h3 id="命令行原理与设计"><a href="#命令行原理与设计" class="headerlink" title="命令行原理与设计"></a>命令行原理与设计</h3><p>如果需要多实例,则全局pptp配置连接 pptp守护进程.</p>
-<p>守护进程只负责创建实例删除实例.</p>
-<h3 id="实现方案"><a href="#实现方案" class="headerlink" title="实现方案"></a>实现方案</h3><h4 id="第一阶段-开源验证"><a href="#第一阶段-开源验证" class="headerlink" title="第一阶段: 开源验证"></a>第一阶段: 开源验证</h4><p>​    实现pptp, pppd分离启动<br>​    /<em>唯一需要修改的是pptp在pty_read地方,<br>​    发现pppd为启动则continue</em>/<br>​    pptp 和pppd 开源独立测试<br>​    ./pptp 192.168.2.12<br>​    ./pppd /dev/pts/2 unit 1 user test@hfdzzp.vpdn.zj password test135</p>
-<h4 id="第二阶段-简单demo"><a href="#第二阶段-简单demo" class="headerlink" title="第二阶段: 简单demo"></a>第二阶段: 简单demo</h4><p>​    实现pptp融合我们系统中的pppd库<br>​    /<em>实现简单的demo, 只是能ping通即可</em>/<br>​    /<em>在测试中发现 必须以协议的方式下发ip,<br>​    不能以以下方式设置,还不知道有何区别</em>/<br>​    ifconfig pptp0 up<br>​    ifconfig pptp0 192.168.210.10   //此方法配置ip不可行 必须以api的方式配置<br>​    route add -net 192.168.210.0 netmask 255.255.255.0 pptp0</p>
-<h4 id="第三阶段-设计方案"><a href="#第三阶段-设计方案" class="headerlink" title="第三阶段: 设计方案"></a>第三阶段: 设计方案</h4><p>​    继续分析ppp相关代码,实现优化方案</p>
-<p>​    多实例?</p>
-<h4 id="第四阶段-实现代码"><a href="#第四阶段-实现代码" class="headerlink" title="第四阶段: 实现代码"></a>第四阶段: 实现代码</h4><h4 id="第五阶段-测试功能"><a href="#第五阶段-测试功能" class="headerlink" title="第五阶段: 测试功能"></a>第五阶段: 测试功能</h4><h2 id="还未掌握内容"><a href="#还未掌握内容" class="headerlink" title="还未掌握内容"></a>还未掌握内容</h2><ol>
-<li>unit /channel_id / struct ppp /struct ppp_file 等千丝万缕的关系.</li>
-</ol>
-<p>pppd初始化流程start_link</p>
-<p>第一步: 通过connect_tty拿到pty_client_fd</p>
-<p>第二步: 通过tty_establish_ppp做规程绑定</p>
-<p>callmgr_main-&gt;pptp_dispatch-&gt;pptp_handle_timer</p>
-<p>断开后 应该退出pptp_ctrl进程 和 ppp线程</p>
-<p>断开重连 应该再次pptp协商 和ppp协商</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考:"></a>参考:</h2><p>​    <a href="http://blog.csdn.net/lizuobin2/article/details/51773305" target="_blank" rel="external">tty初探—uart驱动框架分析</a></p>
-<p>​    <a href="http://blog.csdn.net/wt0427/article/details/7761163" target="_blank" rel="external">Linux PPP详细介绍</a></p>
-<p>​    <a href="http://linux.chinaunix.net/techdoc/system/2008/11/07/1043935.shtml" target="_blank" rel="external">Linux PPP 数据收发流程</a></p>
-
+ppp可行性分析
+本文介绍
+​ 现需要在我们自己公司的4G路由器上移植pptp功能. 4G路由器硬件为mips.本来只需把开源的pptp和pppd编译对应的mips版本即可.但是由于4G路由本身有一套
       
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/NETWORK/linux 下创建GRE隧道.html">
-      linux 下创建GRE隧道
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-15</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/NETWORK/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>NETWORK</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p>其他国家的互联网如同一个孤岛。要想访问国外网站异常的缓慢，甚至被和谐了。可以建立一条隧道来避免这种情况，下面说说GRE隧道如何建立。</p>
-<ol>
-<li>GRE介绍<br>GRE隧道是一种IP-over-IP的隧道，是通用路由封装协议，可以对某些网路层协议的数据报进行封装，使这些被封装的数据报能够在IPv4/IPv6 网络中传输。<br>Tunnel 是一个虚拟的点对点的连接，提供了一条通路使封装的数据报文能够在这个通路上传输，并且在一个Tunnel 的两端分别对数据报进行封装及解封装。　一个X协议的报文要想穿越IP网络在Tunnel中传输，必须要经过加封装与解封装两个过程。<br>要在Linux上创建GRE隧道，需要ip_gre内核模块，它是GRE通过IPv4隧道的驱动程序。</li>
-<li>查看是否有加载ip_gre模块<pre><code># modprobe ip_gre
-# lsmod | grep gre
-ip_gre                 22432  0
-gre                    12989  1 ip_gre
-# modprobe ip_gre
-# lsmod | grep gre
-ip_gre                 22432  0
-gre                    12989  1 ip_gre
-</code></pre></li>
-<li>创建步骤<br>环境如下：<br>host A :  121.207.22.123<br>host B: 111.2.33.28<br>在host A上面：<pre><code># ip tunnel add gre1 mode gre remote 111.2.33.28 local 121.207.22.123 ttl 255
-# ip link set gre1 up
-# ip addr add 10.10.10.1 peer 10.10.10.2 dev gre1
-# ip tunnel add gre1 mode gre remote 111.2.33.28 local 121.207.22.123 ttl 255
-# ip link set gre1 up
-# ip addr add 10.10.10.1 peer 10.10.10.2 dev gre1
-</code></pre>创建一个GRE类型隧道设备gre0, 并设置对端IP为111.2.33.28。隧道数据包将被从121.207.22.123也就是本地IP地址发起，其TTL字段被设置为255。隧道设备分配的IP地址为10.10.10.1，掩码为255.255.255.0。<br>在host B上面：<pre><code>#  ip tunnel add gre1 mode gre remote  121.207.22.123 local 111.2.33.28 ttl 255
-#  ip link set gre1 up
-#  ip addr add 10.10.10.2 peer 10.10.10.1 dev gre1
-#  ip tunnel add gre1 mode gre remote  121.207.22.123 local 111.2.33.28 ttl 255
-#  ip link set gre1 up
-#  ip addr add 10.10.10.2 peer 10.10.10.1 dev gre1
-</code></pre>此时，host A 和 host B 建立起GRE隧道了。</li>
-<li>检测连通性</li>
-</ol>
-<pre><code># ping 10.10.10.2 (host A)
-PING 10.10.10.2 (10.10.10.2) 56(84) bytes of data.
-64 bytes from 10.10.10.2: icmp_req=1 ttl=64 time=0.319 ms
-64 bytes from 10.10.10.2: icmp_req=2 ttl=64 time=0.296 ms
-64 bytes from 10.10.10.2: icmp_req=3 ttl=64 time=0.287 ms
-# ping 10.10.10.2 (host A)
-PING 10.10.10.2 (10.10.10.2) 56(84) bytes of data.
-64 bytes from 10.10.10.2: icmp_req=1 ttl=64 time=0.319 ms
-64 bytes from 10.10.10.2: icmp_req=2 ttl=64 time=0.296 ms
-64 bytes from 10.10.10.2: icmp_req=3 ttl=64 time=0.287 ms
-</code></pre><ol>
-<li>撤销GRE隧道<br>在任一一端操作下面命令<pre><code># ip link set gre1 down
-# ip tunnel del gre1
-# ip link set gre1 down
-# ip tunnel del gre1
-</code></pre>转载请注明来自运维生存时间: <a href="http://www.ttlsa.com/html/4138.html" target="_blank" rel="external">http://www.ttlsa.com/html/4138.html</a></li>
-</ol>
-
+        <div class="readmore">
+          <a href="/NETWORK/4G路由器移植pptp方案总结.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -1297,56 +638,121 @@ PING 10.10.10.2 (10.10.10.2) 56(84) bytes of data.
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <ol>
-<li>介绍</li>
-</ol>
-<p>通过对Linux源代码的分析,了解PPP设备在linux内的工作原理.顺便了解一下PPPoE如何利用PPP设备来完成上网的工作的.下面是代码研究的基础版本：</p>
-<p>Software      version<br>Linux内核    2.6.15<br>PPPd    ppp-2.4.3<br>PPPoE    rp-pppoe-3.8</p>
-<ol>
-<li><p>PPP相关模块及结构</p>
-<p><img src="PPP框架原理.jpg" alt=""></p>
-</li>
-</ol>
-<p>注：每个模块左上角或右上角蓝色字体的数字是用来方便区别每个模块。</p>
-<p>每个层次及工作在该层次的程序（模块）分析如下：</p>
-<p>2.1 应用层模块概述</p>
-<p>工作在该层的模块编号：（1）Pppd、（2）Pppoe、（10）网络应用程序</p>
-<p>2.1.1   Pppd</p>
-<p>使用源代码ppp-2.4.3编译生成，该程序用来完成PPP过程（lcp/pap/chap/ipcp等）的应用程序.它和Pppoe两个用户态应用程序配合起来,可以完成PppOe的拨号上网的链路协商及维护.</p>
-<p>熟悉Ppp相关协议的知道,Ppp链路协商过程有LCP/PAP/CHAP/PAP等很多协议.这些包会经由协议栈分类,提交到字符设备/dev/ppp0的队列中.而Pppd这个应用程序,就是从ppp0中将这些包读取出来,然后递交到各协议的子过程中去处理,从而在应用态完成这些协议的处理过程.</p>
-<p>这里需要提一点,要想深入的理解Pppd应用程序的工作方法,必须要了解字符设备ppp0是如何工作的.</p>
-<p>2.1.2   Pppoe</p>
-<p>首先,pppoe完成了PPPoE Discovery过程,这个过程很简单,只有PADI/PADO, PADR/PADS四个包.主要目的是相互告知MAC地址.</p>
-<p>另外,这个程序负责接收和发送Pppoe链路的所有数据包,包括ppp协议过程的数据包,也包括正常网络应用通过网络接口ppp发送的TCP/IP数据包.在此需要了解类型为0x8863/0x8864的Socket如何工作,另外需要了解数据包如何通过PTY设备在Pppoe和PPP协议栈之间传递的.在内核模块概述中会给予描述.</p>
-<p>所以,我们可以将pppoe应用程序作为拨号链接进入主机的入口,所有的数据包都经由它进入主机.</p>
-<p>2.1.3   网络应用程序</p>
-<p>这里指一般网络应用，比如上网、下载等。主要作用是描述普通数据包的行走路径.</p>
-<p>2.2 内核层模块概述</p>
-<p>工作在该层的模块编号：（3）/dev/ppp%n、（4）TCP/IP协议栈、（5）Socket、（6）PPP协议栈、（7）PTY设备、（8）ETH1</p>
-<p>2.2.1   /dev/ppp%n</p>
-<p>该设备需要打开内核支持,可以make menuconfig选择相应的子项,另外需要在/dev目录下创建主设备号为108从设备号为0的字符设备才可以在用户态使用.</p>
-<p>创建了ppp设备后，ppp过程的数据包经过协议栈的分类,会被送到该接口的队列内.用户态应用程序(如pppd)从该接口内读取ppp过程的数据包，然后送交相应的协议栈处理.对于响应的数据包,同样可以写入到该设备中,设备内会将数据包送交协议栈然后转发出去.</p>
-<p>2.2.2   TCP/IP协议栈</p>
-<p>普通Linux TCP/IP协议栈.</p>
-<p>2.2.3   Socket</p>
-<p>PppOe Session和Discovery数据包对应的以太网类型分别为0x8863/0x8864,因为这两种类型的数据包是由Pppoe应用程序通过Socket来收发的,所以内核中需要定义这两种类型的Socket.这两个Socket内核处理非常简单,只做了最基本的检查便由Pppoe收取上来.</p>
-<p>2.2.4   PPP协议栈</p>
-<p>主要负责PPP层数据的封装、压缩与解压缩.另外,它还对普通数据包和Ppp过程的数据包进行了分流,将普通数据包提交到TCP/IP协议栈,而将Ppp过程的数据包放到/dev/ppp设备队列中,等待Pppd去收取并处理.</p>
-<p>2.2.5   PTY设备</p>
-<p>串行设备，PPP内核协议栈与pppoe应用程序的中转站.因为Ppp协议早多运行在串行链路上,所以在Linux内核中PPP协议栈与串行设备结合紧密.</p>
-<p>2.2.6   Eth1</p>
-<p>这里是指连接以太网的出口,用来表示数据包路径而引入.</p>
-<p>2.3 物理层模块概述</p>
-<p>工作在该层的模块编号：（9）以太网驱动</p>
-<ol>
-<li>PPPoE拨号建立的过程</li>
-</ol>
-<p>从拨号链接开始到用户可以上网主要分三个过程：</p>
-<p>Ø PPPoE Discovery过程</p>
-<p>Ø PPP过程</p>
-<p>Ø 设置上网主机</p>
-<p>3.1 PPPoE Discovery 过程</p>
+      1. 介绍
 
+通过对Linux源代码的分析,了解PPP设备在linux内的工作原理.顺便了解一下PPPoE如何利用PPP设备来完成上网的工作的.下面是代码研究的基础版本：
+
+Software version
+Linux内核 2.6.15
+PPPd ppp-
+      
+        <div class="readmore">
+          <a href="/NETWORK/Linux PPP 框架分析.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/NETWORK/linux 下创建GRE隧道.html">
+      linux 下创建GRE隧道
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2017-08-15</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/NETWORK/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>NETWORK</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      其他国家的互联网如同一个孤岛。要想访问国外网站异常的缓慢，甚至被和谐了。可以建立一条隧道来避免这种情况，下面说说GRE隧道如何建立。
+
+ 1. GRE介绍
+    GRE隧道是一种IP-over-IP的隧道，是通用路由封装协议，可以对某些网路层协议的数据报
+      
+        <div class="readmore">
+          <a href="/NETWORK/linux 下创建GRE隧道.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -1437,344 +843,18 @@ PING 10.10.10.2 (10.10.10.2) 56(84) bytes of data.
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>以下都是自己瞎理解，并不一定对，但会慢慢完善。</p>
-<p>我们可以想象下，linux文件系统，是吧我们想利用的资源，以虚拟一种树状目录结构管理。最初我们主要想把，硬盘上的内容以树状的结构管理起来。<br>但是发现，其实好多硬件都可以放到这个树中。例如：字符设备串口等。<br>这要我们能清楚的管理硬件。简单既是美。这也是linux可能玩不了复杂的，只能简单的想到一切皆文件的理念吧。</p>
-<p>我们先不考虑虚拟文件系统，其实虚拟文件系统只是在我们这个真实的文件系统上再虚拟一层。因为可能由于兴趣原因，我们不想在每个硬盘上都放一种真实文件，有的像放fat，有的想放ext3，有的想法minix。呵呵，有点开玩笑。由于一个电脑上有多个文件系统。我们又不想让用户用写个应用还得open_ext3 read_ext3z这个样子。所以我们又封装了以下open-&gt;open_ext3,用户还是只要调用open就可以了，所以有了虚拟文件系统。<br>不过我们现在不想管，我们就一个文件系统minix。因为我怕乱了，额。</p>
-<p><img src="内核结构图.PNG" alt=""></p>
-<p>还是以上经典图：</p>
-<p>下面minix文件系统在硬盘上的结构<br><img src="文件系统布局.JPG" alt=""></p>
-<p><strong>超级块</strong>用于存放盘设备上文件系统结构信息</p>
-<p><strong>i节点</strong>存放着文件系统中文件或目录名的索引节点，每个文件或目录都有一个i节点。</p>
-<p><strong>逻辑块位图</strong>用于描述盘上每个数据盘款的使用情况。</p>
-<p><strong>i节点位图</strong>用于说明i节点是否被使用。</p>
-<blockquote>
-<p>int bmap(struct m_inode * inode,int block)</p>
-</blockquote>
-<p>bmap实现了以上i节点和超级块的关联。</p>
-<p>namei也是利用bmap解析文件系统中树目录结构</p>
-<p>下面你会发现namei处在什么位置。</p>
-<p>linux下文件系统和块设备包含的一些概念：</p>
-<ol>
-<li>主设备号：blk_dev[NR_BLK_DEV]</li>
-<li>从设备号：</li>
-</ol>
-<p>通过blk_dev[MAJOR_NR].request_fn = DEVICE_REQUEST;<br>注册void do_hd_request(void)功能</p>
-<p>看看linux 0.11是怎么通过read调用到硬盘上的。</p>
-<p>调用流程</p>
-<pre><code>应用
-| read-&gt;中断
-V
-read_write.c----------------文件系统上层接口-----------------
-| sys_read
-V
-fs/block_dev.c--------------文件系统下层/块设备接口-----------
-| block_read
-V
-fs/buffer.c 
-| breada
-V
-blk_drv/ll_rw_blk.c---------块设备/设备驱动上层接口----------
-| ll_rw_block-&gt;make_request-&gt;add_request-&gt;request_fn
-| -&gt;do_hd_request
-V
-kernel/blk_drv/hd.c---------设备驱动底层接口----------------
-| do_hd_request
-V
-</code></pre><p>每个任务都有一个自己的task_struct <em>current;<br>current中包含了任务打开的文件fd。<br>struct file </em> filp[NR_OPEN];</p>
-<p>open.c<br>open<br>|<br>V<br>open_namei<br>次函数是操作文件系统树目录的重要体现接口。</p>
-<p>open_namei返回的是struct m_inode</p>
-<pre><code>struct m_inode {
-    unsigned short i_mode;
-    unsigned short i_uid;
-    unsigned long i_size;
-    unsigned long i_mtime;
-    unsigned char i_gid;
-    unsigned char i_nlinks;
-    unsigned short i_zone[9];
-/* these are in memory also */
-    struct task_struct * i_wait;
-    unsigned long i_atime;
-    unsigned long i_ctime;
-    unsigned short i_dev;
-    unsigned short i_num;
-    unsigned short i_count;
-    unsigned char i_lock;
-    unsigned char i_dirt;
-    unsigned char i_pipe;
-    unsigned char i_mount;
-    unsigned char i_seek;
-    unsigned char i_update;
-};
-</code></pre><p><img src="i节点结构.JPG" alt=""></p>
-<pre><code>struct super_block {
-    unsigned short s_ninodes;
-    unsigned short s_nzones;
-    unsigned short s_imap_blocks;
-    unsigned short s_zmap_blocks;
-    unsigned short s_firstdatazone;
-    unsigned short s_log_zone_size;
-    unsigned long s_max_size;
-    unsigned short s_magic;
-/* These are only in memory */
-    struct buffer_head * s_imap[8];
-    struct buffer_head * s_zmap[8];
-    unsigned short s_dev;
-    struct m_inode * s_isup;
-    struct m_inode * s_imount;
-    unsigned long s_time;
-    struct task_struct * s_wait;
-    unsigned char s_lock;
-    unsigned char s_rd_only;
-    unsigned char s_dirt;
-};
-</code></pre><p><img src="超级块结构.JPG" alt=""></p>
+      以下都是自己瞎理解，并不一定对，但会慢慢完善。
+
+我们可以想象下，linux文件系统，是吧我们想利用的资源，以虚拟一种树状目录结构管理。最初我们主要想把，硬盘上的内容以树状的结构管理起来。
+但是发现，其实好多硬件都可以放到这个树中。例如：字符设备串口等。
 
       
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/SYSTEM/gentoo_stage_diy.html">
-      gentoo_stage_diy
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-09</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/SYSTEM/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>SYSTEM</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p>stage1：</p>
-<pre><code>    包含bootstrap.sh，
-    scripts/bootstrap.sh用于安装
-    glibc、gcc、zlib、binutils、textinfo、ncurses、gettext、sed、emerge、portage等
-    创建stage2 包含emerge的环境
-    执行：scripts/bootstrap.sh
-</code></pre><p>stage2:    </p>
-<pre><code>   包含了完整的emerge的环境
-   构建system系统，编译没有替代物的系统软件包。
-   执行：emerge -e system
-</code></pre><p>构想：</p>
-<ol>
-<li><p>stage1可以通过lfs方法得到</p>
-<p>stage1要保证能运行bootstrap.sh和emerge </p>
-<p> bootstrap.sh：bash</p>
-<p> portage:bash python</p>
-</li>
-<li><p>stage1 在通过bootstrap.sh生成stage2</p>
-<p>参考： <a href="https://wiki.gentoo.org/wiki/Project:Prefix/Bootstrap" target="_blank" rel="external">https://wiki.gentoo.org/wiki/Project:Prefix/Bootstrap</a></p>
-</li>
-<li><p>我们可以运行：emerge -e system 生成官方提供的的stage3了。</p>
-</li>
-</ol>
-<pre><code>以上stage2环境可以由lfs替代.直接在lfs或其它系统上安装porage，
-
-所以共有两种安装方法：
-第一种：
-    1.下载stage1 
-    2.bootstrap.sh
-    3.emerge system
-    4.stage3正常安装
-第二种：
-    1.创建lfs
-    2.安装portage
-    3.emerge system
-    4.emerge world
-
-参考：https://wiki.gentoo.org/wiki/Portage
-</code></pre>
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/SYSTEM/x11vnc利用xvfd实现远程vncserver.html">
-      x11vnc利用xvfd实现远程vncserver
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-09</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/SYSTEM/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>SYSTEM</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      <p>当然你可以直接安装vncserver实现以下功能。<br>例如：TigerVNC</p>
-<p>环境：gentoo</p>
-<p>安装：xvfd</p>
-<blockquote>
-<p>sudo USE=”xvfb” emerge -av xorg-server</p>
-</blockquote>
-<p>启动：xvfd</p>
-<blockquote>
-<p>Xvfb :2 -screen 0 800x600x24 -nolisten tcp &amp;<br>export DISPLAY=:2</p>
-</blockquote>
-<p>安装：x11vnc</p>
-<blockquote>
-<p>sudo emerge -av x11vnc</p>
-</blockquote>
-<p>启动：x11vnc</p>
-<blockquote>
-<p>x11vnc -listen 0.0.0.0 -rfbport 5900 -noipv6 -passwd password -display :2 -forever</p>
-</blockquote>
-<p>启动桌面：</p>
-<blockquote>
-<p>gnome-session –debug –disable-acceleration-check</p>
-</blockquote>
-<p>然后启动你喜欢的vnc客户端连接吧</p>
-<blockquote>
-<p>官方客户端为：ssvn 用此客户端可以实现自动缩放</p>
-</blockquote>
-
+        <div class="readmore">
+          <a href="/EMBEDDED/mini2440/文件系统理解.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -1865,134 +945,236 @@ V
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <blockquote>
-<p>显卡-&gt;驱动-&gt;xorg-&gt;gnome-&gt;gui</p>
-</blockquote>
-<p>查看显卡：lspci  | grep -i VGA</p>
-<p>查看驱动：lspci  -vvv<br>​          </p>
-<blockquote>
-<p>/dev/nvidia0, /dev/nvidiactl</p>
-<p>是NV 官方驱动引入的两个设备文件</p>
-</blockquote>
-<p>驱动安装：x11-drivers/xf86-video-nouveau<br>    x11-drivers/xf86-video-virtualbox</p>
-<p>xorg支持： VIDEO_CARDS=”nouveau virtualbox”<br>    emerge -pv xorg-drivers</p>
-<blockquote>
-<p>现在的xorg也不需要/etc/X11/xorg.conf<br>注意把/etc/X11/xorg.conf.d/下默认的配置删除 例如:01-nv.conf</p>
-</blockquote>
-<pre><code>当然你就想手动指定驱动等信息添加xorg.conf
-也是没有问题的。例如：
-Section &quot;Device&quot;                                     
-        Identifier      &quot;Configured Video Device&quot;     
-        Driver          &quot;fbdev&quot;                  
-EndSection 
-以上显卡设备为lcd 驱动设备为：/dev/fb0
-驱动类型为：framebuffer xf86-video-fbdev
-大家可以看看韦东山介绍 mini2440就是用此驱动。
-framebuffer表示显卡不具备任何计算能力，完全利用cpu计算。
-</code></pre><p>startx：为以上xorg gnome协同作战的脚本</p>
-<pre><code>不用startx ，手动
-xorg的xinit和
-gnome的gnome-session
-都是可以的。
-xinit 找的是/dev/nvidia0, /dev/nvidiactl
-gnome-session 找的是export DISPLAY=:2
-</code></pre><p>配置文件：.xinitrc</p>
-<pre><code>export GTK_IM_MODULE=ibus
-export XMODIFIERS=@im=ibus
-export QT_IM_MODULE=ibus
-export XDG_MENU_PREFIX=gnome-
-xrandr --setprovideroutputsource modesetting NVIDIA-0
-xrandr --auto
-exec gnome-session
-dbus-launch nm-applet &amp;
-</code></pre><pre><code>01:00.0 VGA compatible controller: NVIDIA Corporation G84GLM [Quadro FX 570M] (rev a1) (prog-if 00 [VGA controller])
-        Subsystem: Lenovo ThinkPad T61p
-        Physical Slot: 1
-        Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
-        Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast &gt;TAbort- &lt;TAbort- &lt;MAbort- &gt;SERR- &lt;PERR- INTx-
-        Latency: 0
-        Interrupt: pin A routed to IRQ 16
-        Region 0: Memory at d6000000 (32-bit, non-prefetchable) [size=16M]
-        Region 1: Memory at e0000000 (64-bit, prefetchable) [size=256M]
-        Region 3: Memory at d4000000 (64-bit, non-prefetchable) [size=32M]
-        Region 5: I/O ports at 2000 [size=128]
-        [virtual] Expansion ROM at 000c0000 [disabled] [size=128K]
-        Capabilities: [60] Power Management version 2
-                Flags: PMEClk- DSI- D1- D2- AuxCurrent=0mA PME(D0-,D1-,D2-,D3hot-,D3cold-)
-                Status: D0 NoSoftRst- PME-Enable- DSel=0 DScale=0 PME-
-        Capabilities: [68] MSI: Enable- Count=1/1 Maskable- 64bit+
-                Address: 0000000000000000  Data: 0000
-        Capabilities: [78] Express (v1) Endpoint, MSI 00
-                DevCap: MaxPayload 128 bytes, PhantFunc 0, Latency L0s &lt;512ns, L1 &lt;4us
-                        ExtTag+ AttnBtn- AttnInd- PwrInd- RBE+ FLReset- SlotPowerLimit 75.000W
-                DevCtl: Report errors: Correctable- Non-Fatal- Fatal- Unsupported-
-                        RlxdOrd+ ExtTag+ PhantFunc- AuxPwr- NoSnoop+
-                        MaxPayload 128 bytes, MaxReadReq 512 bytes
-                DevSta: CorrErr- UncorrErr- FatalErr- UnsuppReq- AuxPwr- TransPend-
-                LnkCap: Port #0, Speed 2.5GT/s, Width x16, ASPM L0s L1, Exit Latency L0s &lt;512ns, L1 &lt;4us
-                        ClockPM- Surprise- LLActRep- BwNot- ASPMOptComp-
-                LnkCtl: ASPM L0s Enabled; RCB 128 bytes Disabled- CommClk+
-                        ExtSynch- ClockPM- AutWidDis- BWInt- AutBWInt-
-                LnkSta: Speed 2.5GT/s, Width x16, TrErr- Train- SlotClk+ DLActive- BWMgmt- ABWMgmt-
-        Capabilities: [100 v1] Virtual Channel
-                Caps:   LPEVC=0 RefClk=100ns PATEntryBits=1
-                Arb:    Fixed- WRR32- WRR64- WRR128-
-                Ctrl:   ArbSelect=Fixed
-                Status: InProgress-
-                VC0:    Caps:   PATOffset=00 MaxTimeSlots=1 RejSnoopTrans-
-                        Arb:    Fixed- WRR32- WRR64- WRR128- TWRR128- WRR256-
-                        Ctrl:   Enable+ ID=0 ArbSelect=Fixed TC/VC=01
-                        Status: NegoPending- InProgress-
-        Capabilities: [128 v1] Power Budgeting &lt;?&gt;
-        Capabilities: [600 v1] Vendor Specific Information: ID=0001 Rev=1 Len=024 &lt;?&gt;
-        Kernel driver in use: nvidia
-        Kernel modules: nouveau, nvidia_drm, nvidia
-</code></pre><p>注:</p>
-<p>之前virtualbox的驱动总是不能成功, <strong>改为vesa折中解决</strong>.          </p>
-<p>具体为删除virtualbox驱动, emerge -C virtualbox-guest-additions          </p>
-<p>如果启动还是加载vboxvideo等驱动, </p>
-<p>那就直接删除重新安装</p>
-<pre><code class="shell"> rm /lib/modules/* -rf          
- cd /usr/src/linux &amp;&amp;  make modules_install
- emerge -av @module-rebuild
-</code></pre>
-<p>并且添加/etc/X11/xorg.conf.d/10-monitor.conf</p>
-<pre><code class="shell">Section &quot;Monitor&quot;
-    Identifier    &quot;Monitor0&quot;
-EndSection
+      显卡->驱动->xorg->gnome->gui
 
-Section &quot;Device&quot;
-    Identifier    &quot;Device0&quot;
-    Driver        &quot;vesa&quot; #Choose the driver used for this monitor
-EndSection
+查看显卡：lspci | grep -i VGA
 
-Section &quot;Screen&quot;
-    Identifier    &quot;Screen0&quot;  #Collapse Monitor and Device section to Screen section
-    Device        &quot;Device0&quot;
-    Monitor       &quot;Monitor0&quot;
-    DefaultDepth  16 #Choose the depth (16||24)
-    SubSection &quot;Display&quot;
-        Depth     16
-        Modes     &quot;1024x768_75.00&quot; #Choose the resolution
-    EndSubSection
-EndSection
-</code></pre>
-<p>这样省了virtualbox 驱动版本等匹配问题.当然性能也下降了.</p>
-<p>当然我自己还挖了个坑 那就是还要删除</p>
-<p> /etc/local.d/nvidia.start<br>不然重启又修改了</p>
-<p><img src="virtualbox.JPG" alt="virtualbox"></p>
-<p>当然安装vboxvideo 会提高性能 只要在/etc/portage/make.conf添加</p>
-<blockquote>
-<p>VIDEO_CARDS=”virtualbox vesa fbdev”</p>
-</blockquote>
-<p>并更新下系统就可以</p>
-<blockquote>
-<p>emerge -avtuDN world</p>
-</blockquote>
-<p>如果/etc/X11/xorg.conf 和/etc/X11/xorg.conf.d 不会配置 建议直接删除就可以了</p>
-<p>同时可参考:</p>
-<p><a href="https://wiki.gentoo.org/wiki/VirtualBox" target="_blank" rel="external">https://wiki.gentoo.org/wiki/VirtualBox</a></p>
+查看驱动：lspci -vvv
+​ 
 
+/dev/nvidia0, /dev/nvidiactl
+
+是NV 官方驱动引入的两个设备文件
+
+驱动安装：x1
+      
+        <div class="readmore">
+          <a href="/SYSTEM/gentoo【显卡-驱动-xorg-gnome-gui】如何工作.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/SYSTEM/gentoo_stage_diy.html">
+      gentoo_stage_diy
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2017-08-09</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/SYSTEM/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>SYSTEM</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      stage1：
+
+    包含bootstrap.sh，
+    scripts/bootstrap.sh用于安装
+    glibc、gcc、zlib、binutils、textinfo、ncurses、gettext、sed、emerge、portag
+      
+        <div class="readmore">
+          <a href="/SYSTEM/gentoo_stage_diy.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/SYSTEM/x11vnc利用xvfd实现远程vncserver.html">
+      x11vnc利用xvfd实现远程vncserver
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2017-08-09</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/SYSTEM/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>SYSTEM</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      当然你可以直接安装vncserver实现以下功能。
+例如：TigerVNC
+
+环境：gentoo
+
+安装：xvfd
+
+sudo USE=”xvfb” emerge -av xorg-server
+
+启动：xvfd
+
+Xvfb :2 -screen 0 80
+      
+        <div class="readmore">
+          <a href="/SYSTEM/x11vnc利用xvfd实现远程vncserver.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     

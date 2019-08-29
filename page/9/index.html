@@ -300,7 +300,11 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>问题一：</p>
+      问题一：
+
+nl80211: Could not configure driver mode
+nl80211 driver initialization failed.
+hostapd_free_hapd_data: Interface wlan0 was
       
         <div class="readmore">
           <a href="/EMBEDDED/解决gentoo启动hostapd时出现的问题.html" class="flat-box">
@@ -398,8 +402,12 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span class="chapnum">1.  </span>简介</p>
-<p>内核是Portage树中少数几个需要部分人工介入方可完成更新的包之一。Portage会为你下载并安装内核源码，但需要你手动编译新的内核，才能让更改生效。<br>
+      1. 简介
+
+内核是Portage树中少数几个需要部分人工介入方可完成更新的包之一。Portage会为你下载并安装内核源码，但需要你手动编译新的内核，才能让更改生效。
+
+
+这份指南是关于如何从一个内核版本更新到另一个版本的，然而，对希望切换到另一个内核包的
       
         <div class="readmore">
           <a href="/EMBEDDED/Gentoo Linux 内核更新指南.html" class="flat-box">
@@ -497,7 +505,10 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span style="color:#666666; font-family:宋体; font-size:12pt"><strong>二层转发</strong>：在链路层，根据报文的目的MAC地址来对报文进行转发，因为是在链路层，我们称为二层转发。二层转发过程中不用对报文的头部做任何的修改。而三层转发则是根据报文的IP地址来进行转发，并且要对报文的二层头部进行相应的修改。<br></span></p>
+      二层转发：在链路层，根据报文的目的MAC地址来对报文进行转发，因为是在链路层，我们称为二层转发。二层转发过程中不用对报文的头部做任何的修改。而三层转发则是根据报文的IP地址来进行转发，并且要对报文的二层头部进行相应的修改。
+
+
+桥接：既把两台在同一网段的设
       
         <div class="readmore">
           <a href="/EMBEDDED/一、桥接及二层转发.html" class="flat-box">
@@ -595,7 +606,19 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi1.png" alt=""><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi2.png" alt=""><span style="font-family:Times New Roman; font-size:10pt"><br>        </span></p>
+      交叉编译工具链的命名规则为：arch [-vendor] [-os] [-(gnu)eabi]
+
+
+arch - 体系架构，如 ARM，MIPS
+
+
+vendor - 工具链提供商
+
+
+os - 目标操作系统
+
+
+eabi - 嵌入式应用二进制接口（Emb
       
         <div class="readmore">
           <a href="/EMBEDDED/arm交叉编译器gnueabi、none-eabi、arm-eabi、gnueabihf、gnueabi区别.html" class="flat-box">
@@ -693,7 +716,10 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span style="color:black; font-size:18pt"><strong><span style="font-family:Helvetica">Linux </span><span style="font-family:宋体">中的定时器</span><span style="font-family:Helvetica"><br>                </span></strong></span></p>
+      Linux 中的定时器
+
+
+在 Linux 内核中主要有两种类型的定时器。一类称为 timeout 类型，另一类称为 timer 类型。timeout 类型的定时器通常用于检测各种错误条件，例如用于检测网卡收发数据包是否会超时的定时器，IO 设备的读写是否
       
         <div class="readmore">
           <a href="/EMBEDDED/Linux 时钟管理.html" class="flat-box">
@@ -791,7 +817,11 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span style="color:#555555; font-family:宋体; font-size:10pt">在setsockopt函数中常用Socket选项对socket进行一些必要的设置，使socket可以按我们预期的特性去工作。<br></span><br>
+      在setsockopt函数中常用Socket选项对socket进行一些必要的设置，使socket可以按我们预期的特性去工作。
+
+
+
+ SO_TIMESTAMP，一个Socket选项，在权威著作《Unix网络编程》中未提及到，即使在google上也难找到其详
       
         <div class="readmore">
           <a href="/EMBEDDED/so-timestamp-e3-80-8aunix-e7-bd-91-e7-bb-9c-e7-bc-96-e7-a8-8b-e3-80-8b-e4-b8-ad-e6-9c-aa-e6-8f-90-e5-8f-8a-e7-9a-84socket-e9-80-89-e9-a1-b9.html" class="flat-box">
@@ -889,7 +919,17 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span style="color:black; font-family:宋体; font-size:9pt">PTN Clock Synchronization Technology and Its Application<br></span><br>
+      PTN Clock Synchronization Technology and Its Application
+
+
+
+2010-06-03
+
+
+ 作者:李勤
+
+
+摘要:时钟同步是分组传送网(PTN)需要考虑的重要问题之一。可以采用同步以太网、IEEE 1
       
         <div class="readmore">
           <a href="/EMBEDDED/PTN时钟同步技术及应用.html" class="flat-box">
@@ -987,7 +1027,10 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><img src="http://www.madhex.com/wp-content/uploads/2016/05/052416_1019_GentooGDBQe1.png" alt=""></p>
+      1.下载内核源码和根文件系统镜像
+http://oldlinux.org/Linux.old/bochs/linux-0.11-devel-040809.zip
+
+Linux-0.11内核源码的改进版，可以在gcc-4.72下顺利编译通过，原生代码只能在g
       
         <div class="readmore">
           <a href="/EMBEDDED/Gentoo+GDB+Qemu调试Linux-0.11的代码.html" class="flat-box">
@@ -1085,7 +1128,14 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span style="color:black; font-size:10pt"><strong><span style="font-family:Arial"> </span><span style="font-family:宋体">一、使用存储控制器访问外设的原理</span></strong><span style="font-family:Arial"><strong> </strong><br>            </span></span><br>
+      一、使用存储控制器访问外设的原理 
+
+
+
+1、S3C2440的地址空间
+
+
+S3C2440对外引出27根地址线ADDR0-ADDR26，访问范围只有128MB，CPU对外还引出8根片选信号nGCS0-nGCS7，对应BANK0-BANK7，当访问BANKx
       
         <div class="readmore">
           <a href="/EMBEDDED/s3c2440硬件学习笔记----存储控制器.html" class="flat-box">
@@ -1183,12 +1233,9 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <ol>
-<li><div style="background: white;">
+      1. 
 
-</div></li>
-</ol>
-<p>如果hack了开源代码，为了方便分享（如提交Bug）或自己留存使用，一般都要制作一个补丁（Patch）。在从源码安装软件时，也难免要应用些别人做好的补丁。本文介绍如何制作和应用补丁。<sup><a href="http://linux-wiki.cn/wiki/zh-hans/%E8%A1%A5%E4%B8%81(patch" target="_blank" rel="external">[1]</a>%E7%9A%84%E5%88%B6%E4%BD%9C%E4%B8%8E%E5%BA%94%E7%94%A8#cite_note-0)</sup><br>
+如果hack了开源代码，为了方便分享（如提交Bug）或自己留存使用，一般都要制作一个补丁（Patch）。在从源码安装软件时，也难免要应用些别人做好的补丁。本文介绍如何制作和应用补丁。[1]%E7%9A%84%E5%88%B6%E4%BD%9C%E
       
         <div class="readmore">
           <a href="/EMBEDDED/补丁(patch)的制作与应用.html" class="flat-box">

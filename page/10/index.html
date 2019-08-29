@@ -300,7 +300,19 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><img src="http://www.madhex.com/wp-content/uploads/2016/05/051816_0054_gentooqemun1.png" alt=""></p>
+      想完全模拟公司交换机的环境还真不容易。
+
+
+下面给出在gentoo上利用qemu 实现nfs挂载busybox
+
+
+我尽量给出版本信息，因为不同版本直接是否能成功!
+
+
+ARM linux qemu仿真运行环境 (NFS启动)
+
+
+注:我的gentoo内核
       
         <div class="readmore">
           <a href="/EMBEDDED/gentoo+qemu+nfs模拟arm环境.html" class="flat-box">
@@ -398,7 +410,16 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span style="color:#17365d; font-family:宋体"><span style="font-size:13pt">PTP共有5种实体类型：</span><span style="color:black; font-size:10pt"><br>            </span></span></p>
+      PTP共有5种实体类型：
+
+
+ * 普通时钟（Ordinaryclock），
+   
+ * 边界时钟（Boundaryclock），
+   
+ * E2E透传时钟（End-to-end transparent clock），
+   
+ * P2P透传时钟（
       
         <div class="readmore">
           <a href="/EMBEDDED/1588v2（PTP）协议实体类型详解.html" class="flat-box">
@@ -496,7 +517,11 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span style="color:white; font-family:Trebuchet MS; font-size:12pt">Keil C51<br></span><br>
+      Keil C51
+
+
+
+ Keil C51是美国Keil Software公司出品的51系列兼容单片机C语言软件开发系统，与汇编相比，C语言在功能上、结构性、可读性、可维护性上有明显的优势，因而易学易用。Keil提供了包括C编译器、宏汇编、链接器、库管理和
       
         <div class="readmore">
           <a href="/EMBEDDED/Keil C51 v9.55下载及激活.html" class="flat-box">
@@ -594,7 +619,10 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><img src="http://www.madhex.com/wp-content/uploads/2016/05/051616_2357_KeiluVision1.png" alt=""><span style="color:black; font-family:Verdana; font-size:9pt"><br>        </span><br>
+      我们要区别的概念：KEIL uVision，KEIL MDK，KEIL For ARM，RealView MDK，KEIL C51，KEIL C166，KEIL C251
+
+
+从接触MCS-51单片机开始，我们就知道有一个叫KEIL的软件。在开发单片机时，
       
         <div class="readmore">
           <a href="/EMBEDDED/Keil、uVision、RealView、MDK、Keil C51之间的区别比较.html" class="flat-box">
@@ -692,7 +720,11 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span style="color:#656e6a; font-size:10pt"><span style="font-family:宋体">内核编译（</span><span style="font-family:Arial">make</span><span style="font-family:宋体">）之后会生成两个文件，一个</span><span style="font-family:Arial">Image</span><span style="font-family:宋体">，一个</span><span style="font-family:Arial">zImage</span><span style="font-family:宋体">，其中</span><span style="font-family:Arial">Image</span><span style="font-family:宋体">为内核映像文件，而</span><span style="font-family:Arial">zImage</span><span style="font-family:宋体">为内核的一种映像压缩文件，</span><span style="font-family:Arial">Image</span><span style="font-family:宋体">大约为</span><span style="font-family:Arial">4M</span><span style="font-family:宋体">，而</span><span style="font-family:Arial">zImage</span><span style="font-family:宋体">不到</span><span style="font-family:Arial">2M</span><span style="font-family:宋体">。</span><span style="font-family:Arial"><br>            </span></span><br>
+      内核编译（make）之后会生成两个文件，一个Image，一个zImage，其中Image为内核映像文件，而zImage为内核的一种映像压缩文件，Image大约为4M，而zImage不到2M。
+
+
+
+ 那么uImage又是什么的？它是uboot专用的映像文件
       
         <div class="readmore">
           <a href="/EMBEDDED/make Image uImage与zImage的区别.html" class="flat-box">
@@ -790,7 +822,12 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span style="font-family:幼圆; font-size:12pt">想要模拟的环境：<br></span><br>
+      想要模拟的环境：
+
+
+
+Linux version 2.6.31.8 (hanzhen@bogon) (gcc version 4.3.2 (sdk3.2rc1-ct-ng-1.4.1) ) #13 Wed Aug 5 16:04:02 CST 2015
+
       
         <div class="readmore">
           <a href="/EMBEDDED/qemu模拟versatilepb-armv5开发板.html" class="flat-box">
@@ -979,9 +1016,17 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>哈</p>
-<p><img src="http://www.madhex.com/wp-content/uploads/2016/05/051216_1044_chrootarm1.png" alt=""></p>
-<p>真实板子上：</p>
+      哈
+
+
+
+真实板子上：
+
+
+
+不过发现chroot的方式缺点还是很大的，例如内核，网卡等环境都是真实机子上的。
+
+郁闷啊一下子给这2.6内核的文件系统 上个4.1的内核，还真是各种不兼容。
       
         <div class="readmore">
           <a href="/EMBEDDED/chroot到arm交换机的文件系统上.html" class="flat-box">
@@ -1079,8 +1124,12 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><strong>1 </strong> <strong>引言</strong></p>
-<p>以太网技术由于其开放性好、价格低廉和使用方便等特点，已经广泛应用于电信级别的网络中，以太网的数据传输速度也从早期的10M提高到100M，GE，10GE。40GE，100GE正式产品也于2009年推出。<br>
+      1 引言
+
+以太网技术由于其开放性好、价格低廉和使用方便等特点，已经广泛应用于电信级别的网络中，以太网的数据传输速度也从早期的10M提高到100M，GE，10GE。40GE，100GE正式产品也于2009年推出。
+
+
+以太网技术是”即插即用”的，也就是将以
       
         <div class="readmore">
           <a href="/EMBEDDED/IEEE1588精密网络同步协议（PTP）-v2.0协议浅析.html" class="flat-box">
@@ -1178,7 +1227,8 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><span style="font-size:12pt"><span style="color:black"><span style="font-family:Arial; background-color:white"> </span><span style="font-family:宋体; background-color:white">如何同时同时使用动态和静态库链接，在</span><span style="font-family:Arial; background-color:white">GCC</span><span style="font-family:宋体; background-color:white">指令参数中具体参数如下：</span><span style="font-family:Arial"><span style="background-color:white"> </span><br><span style="background-color:white">    </span></span><span style="font-family:宋体; background-color:white">－</span><span style="font-family:Arial"><span style="background-color:white">Wl,-Bstatic -L/usr/local/sqlite-arm-linux/.libs -lsqlite -Wl,-Bdynamic -L/usr/local/arm/3.3.2/lib </span><br><span style="background-color:white">  </span><br><span style="background-color:white"> </span></span><span style="font-family:宋体; background-color:white">具体用途解释：</span><span style="font-family:Arial; background-color:white">sqlite</span><span style="font-family:宋体; background-color:white">库静态连接，其它库动态连接。</span><span style="font-family:Arial"><span style="background-color:white"> </span><br></span><span style="font-family:宋体; background-color:white">－</span><span style="font-family:Arial; background-color:white">Wl,-Bstatic </span><span style="font-family:宋体; background-color:white">与</span><span style="font-family:Arial; background-color:white">-Wl,-Bdynamic</span><span style="font-family:宋体; background-color:white">参数，从字面意义上可以理解，有静态和动态的意思，但是具体的真正规则在查找了</span><span style="font-family:Arial; background-color:white">GCC</span><span style="font-family:宋体; background-color:white">的原版手册上有说明。</span><span style="font-family:Arial"><span style="background-color:white"> </span><br><span style="background-color:white">  </span><br></span><span style="font-family:宋体; background-color:white">原文：</span><span style="font-family:Arial"><span style="background-color:white"> </span><br><span style="background-color:white">Note - if the linker is being invoked indirectly, via a compiler driver (eg gcc) then all the linker command line options should be prefixed by -Wl, (or whatever is appropriate for the particular compiler driver) like this: </span><br></span></span><span style="font-family:宋体"><br>            </span></span></p>
+      如何同时同时使用动态和静态库链接，在GCC指令参数中具体参数如下： 
+－Wl,-Bstatic -L/usr/local/sqlite-arm-linux/.libs -lsqlite -Wl,-Bdynamic -L/usr/local/arm/3.3.
       
         <div class="readmore">
           <a href="/EMBEDDED/GCC中同时使用动态和静态库链接的编译.html" class="flat-box">

@@ -392,21 +392,18 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><img src="nat分类.png" alt=""></p>
-<p>作者：陈军链接：<a href="https://www.zhihu.com/question/38729355/answer/77877260" target="_blank" rel="external">https://www.zhihu.com/question/38729355/answer/77877260</a></p>
-<p>来源：知乎著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。      </p>
-<p>​    NAT分为两大类，基本的NAT和NAPT（Network Address/Port Translator）。<br>基本的NAT，它仅将内网主机的私有IP地址转换成公网IP地址，但并不将TCP/UDP端口信息进行转换，有动态与静态之区分。由于现在大部分都属于另一种类型，即NAPT，故这里不详细讨论基础NAT。 另外一种NAT叫做NAPT（Network Address/Port Translator），从名称上我们也可以看得出，NAPT不但会改变经过这个NAT设备的IP数据报的IP地址，还会改变IP数据报的TCP/UDP端口。</p>
-<p>​      NAPT又分为锥型（Cone）和对称型（Symmetric），它们的区别在于，在NAT已分配端口号给Client A的情况下，如果Client A继续用1235端口与另一外网服务器通讯，锥型NAT还会继续用原来62000端口，即所分配的端口号不变。而对于对等型NAT，NAT将会分配另一端口号（如62001）给Client A的1235端口。也就是说，同一内网主机同一端口号，对于锥型NAT，无论与哪一外网主机通讯，都不改变所分配的端口号；而对于对等型NAT，同一内网主机同一端口号，每一次与不同的外网主机通讯，就重新分配另一个端口号。 </p>
-<p>​    目前比较常用的NAT类型是完全锥型NAT。</p>
-<ol>
-<li>首先目前绝大多数的路由器都是非对称型NAT(Cone NAT)，所以P2P技术才能正常使用。 对称/非对称的区别主要在于：网关设备在实现NAT时，对于内网某主机的若干个UDP连接请求，网关设备对应地在外网上所建立的UDP端口数量。对称NAT是一个请求对应一个端口，非对称NAT是多个请求对应一个端口(象锥形，所以叫Cone NAT)。</li>
-<li>对称型NAT(Symmetric NAT)是无法实现P2P技术。 </li>
-</ol>
-<p>​    对于两方都是对称nat的情况，至少从可以了解的途径上（比如google，相关论坛）都没找到解决方案，我们自己也进行过测试，不行。</p>
-<p>​    但是对于一端是对称nat，一端是端口限制性Cone nat的情况是可以打洞成功的，特别是我们实验的对称nat的端口变化还是有规律的（加1），我们使用端口猜测的方法进行打洞成功率还是非常高的。对于端口变化无规律的对称nat，这个猜测还是靠算法的设计，</p>
-<p>可以看看<strong>A New Method for Symmetric NAT Traversal </strong>in UDP and TCP </p>
-<p>（<a href="http://www.goto.info.waseda.ac.jp/~wei/file/wei-apan-v10.pdf）" target="_blank" rel="external">http://www.goto.info.waseda.ac.jp/~wei/file/wei-apan-v10.pdf）</a></p>
+      作者：陈军链接：https://www.zhihu.com/question/38729355/answer/77877260
 
+来源：知乎著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。 
+
+​ NAT分为两大类，基本的NAT和NAP
+      
+        <div class="readmore">
+          <a href="/NETWORK/nat穿透.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -497,11 +494,21 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>配置下一跳为出接口的</p>
-<p>好处是不用知道下一跳具体ip可以实现动态学习的效果</p>
-<p>缺点在于下一跳路由器必须支持这种基本的arp代理功能.</p>
-<p>拓扑图： <a href="http://img1.51cto.com/attachment/201308/210834964.png" target="_blank" rel="external"><img src="http://img1.51cto.com/attachment/201308/210834964.png" alt=""></a><br>以太网链路中：两个接口之间的通信是靠MAC地址，根据MAC地址，将数据封装成数据帧后传送到网络，进而通过物理线路传送给对方。而获取到对端的MAC地址，是通过ARP来完成的。<br>例：1，当静态路由中下一跳使用出接口时，路由器会认为目标网络和接口处在“直连网络”中。如：R1(config)#ip route 192.168.2.0 255.255.255.0f0/0查看路由表：R1#show ip route  <a href="http://img1.51cto.com/attachment/201308/210834122.png" target="_blank" rel="external"><img src="http://img1.51cto.com/attachment/201308/210834122.png" alt=""></a><br>在以太网直连网络中设备间的通信是靠ARP广播来获取到目标主机的MAC地址。即当R1要访问192.168.2.2这个ip地址时，R1会认为目标网络是和自己直连的（虽然这时候实际是静态路由），于是R1就要在F0/0口向网络发出ARP请求广播，来寻找192.168.2.2所对应的MAC地址。<br>这时，如果R2启用了ARP代理，那么R2将代替R3应答此ARP请求，即R2告诉R1：192.168.2.2所对应的MAC地址是R2的F0/0接口的MAC。如果R2的ARP代理功能关闭，那么R1将不能ping通192.168.2.2<br>使用出接口的弊端：如果R3后面接了些pc机，当R1要访问这些pc机时，都会产生一条该pc机和MAC地址对应的ARP条目缓存，如果pc机的数量很大，此缓存也会很大，会导致R1耗费很大内存来维护。<br>2，当静态路由中下一跳使用ip地址时，路由表中显示的是下一跳地址。如：R1(config)#ip route 192.168.2.0 255.255.255.0 192.168.1.2查看路由表：R1#show ip route  <a href="http://img1.51cto.com/attachment/201308/210835833.png" target="_blank" rel="external"><img src="http://img1.51cto.com/attachment/201308/210835833.png" alt=""></a><br>这时去往192.168.2.2的网段只会维护一条ARP缓存，即192.168.1.2所对一个的是R2的F0/0接口地址。即使R3后面接了多台主机，也只需要维护这么一条ARP缓存记录。<br>二：点到点网络环境下：无论是指定下一跳地址还是出接口，都是一样的。因为这种环境下使用HDLC和PPP等协议来进行二层封装，不需要进行ARP的解析。<br>结论：1、在点到点网络环境下，无论是指定下一跳地址还是出接口，都是一样的2、在广播网络环境下，则不然。如果指定为出接口的话，那么不管数据包的目标地址是否有效，每次当数据包到达时都会触发一个ARP请求，又因为ARP代理功能在IOS环境下默认是打开的，这就意味着路由器需要配置大量的ARP高速缓存。而如果是指定为下一跳地址的话，仅当第一个去往目标网络的数据包到达时，才会触发ARP请求。<br>本文出自 “天好” 博客，请务必保留此出处<a href="http://tianhaoblog.blog.51cto.com/6467511/1280163" target="_blank" rel="external">http://tianhaoblog.blog.51cto.com/6467511/1280163</a></p>
+      配置下一跳为出接口的
 
+好处是不用知道下一跳具体ip可以实现动态学习的效果
+
+缺点在于下一跳路由器必须支持这种基本的arp代理功能.
+
+拓扑图： 
+以太网链路中：两个接口之间的通信是靠MAC地址，根据MAC地址，将数据封装成数据帧后传送到网络，进而通过物理
+      
+        <div class="readmore">
+          <a href="/NETWORK/静态路由使用下一跳IP与出接口的区别.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -592,18 +599,18 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>使用ARP的四种典型情况</p>
-<p>1.发送方是主机，把IP数据包发送到本网络上的另一个主机。这时用ARP找到目的主机的硬件MAC地址。  </p>
-<p>2.发送方是主机，要把IP数据报发送到另一个网络上的主机。这时用ARP找到本网络上的一个<a href="https://www.2cto.com/net/router/" target="_blank" rel="external">路由器</a>（网关）的硬件MAC地址。剩下的工作由这个路由器来完成。 </p>
-<p>3.发送方是路由器，要把IP数据报转发到本网络上的一个主机。这时用ARP找到目的主机的硬件MAC地址 </p>
-<p>4.发送方是路由器，要把IP数据报转发到另一个网络的一个主机。这时用ARP找到本网络上的一个路由器（网关）的硬件地址。剩下的工作有这个路由器来完成。</p>
-<p>主机和路由器表现的行为是一致的，区别在于，路由器可以作为网关，而PC不可以。当要把IP数据报转发另一个网络的一个主机时，ARP找到本网络上的一个网关的硬件MAC地址，这个网关可以是路由器，也可以是三层<a href="https://www.2cto.com/net/switch/" target="_blank" rel="external">交换机</a>。</p>
-<p>纯二层交换机是没有ARP表项的。交换机是否有ARP表项取决于交换机是否作为三层设备（配置三层路由接口或SVI接口）</p>
-<p>网络层使用的是IP地址，但在实际网络的链路上传送数据帧时，最终必须使用该网络的硬件地址。 </p>
-<p>每一个主机都设有一个ARP高速缓存，里面有本局域网上的各主机和网关的IP地址到硬件地址的映射表。也就是说，一个主机可以通过ARP到本局域网的其他主机，到达其他网络主机的工作交给网关完成。</p>
-<p>同一子网 源目mac地址都不会改变 </p>
-<p>不同子网 源目IP地址都不会改变，改变源目MAC地址</p>
+      使用ARP的四种典型情况
 
+1.发送方是主机，把IP数据包发送到本网络上的另一个主机。这时用ARP找到目的主机的硬件MAC地址。 
+
+2.发送方是主机，要把IP数据报发送到另一个网络上的主机。这时用ARP找到本网络上的一个路由器（网关）的硬件MAC地址。剩
+      
+        <div class="readmore">
+          <a href="/NETWORK/使用ARP的四种典型情况.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -694,19 +701,24 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>有这几个git命令就够用了</p>
-<p><img src="Git常用命令图表.png" alt=""></p>
-<p>示例: 保存本地/home/example_a目录到本地/home/example_b目录</p>
-<pre><code class="shell">cd /home/example_b
+      有这几个git命令就够用了
+
+
+
+示例: 保存本地/home/example_a目录到本地/home/example_b目录
+
+cd /home/example_b
 git init --bare
 cd /home/example_a
 git init
-git remote add test_remote /home/example_b
-git add -A
-git commit -m &quot;1.git初始化&quot;
-git push -u test_remote master
-</code></pre>
-
+g
+      
+        <div class="readmore">
+          <a href="/DEVELOP/Git常用命令图表.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -797,48 +809,20 @@ git push -u test_remote master
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <h2 id="协议规范"><a href="#协议规范" class="headerlink" title="协议规范"></a>协议规范</h2><h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h2><pre><code class="c">struct ppp_info{
+      协议规范
+实现原理
+struct ppp_info{
     int unit;            /**/
     int dev_fd;            /**/
     int lcp_fd;            /**/
-    int ppp_fd;            /**/
-    int remote_id;        /**/
-    char    *user;        /* Username for authentication */
-    char    *passwd;    /* Password for authentication */
-    char *ifname;
-    char attach_inter[16];
-    unsigned char distance;
-    unsigned char weight;
-    unsigned char gateway;
-    unsigned char dns;
-    unsigned char auth;
-    unsigned char auth_type;
-    unsigned char down_flag;            //避免PPP主动down掉和手动清除冲突
-    unsigned int unique;
-    unsigned int dns_value;
-    unsigned int wins_value;
-    char usergrp[MAXNAMELEN];
-    struct prefix_ipv4 localaddr;
-    unsigned int peer_address;            //tunnip
-    int lcp_detect_interval_time;        //for change interval time of lcp echo request
-    int lcp_detect_lost_times;            //for change times of no respons lcp echo request
-    struct thread * lcp_thread;
-    struct thread * ipcp_rthread;
-    void *conn;
-    void *priv_data;
-    int natid;
-    int mtu;
-    Ppp_if_type iftype;
-    int (*manage_auto_down) (char *ifname);
-    int (*ipcp_up_cb) (struct ppp_cb_info *cb_info);
-    int (*ipcp_down_cb) (struct ppp_cb_info *cb_info);
-    int (*lcp_auth) (char *name, char *group, char *password, unsigned char *challenge, int unit, int type);
-    int (*check_rqci)(__u32 addr);
-};
-</code></pre>
-<p>void LcpLinkFailure (f)</p>
-<p>lcp_close(f-&gt;unit, “Peer not responding”);</p>
-
+    int
+      
+        <div class="readmore">
+          <a href="/VPN系列之五花八门/ppp协议总结.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -929,47 +913,22 @@ git push -u test_remote master
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>之前用wordpress做blog, 为什么换为hexo呢?</p>
-<p>第一 </p>
-<p>​    wordpress的文章都保存在服务器的数据库, 维护不是很直观.</p>
-<p>​    而hexo是自己编写markdown文章,本地一份,而blog只是本地的映射.</p>
-<p>​    这样文章更好维护和查看.因为做笔记更重要的是自己也能查看.</p>
-<p>第二</p>
-<p>​    hexo用的github pages服务, 服务器器是git, 自己剩下服务器不说,</p>
-<p>​    还能用到git的强大版本控制功能,真是一举多得.</p>
-<p>如果大家发下同步命令复杂,完全可以做个成脚本就像我这这个样,点击脚本就可</p>
-<p>把文章同步了. 真的很方便, 以下为同步步骤.</p>
-<p><img src="hexo同步脚本.JPG" alt="hexo同步脚本"></p>
-<ol>
-<li>执行hexo_new.sh 生成new.md</li>
-<li>编辑new.md为你要写的blog内容</li>
-<li>把new.md放到你要的分类目录</li>
-<li>执行update.sh同步blog.</li>
-<li>呵呵,完成了</li>
-</ol>
-<p>hexo_new.md</p>
-<pre><code class="shell">#!/bin/bash
-set -x
-export PATH=&quot;/usr/local/bin:/usr/bin:/bin:/opt/bin:/c/Windows/System32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0/:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/opt/toolchain/gcc-linaro-6.3.1-2017.05-x86_64_arm-linux-gnueabihf/bin:/opt/FriendlyARM/toolschain/4.4.3/bin:/c/Users/jimmy/AppData/Roaming/npm:/c/Program Files/nodejs&quot;
-cd /e/hexo/
-hexo new &quot;new&quot;
-</code></pre>
-<p>update.sh</p>
-<pre><code class="shell">#!/bin/bash
-set -x
-export PATH=&quot;/usr/local/bin:/usr/bin:/bin:/opt/bin:/c/Windows/System32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0/:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/opt/toolchain/gcc-linaro-6.3.1-2017.05-x86_64_arm-linux-gnueabihf/bin:/opt/FriendlyARM/toolschain/4.4.3/bin:/c/Users/jimmy/AppData/Roaming/npm:/c/Program Files/nodejs&quot;
-cd /e/demonelf.github.io/
-git pull
-cd /e/hexo/
-hexo g
-rsync -Pv --size-only /e/hexo/public/* /e/demonelf.github.io/ -ar 
-rsync -Pv --size-only /e/hexo/source/_posts/* /e/demonelf.github.io/ -ar
-cd /e/demonelf.github.io/
-git add -A
-git commit -m &quot;1.自动更新&quot;
-git push
-</code></pre>
+      之前用wordpress做blog, 为什么换为hexo呢?
 
+第一 
+
+​ wordpress的文章都保存在服务器的数据库, 维护不是很直观.
+
+​ 而hexo是自己编写markdown文章,本地一份,而blog只是本地的映射.
+
+​ 这样文章更好维护和
+      
+        <div class="readmore">
+          <a href="/SYSTEM/从wordpress换hexo博客后.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -1060,17 +1019,23 @@ git push
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>​    我们要讨论的相关vpn</p>
-<ol>
-<li>l2tp</li>
-<li>pptp</li>
-<li>ipsec</li>
-<li>websocket vpn</li>
-<li>dns vpn</li>
-<li>mpls vpn</li>
-</ol>
-<p>​    由于ppp协议是以上大部分vpn的核心技术,所以我们还要讨论ppp相关技术.</p>
+      ​ 我们要讨论的相关vpn
 
+ 1. l2tp
+ 2. pptp
+ 3. ipsec
+ 4. websocket vpn
+ 5. dns vpn
+ 6. mpls vpn
+
+​ 由于ppp协议是以上大部分vpn的核心技术,所以我们还要讨论ppp相关技术.
+      
+        <div class="readmore">
+          <a href="/VPN系列之五花八门/vpn系列文章概述.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -1161,52 +1126,20 @@ git push
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>注: 多进程时所主要解决的就是进程同步问题。</p>
-<ol>
-<li>进程同步:<br>进程同步的主要任务是对多个相关进程在执行次序上进行协调，以使并发执行的诸进程之间能有效地共享资源和相互合作，从而使程序的执行具有可再现性。</li>
-</ol>
-<h1 id="1-1-进程同步存在的问题"><a href="#1-1-进程同步存在的问题" class="headerlink" title="1.1 进程同步存在的问题:"></a>1.1 进程同步存在的问题:</h1><p>一、两种形式的制约关系</p>
-<ol>
-<li>间接相互制约关系(<strong>存在临界资源需要互斥</strong>)</li>
-<li>直接相互制约关系(<strong>进程存在前后执行顺序</strong>)</li>
-</ol>
-<p>二、产生死锁</p>
-<p>1.产生死锁的原因</p>
-<pre><code>  (1) 竞争资源  
-  (2) 进程间推进顺序非法
-</code></pre><p>2.产生死锁的必要条件</p>
-<pre><code>(1)    互斥条件            (不可预防)
-(2)    请求和保持条件        (可预防)
-(3)    不剥夺条件           (可预防)
-(4)    环路等待条件         (可预防)
-</code></pre><p>3.死锁的类型</p>
-<pre><code>(1)    嵌套型 (即便一个临界资源 也会发生死锁)
-(2)    AB-BA 
-(3)    有待完善！
-</code></pre><h1 id="1-2-解决的方法"><a href="#1-2-解决的方法" class="headerlink" title="1.2 解决的方法:"></a>1.2 解决的方法:</h1><p>一、数据结构:    </p>
-<ol>
-<li><p>信号量:<br>(实现互斥 例: APUE中的14.3 记录锁 15.8 XSI IPC的信号量)</p>
-<pre><code>(1) 整型信号量  
-(2) 记录型信号量  
-(3) AND 型信号量  
-(4) 信号量集 
-</code></pre></li>
-</ol>
-<p>二、算法    :</p>
-<pre><code>1 实现同步:
+      注: 多进程时所主要解决的就是进程同步问题。
 
-    (1) 生产者—消费者问题
-    (2) 哲学家进餐问题
-    (3) 读者—写者问题
+ 1. 进程同步:
+    进程同步的主要任务是对多个相关进程在执行次序上进行协调，以使并发执行的诸进程之间能有效地共享资源和相互合作，从而使程序的执行具有可再现性。
 
-
-2 解决死锁:
-
-    (1) 预防死锁: 破坏产生死锁的必要条件
-    (2) 避免死锁: 利用算法防止进入不安全状态(银行家算法)
-    (3) 检测死锁: 产生死锁后采取适当措施
-    (4) 解除死锁: 产生死锁后撤销挂起某些进程
-</code></pre>
+1.1 进程同步存在的问题:
+一、两种
+      
+        <div class="readmore">
+          <a href="/DEVELOP/编写多进程、线程同步问题总结.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -1297,65 +1230,20 @@ git push
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <pre><code class="c">#define _XOPEN_SOURCE
-#include &lt;stdio.h&gt;
-#include &lt;stdlib.h&gt;
-#include &lt;unistd.h&gt;
-#include &lt;string.h&gt;
-#include &lt;sys/types.h&gt;
-#include &lt;sys/stat.h&gt;
-#include &lt;fcntl.h&gt;
-#include &lt;pty.h&gt;
-
-int main()
-{
-        int fd_m, fd_s;
-        int len;
-        const char *pts_name;
-        char send_buf[64] = &quot;abc\ndefghijk\nlmn&quot;;
-        char recv_buf[64] = {0};
-
-        fd_m = open(&quot;/dev/ptmx&quot;, O_RDWR | O_NOCTTY);
-        if (fd_m &lt; 0) {
-                printf(&quot;open /dev/ptmx fail1\n&quot;);
-                return -1;
-        }
-
-        if (grantpt(fd_m) &lt; 0 || unlockpt(fd_m) &lt; 0) {
-                printf(&quot;grantpt and unlockpt fail\n&quot;);
-                goto err;
-        }
-
-        pts_name = (const char *)ptsname(fd_m);
-        fd_s = open(pts_name, O_RDONLY | O_NOCTTY);
-        if (fd_s &lt; 0) {
-                printf(&quot;open /dev/ptmx fail2\n&quot;);
-                goto err;
-        }
-
-        len = write(fd_m, send_buf, strlen(send_buf));
-        printf(&quot;write len=%d\n&quot;, len);
-
-        len = read(fd_s, recv_buf, sizeof(recv_buf));
-        printf(&quot;read len=%d, recv_buf=[%s]\n&quot;, len, recv_buf);
-
-        len = read(fd_s, recv_buf, sizeof(recv_buf));
-        printf(&quot;read len=%d, recv_buf=[%s]\n&quot;, len, recv_buf);
-
-        close(fd_m);
-        close(fd_s);
-        return 0;
-
-err:
-        if (fd_m)
-                close(fd_m);
-        if (fd_s)
-                close(fd_s);
-
-        return -1;
-}
-</code></pre>
-
+      #define _XOPEN_SOURCE
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <sys/types.h>
+#inc
+      
+        <div class="readmore">
+          <a href="/DEVELOP/pty示例代码.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     

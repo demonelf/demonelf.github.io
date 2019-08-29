@@ -307,9 +307,12 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>1. 硬件收到数据，驱动取出数据，通过netif_rx把数据放到queue-&gt;input_pkt_queue中，</p>
-<pre><code> 并产生NET_RX_SOFTIRQ软中断。
-</code></pre>
+      1. 硬件收到数据，驱动取出数据，通过netif_rx把数据放到queue->input_pkt_queue中，
+
+ 并产生NET_RX_SOFTIRQ软中断。
+
+
+2. 在启动内核时，通过open_softirq(NET_RX_SOFTIRQ, net_
       
         <div class="readmore">
           <a href="/EMBEDDED/linux接收数据包的处理流程.html" class="flat-box">

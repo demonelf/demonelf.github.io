@@ -301,100 +301,18 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>6410的中断系统：</p>
-<p><a href="http://lib.csdn.net/base/embeddeddevelopment" title="嵌入式开发知识库" target="_blank" rel="external">嵌入式</a>软件里的中断处理，除了中断初始化，主要工作就是编写ISR.</p>
-<p>  在嵌入式的SOC的CPU里，在CPU里内部会带一些设备模块，它们产生的中断称为内部中断。因为联线比较固定，因此编程比较简单。而且在物理上CPU分离的芯片产生的中断，称为外部中断，外部中断可以联接不同的中断脚上，因此需要对中断IO进行较复杂的配置。</p>
-<p>  轮询模式是否一无是处？<strong>轮询的优点是在重负荷的情况下，轮询比中断效率会高很多。</strong>比如一个教室很多学生不断的问问题，这样与其不断被中断，老师还不如起身在教室走动，随机处理学生问题会高很多。</p>
-<h2 id="异常-Exception"><a href="#异常-Exception" class="headerlink" title="异常(Exception)"></a>异常(Exception)</h2><p>Exception(异常), 计算机体系结构中，异常或者中断是处理系统中突发事件的一种机制，几乎所有的处理器都提供这种机制。异常主要是从处理器被动接受的角度出发的一种描述，指意外操作引起的异常。而中断则带有向处理器主动申请的意味。但这两种情况具有一定的共性，都是请求处理器打断正常的程序执行流程，进入特定程序的一种机制。</p>
-<p>从结构来看,外部设备产生的中断可以看成一种特殊的异常.除了中断之外,还有ARM不少固定的异常.包括以下七种:</p>
-<p>1.      复位(Reset)</p>
-<p>当按下RESET键后,会产生一个复位异常,此时程序跳转到复位异常处理程序处执行.当CPU重启后.一般刚好跳到这个复位异常来</p>
-<p>2.      未定义指令</p>
-<p>当ARM的处理器或协处理器遇到不能处理的指令时,产生未定义指令异常,采用这个机制,可以通过软件仿真扩展ARM或Thumb 指令集.</p>
-<p>3.      软件中断(SWI)</p>
-<p>硬件中断是有固定的硬件产生的中断,而软中断是指没具体的硬件产生,是CPU虚拟出来的.该异常由程序执行汇编SWI产生.软中断的优点,</p>
-<p>可用于用户模式下的程序调用特权操作指令.<a href="http://lib.csdn.net/base/linux" title="Linux知识库" target="_blank" rel="external">Linux</a> 系统调用就是使用这个异常来实现的.</p>
-<p>有利用程序结构的优化.比如在<a href="http://lib.csdn.net/base/linux" title="Linux知识库" target="_blank" rel="external">linux</a> 驱动里,硬件中断不能长时间运行.但是很多软件的长时间操作依赖的于中断的调用.有时为解决这个冲突,会在驱动设计两级,从硬件存取用硬件中断,而长时间操作用软件中断的模拟.</p>
-<p>4.      指令预取中止</p>
-<p>若处理预取的指令的地址不存在,或该地址不允许当前指令访问,存储器会向处理器发出中止信号,但当预取的指令被执行时,才会产生指令预取中止的异常.比如用ADS把程序下载到开发板上0x8000地址上.就会产生Abort异常.</p>
-<p>5.      数据中止</p>
-<p>若处理器数据访问数据的地址不存在,或该地址不允许当前指令访问时,产生数据中止异常</p>
-<p>6.      IRQ</p>
-<p>当外部设备在外部中断脚产生中断信号时.即触发了IRQ中断.这是外部设备使用最常用的一种手段.</p>
-<p>在S3C24X0是一个集成的SOC,内部除了ARM模块以外.还其它内部集成的模块,如USB,RTC,等.这一些模块在CPU内部也会有相应的中断线连到ARM920T的内核上.但这一些管脚在CPU外部是不可见的,只能用于寄存器去控制.</p>
-<p>还一些GPIO脚就充当外部中断控制线,外部IC可以把自己中断信号线连到相应的中断脚上.当外部产中断信号后,CPU就可以知道,外设有中断发来.</p>
-<p>7.      FIQ</p>
-<p>快速中断,类似于IRQ,但是具有较快响应速度.而且设为FIQ的条件也比较严格,比如一次触发只能有一个FIQ</p>
-<p>一句话，中断（IRQ，FIQ，SWI）是异常中的一个特例。当产生外部中断时，大部分CPU会只产生一个异常。在异常处理程序里软件再去读不同的中断寄存器分析后来调用ISR。这里ISR是由软件来执行的。象S3C2440就是这样机制。</p>
-<p>   在S3C6410中，还可以采用简化的中断处理流程。由CPU直接去调用中断的ISR来处理。 这样中断处理软件的编写难度就大大下降了。</p>
-<p>向量(vector)</p>
-<p>  异常处理函数或中断处理函数的地址都会按中断号的顺离顺序排列在一个连续的内存当中，从<a href="http://lib.csdn.net/base/c" title="C语言知识库" target="_blank" rel="external">C语言</a>的角度来看，可以看成是一个指针数组。数组又称为向量(Vector).</p>
-<p>如果你熟悉S3C2440的中断处理机制，可以发现S3C6410大大简化的中断编程处理。</p>
-<p>   相对于S3C2440详细而丰富的关于中断的解释，S3C6410的dataSheet明显是赶工之作，关于中断只有短短的15页，大量内容还是寄存器表格。</p>
-<p>   因此以下大部分我从S3C6410的<a href="http://lib.csdn.net/base/softwaretest" title="软件测试知识库" target="_blank" rel="external">测试</a>程序和Application Note反推出来的。并且重新用ADS写程序验证了。</p>
-<p>S3C6410的中断主要改进是.</p>
-<p>  增加中断向量控制器，这样在S3C2440里需要用软件来跳转的中断处理机制，在S3C6410完全由硬件来跳转。你只要把ISR地址是存在连续向量寄存器空间，而不是象S3C2440自行分配空间自行管理。</p>
-<p>  换句话说，在S3C2440下是由CPU触发IRQ/FIQ异常，由异常处理函数里再查找相关中断寄存器来跳到指定的ISR，而可以全部由S3C6410的VIC硬件来自动处理。 这个大大简化中断处理编程。</p>
-<p> 另一个是外部中断加入滤波电路，这样原来需要软件去毛刺的地方均可以采用硬件来进行滤波了，这样大大简化外部中断处理。<br><img src="http://hi.csdn.net/attachment/201112/12/0_13236810030POa.gif" alt=""></p>
-<h2 id="S3C6410-中断操作"><a href="#S3C6410-中断操作" class="headerlink" title="S3C6410 中断操作"></a>S3C6410 中断操作</h2><p>S3C6410 中断号</p>
-<p><img src="http://hi.csdn.net/attachment/201112/12/0_1323681086386P.gif" alt=""><img src="http://hi.csdn.net/attachment/201112/12/0_1323681100pcPv.gif" alt=""></p>
-<p><img src="http://hi.csdn.net/attachment/201112/12/0_13236811343tvV.gif" alt=""></p>
-<p>64个中断按硬件分组分成VIC0, VIC1两个组，各组由一个相应寄存器来处理。<br>     中断号为0-31是VIC0组<br>     中断号为32-63是VIC1组</p>
-<p>S3C6410中断操作很简单。</p>
-<p>打开中断 VICxINTENABLE<br>  x为0,1,0-31中断使用VIC0INTENABLE,32-63中断使用VIC1INTENABLE.以下各寄存器均同，不再重复.</p>
-<p>对应位为1表示这个中断可用,如0号中断有效，是VIC0INTENABLE的第0位为1</p>
-<p><img src="http://hi.csdn.net/attachment/201112/12/0_1323681232Szii.gif" alt=""></p>
-<p>关闭一个中断<br>    向VICxINTENCLEAR对应位置1表示关闭这个中断.</p>
-<p><img src="http://hi.csdn.net/attachment/201112/12/0_13236813234Ljx.gif" alt=""></p>
-<p>设置中断类型<br>  设置某一个中断是IRQ还是FIQ,注意只有一个中断才能FIQ.设置对应位1表示设为FIQ模式。</p>
-<p><img src="http://hi.csdn.net/attachment/201112/12/0_1323681421H6x6.gif" alt=""></p>
-<p>设置S3C6410的向量地址（ISR地址）<br>   注意在S3C6410自已从了各用32个地址连续的寄存器然成两个寄存器数组。首地址分别是0x71200100和0x71300100.你可以象指针数组一样来操作它们，数组的下标就是中断号,每个中断源对应自己的中断地址位，共64个中断源，所以是两个32*32的数组。<br>   这样设置让开发者大大简单化ISR的向量组织。</p>
-<p><img src="http://hi.csdn.net/attachment/201112/12/0_1323681550qQe3.gif" alt=""></p>
-<p>设置中断优先级<br>   这个也采用用32*2寄存器形成两个优先级数组。每一个寄存器对应优先级别，取值范围在0-15之间.<br><img src="http://hi.csdn.net/attachment/201112/12/0_1323686293frqm.gif" alt=""></p>
-<p>中断运行后指示<br>   这个因为了用VIC，现在省掉了S3C2440一大堆的SRCPND,INTPND,INTOFFSET,SUBSRCPND等寄存器。直接由VICxADDRESS来指示当前的ISR地址。  </p>
-<p>  注意这个VICxADDRESS的寄存器，在S3C6410里称为在System BUS.调用。这种方式不建议调用,因为这种模式相当于S3C2440的用软件进行ISR跳转.<br>   这三星的给的参考流程。</p>
-<p><img src="http://hi.csdn.net/attachment/201112/12/0_132368644595M9.gif" alt=""></p>
-<p>更为简单的调用方式.是VIC port 模式，是我强烈推荐的模式，它是系统产生中断后，将由VIC直接去执行相应的ISR。这不仅上编程变成简单，而且效率上更快，因为它没有访问VICxADDRESS和在System BUS执行的时间<br>使用这种模式，只需要在启动加上特定的代码<br><img src="http://hi.csdn.net/attachment/201112/12/0_13236864630581.gif" alt=""></p>
-<p>外部中断编程</p>
-<p>除INT_EINT0-INT_EINT4以外，全部中断是由S3C6410内部的模块触发的。称为内部中断</p>
-<p>  INT_EINT0-INT_EINT4是外部中断，是由CPU外的外设来触发的，它的触发哪一个中断取决外设联接哪一个GPIO中断脚。<br>   象开发板的网络控制器,按钮等都是挂在某一些GPIO脚上。它们都是使用典形外部中断.</p>
-<p>外部中断脚<br>S3C6410 分9组GPIO脚来充当外部中断脚<br>  第0组,共28脚.GPN0-GPN15 (16脚),GPL8-GPL14(7脚),GPM0-GPM4 (5脚)<br>  第1组,由GPA0-GPA7,8个中断脚，GPB0-GPB7,8个中断脚<br>  第2组,由GPC0-GPC0,共8个中断脚…<br>     …<br>  第8组,由GPP0-GPP14,共15个中断脚<br>  第9组,由GPQ0-GPQ8,共9个中断脚</p>
-<p>外部中断号</p>
-<p>第0组的第0脚到第3脚的设备将触INT_EINT0=0中断<br>第0组的第4-11脚将触发INT_EINT1=1中断<br>第0组的第12-19脚将触发INT_EINT2=32中断<br>第0组的第20-27脚将触发INT_EINT3=33中断<br>第1组-第9组所有设备只触发INT_EINT4=53中断</p>
-<p>我们可以看到，每一个组都是多个中断脚共享一个中断号的。其中第0组比较常用，占用了3个中断号，每个管脚都有各自的子中断。1-9组共享一个中断号，每一组一个子中断源。</p>
-<p><img src="http://hi.csdn.net/attachment/201112/12/0_1323677969t4Ht.gif" alt=""></p>
-<p><img src="http://hi.csdn.net/attachment/201112/12/0_1323677986uizZ.gif" alt=""></p>
-<p><img src="http://hi.csdn.net/attachment/201112/12/0_1323677996rRrf.gif" alt=""></p>
-<p>在ISR中，如何判断是哪一个中断脚的产生中断？</p>
-<p>不同的IO脚上多个设备产生同一个中断，软件如何知道是哪一个脚？<br>由External Interrupt Pending Register 来判断</p>
-<p>第0组由EINT0PEND来判断，脚位对应可以参考上图，不是很规整。</p>
-<p>第1，2组由EINT12PEND来判断</p>
-<p><img src="http://hi.csdn.net/attachment/201112/12/0_1323678141k06i.gif" alt=""><img src="http://hi.csdn.net/attachment/201112/12/0_13236781569Fp0.gif" alt=""><br>依此类推，EINT34PEND，EINT56PEND， 一直到EINT9PEND 来指示</p>
-<p>外部中断信号类型</p>
-<p>  这里设置中断产生何种信号才会被捕获。主要是五种，低电平，高电平，上升沿，下降沿或者两者均可，<br>第0组用 EINT0CON0/EINT0CON1两个寄存器来设定.</p>
-<p>第1，2组采用 EINT12CON ,<br>第3,4组采用EINT34CON,<br>依此类推</p>
-<p><img src="http://hi.csdn.net/attachment/201112/12/0_132367841711Ow.gif" alt=""></p>
-<p>临时关闭外部中断<br>EINTxMask是临时性关闭中断<br>为1表示关闭某一个中断,为表示打开0,一般只要需要使用中断才会打开。 </p>
-<p>EINT0MASK是第0组的使用</p>
-<p>EINT12MASK是第1,2组的中断掩码</p>
-<p> 依次类推…</p>
-<p><img src="http://hi.csdn.net/attachment/201112/12/0_1323678476nwn2.gif" alt=""></p>
-<p>定义硬件滤波类型</p>
-<p>  对于一些波形不规整的外部中断信号，可以通过滤波电路让其变成规整，这样会简化软件的编写.</p>
-<p> S3C6410有两种滤波电路，一种延时滤波（如按钮类中断可以采用这一类型）,一种是数字采样滤波.第二种滤波电路还要设采样宽度。</p>
-<p>  第0组的滤波用EINT0FLTCON0，EINT0FLTCON1， EINT0FLTCON2， EINT0FLTCON3配置.</p>
-<p> FLTEN表示是否打开滤波功能,FLTSEL是设置滤波方式，EINTn表示数字滤波采校的宽度</p>
-<p><img src="http://hi.csdn.net/attachment/201112/12/0_1323678530gMsD.gif" alt=""></p>
-<p>第1,2组的滤波采用 EINT12FLTCON<br>第3,4组的滤波采用 EINT34FLTCON</p>
-<p>第9组滤波 采用EINT9FLTCON<br><img src="http://hi.csdn.net/attachment/201112/12/0_1323678530gMsD.gif" alt=""></p>
-<p>外部中断编程</p>
-<p>  外部中断除了中断编程所有流程外，<br>  一般额外配置相应的GPxCON配置成中断脚。<br>   还要配置滤波方式和中断信号方式。</p>
-<p>  还要打开外部中断掩码</p>
-<p>  在ISR中，在最后除了要把VICxADDRESS清0外，还需要清除 VICxSOFTINTCLEAR相应位。</p>
-<h2 id="软件中断编程"><a href="#软件中断编程" class="headerlink" title="软件中断编程"></a>软件中断编程</h2><p> 在S3C6410有64个软中断(与硬件中断对应）,这一段描述是非常含糊。是同一硬件中断可以用软件触发还是是，有一个完全对应的软件中断？这个需要软件来验证.</p>
-<p>  软中断除硬件中断的所有流程还要加上如下两条.<br>  用VICxSOFTINT来触发软中断<br>  ISR退出时使用VICxSOFTINTCLEAR清除状态<br><img src="http://hi.csdn.net/attachment/201112/12/0_1323678647QoAt.gif" alt=""><br>软中断编程流程</p>
-<p><img src="http://hi.csdn.net/attachment/201112/12/0_132367867928Kz.gif" alt=""></p>
+      6410的中断系统：
 
+嵌入式软件里的中断处理，除了中断初始化，主要工作就是编写ISR.
+
+ 在嵌入式的SOC的CPU里，在CPU里内部会带一些设备模块，它们产生的中断称为内部中断。因为联线比较固定，因此编程比较简单。而且在物理上CPU分离的芯片产生的中断
+      
+        <div class="readmore">
+          <a href="/EMBEDDED/S3C6410中断以及外部中断.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -485,46 +403,20 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><img src="http://yijiebuyi.com/file/171efc85cc4adffd24a7007d07c38bc6" alt="" title="index.png"></p>
-<p>总有一天你会遇到下面的问题.</p>
-<p>(1)改完代码匆忙提交,上线发现有问题,怎么办? 赶紧回滚.</p>
-<p>(2)改完代码测试也没有问题,但是上线发现你的修改影响了之前运行正常的代码报错,必须回滚.</p>
-<p>这些开发中很常见的问题,所以git的取消提交,回退甚至返回上一版本都是特别重要的.</p>
-<p>大致分为下面2种情况:</p>
-<p><strong>1.没有push</strong></p>
-<p>这种情况发生在你的本地代码仓库,可能你add ,commit 以后发现代码有点问题,准备取消提交,用到下面命令</p>
-<p>reset<br>git reset [–soft | –mixed | –hard</p>
-<p>上面常见三种类型</p>
-<p>–mixed</p>
-<p>会保留源码,只是将git commit和index 信息回退到了某个版本.</p>
-<p>git reset 默认是 –mixed 模式<br>git reset –mixed  等价于  git reset</p>
-<p>–soft</p>
-<p>保留源码,只回退到commit 信息到某个版本.不涉及index的回退,如果还需要提交,直接commit即可.</p>
-<p>–hard</p>
-<p>源码也会回退到某个版本,commit和index 都回回退到某个版本.(注意,这种方式是改变本地代码仓库源码)</p>
-<p>当然有人在push代码以后,也使用 reset –hard <commit...> 回退代码到某个版本之前,但是这样会有一个问题,你线上的代码没有变,线上commit,index都没有变,当你把本地代码修改完提交的时候你会发现权是冲突…..</commit...></p>
-<p>所以,这种情况你要使用下面的方式</p>
-<p><strong>2.已经push</strong></p>
-<p>对于已经把代码push到线上仓库,你回退本地代码其实也想同时回退线上代码,回滚到某个指定的版本,线上,线下代码保持一致.你要用到下面的命令</p>
-<blockquote>
-<p>revert</p>
-</blockquote>
-<p>git revert用于反转提交,执行evert命令时要求工作树必须是干净的.</p>
-<p>git revert用一个新提交来消除一个历史提交所做的任何修改.</p>
-<p>revert 之后你的本地代码会回滚到指定的历史版本,这时你再 git push 既可以把线上的代码更新.(这里不会像reset造成冲突的问题)</p>
-<p>revert 使用,需要先找到你想回滚版本唯一的commit标识代码,可以用 git log 或者在adgit搭建的web环境历史提交记录里查看.</p>
-<p>git revert c011eb3c20ba6fb38cc94fe5a8dda366a3990c61</p>
-<p>通常,前几位即可</p>
-<p>git revert c011eb3</p>
-<p>git revert是用一次新的commit来回滚之前的commit，git reset是直接删除指定的commit</p>
-<p>看似达到的效果是一样的,其实完全不同.</p>
-<p>第一:</p>
-<p>上面我们说的如果你已经push到线上代码库, reset 删除指定commit以后,你git push可能导致一大堆冲突.但是revert 并不会.</p>
-<p>第二:</p>
-<p>如果在日后现有分支和历史分支需要合并的时候,reset 恢复部分的代码依然会出现在历史分支里.但是revert 方向提交的commit 并不会出现在历史分支里.</p>
-<p>第三:</p>
-<p>reset 是在正常的commit历史中,删除了指定的commit,这时 HEAD 是向后移动了,而 revert 是在正常的commit历史中再commit一次,只不过是反向提交,他的 HEAD 是一直向前的.</p>
+      总有一天你会遇到下面的问题.
 
+(1)改完代码匆忙提交,上线发现有问题,怎么办? 赶紧回滚.
+
+(2)改完代码测试也没有问题,但是上线发现你的修改影响了之前运行正常的代码报错,必须回滚.
+
+这些开发中很常见的问题,所以git的取消提交,回退甚至返回上一版本
+      
+        <div class="readmore">
+          <a href="/SYSTEM/git reset revert 回退回滚取消提交返回上一版本.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -615,54 +507,18 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <h1 id="Github上怎么修改别人的项目并且提交给原作者！图文并茂！"><a href="#Github上怎么修改别人的项目并且提交给原作者！图文并茂！" class="headerlink" title="Github上怎么修改别人的项目并且提交给原作者！图文并茂！"></a>Github上怎么修改别人的项目并且提交给原作者！图文并茂！</h1><hr>
-<blockquote>
-<p>写这篇博客的初衷，是因为我的项目Only需要一些朋友一起参与进来，但是很多的<a href="http://lib.csdn.net/base/git" title="Git知识库" target="_blank" rel="external">Git</a>都不是很熟练，其实<a href="http://lib.csdn.net/base/git" title="Git知识库" target="_blank" rel="external">版本控制</a>这种东西没有什么难度的，只要稍微掌握以下就好了，如果有兴趣的话也可以到Only这个项目进来</p>
-</blockquote>
-<ul>
-<li>Only:<a href="https://github.com/LiuGuiLinAndroid/Only" target="_blank" rel="external">https://github.com/LiuGuiLinAndroid/Only</a></li>
-</ul>
-<blockquote>
-<p>好的，不多说，直接开车了，我们先简单的找一个项目，比如这个项目，我需要更改他的内容，我们就直接fork这个项目</p>
-</blockquote>
-<p><img src="http://img.blog.csdn.net/20160812184548322" alt="这里写图片描述"></p>
-<blockquote>
-<p>紧接着你就可以看到这个项目已经被你fork了</p>
-</blockquote>
-<p><img src="http://img.blog.csdn.net/20160812184707354" alt="这里写图片描述"></p>
-<blockquote>
-<p>现在我们就可以直接clone下我们自己的项目来了</p>
-</blockquote>
-<p><code class="hljs php has-numbering">git clone xxxx</code></p>
-<blockquote>
-<p>我们clone下来之后就可以更改了，这里我就在说明文件里加一句话：到此一游就好了，紧接着，我们提交</p>
-</blockquote>
-<p><img src="http://img.blog.csdn.net/20160812185041421" alt="这里写图片描述"></p>
-<blockquote>
-<p>到这里，我们就可以在Github上看到我们自己的更新了</p>
-</blockquote>
-<p><img src="http://img.blog.csdn.net/20160812185447413" alt="这里写图片描述"></p>
-<blockquote>
-<p>然后我们点击项目上的Pull request去请求</p>
-</blockquote>
-<p><img src="http://img.blog.csdn.net/20160812185521241" alt="这里写图片描述"></p>
-<blockquote>
-<p>在这里写上我们的更新日志和更改了什么东西，然后点击Create pull request</p>
-</blockquote>
-<p><img src="http://img.blog.csdn.net/20160812185605101" alt="这里写图片描述"></p>
-<blockquote>
-<p>到这里，就没有我们什么事了，我们只要等待作者收到邮件同意我们的更新就好了，那作者哪里做了什么呢？</p>
-<p>当他收到这个请求就会看到</p>
-</blockquote>
-<p><img src="http://img.blog.csdn.net/20160812185656071" alt="这里写图片描述"></p>
-<blockquote>
-<p>只要点击同意，我们的提交就合并到他的代码里去了，就可以看到提交信息了</p>
-</blockquote>
-<p><img src="http://img.blog.csdn.net/20160812185722977" alt="这里写图片描述"></p>
-<blockquote>
-<p>这个时候你的代码就静静的躺在作者的Github里了</p>
-</blockquote>
+      Github上怎么修改别人的项目并且提交给原作者！图文并茂！
 
+
+
+写这篇博客的初衷，是因为我的项目Only需要一些朋友一起参与进来，但是很多的Git都不是很熟练，其实版本控制这种东西没有什么难度的，只要稍微掌握以下就好了，如果有兴趣的话也可以到Only这
+      
+        <div class="readmore">
+          <a href="/SYSTEM/Github上怎么修改别人的项目并且提交给原作者！图文并茂！.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -753,248 +609,16 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>本篇文章主要介绍了”MQTT C Client实现消息推送（入门指南）”，主要涉及到MQTT C Client实现消息推送（入门指南）方面的内容，对于MQTT C Client实现消息推送（入门指南）感兴趣的同学可以参考一下。</p>
-<p>MQTT（Message Queuing Telemetry Transport，消息队列遥测传输）是IBM开发的一个即时通讯协议，通过MQTT协议，目前已经扩展出了数十个MQTT服务器端程序，可以通过PHP，JAVA，Python，C，C#等系统语言来向MQTT发送相关消息。随着移动互联网的发展，MQTT由于开放源代码，耗电量小等特点，将会在移动消息推送领域会有更多的贡献，在物联网领域，传感器与服务器的通信，信息的收集，MQTT都可以作为考虑的方案之一。在未来MQTT会进入到我们生活的各各方面。The Paho MQTT C Client is a fully fledged MQTT client written in ANSI standard C. It avoids C++ in order to be as portable as possible. A C++ layer over this library is also available in Paho.</p>
-<hr>
-<p>目录：</p>
-<ul>
-<li><a href="http://www.fx114.net/qa-170-148600.aspx#何为mqtt" target="_blank" rel="external">何为MQTT</a></li>
-<li><a href="http://www.fx114.net/qa-170-148600.aspx#生成dll库混合编程" target="_blank" rel="external">生成dll库混合编程</a></li>
-<li><a href="http://www.fx114.net/qa-170-148600.aspx#mqtt-c-client实战" target="_blank" rel="external">MQTT C Client实战</a><ul>
-<li><a href="http://www.fx114.net/qa-170-148600.aspx#synchronous-publication-example" target="_blank" rel="external">Synchronous publication example</a></li>
-<li><a href="http://www.fx114.net/qa-170-148600.aspx#asynchronous-publication-example" target="_blank" rel="external">Asynchronous publication example</a></li>
-<li><a href="http://www.fx114.net/qa-170-148600.aspx#asynchronous-subscription-example" target="_blank" rel="external">Asynchronous subscription example</a></li>
-</ul>
-</li>
-</ul>
-<h1 id="何为MQTT？"><a href="#何为MQTT？" class="headerlink" title="何为MQTT？"></a>何为MQTT？</h1><p>MQTT主要用于服务端对客户端进行消息推送，根据这个具体要求，很容易知道它包括两个部分：客户端、服务端。</p>
-<p>MQTT消息推送是基于主题<code>topic</code>模式的，可以分开来说：</p>
-<ul>
-<li>客户端发布一条消息时，必须指定消息主题。（如，topic=”天气”,payload=”北京今天雾霾好大啊~~呜呜”），其中topic就是主题，payload是发送的具体内容。</li>
-<li><p>服务端推送消息，也是基于主题的。当服务器发现有主题（如，topic=“天气”）时，就会给所有订阅该主题的客户端推送payload内容。</p>
-<ul>
-<li>这里需要个前提，就是有客户端订阅topic=”天气”这个主题；</li>
-<li>一旦客户端订阅该主题，服务端就会每收到该主题的消息，都会推送给订阅该主题的客户端。如果客户端不需要关注该主题了，也就是说不想接受到这样的推送消息了，只要取消otpic=”天气”的主题订阅即可。</li>
-</ul>
-</li>
-</ul>
-<p>MQTT协议是为大量计算能力有限，且工作在低带宽、不可靠的网络的远程传感器和控制设备通讯而设计的协议，它具有以下主要的几项特性：</p>
-<ol>
-<li>使用发布/订阅消息模式，提供一对多的消息发布，解除应用程序耦合；</li>
-<li>对负载内容屏蔽的消息传输；</li>
-<li>使用 TCP/IP 提供网络连接；</li>
-<li><p>有三种消息发布服务质量：</p>
-<ul>
-<li>“至多一次”，消息发布完全依赖底层 TCP/IP 网络。会发生消息丢失或重复。这一级别可用于如下情况，环境传感器数据，丢失一次读记录无所谓，因为不久后还会有第二次发送。</li>
-<li>“至少一次”，确保消息到达，但消息重复可能会发生。</li>
-<li>“只有一次”，确保消息到达一次。这一级别可用于如下情况，在计费系统中，消息重复或丢失会导致不正确的结果。（在实际编程中，只需要设置QoS值即可实现以上几种不同消息发布服务质量模式）</li>
-</ul>
-</li>
-<li>小型传输，开销很小（固定长度的头部是 2 字节），协议交换最小化，以降低网络流量；</li>
-<li>使用 Last Will 和 Testament 特性通知有关各方客户端异常中断的机制；</li>
-</ol>
-<h1 id="生成dll库？混合编程？"><a href="#生成dll库？混合编程？" class="headerlink" title="生成dll库？混合编程？"></a>生成dll库？混合编程？</h1><p>在开始开发之前需要做一些准备工作，MQTT已经把所有的APIs封装好了，我们可以使用它的dll库，也可以直接导入源码进行混合编程，一般要求不高的话（因为不太懂得话，最好不要修改源码）可以直接将源码生成dll，然后使用即可，下文就是使用该方式：</p>
-<blockquote>
-<p>git clone <a href="https://github.com/eclipse/paho.mqtt.c.git" target="_blank" rel="external">https://github.com/eclipse/paho.mqtt.c.git</a></p>
-</blockquote>
-<p>从这里获得C Client源码之后，可以直接使用VS打开（我是VS2013）：</p>
-<p><img src="http://img.blog.csdn.net/20170501145609146?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcWluZ2R1anVu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
-<p>对于上图的说明，下载源码后，打开将是以上界面，包括十来个工程，这里讲解几个：</p>
-<ul>
-<li>paho-mqtt3a ： 一般实际开发中就是使用这个，a表示的是异步消息推送（asynchronous）。</li>
-<li>paho-mqtt3as ： as表示的是 异步+加密（asynchronous+OpenSSL）。</li>
-<li>paho-mqtt3c ： c 表示的应该是同步（Synchronize），一般性能较差，是发送+等待模式。</li>
-<li>paho-mqtt3cs ： 同上，增加了一个OpenSSL而已。</li>
-</ul>
-<p>这里根据自身的需要选择不同的项目生成DLL即可，右击单个项目-&gt;生成。由于你电脑中可能没有OPenSSL环境，如果点击VS工具栏中的生成解决方案，十有八九会失败，因为它会生成所有项目的解决方案，其实你根本用不着这么多。</p>
-<p>另外，上图中无法打开包括文件<code>VersionInfo.h</code>，你只需要在src文件夹中找到VersionInfo.h.in文件，去掉.in后缀-&gt;重新生成即可。</p>
-<h1 id="MQTT-C-Client实战"><a href="#MQTT-C-Client实战" class="headerlink" title="MQTT C Client实战"></a>MQTT C Client实战</h1><p>了解更多可以阅读《<a href="https://www.eclipse.org/paho/clients/c/" target="_blank" rel="external">MQTT C Client for Posix and Windows</a>》一文，下面根据官网资料，摘录了几个C语言实现MQTT的小DEMO。</p>
-<p>MQTT使用起来也十分容易，基本上就那四五个函数：MQTTClient_create（创建客户端）、MQTTClient_connect（连接服务端）、MQTTClient_publishMessage（客户端-&gt;服务端发送消息）、MQTTClient_subscribe（客户端订阅某个主题）等等。其中，很多异步回调函数，需要自己去实现，如，</p>
-<pre><code>MQTTAsync_setCallbacks(mqtt-&gt;_client, mqtt-&gt;_client, connlost, msgarrvd, NULL);
-</code></pre><p>MQTTAsync_setCallbacks中，</p>
-<ul>
-<li>connlost函数指针，是当MQTT意外断开链接时会回调的函数，由自己实现；</li>
-<li>msgarrvd函数指针，是当服务器有消息推送回来时，客户端在此处接受服务端消息内容。</li>
-</ul>
-<p>另外，就是一些函数执行是否成功的回调函数，C语言封装回调之后，就是这么写法，看起来有些变扭。有兴趣的可以看《<a href="http://blog.csdn.net/qingdujun/article/details/69789300" target="_blank" rel="external">浅谈C/C++回调函数（Callback）&amp; 函数指针</a>》文章，再了解以下回调函数。</p>
-<pre><code>mqtt-&gt;_conn_opts.onSuccess = onConnect;
-mqtt-&gt;_conn_opts.onFailure = onConnectFailure;
-</code></pre><p>最后，不得不说的就是，MQTT有些发送或者是订阅的内容时（某些函数中），在编程最好将参数中传进来的值在内存中拷贝一份再操作，笔者当时开发时，就是因为这样的问题，折腾了较长时间，后来在wireshark中发现数据包中根本没有内容，才知道是由于函数参数是指针形式，直接在异步中使用可能会发生一些未知的错误。</p>
-<h2 id="Synchronous-publication-example"><a href="#Synchronous-publication-example" class="headerlink" title="Synchronous publication example"></a>Synchronous publication example</h2><pre><code>#include &quot;stdio.h&quot;
-#include &quot;stdlib.h&quot;
-#include &quot;string.h&quot;
-#include &quot;MQTTClient.h&quot;
-#define ADDRESS     &quot;tcp://localhost:1883&quot;
-#define CLIENTID    &quot;ExampleClientPub&quot;
-#define TOPIC       &quot;MQTT Examples&quot;
-#define PAYLOAD     &quot;Hello World!&quot;
-#define QOS         1
-#define TIMEOUT     10000L
-int main(int argc, char* argv[])
-{
-    MQTTClient client;
-    MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
-    MQTTClient_message pubmsg = MQTTClient_message_initializer;
-    MQTTClient_deliveryToken token;
-    int rc;
-    MQTTClient_create(&amp;client, ADDRESS, CLIENTID,
-        MQTTCLIENT_PERSISTENCE_NONE, NULL);
-    conn_opts.keepAliveInterval = 20;
-    conn_opts.cleansession = 1;
-    if ((rc = MQTTClient_connect(client, &amp;conn_opts)) != MQTTCLIENT_SUCCESS)
-    {
-        printf(&quot;Failed to connect, return code %d\n&quot;, rc);
-        exit(EXIT_FAILURE);
-    }
-    pubmsg.payload = PAYLOAD;
-    pubmsg.payloadlen = strlen(PAYLOAD);
-    pubmsg.qos = QOS;
-    pubmsg.retained = 0;
-    MQTTClient_publishMessage(client, TOPIC, &amp;pubmsg, &amp;token);
-    printf(&quot;Waiting for up to %d seconds for publication of %s\n&quot;
-            &quot;on topic %s for client with ClientID: %s\n&quot;,
-            (int)(TIMEOUT/1000), PAYLOAD, TOPIC, CLIENTID);
-    rc = MQTTClient_waitForCompletion(client, token, TIMEOUT);
-    printf(&quot;Message with delivery token %d delivered\n&quot;, token);
-    MQTTClient_disconnect(client, 10000);
-    MQTTClient_destroy(&amp;client);
-    return rc;
-}
-</code></pre><h2 id="Asynchronous-publication-example"><a href="#Asynchronous-publication-example" class="headerlink" title="Asynchronous publication example"></a>Asynchronous publication example</h2><pre><code>#include &quot;stdio.h&quot;
-#include &quot;stdlib.h&quot;
-#include &quot;string.h&quot;
-#include &quot;MQTTClient.h&quot;
-#define ADDRESS     &quot;tcp://localhost:1883&quot;
-#define CLIENTID    &quot;ExampleClientPub&quot;
-#define TOPIC       &quot;MQTT Examples&quot;
-#define PAYLOAD     &quot;Hello World!&quot;
-#define QOS         1
-#define TIMEOUT     10000L
-volatile MQTTClient_deliveryToken deliveredtoken;
-void delivered(void *context, MQTTClient_deliveryToken dt)
-{
-    printf(&quot;Message with token value %d delivery confirmed\n&quot;, dt);
-    deliveredtoken = dt;
-}
-int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message)
-{
-    int i;
-    char* payloadptr;
-    printf(&quot;Message arrived\n&quot;);
-    printf(&quot;     topic: %s\n&quot;, topicName);
-    printf(&quot;   message: &quot;);
-    payloadptr = message-&gt;payload;
-    for(i=0; i&lt;message-&gt;payloadlen; i++)
-    {
-        putchar(*payloadptr++);
-    }
-    putchar(&#39;\n&#39;);
-    MQTTClient_freeMessage(&amp;message);
-    MQTTClient_free(topicName);
-    return 1;
-}
-void connlost(void *context, char *cause)
-{
-    printf(&quot;\nConnection lost\n&quot;);
-    printf(&quot;     cause: %s\n&quot;, cause);
-}
-int main(int argc, char* argv[])
-{
-    MQTTClient client;
-    MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
-    MQTTClient_message pubmsg = MQTTClient_message_initializer;
-    MQTTClient_deliveryToken token;
-    int rc;
-    MQTTClient_create(&amp;client, ADDRESS, CLIENTID,
-        MQTTCLIENT_PERSISTENCE_NONE, NULL);
-    conn_opts.keepAliveInterval = 20;
-    conn_opts.cleansession = 1;
-    MQTTClient_setCallbacks(client, NULL, connlost, msgarrvd, delivered);
-    if ((rc = MQTTClient_connect(client, &amp;conn_opts)) != MQTTCLIENT_SUCCESS)
-    {
-        printf(&quot;Failed to connect, return code %d\n&quot;, rc);
-        exit(EXIT_FAILURE);
-    }
-    pubmsg.payload = PAYLOAD;
-    pubmsg.payloadlen = strlen(PAYLOAD);
-    pubmsg.qos = QOS;
-    pubmsg.retained = 0;
-    deliveredtoken = 0;
-    MQTTClient_publishMessage(client, TOPIC, &amp;pubmsg, &amp;token);
-    printf(&quot;Waiting for publication of %s\n&quot;
-            &quot;on topic %s for client with ClientID: %s\n&quot;,
-            PAYLOAD, TOPIC, CLIENTID);
-    while(deliveredtoken != token);
-    MQTTClient_disconnect(client, 10000);
-    MQTTClient_destroy(&amp;client);
-    return rc;
-}
-</code></pre><h2 id="Asynchronous-subscription-example"><a href="#Asynchronous-subscription-example" class="headerlink" title="Asynchronous subscription example"></a>Asynchronous subscription example</h2><pre><code>#include &quot;stdio.h&quot;
-#include &quot;stdlib.h&quot;
-#include &quot;string.h&quot;
-#include &quot;MQTTClient.h&quot;
-#define ADDRESS     &quot;tcp://localhost:1883&quot;
-#define CLIENTID    &quot;ExampleClientSub&quot;
-#define TOPIC       &quot;MQTT Examples&quot;
-#define PAYLOAD     &quot;Hello World!&quot;
-#define QOS         1
-#define TIMEOUT     10000L
-volatile MQTTClient_deliveryToken deliveredtoken;
-void delivered(void *context, MQTTClient_deliveryToken dt)
-{
-    printf(&quot;Message with token value %d delivery confirmed\n&quot;, dt);
-    deliveredtoken = dt;
-}
-int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message)
-{
-    int i;
-    char* payloadptr;
-    printf(&quot;Message arrived\n&quot;);
-    printf(&quot;     topic: %s\n&quot;, topicName);
-    printf(&quot;   message: &quot;);
-    payloadptr = message-&gt;payload;
-    for(i=0; i&lt;message-&gt;payloadlen; i++)
-    {
-        putchar(*payloadptr++);
-    }
-    putchar(&#39;\n&#39;);
-    MQTTClient_freeMessage(&amp;message);
-    MQTTClient_free(topicName);
-    return 1;
-}
-void connlost(void *context, char *cause)
-{
-    printf(&quot;\nConnection lost\n&quot;);
-    printf(&quot;     cause: %s\n&quot;, cause);
-}
-int main(int argc, char* argv[])
-{
-    MQTTClient client;
-    MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
-    int rc;
-    int ch;
-    MQTTClient_create(&amp;client, ADDRESS, CLIENTID,
-        MQTTCLIENT_PERSISTENCE_NONE, NULL);
-    conn_opts.keepAliveInterval = 20;
-    conn_opts.cleansession = 1;
-    MQTTClient_setCallbacks(client, NULL, connlost, msgarrvd, delivered);
-    if ((rc = MQTTClient_connect(client, &amp;conn_opts)) != MQTTCLIENT_SUCCESS)
-    {
-        printf(&quot;Failed to connect, return code %d\n&quot;, rc);
-        exit(EXIT_FAILURE);
-    }
-    printf(&quot;Subscribing to topic %s\nfor client %s using QoS%d\n\n&quot;
-           &quot;Press Q&lt;Enter&gt; to quit\n\n&quot;, TOPIC, CLIENTID, QOS);
-    MQTTClient_subscribe(client, TOPIC, QOS);
-    do 
-    {
-        ch = getchar();
-    } while(ch!=&#39;Q&#39; &amp;&amp; ch != &#39;q&#39;);
-    MQTTClient_disconnect(client, 10000);
-    MQTTClient_destroy(&amp;client);
-    return rc;
-}
-</code></pre>
+      本篇文章主要介绍了”MQTT C Client实现消息推送（入门指南）”，主要涉及到MQTT C Client实现消息推送（入门指南）方面的内容，对于MQTT C Client实现消息推送（入门指南）感兴趣的同学可以参考一下。
+
+MQTT（Message 
+      
+        <div class="readmore">
+          <a href="/EMBEDDED/MQTT C Client实现消息推送（入门指南）.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -1085,70 +709,14 @@ int main(int argc, char* argv[])
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/1343221Y0-0.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
-<p>作为差不多和cloudflare一道被国内的站长们认识的Incapsula，其提供的免费CDN加速服务一直可以正常使用，且有多个CDN节点可供选择。而cloudflare提供的免费CDN服务虽然不错，但是不知道是不是因为国内用户用太多了还是其他什么原因，现在用起来总会有各种问题。</p>
-<p>Incapsula最早部落是在三年前介绍的，现在之所以要再次分享一下Incapsula的免费CDN申请使用教程，一来是给不是很了解Incapsula的朋友一个简单普及，Incapsula的CDN其实有不少的高级用法；二来是Incapsula最近推出的香港CDN节点，很必要来体验不同的CDN节点在国内连接速度快慢。</p>
-<p>根据部落自己的统计，Incapsula可供查询的CDN节点共有60多个，主要是分布在美国、爱尔兰、日本、中国香港等地区，由于Incapsula的CDN服务是全球服务网络，因此只要有一个节点缓存了我们的网站，就可以在其它CDN节点上访问了。明白了这一点，我们就可以指定自己的CDN节点为日本或者香港。</p>
-<p>一般来说，网站放在亚太地区的话国内用户访问会感觉比美国主机要快一些，本篇文章就来对比一下Incapsula的日本、香港和美国CDN节点在国内的访问连接速度状况。Incapsula以前免费CDN套餐月流量为50GB，刚刚去官网查看了一下发现免费CDN套餐现以已经没有明确说明多少月流量限制。</p>
-<p>看了一下Incapsula的付费套餐也都没有月流量限制，区别主要是在防护攻击、CDN高级功能等方面，所以目前姑且认为Incapsula提供免费CDN服务没有流量限制，但是只是基本的CDN加速，应该在CDN资源利用方面作了限制。（部落刚刚狂刷新自己测试博客，有遇到一次超出资源配额提示，由此推测Incapsula在访问连接方面作了人为限制）</p>
-<p><strong>Incapsula免费CDN服务申请使用:日本、香港、美国CDN加速效果测评</strong></p>
-<p><strong>一、Incapsula免费CDN申请使用</strong></p>
-<p>1、Incapsula官网：</p>
-<p>1、官方网站：<a href="http://www.incapsula.com/" target="_blank" rel="external">http://www.incapsula.com/</a></p>
-<p>2、进入Incapsula官网，直接注册一个账号，然后登录到Incapsula管理后台，添加一个你想要使用CDN加速的网站。</p>
-<p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/13432220Q-1.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
-<p>3、等Incapsula检测你的域名的DNS通过后，就可以点击下一步了。</p>
-<p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/1343221338-2.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
-<p>4、然后Incapsula就会给出A记录和CNAME记录。</p>
-<p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/1343221947-3.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
-<p>5、你需要到你的域名DNS管理处，将域名的@的A记录修改为Incapsula给你的IP（一般有两个），域名的www的记录修改为Incapsula给你的CNAME记录。</p>
-<p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/13432240O-4.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
-<p>6、完成了以上操作后，就可以点击完成设置，Incapsula检测到你的域名的DNS更新成功后，你就可以在Incapsula查处和管理你的CDN了。</p>
-<p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/1343221501-5.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
-<p><strong>二、Incapsula CDN管理面板使用</strong></p>
-<p>1、这是Incapsula CDN的管理后台，主要是可以查看CDN流量统计、安全、CDN性能、管理日志等（点击放大）。</p>
-<p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/134322CA-6.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
-<p>2、在Incapsula的设置当中，你可以查看CDN的源服务器IP地址，如果你的服务器IP有变动，就可以在这里直接修改。</p>
-<p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/1343223B8-7.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
-<p>3、Incapsula还支持设置带www和不带www的域名跳转（利用这个功能，你不再需要在Htaccess中设置301跳转了）、是否显示推广广告、网站原DNS和CDN的DNS记录详情等，点击放大：</p>
-<p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/1343225M6-8.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
-<p>4、Incapsula有一个登录保护功能，这个功能对于那些有用户账号系统登录页面的网站来说，将可以有效地保护好账号的安全。</p>
-<p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/1343226036-9.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
-<p>5、添加你想要使用Incapsula登录保护的页面的URL，然后用户在访问这个页面时需要授权了。</p>
-<p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/134322OK-10.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
-<p>6、Incapsula还提供了CDN缓存模式可供选择：关闭、标准和进阶模式。</p>
-<p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/13432225T-11.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
-<p>7、Incapsula还会通过对JS、CSS、Html等静态文件压缩，以达到加快页面加载的速度，你可以有选择性地关闭它们。</p>
-<p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/1343222357-12.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
-<p>8、Incapsula还会有一些高级的CDN缓存设置，比如Http头的no-cache、Max-age、Last Modified等协议，你都可以在Incapsula中选择是否遵循。</p>
-<p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/1343225952-13.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
-<p><strong>三、Incapsula设置日本、香港CDN节点</strong></p>
-<p>1、Incapsula的CDN节点分布在香港、东京、新加坡、阿姆斯特丹、伦敦、阿什本、san jose、洛杉矶、特拉维夫、阿什维尔等地区，其中香港、东京是我们国内连接速度最快的主机机房位置。</p>
-<p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/1343225512-14.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
-<p>2、一般来说我们会选择Incapsula香港或者日本的CDN节点作为我们网站的加速的CDN，而要做到这一点，我们只需要知道CDN的节点服务器IP就可以了。Incapsula所有的CDN节点IP地址可以在这里找到：<a href="http://bgp.he.net/AS19551#_prefixes" target="_blank" rel="external">http://bgp.he.net/AS19551#_prefixes</a></p>
-<p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/1343225D1-15.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
-<p>3、想要设置Incapsula日本、香港CDN节点，先要保证参考上面的方法操作，网站已经成功接入了Incapsula的CDN，然后再到你的域名DNS管理处，将原来的CNAME记录删除，把@和www等记录全部改为A记录，记录值是Incapsula的CDN节点的IP地址。</p>
-<p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/1343222359-16.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
-<p>4、由于Incapsula的CDN节点有非常多的IP地址，我们可以多设置几个A记录。等DNS生效后，我们就能看到自己的网站访问到的Incapsula CDN节点已经变成了日本或者香港了。</p>
-<p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/1343221S2-17.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
-<p><strong>四、Incapsula日本、香港、美国CDN加速效果比较</strong></p>
-<p>1、默认的我们在Incapsula添加自己的网站加速时，系统分给我们的是美国的Incapsula CDN加速节点，通过站长工具测试发现Incapsula的美国CDN服务器在国内连接状态还算不错，比较少丢包，Ping值一般在270-300之间。</p>
-<p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/1343225354-18.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
-<p>2、Incapsula日本和香港的Ping情况差不多，丢包比较少，响应时间也差不多。</p>
-<p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/1343224P7-19.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
-<p>3、这是晚上测试Incapsula香港CDN节点的响应时间，平均在200左右。</p>
-<p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/1343222421-20.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
-<p>4、这是白天测试Incapsula香港CDN节点的响应时间，平均在170左右。</p>
-<p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/1343221916-21.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
-<p>5、Incapsula日本和香港的Ping测试结果显然不是很让满意，按照以往的经验日本和香港的Ping响应时间一般是在70以下。用路由追踪工具查看了一下国内连接Incapsula日本和香港的线路走势，电信用户是绕道日本后再到香港的。</p>
-<p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/134322G24-22.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
-<p>6、联通用户访问也是一样，先到日本，再到香港。</p>
-<p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/1343225G0-23.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
-<p><strong>五、Incapsula日本香港免费CDN使用小结</strong></p>
-<p>1、Incapsula与Cloudflare比较起来，可以不用修改NS，采用CNAME记录的方式就可以接入到CDN，方便不少。Incapsula 每个节点一个ip，未使用anycast技术，因此方便了我们根据自己</p>
-<p>的需要来设置CDN节点的IP地址。</p>
-<p>2、不过，从测试的结果来看，Incapsula日本香港免费CDN节点国内并不是直连，基本上都是绕道到美国或者日本，所以也就看到了日本和香港的Incapsula CDN使用效果差不多，有些美国线路情况比较好的CDN节点速度也很快。</p>
-
+      作为差不多和cloudflare一道被国内的站长们认识的Incapsula，其提供的免费CDN加速服务一直可以正常使用，且有多个CDN节点可供选择。而cloudflare提供的免费CDN服务虽然不错，但是不知道是不是因为国内用户用太多了还是其他什么原因，现
+      
+        <div class="readmore">
+          <a href="/NETWORK/Incapsula免费CDN服务申请使用及加速效果测评.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -1239,25 +807,19 @@ int main(int argc, char* argv[])
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><strong>前情提要</strong></p>
-<p>最近想在mini2440上模仿linux 0.12的代码实现arm版本的linux。<br>一来是想巩固下arm，在就是学习下操作系统的相关只是。<br>哎、最后之前的想法非常幼稚，心想学就学最新，当时想看懂linux 3.x的版本。<br>没想到越看越老，从3.x到2.x, 再到0.12 呵。<br>我想真把 0.12 玩的非常通其实也不是件易事。<br>从硬件到系统，mmu到进程，等等。如何有机的组在一起运行起来，也是很费精力。</p>
-<p>废话不多说，学习的环境为，gentoo + qemu_mini2440.</p>
-<p>说实话如果你条件方便，还是买个板子吧， 因为学操作系统和硬件非常相关。<br>而qemu虚拟只是模拟出用到的基本功能，和真实的硬件环境确实相差不少。<br>例如，在真是环境中，mini2440 的启动方式为，sd 或nand 到 stepping stone,<br>然后再纠结的到sdram。<br>但是到了qemu你就醉了，它是直接把代码拷贝到sdram的。你说你是不很闹心。<br>玩起来是不并不是随心所欲了 呵呵。</p>
-<p>发现此问题是通过gdb调试发现。</p>
-<p>在此顺便记下qemu_gdb方法：</p>
-<p>qemu启动：</p>
-<blockquote>
-<p>qemu-system-arm -M mini2440 -m 256m -mtdblock mini2440_nand128.bin -serial stdio -nographic -gdb tcp::1234 -S</p>
-</blockquote>
-<p>gdb启动：</p>
-<h1 id="gdb"><a href="#gdb" class="headerlink" title="gdb"></a>gdb</h1><pre><code>(gdb) file vmlinux
-(gdb) target remote :1234
-(gdb) b start_kernel
-(gdb) c
-(gdb) x /200xb 0x004013ce  //以十六进制查看内存
-(gdb) x /10i main           //以汇编的方式查看内存
-(gdb) disassemble main       //等同上面
-</code></pre>
+      前情提要
+
+最近想在mini2440上模仿linux 0.12的代码实现arm版本的linux。
+一来是想巩固下arm，在就是学习下操作系统的相关只是。
+哎、最后之前的想法非常幼稚，心想学就学最新，当时想看懂linux 3.x的版本。
+没想到越看越老，从3
+      
+        <div class="readmore">
+          <a href="/EMBEDDED/mini2440/qemu模拟mini2440调试手册.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -1348,28 +910,16 @@ int main(int argc, char* argv[])
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p>DNAT（Destination Network Address Translation,目的地址转换) 通常被叫做目的映射。而SNAT（Source Network Address Translation，源地址转换）通常被叫做源映射。</p>
-<p>这是我们在设置<a href="http://lib.csdn.net/base/linux" title="Linux知识库" target="_blank" rel="external">Linux</a>网关或者防火墙时经常要用来的两种方式。以前对这两个都解释得不太清楚，现在我在这里解释一下。</p>
-<p>首先，我们要了解一下IP包的结构，如下图所示：<br><img src="http://blog.myhnet.cn/wp-content/uploads/2009/01/iphdr.gif" alt="ipv4"><br>在任何一个IP数据包中，都会有Source IP Address与Destination IP Address这两个字段，数据包所经过的路由器也是根据这两个字段是判定数据包是由什么地方发过来的，它要将数据包发到什么地方去。而iptables的DNAT与SNAT就是根据这个原理，对Source IP Address与Destination IP Address进行修改。</p>
-<p>然后，我们再看看数据包在iptables中要经过的链（chain）：<br><img src="http://blog.myhnet.cn/wp-content/uploads/2009/01/netfilter_packet_flow.png" alt="**netfilter_packet_flow**"></p>
-<p>图中正菱形的区域是对数据包进行判定转发的地方。在这里，系统会根据IP数据包中的destination ip address中的IP地址对数据包进行分发。如果destination ip adress是本机地址，数据将会被转交给INPUT链。如果不是本机地址，则交给FORWARD链检测。<br>这也就是说，我们要做的DNAT要在进入这个菱形转发区域之前，也就是在PREROUTING链中做，比如我们要把访问202.103.96.112的访问转发到192.168.0.112上：</p>
-<p><code class="hljs lasso has-numbering">iptables -t nat -A PREROUTING -d 202.103.96.112 -j DNAT –to-destination 192.168.0.112</code></p>
-<p>这个转换过程当中，其实就是将已经达到这台<a href="http://lib.csdn.net/base/linux" title="Linux知识库" target="_blank" rel="external">linux</a>网关（防火墙）上的数据包上的destination ip address从202.103.96.112修改为192.168.0.112然后交给系统路由进行转发。</p>
-<p>而SNAT自然是要在数据包流出这台机器之前的最后一个链也就是POSTROUTING链来进行操作</p>
-<p><code class="hljs lasso has-numbering">iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -j SNAT –to-source 58.20.51.66</code></p>
-<p>这个语句就是告诉系统把即将要流出本机的数据的source ip address修改成为58.20.51.66。这样，数据包在达到目的机器以后，目的机器会将包返回到58.20.51.66也就是本机。如果不做这个操作，那么你的数据包在传递的过程中，reply的包肯定会丢失。</p>
-<p>假如当前系统用的是ADSL/3G/4G动态拨号方式，那么每次拨号，出口IP都会改变，SNAT就会有局限性。</p>
-<p><code class="hljs lasso has-numbering">iptables -t nat -A POSTROUTING -s 192.168.0.0/24 -o eth0 -j MASQUERADE</code></p>
-<p>重点在那个『 MASQUERADE 』！这个设定值就是『IP伪装成为封包出去(-o)的那块装置上的IP』！不管现在eth0的出口获得了怎样的动态ip，MASQUERADE会自动读取eth0现在的ip地址然后做SNAT出去，这样就实现了很好的动态SNAT地址转换。</p>
-<p>补充：<br>这里防火墙要进行转发必须打开内核路由转发功能，即：</p>
-<p><code class="hljs avrasm has-numbering"><br>echo “1” &gt; /proc/sys/net/ipv4/ip_forward //开启路由转发<br>sysctl -p //使能sysctl设置<br>输出：<br>net.ipv4.ip_forward = 1  //这里为1，开启转发成功。<br>net.ipv4.conf.default.rp_filter = 1<br>net.ipv4.conf.default.accept_source_route = 0<br>kernel.sysrq = 0<br>kernel.core_uses_pid = 1<br>……<br>……<br></code> </p>
-<p>问题：</p>
-<p><code class="hljs avrasm has-numbering">echo “1” &gt; /proc/sys/net/ipv4/ip_forward<br>cat /proc/sys/net/ipv4/ip_forward</code></p>
-<p>[root@Coohx ~]# sysctl -p<br>net.ipv4.ip_forward = 0   //  应该为1！！！！<br>net.ipv4.conf.default.rp_filter = 1<br>net.ipv4.conf.default.accept_source_route = 0<br>kernel.sysrq = 0<br>kernel.core_uses_pid = 1</p>
-<p>解决办法：</p>
-<p> <code class="hljs avrasm has-numbering">vim  /etc/sysctl.conf<br>将<br>        net.ipv4.ip_forward = 0<br>改为<br>        net.ipv4.ip_forward = 1<br>[root@Coohx ~]# sysctl -p<br>net.ipv4.ip_forward = 1  //  一直为1<br>……<br>……</code></p>
-<p>注：手动修改/proc/sys/net/ipv4/ip_forward 0为1 ，内核不允许 <code>&quot;/proc/sys/net/ipv4/ip_forward&quot; 警告: 此文件自读入后已发生变动！！！ 确实要写入吗 (y/n)?y &quot;/proc/sys/net/ipv4/ip_forward&quot; E667: 同步失败 请按 ENTER 或其它命令继续</code></p>
+      DNAT（Destination Network Address Translation,目的地址转换) 通常被叫做目的映射。而SNAT（Source Network Address Translation，源地址转换）通常被叫做源映射。
 
+这是我们在设置
+      
+        <div class="readmore">
+          <a href="/NETWORK/linux-iptables nat设置路由转换.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -1460,79 +1010,16 @@ int main(int argc, char* argv[])
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><strong>0 前言</strong></p>
-<pre><code> [MQTT](http://mqtt.org/)是IBM开发的一个即时通讯协议。MQTT是面向M2M和物联网的连接协议，采用轻量级发布和订阅消息传输机制。[Mosquitto](http://mosquitto.org/)是一款实现了 MQTT v3.1 协议的开源消息代理软件，提供轻量级的，支持发布/订阅的的消息推送模式，使设备对设备之间的短消息通信简单易用。
+      0 前言
 
- 若初次接触MQTT协议，可先理解以下概念：
-</code></pre><p> 【MQTT协议特点】——相比于RESTful架构的物联网系统，MQTT协议借助消息推送功能，可以更好地实现远程控制。</p>
-<p> 【MQTT协议角色】——在RESTful架构的物联网系统，包含两个角色客户端和服务器端，而在MQTT协议中包括发布者，代理器（服务器）和订阅者。</p>
-<p> 【MQTT协议消息】——MQTT中的消息可理解为发布者和订阅者交换的内容（负载），这些消息包含具体的内容，可以被订阅者使用。</p>
-<p> 【MQTT协议主题】——MQTT中的主题可理解为相同类型或相似类型的消息集合。</p>
-<p> <strong>1 安装和使用注意点</strong></p>
-<p> <strong>1.1 安装</strong></p>
-<pre><code> 截止2015年12月，最新版本为mosquitto-1.4.5
-</code></pre><h1 id="下载源代码包"><a href="#下载源代码包" class="headerlink" title="下载源代码包"></a>下载源代码包</h1><p> wget <a href="http://mosquitto.org/files/source/mosquitto-1.4.5.tar.gz" target="_blank" rel="external">http://mosquitto.org/files/source/mosquitto-1.4.5.tar.gz</a></p>
-<h1 id="解压"><a href="#解压" class="headerlink" title="解压"></a>解压</h1><p> tar zxfv mosquitto-1.4.5.tar.gz</p>
-<h1 id="进入目录"><a href="#进入目录" class="headerlink" title="进入目录"></a>进入目录</h1><p> cd mosquitto-1.4.5</p>
-<h1 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h1><p> make</p>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p> sudo make install</p>
-<p> <strong>1.2 安装注意点</strong></p>
-<p> 【1】编译找不到openssl/ssl.h</p>
-<pre><code> 【解决方法】——安装openssl
-</code></pre><p> sudo apt-get install libssl-dev</p>
-<p> 【2】编译过程找不到ares.h</p>
-<p> sudo apt-get install libc-ares-dev</p>
-<p> 【3】编译过程找不到uuid/uuid.h</p>
-<p> sudo apt-get install uuid-dev</p>
-<p> 【4】使用过程中找不到libmosquitto.so.1</p>
-<p> error while loading shared libraries: libmosquitto.so.1: cannot open shared object file: No such file or directory</p>
-<pre><code> 【解决方法】——修改libmosquitto.so位置
-</code></pre><h1 id="创建链接"><a href="#创建链接" class="headerlink" title="创建链接"></a>创建链接</h1><p> sudo ln -s /usr/local/lib/libmosquitto.so.1 /usr/lib/libmosquitto.so.1</p>
-<h1 id="更新动态链接库"><a href="#更新动态链接库" class="headerlink" title="更新动态链接库"></a>更新动态链接库</h1><p> sudo ldconfig</p>
-<p> 【5】make: g++：命令未找到  </p>
-<pre><code> 【解决方法】
-
- 安装g++编译器
-</code></pre><p> sudo apt-get install g++</p>
-<p> <strong>2 简单测试</strong></p>
-<pre><code> 一个完整的MQTT示例包括一个代理器，一个发布者和一个订阅者。测试分为以下几个步骤：
-</code></pre><p> 【1】启动服务mosquitto。</p>
-<p> 【2】订阅者通过mosquitto_sub订阅指定主题的消息。</p>
-<p> 【3】发布者通过mosquitto_pub发布指定主题的消息。</p>
-<p> 【4】代理服务器把该主题的消息推送到订阅者。</p>
-<p> 【测试说明】</p>
-<pre><code> 测试环境：ubuntu 14.04 虚拟机
-
- 在本例中，发布者、代理和订阅者均为localhsot，但是在实际的情况下三种并不是同一个设备，在mosquitto中可通过-h(--host)设置主机名称(hostname)。为了实现这个简单的测试案例，需要在linux中打开三个控制台，分别代表代理服务器、发布者和订阅者。
-</code></pre><p> <img src="http://img.blog.csdn.net/20140913162434656?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveHVrYWk4NzExMDU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></p>
-<p> <img src="file:///C:/Users/dell/AppData/Local/YNote/Data/xukai19871105@126.com/0934e2c55689448d97f0338200f68b94/%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E6%A8%A1%E5%9E%8B.png" alt=""></p>
-<p> 图1 示例</p>
-<p> <strong>2.1 启动代理服务</strong></p>
-<p> mosquitto -v</p>
-<pre><code> 【-v】打印更多的调试信息
-</code></pre><p> <strong>2.2 订阅主题</strong></p>
-<p> mosquitto_sub -v -t sensor</p>
-<pre><code> 【-t】指定主题，此处为sensor
-
- 【-v】打印更多的调试信息
-</code></pre><p> <strong>2.3 发布内容</strong></p>
-<p> mosquitto_pub -t sensor  -m 12</p>
-<pre><code> 【-t】指定主题
-
- 【-m】指定消息内容
-</code></pre><p> <strong>2.4 运行结果</strong></p>
-<pre><code> 当发布者推送消息之后，订阅者获得以下内容
-</code></pre><p> sensor 12</p>
-<pre><code> 而代理服务器控制台中会出现——连接、消息发布和心跳等调试信息。通过代理服务器的调试输出可以对MQTT协议的相关过程有所了解。
-</code></pre><p> <img src="http://img.blog.csdn.net/20140913162654067?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQveHVrYWk4NzExMDU=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></p>
-<p> 图2 代理服务器调试输出</p>
-<p> <strong>3 总结</strong></p>
-<pre><code> 通过[Mosquitto](http://mosquitto.org/)实现MQTT协议代理器(服务器)，为今后的MQTT协议应用做准备。本文并没有分析MQTT协议的种种细节，但是希望通过一个简单的例子把MQTT协议“使用起来”，通过使用过程来理解MQTT协议，在过程中关注细节收集疑问，再阅读MQTT协议具体内容，这样学习起来就不至于枯燥乏味（即使MQTT协议只有40多页，但是初次阅读我还是没能理解其内涵，只能怪自己智商太低，学术不精。）
-</code></pre><p> <strong>4 参考资料</strong></p>
-<p> 【1】<a href="http://blog.csdn.net/shagoo/article/details/7910598" target="_blank" rel="external">Mosquitto简要教程（安装/使用/测试）</a></p>
-<p> 【2】<a href="http://www.cnblogs.com/xiaoerhei/p/3777157.html" target="_blank" rel="external">解决编译过程中找不到ares.h的问题</a></p>
-<p> 【3】<a href="http://www.cnblogs.com/fuxiuyuan/archive/2012/05/12/2497649.html" target="_blank" rel="external">解决使用过程中找不到libmosquitto.so.1的问题</a></p>
-
+ [MQTT](http://mqtt.org/)是IBM开发的一个即时通讯协议。MQTT是面向M2M和物联网的连接协议，采用轻量级发布和订阅消息传输机制。[Mosquitto](http://mosquitto.org/)是一款实现了 MQT
+      
+        <div class="readmore">
+          <a href="/EMBEDDED/MQTT学习笔记——MQTT协议体验 Mosquitto安装和使用.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -1623,184 +1110,25 @@ int main(int argc, char* argv[])
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <script src="http://cdn.bootcss.com/highlight.js/9.1.0/languages/vbscript.min.js"></script>
+      C 客户端
 
-<p><strong>C 客户端</strong></p>
-<p>Eclipse Paho C</p>
-<ol>
-<li>支持 TCP/SSL Socket 连接</li>
-<li>支持自动重连</li>
-<li>支持 WebSocket</li>
-<li>代码样例</li>
-</ol>
-<pre><code>#include &quot;stdio.h&quot;
-#include &quot;stdlib.h&quot;
-#include &quot;string.h&quot;
-#include &quot;MQTTClient.h&quot;
+Eclipse Paho C
 
-#define ADDRESS     &quot;tcp://localhost:1883&quot;
-#define CLIENTID    &quot;ExampleClientPub&quot;
-#define TOPIC       &quot;MQTT Examples&quot;
-#define PAYLOAD     &quot;Hello World!&quot;
-#define QOS         1
-#define TIMEOUT     10000L
+ 1. 支持 TCP/SSL Socket 连接
+ 2. 支持自动重连
+ 3. 支持 WebSocket
+ 4. 代码样例
 
-int main(int argc, char* argv[])
-{
-    MQTTClient client;
-    MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
-    MQTTClient_message pubmsg = MQTTClient_message_initializer;
-    MQTTClient_deliveryToken token;
-    int rc;
-
-    MQTTClient_create(&amp;client, ADDRESS, CLIENTID,
-        MQTTCLIENT_PERSISTENCE_NONE, NULL);
-    conn_opts.keepAliveInterval = 20;
-    conn_opts.cleansession = 1;
-
-    if ((rc = MQTTClient_connect(client, &amp;conn_opts)) != MQTTCLIENT_SUCCESS)
-    {
-        printf(&quot;Failed to connect, return code %d\n&quot;, rc);
-        exit(-1);
-    }
-    pubmsg.payload = PAYLOAD;
-    pubmsg.payloadlen = strlen(PAYLOAD);
-    pubmsg.qos = QOS;
-    pubmsg.retained = 0;
-    MQTTClient_publishMessage(client, TOPIC, &amp;pubmsg, &amp;token);
-    printf(&quot;Waiting for up to %d seconds for publication of %s\n&quot;
-            &quot;on topic %s for client with ClientID: %s\n&quot;,
-            (int)(TIMEOUT/1000), PAYLOAD, TOPIC, CLIENTID);
-    rc = MQTTClient_waitForCompletion(client, token, TIMEOUT);
-    printf(&quot;Message with delivery token %d delivered\n&quot;, token);
-    MQTTClient_disconnect(client, 10000);
-    MQTTClient_destroy(&amp;client);
-    return rc;
-}
-</code></pre><p>mqttc</p>
-<p>1.支持消息发布、主题订阅以及取消订阅<br>2.代码样例</p>
-<pre><code>mqttc -h host -p port -u username -P password -k keepalive
-</code></pre><p>Eclipse Paho Embedded C</p>
-<p>1.支持 MQTT V3.1 以及 V3.1.1 协议<br>2.支持 TCP/SSL Socket 连接<br>3.代码样例</p>
-<pre><code>#define MQTTCLIENT_QOS2 1
-#include &quot;MQTTClient.h&quot;
-#define DEFAULT_STACK_SIZE -1
-#include &quot;linux.cpp&quot;
-
-int arrivedcount = 0;
-
-void messageArrived(MQTT::MessageData&amp; md)
-{
-    MQTT::Message &amp;message = md.message;
-
-    printf(&quot;Message %d arrived: qos %d, retained %d, dup %d, packetid %d\n&quot;,
-        ++arrivedcount, message.qos, message.retained, message.dup, message.id);
-    printf(&quot;Payload %.*s\n&quot;, (int)message.payloadlen, (char*)message.payload);
-}
-
-int main(int argc, char* argv[])
-{
-    IPStack ipstack = IPStack();
-    float version = 0.3;
-    const char* topic = &quot;mbed-sample&quot;;
-
-    printf(&quot;Version is %f\n&quot;, version);
-
-    MQTT::Client client = MQTT::Client(ipstack);
-
-    const char* hostname = &quot;iot.eclipse.org&quot;;
-    int port = 1883;
-    printf(&quot;Connecting to %s:%d\n&quot;, hostname, port);
-    int rc = ipstack.connect(hostname, port);
-    if (rc != 0)
-        printf(&quot;rc from TCP connect is %d\n&quot;, rc);
-
-    printf(&quot;MQTT connecting\n&quot;);
-    MQTTPacket_connectData data = MQTTPacket_connectData_initializer;
-    data.MQTTVersion = 3;
-    data.clientID.cstring = (char*)&quot;mbed-icraggs&quot;;
-    rc = client.connect(data);
-    if (rc != 0)
-        printf(&quot;rc from MQTT connect is %d\n&quot;, rc);
-    printf(&quot;MQTT connected\n&quot;);
-
-    rc = client.subscribe(topic, MQTT::QOS2, messageArrived);
-    if (rc != 0)
-        printf(&quot;rc from MQTT subscribe is %d\n&quot;, rc);
-
-    MQTT::Message message;
-
-    // QoS 0
-    char buf[100];
-    sprintf(buf, &quot;Hello World!  QoS 0 message from app version %f&quot;, version);
-    message.qos = MQTT::QOS0;
-    message.retained = false;
-    message.dup = false;
-    message.payload = (void*)buf;
-    message.payloadlen = strlen(buf)+1;
-    rc = client.publish(topic, message);
-    if (rc != 0)
-        printf(&quot;Error %d from sending QoS 0 message\n&quot;, rc);
-    else while (arrivedcount == 0)
-        client.yield(100);
-
-    rc = client.unsubscribe(topic);
-    if (rc != 0)
-        printf(&quot;rc from unsubscribe was %d\n&quot;, rc);
-
-    rc = client.disconnect();
-    if (rc != 0)
-        printf(&quot;rc from disconnect was %d\n&quot;, rc);
-
-    ipstack.disconnect();
-
-    return 0;
-}
-</code></pre><p>libmosquitto</p>
-<p>libmosquitto 是 C 语言共享库，可以创建 MQTT 客户端程序。所有的 API 函数都有 mosquitto_ 前缀。</p>
-<pre><code>// 获取库的版本信息，返回到三个参数中
-int mosquitto_lib_version(int *major,int *minor,int *revision)
-
-// 初始化和清除
-int mosquitto_lib_init();    
-int mosquitto_lib_cleanup(); 
-
-// 新建一个 mosquitto 客户端对象，并返回 struct mosquitto
-struct mosquitto *mosquitto_new(const char *id, bool clean_session, void *userdata);    
-
-// 释放一个 mosquitto 客户端对象
-void mosquitto_destroy(struct mosquitto *mosq);
-</code></pre><p>libemqtt</p>
-<p>1.Embedded C client library for the MQTT protocol. It also provides a binding for Python.<br>2.编译</p>
-<pre><code>// C Library
-$ make
-
-// Python binding
-$ make python
-</code></pre><p>wolfMQTT</p>
-<p>This is an implementation of the MQTT Client written in C for embedded use, which supports SSL/TLS via the wolfSSL library. This library was built from the ground up to be multi-platform, space conscience and extensible. Integrates with wolfSSL to provide TLS support.</p>
-<p>Example code</p>
-<pre><code>// This is where the top level application interfaces for the MQTT client reside.
-int MqttClient_Init(MqttClient *client, MqttNet *net, MqttMsgCb msg_cb, byte *tx_buf, int tx_buf_len, byte *rx_buf, int rx_buf_len, int cmd_timeout_ms);
-
-// These API&#39;s are blocking on MqttNet.read until error/timeout (cmd_timeout_ms):
-int MqttClient_Connect(MqttClient *client, MqttConnect *connect);
-int MqttClient_Publish(MqttClient *client, MqttPublish *publish);
-int MqttClient_Subscribe(MqttClient *client, MqttSubscribe *subscribe);
-int MqttClient_Unsubscribe(MqttClient *client, MqttUnsubscribe *unsubscribe);
-int MqttClient_Ping(MqttClient *client);
-int MqttClient_Disconnect(MqttClient *client);
-
-// This function blocks waiting for a new publish message to arrive for a maximum duration of timeout_ms.
-int MqttClient_WaitMessage(MqttClient *client, MqttMessage *message, int timeout_ms);
-
-// These are the network connect / disconnect interfaces that wrap the MqttNet callbacks and handle WolfSSL TLS:
-int MqttClient_NetConnect(MqttClient *client, const char* host, word16 port, int timeout_ms, int use_tls, MqttTlsCb cb);
-int MqttClient_NetDisconnect(MqttClient *client);
-
-// Helper functions:
-const char* MqttClient_ReturnCodeToString(int return_code);
-</code></pre>
+#include "stdio.h"
+#include "stdlib.h"
+#in
+      
+        <div class="readmore">
+          <a href="/EMBEDDED/mqtt的c语言客户端库和实例使用.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -1891,8 +1219,14 @@ const char* MqttClient_ReturnCodeToString(int return_code);
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <p><a href="http://www.cnblogs.com/etangyushan/p/3724017.html" target="_blank" rel="external">http://www.cnblogs.com/etangyushan/p/3724017.html</a></p>
-
+      http://www.cnblogs.com/etangyushan/p/3724017.html
+      
+        <div class="readmore">
+          <a href="/EMBEDDED/linux 下jansson安装和使用.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
