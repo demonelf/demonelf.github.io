@@ -371,191 +371,18 @@ C Client实现消息推送（入门指南）感兴趣的同学可以参考一下
 <p>另外，上图中无法打开包括文件<code>VersionInfo.h</code>，你只需要在src文件夹中找到VersionInfo.h.in文件，去掉.in后缀-&gt;重新生成即可。</p>
 <h1 id="MQTT-C-Client实战"><a href="#MQTT-C-Client实战" class="headerlink" title="MQTT C Client实战"></a>MQTT C Client实战</h1><p>了解更多可以阅读《<a href="https://www.eclipse.org/paho/clients/c/" target="_blank" rel="external">MQTT C Client for Posix and Windows</a>》一文，下面根据官网资料，摘录了几个C语言实现MQTT的小DEMO。</p>
 <p>MQTT使用起来也十分容易，基本上就那四五个函数：MQTTClient_create（创建客户端）、MQTTClient_connect（连接服务端）、MQTTClient_publishMessage（客户端-&gt;服务端发送消息）、MQTTClient_subscribe（客户端订阅某个主题）等等。其中，很多异步回调函数，需要自己去实现，如，</p>
-<pre><code>MQTTAsync_setCallbacks(mqtt-&gt;_client, mqtt-&gt;_client, connlost, msgarrvd, NULL);
-</code></pre><p>MQTTAsync_setCallbacks中，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">MQTTAsync_setCallbacks(mqtt-&gt;_client, mqtt-&gt;_client, connlost, msgarrvd, NULL);</div></pre></td></tr></table></figure>
+<p>MQTTAsync_setCallbacks中，</p>
 <ul>
 <li>connlost函数指针，是当MQTT意外断开链接时会回调的函数，由自己实现；</li>
 <li>msgarrvd函数指针，是当服务器有消息推送回来时，客户端在此处接受服务端消息内容。</li>
 </ul>
 <p>另外，就是一些函数执行是否成功的回调函数，C语言封装回调之后，就是这么写法，看起来有些变扭。有兴趣的可以看《<a href="http://blog.csdn.net/qingdujun/article/details/69789300" target="_blank" rel="external">浅谈C/C++回调函数（Callback）&amp; 函数指针</a>》文章，再了解以下回调函数。</p>
-<pre><code>mqtt-&gt;_conn_opts.onSuccess = onConnect;
-mqtt-&gt;_conn_opts.onFailure = onConnectFailure;
-</code></pre><p>最后，不得不说的就是，MQTT有些发送或者是订阅的内容时（某些函数中），在编程最好将参数中传进来的值在内存中拷贝一份再操作，笔者当时开发时，就是因为这样的问题，折腾了较长时间，后来在wireshark中发现数据包中根本没有内容，才知道是由于函数参数是指针形式，直接在异步中使用可能会发生一些未知的错误。</p>
-<h2 id="Synchronous-publication-example"><a href="#Synchronous-publication-example" class="headerlink" title="Synchronous publication example"></a>Synchronous publication example</h2><pre><code>#include &quot;stdio.h&quot;
-#include &quot;stdlib.h&quot;
-#include &quot;string.h&quot;
-#include &quot;MQTTClient.h&quot;
-#define ADDRESS     &quot;tcp://localhost:1883&quot;
-#define CLIENTID    &quot;ExampleClientPub&quot;
-#define TOPIC       &quot;MQTT Examples&quot;
-#define PAYLOAD     &quot;Hello World!&quot;
-#define QOS         1
-#define TIMEOUT     10000L
-int main(int argc, char* argv[])
-{
-    MQTTClient client;
-    MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
-    MQTTClient_message pubmsg = MQTTClient_message_initializer;
-    MQTTClient_deliveryToken token;
-    int rc;
-    MQTTClient_create(&amp;client, ADDRESS, CLIENTID,
-        MQTTCLIENT_PERSISTENCE_NONE, NULL);
-    conn_opts.keepAliveInterval = 20;
-    conn_opts.cleansession = 1;
-    if ((rc = MQTTClient_connect(client, &amp;conn_opts)) != MQTTCLIENT_SUCCESS)
-    {
-        printf(&quot;Failed to connect, return code %d\n&quot;, rc);
-        exit(EXIT_FAILURE);
-    }
-    pubmsg.payload = PAYLOAD;
-    pubmsg.payloadlen = strlen(PAYLOAD);
-    pubmsg.qos = QOS;
-    pubmsg.retained = 0;
-    MQTTClient_publishMessage(client, TOPIC, &amp;pubmsg, &amp;token);
-    printf(&quot;Waiting for up to %d seconds for publication of %s\n&quot;
-            &quot;on topic %s for client with ClientID: %s\n&quot;,
-            (int)(TIMEOUT/1000), PAYLOAD, TOPIC, CLIENTID);
-    rc = MQTTClient_waitForCompletion(client, token, TIMEOUT);
-    printf(&quot;Message with delivery token %d delivered\n&quot;, token);
-    MQTTClient_disconnect(client, 10000);
-    MQTTClient_destroy(&amp;client);
-    return rc;
-}
-</code></pre><h2 id="Asynchronous-publication-example"><a href="#Asynchronous-publication-example" class="headerlink" title="Asynchronous publication example"></a>Asynchronous publication example</h2><pre><code>#include &quot;stdio.h&quot;
-#include &quot;stdlib.h&quot;
-#include &quot;string.h&quot;
-#include &quot;MQTTClient.h&quot;
-#define ADDRESS     &quot;tcp://localhost:1883&quot;
-#define CLIENTID    &quot;ExampleClientPub&quot;
-#define TOPIC       &quot;MQTT Examples&quot;
-#define PAYLOAD     &quot;Hello World!&quot;
-#define QOS         1
-#define TIMEOUT     10000L
-volatile MQTTClient_deliveryToken deliveredtoken;
-void delivered(void *context, MQTTClient_deliveryToken dt)
-{
-    printf(&quot;Message with token value %d delivery confirmed\n&quot;, dt);
-    deliveredtoken = dt;
-}
-int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message)
-{
-    int i;
-    char* payloadptr;
-    printf(&quot;Message arrived\n&quot;);
-    printf(&quot;     topic: %s\n&quot;, topicName);
-    printf(&quot;   message: &quot;);
-    payloadptr = message-&gt;payload;
-    for(i=0; i&lt;message-&gt;payloadlen; i++)
-    {
-        putchar(*payloadptr++);
-    }
-    putchar(&#39;\n&#39;);
-    MQTTClient_freeMessage(&amp;message);
-    MQTTClient_free(topicName);
-    return 1;
-}
-void connlost(void *context, char *cause)
-{
-    printf(&quot;\nConnection lost\n&quot;);
-    printf(&quot;     cause: %s\n&quot;, cause);
-}
-int main(int argc, char* argv[])
-{
-    MQTTClient client;
-    MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
-    MQTTClient_message pubmsg = MQTTClient_message_initializer;
-    MQTTClient_deliveryToken token;
-    int rc;
-    MQTTClient_create(&amp;client, ADDRESS, CLIENTID,
-        MQTTCLIENT_PERSISTENCE_NONE, NULL);
-    conn_opts.keepAliveInterval = 20;
-    conn_opts.cleansession = 1;
-    MQTTClient_setCallbacks(client, NULL, connlost, msgarrvd, delivered);
-    if ((rc = MQTTClient_connect(client, &amp;conn_opts)) != MQTTCLIENT_SUCCESS)
-    {
-        printf(&quot;Failed to connect, return code %d\n&quot;, rc);
-        exit(EXIT_FAILURE);
-    }
-    pubmsg.payload = PAYLOAD;
-    pubmsg.payloadlen = strlen(PAYLOAD);
-    pubmsg.qos = QOS;
-    pubmsg.retained = 0;
-    deliveredtoken = 0;
-    MQTTClient_publishMessage(client, TOPIC, &amp;pubmsg, &amp;token);
-    printf(&quot;Waiting for publication of %s\n&quot;
-            &quot;on topic %s for client with ClientID: %s\n&quot;,
-            PAYLOAD, TOPIC, CLIENTID);
-    while(deliveredtoken != token);
-    MQTTClient_disconnect(client, 10000);
-    MQTTClient_destroy(&amp;client);
-    return rc;
-}
-</code></pre><h2 id="Asynchronous-subscription-example"><a href="#Asynchronous-subscription-example" class="headerlink" title="Asynchronous subscription example"></a>Asynchronous subscription example</h2><pre><code>#include &quot;stdio.h&quot;
-#include &quot;stdlib.h&quot;
-#include &quot;string.h&quot;
-#include &quot;MQTTClient.h&quot;
-#define ADDRESS     &quot;tcp://localhost:1883&quot;
-#define CLIENTID    &quot;ExampleClientSub&quot;
-#define TOPIC       &quot;MQTT Examples&quot;
-#define PAYLOAD     &quot;Hello World!&quot;
-#define QOS         1
-#define TIMEOUT     10000L
-volatile MQTTClient_deliveryToken deliveredtoken;
-void delivered(void *context, MQTTClient_deliveryToken dt)
-{
-    printf(&quot;Message with token value %d delivery confirmed\n&quot;, dt);
-    deliveredtoken = dt;
-}
-int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message)
-{
-    int i;
-    char* payloadptr;
-    printf(&quot;Message arrived\n&quot;);
-    printf(&quot;     topic: %s\n&quot;, topicName);
-    printf(&quot;   message: &quot;);
-    payloadptr = message-&gt;payload;
-    for(i=0; i&lt;message-&gt;payloadlen; i++)
-    {
-        putchar(*payloadptr++);
-    }
-    putchar(&#39;\n&#39;);
-    MQTTClient_freeMessage(&amp;message);
-    MQTTClient_free(topicName);
-    return 1;
-}
-void connlost(void *context, char *cause)
-{
-    printf(&quot;\nConnection lost\n&quot;);
-    printf(&quot;     cause: %s\n&quot;, cause);
-}
-int main(int argc, char* argv[])
-{
-    MQTTClient client;
-    MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
-    int rc;
-    int ch;
-    MQTTClient_create(&amp;client, ADDRESS, CLIENTID,
-        MQTTCLIENT_PERSISTENCE_NONE, NULL);
-    conn_opts.keepAliveInterval = 20;
-    conn_opts.cleansession = 1;
-    MQTTClient_setCallbacks(client, NULL, connlost, msgarrvd, delivered);
-    if ((rc = MQTTClient_connect(client, &amp;conn_opts)) != MQTTCLIENT_SUCCESS)
-    {
-        printf(&quot;Failed to connect, return code %d\n&quot;, rc);
-        exit(EXIT_FAILURE);
-    }
-    printf(&quot;Subscribing to topic %s\nfor client %s using QoS%d\n\n&quot;
-           &quot;Press Q&lt;Enter&gt; to quit\n\n&quot;, TOPIC, CLIENTID, QOS);
-    MQTTClient_subscribe(client, TOPIC, QOS);
-    do 
-    {
-        ch = getchar();
-    } while(ch!=&#39;Q&#39; &amp;&amp; ch != &#39;q&#39;);
-    MQTTClient_disconnect(client, 10000);
-    MQTTClient_destroy(&amp;client);
-    return rc;
-}
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">mqtt-&gt;_conn_opts.onSuccess = onConnect;</div><div class="line">mqtt-&gt;_conn_opts.onFailure = onConnectFailure;</div></pre></td></tr></table></figure>
+<p>最后，不得不说的就是，MQTT有些发送或者是订阅的内容时（某些函数中），在编程最好将参数中传进来的值在内存中拷贝一份再操作，笔者当时开发时，就是因为这样的问题，折腾了较长时间，后来在wireshark中发现数据包中根本没有内容，才知道是由于函数参数是指针形式，直接在异步中使用可能会发生一些未知的错误。</p>
+<h2 id="Synchronous-publication-example"><a href="#Synchronous-publication-example" class="headerlink" title="Synchronous publication example"></a>Synchronous publication example</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div></pre></td><td class="code"><pre><div class="line">#include &quot;stdio.h&quot;</div><div class="line">#include &quot;stdlib.h&quot;</div><div class="line">#include &quot;string.h&quot;</div><div class="line">#include &quot;MQTTClient.h&quot;</div><div class="line">#define ADDRESS     &quot;tcp://localhost:1883&quot;</div><div class="line">#define CLIENTID    &quot;ExampleClientPub&quot;</div><div class="line">#define TOPIC       &quot;MQTT Examples&quot;</div><div class="line">#define PAYLOAD     &quot;Hello World!&quot;</div><div class="line">#define QOS         1</div><div class="line">#define TIMEOUT     10000L</div><div class="line">int main(int argc, char* argv[])</div><div class="line">&#123;</div><div class="line">    MQTTClient client;</div><div class="line">    MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;</div><div class="line">    MQTTClient_message pubmsg = MQTTClient_message_initializer;</div><div class="line">    MQTTClient_deliveryToken token;</div><div class="line">    int rc;</div><div class="line">    MQTTClient_create(&amp;client, ADDRESS, CLIENTID,</div><div class="line">        MQTTCLIENT_PERSISTENCE_NONE, NULL);</div><div class="line">    conn_opts.keepAliveInterval = 20;</div><div class="line">    conn_opts.cleansession = 1;</div><div class="line">    if ((rc = MQTTClient_connect(client, &amp;conn_opts)) != MQTTCLIENT_SUCCESS)</div><div class="line">    &#123;</div><div class="line">        printf(&quot;Failed to connect, return code %d\n&quot;, rc);</div><div class="line">        exit(EXIT_FAILURE);</div><div class="line">    &#125;</div><div class="line">    pubmsg.payload = PAYLOAD;</div><div class="line">    pubmsg.payloadlen = strlen(PAYLOAD);</div><div class="line">    pubmsg.qos = QOS;</div><div class="line">    pubmsg.retained = 0;</div><div class="line">    MQTTClient_publishMessage(client, TOPIC, &amp;pubmsg, &amp;token);</div><div class="line">    printf(&quot;Waiting for up to %d seconds for publication of %s\n&quot;</div><div class="line">            &quot;on topic %s for client with ClientID: %s\n&quot;,</div><div class="line">            (int)(TIMEOUT/1000), PAYLOAD, TOPIC, CLIENTID);</div><div class="line">    rc = MQTTClient_waitForCompletion(client, token, TIMEOUT);</div><div class="line">    printf(&quot;Message with delivery token %d delivered\n&quot;, token);</div><div class="line">    MQTTClient_disconnect(client, 10000);</div><div class="line">    MQTTClient_destroy(&amp;client);</div><div class="line">    return rc;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Asynchronous-publication-example"><a href="#Asynchronous-publication-example" class="headerlink" title="Asynchronous publication example"></a>Asynchronous publication example</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div></pre></td><td class="code"><pre><div class="line">#include &quot;stdio.h&quot;</div><div class="line">#include &quot;stdlib.h&quot;</div><div class="line">#include &quot;string.h&quot;</div><div class="line">#include &quot;MQTTClient.h&quot;</div><div class="line">#define ADDRESS     &quot;tcp://localhost:1883&quot;</div><div class="line">#define CLIENTID    &quot;ExampleClientPub&quot;</div><div class="line">#define TOPIC       &quot;MQTT Examples&quot;</div><div class="line">#define PAYLOAD     &quot;Hello World!&quot;</div><div class="line">#define QOS         1</div><div class="line">#define TIMEOUT     10000L</div><div class="line">volatile MQTTClient_deliveryToken deliveredtoken;</div><div class="line">void delivered(void *context, MQTTClient_deliveryToken dt)</div><div class="line">&#123;</div><div class="line">    printf(&quot;Message with token value %d delivery confirmed\n&quot;, dt);</div><div class="line">    deliveredtoken = dt;</div><div class="line">&#125;</div><div class="line">int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message)</div><div class="line">&#123;</div><div class="line">    int i;</div><div class="line">    char* payloadptr;</div><div class="line">    printf(&quot;Message arrived\n&quot;);</div><div class="line">    printf(&quot;     topic: %s\n&quot;, topicName);</div><div class="line">    printf(&quot;   message: &quot;);</div><div class="line">    payloadptr = message-&gt;payload;</div><div class="line">    for(i=0; i&lt;message-&gt;payloadlen; i++)</div><div class="line">    &#123;</div><div class="line">        putchar(*payloadptr++);</div><div class="line">    &#125;</div><div class="line">    putchar(&apos;\n&apos;);</div><div class="line">    MQTTClient_freeMessage(&amp;message);</div><div class="line">    MQTTClient_free(topicName);</div><div class="line">    return 1;</div><div class="line">&#125;</div><div class="line">void connlost(void *context, char *cause)</div><div class="line">&#123;</div><div class="line">    printf(&quot;\nConnection lost\n&quot;);</div><div class="line">    printf(&quot;     cause: %s\n&quot;, cause);</div><div class="line">&#125;</div><div class="line">int main(int argc, char* argv[])</div><div class="line">&#123;</div><div class="line">    MQTTClient client;</div><div class="line">    MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;</div><div class="line">    MQTTClient_message pubmsg = MQTTClient_message_initializer;</div><div class="line">    MQTTClient_deliveryToken token;</div><div class="line">    int rc;</div><div class="line">    MQTTClient_create(&amp;client, ADDRESS, CLIENTID,</div><div class="line">        MQTTCLIENT_PERSISTENCE_NONE, NULL);</div><div class="line">    conn_opts.keepAliveInterval = 20;</div><div class="line">    conn_opts.cleansession = 1;</div><div class="line">    MQTTClient_setCallbacks(client, NULL, connlost, msgarrvd, delivered);</div><div class="line">    if ((rc = MQTTClient_connect(client, &amp;conn_opts)) != MQTTCLIENT_SUCCESS)</div><div class="line">    &#123;</div><div class="line">        printf(&quot;Failed to connect, return code %d\n&quot;, rc);</div><div class="line">        exit(EXIT_FAILURE);</div><div class="line">    &#125;</div><div class="line">    pubmsg.payload = PAYLOAD;</div><div class="line">    pubmsg.payloadlen = strlen(PAYLOAD);</div><div class="line">    pubmsg.qos = QOS;</div><div class="line">    pubmsg.retained = 0;</div><div class="line">    deliveredtoken = 0;</div><div class="line">    MQTTClient_publishMessage(client, TOPIC, &amp;pubmsg, &amp;token);</div><div class="line">    printf(&quot;Waiting for publication of %s\n&quot;</div><div class="line">            &quot;on topic %s for client with ClientID: %s\n&quot;,</div><div class="line">            PAYLOAD, TOPIC, CLIENTID);</div><div class="line">    while(deliveredtoken != token);</div><div class="line">    MQTTClient_disconnect(client, 10000);</div><div class="line">    MQTTClient_destroy(&amp;client);</div><div class="line">    return rc;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="Asynchronous-subscription-example"><a href="#Asynchronous-subscription-example" class="headerlink" title="Asynchronous subscription example"></a>Asynchronous subscription example</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line">#include &quot;stdio.h&quot;</div><div class="line">#include &quot;stdlib.h&quot;</div><div class="line">#include &quot;string.h&quot;</div><div class="line">#include &quot;MQTTClient.h&quot;</div><div class="line">#define ADDRESS     &quot;tcp://localhost:1883&quot;</div><div class="line">#define CLIENTID    &quot;ExampleClientSub&quot;</div><div class="line">#define TOPIC       &quot;MQTT Examples&quot;</div><div class="line">#define PAYLOAD     &quot;Hello World!&quot;</div><div class="line">#define QOS         1</div><div class="line">#define TIMEOUT     10000L</div><div class="line">volatile MQTTClient_deliveryToken deliveredtoken;</div><div class="line">void delivered(void *context, MQTTClient_deliveryToken dt)</div><div class="line">&#123;</div><div class="line">    printf(&quot;Message with token value %d delivery confirmed\n&quot;, dt);</div><div class="line">    deliveredtoken = dt;</div><div class="line">&#125;</div><div class="line">int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message)</div><div class="line">&#123;</div><div class="line">    int i;</div><div class="line">    char* payloadptr;</div><div class="line">    printf(&quot;Message arrived\n&quot;);</div><div class="line">    printf(&quot;     topic: %s\n&quot;, topicName);</div><div class="line">    printf(&quot;   message: &quot;);</div><div class="line">    payloadptr = message-&gt;payload;</div><div class="line">    for(i=0; i&lt;message-&gt;payloadlen; i++)</div><div class="line">    &#123;</div><div class="line">        putchar(*payloadptr++);</div><div class="line">    &#125;</div><div class="line">    putchar(&apos;\n&apos;);</div><div class="line">    MQTTClient_freeMessage(&amp;message);</div><div class="line">    MQTTClient_free(topicName);</div><div class="line">    return 1;</div><div class="line">&#125;</div><div class="line">void connlost(void *context, char *cause)</div><div class="line">&#123;</div><div class="line">    printf(&quot;\nConnection lost\n&quot;);</div><div class="line">    printf(&quot;     cause: %s\n&quot;, cause);</div><div class="line">&#125;</div><div class="line">int main(int argc, char* argv[])</div><div class="line">&#123;</div><div class="line">    MQTTClient client;</div><div class="line">    MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;</div><div class="line">    int rc;</div><div class="line">    int ch;</div><div class="line">    MQTTClient_create(&amp;client, ADDRESS, CLIENTID,</div><div class="line">        MQTTCLIENT_PERSISTENCE_NONE, NULL);</div><div class="line">    conn_opts.keepAliveInterval = 20;</div><div class="line">    conn_opts.cleansession = 1;</div><div class="line">    MQTTClient_setCallbacks(client, NULL, connlost, msgarrvd, delivered);</div><div class="line">    if ((rc = MQTTClient_connect(client, &amp;conn_opts)) != MQTTCLIENT_SUCCESS)</div><div class="line">    &#123;</div><div class="line">        printf(&quot;Failed to connect, return code %d\n&quot;, rc);</div><div class="line">        exit(EXIT_FAILURE);</div><div class="line">    &#125;</div><div class="line">    printf(&quot;Subscribing to topic %s\nfor client %s using QoS%d\n\n&quot;</div><div class="line">           &quot;Press Q&lt;Enter&gt; to quit\n\n&quot;, TOPIC, CLIENTID, QOS);</div><div class="line">    MQTTClient_subscribe(client, TOPIC, QOS);</div><div class="line">    do </div><div class="line">    &#123;</div><div class="line">        ch = getchar();</div><div class="line">    &#125; while(ch!=&apos;Q&apos; &amp;&amp; ch != &apos;q&apos;);</div><div class="line">    MQTTClient_disconnect(client, 10000);</div><div class="line">    MQTTClient_destroy(&amp;client);</div><div class="line">    return rc;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
         </div>
         
           
@@ -661,9 +488,9 @@ MQTT（Message "
                         <span class="art-item-right" aria-hidden="true">
                             <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                             <h4>
-                                <a href="/NETWORK/Incapsula免费CDN服务申请使用及加速效果测评.html" rel="prev" title="Incapsula免费CDN服务申请使用及加速效果测评">
+                                <a href="/EMBEDDED/MQTT学习笔记——MQTT协议体验 Mosquitto安装和使用.html" rel="prev" title="MQTT学习笔记——MQTT协议体验 Mosquitto安装和使用">
                                     
-                                        Incapsula免费CDN服务申请使用及加速效果测评
+                                        MQTT学习笔记——MQTT协议体验 Mosquitto安装和使用
                                     
                                 </a>
                             </h4>
@@ -897,25 +724,37 @@ MQTT（Message "
         
           <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(95)</div></a></li>
+          <li><a class="flat-box child" title="/categories/DEVELOP/DEVELOP/" href="/categories/DEVELOP/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(15)</div></a></li>
         
           <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
         
           <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(12)</div></a></li>
+          <li><a class="flat-box child" title="/categories/LIVE/LIVE/" href="/categories/LIVE/LIVE/"><div class='name'>LIVE</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(11)</div></a></li>
         
           <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
         
+          <li><a class="flat-box child" title="/categories/SYSTEM/SYSTEM/" href="/categories/SYSTEM/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(9)</div></a></li>
+        
           <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/VPN系列之五花八门/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/embedded/" href="/categories/embedded/"><div class='name'>embedded</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/arm/EMBEDDED/" href="/categories/arm/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/linux/EMBEDDED/" href="/categories/linux/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/笑看人生/EMBEDDED/" href="/categories/笑看人生/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
         
       </ul>
     </div>
@@ -929,27 +768,6 @@ MQTT（Message "
           
           
             
-  <section class='widget tagcloud'>
-    
-<header class='pure'>
-  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
-  
-    <a class="rightBtn"
-    
-      rel="nofollow"
-    
-    
-    href="/blog/tags/"
-    title="blog/tags/">
-    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
-  
-</header>
-
-    <div class='content pure'>
-      <a href="/tags/linux/" style="font-size: 14px; color: #999">linux</a>
-    </div>
-  </section>
-
 
           
         

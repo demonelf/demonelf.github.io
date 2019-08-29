@@ -262,7 +262,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-07-13</p>
+    <p>2019-08-29</p>
   </a>
 </div>
 
@@ -325,14 +325,8 @@
 <p>qemu-system-arm -M mini2440 -m 256m -mtdblock mini2440_nand128.bin -serial stdio -nographic -gdb tcp::1234 -S</p>
 </blockquote>
 <p>gdb启动：</p>
-<h1 id="gdb"><a href="#gdb" class="headerlink" title="gdb"></a>gdb</h1><pre><code>(gdb) file vmlinux
-(gdb) target remote :1234
-(gdb) b start_kernel
-(gdb) c
-(gdb) x /200xb 0x004013ce  //以十六进制查看内存
-(gdb) x /10i main           //以汇编的方式查看内存
-(gdb) disassemble main       //等同上面
-</code></pre>
+<h1 id="gdb"><a href="#gdb" class="headerlink" title="gdb"></a>gdb</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">(gdb) file vmlinux</div><div class="line">(gdb) target remote :1234</div><div class="line">(gdb) b start_kernel</div><div class="line">(gdb) c</div><div class="line">(gdb) x /200xb 0x004013ce  //以十六进制查看内存</div><div class="line">(gdb) x /10i main		   //以汇编的方式查看内存</div><div class="line">(gdb) disassemble main	   //等同上面</div></pre></td></tr></table></figure>
+
         </div>
         
           
@@ -343,10 +337,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2017-07-28T14:29:06+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-08-29T12:15:56+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
-    <p>最后更新于 2017年7月28日</p>
+    <p>最后更新于 2019年8月29日</p>
   </a>
 </div>
 
@@ -432,9 +426,9 @@
                         <span class="art-item-left">
                             <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
                             <h4>
-                                <a href="/NETWORK/Incapsula免费CDN服务申请使用及加速效果测评.html" rel="prev" title="Incapsula免费CDN服务申请使用及加速效果测评">
+                                <a href="/EMBEDDED/mini2440/文件系统理解.html" rel="prev" title="文件系统理解">
                                   
-                                      Incapsula免费CDN服务申请使用及加速效果测评
+                                      文件系统理解
                                   
                                 </a>
                             </h4>
@@ -447,9 +441,9 @@
                         <span class="art-item-right" aria-hidden="true">
                             <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                             <h4>
-                                <a href="/NETWORK/linux-iptables nat设置路由转换.html" rel="prev" title="linux-iptables nat设置路由转换">
+                                <a href="/EMBEDDED/BCM芯片FP原理及相关SDK数据结构介绍.html" rel="prev" title="BCM芯片FP原理及相关SDK数据结构介绍">
                                     
-                                        linux-iptables nat设置路由转换
+                                        BCM芯片FP原理及相关SDK数据结构介绍
                                     
                                 </a>
                             </h4>
@@ -683,25 +677,37 @@
         
           <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(95)</div></a></li>
+          <li><a class="flat-box child" title="/categories/DEVELOP/DEVELOP/" href="/categories/DEVELOP/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(15)</div></a></li>
         
           <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
         
           <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(12)</div></a></li>
+          <li><a class="flat-box child" title="/categories/LIVE/LIVE/" href="/categories/LIVE/LIVE/"><div class='name'>LIVE</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(11)</div></a></li>
         
           <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
         
+          <li><a class="flat-box child" title="/categories/SYSTEM/SYSTEM/" href="/categories/SYSTEM/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(9)</div></a></li>
+        
           <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/VPN系列之五花八门/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/embedded/" href="/categories/embedded/"><div class='name'>embedded</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/arm/EMBEDDED/" href="/categories/arm/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/linux/EMBEDDED/" href="/categories/linux/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/笑看人生/EMBEDDED/" href="/categories/笑看人生/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
         
       </ul>
     </div>
@@ -715,27 +721,6 @@
           
           
             
-  <section class='widget tagcloud'>
-    
-<header class='pure'>
-  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
-  
-    <a class="rightBtn"
-    
-      rel="nofollow"
-    
-    
-    href="/blog/tags/"
-    title="blog/tags/">
-    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
-  
-</header>
-
-    <div class='content pure'>
-      <a href="/tags/linux/" style="font-size: 14px; color: #999">linux</a>
-    </div>
-  </section>
-
 
           
         

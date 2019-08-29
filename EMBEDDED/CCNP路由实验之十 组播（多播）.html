@@ -272,9 +272,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/EMBEDDED/' rel="nofollow">
+    <a href='/categories/arm/EMBEDDED/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>EMBEDDED</p>
+      <p>arm&nbsp;/&nbsp;EMBEDDED</p>
     </a>
   </div>
 
@@ -321,7 +321,7 @@
 <li><div style="background: white"><span style="color:black"><span style="font-family:宋体; font-size:9pt">单播的优点：</span><span style="font-family:Arial; font-size:10pt"><br>                </span></span></div>
 
 <p><span style="color:black"><span style="font-size:9pt">1<span style="font-family:宋体">）服务器及时响应客户机的请求</span></span><span style="font-size:10pt"></span></span></p>
-<pre><code>            &lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;
 </code></pre></li>
 </ol>
 <p><span style="color:black"><span style="font-size:9pt">2<span style="font-family:宋体">）服务器针对每个客户不同的请求发送不同的数据，容易实现个性化服务。</span></span><span style="font-size:10pt"><br>                    </span></span></p>
@@ -329,7 +329,7 @@
 <li><div style="background: white"><span style="color:black"><span style="font-family:宋体; font-size:9pt">单播的缺点：</span><span style="font-size:10pt"><br>                </span></span></div>
 
 <p><span style="color:black"><span style="font-size:9pt">1<span style="font-family:宋体">）服务器针对每个客户机发送数据流，在客户数量大、每个客户机流量大的流媒体应用中服务器不堪重负。</span></span><span style="font-size:10pt"></span></span></p>
-<pre><code>            &lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;
 </code></pre></li>
 </ol>
 <p><span style="color:black"><span style="font-size:9pt">2<span style="font-family:宋体">）大量佔用网络带宽</span></span><span style="font-size:10pt"><br>                    </span></span></p>
@@ -397,7 +397,7 @@
 <li><div style="background: white"><span style="color:black"><span style="font-size:9pt">RPF<span style="font-family:宋体">检查</span>:<span style="font-family:宋体">用来确保组播数据流能够沿组播分发树（路径）正确的传输，同时可以避免转发路径上环路的产生。当路由器收到组播数据报文时，通过已有的单播路由信息判断此报文是否在最短返回源路径的接口上。如果不是，则丢弃该报文；如果是，则转发报文到接口或者路由器。</span></span><span style="font-size:10pt">缺省情况下，如果存在多条到达源的等价路<span style="font-family:宋体">由，设备在进行</span>RPF<span style="font-family:宋体">检查时，针对不同的情况会有不同的选路规则：</span></span><span style="font-size:10pt"><br>                </span></span></div>
 
 <p><span style="color:black"><span style="font-size:9pt"><span style="font-family:宋体">如果这几条等价路由都是来自同一张路由表项，比如单播路由表、组播静态路由表或者</span>MBGP<span style="font-family:宋体">路由表中的一种，则选取下一跳地址最大的路由作为</span>RPF<span style="font-family:宋体">路由。</span></span><span style="font-size:10pt"></span></span></p>
-<pre><code>            &lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;
 </code></pre></li>
 </ol>
 <p><span style="color:black"><span style="font-size:9pt"><span style="font-family:宋体">如果这几条等价路由来自不同的路由表，首先会比较路由优先级，再比较掩码长度。如果上述都相同，则设备会根据一定的函数计算选取出一条路由作为</span>RPF<span style="font-family:宋体">路由。</span> </span><span style="font-size:10pt"><span style="font-family:宋体">无论上述何种情况，根据</span>RPF<span style="font-family:宋体">检查规则，设备只会选取一条路由作为</span>RPF<span style="font-family:宋体">路由。但是如果配置了组播负载分担之后，当存在多条等价的最优路由时，组播数据将不会按照RPF检查规则只选一条路由作为RPF路由进行转发，而是在这多条路径上按照一定的策略进行分流转发。这样，在一定程度上优化了组播数据在网络上的传输质量<span style="color:#333333">。</span></span></span><span style="color:black; font-size:10pt"><br>                    </span></span></p>
@@ -959,7 +959,7 @@
 <li><div style="background: white"><span style="color:#494949"><span style="font-size:9pt"><span style="font-family:Times New Roman">Auto-rp</span><span style="font-family:宋体">中没有对丢失数据包的检测和重传机制，所以</span><span style="font-family:Times New Roman">auto-rp</span><span style="font-family:宋体">发现消息的传输是不可靠的。所以一般可以使用多个</span><span style="font-family:Times New Roman">MA</span><span style="font-family:宋体">来提供冗余。</span></span><span style="color:black; font-size:10pt"><br>                </span></span></div>
 
 <p><span style="color:black; font-size:10pt">RP<span style="font-family:宋体">的选举规则</span></span></p>
-<pre><code>        &lt;/span&gt;
+<pre><code>&lt;/span&gt;
 </code></pre></li>
 <li><div style="background: white"><span style="color:black"><span style="font-size:9pt"><span style="font-family:宋体">如果</span><span style="font-family:Arial">RP</span><span style="font-family:宋体">服务的组播地址完全冲突，（不同</span><span style="font-family:Arial">RP</span><span style="font-family:宋体">服务的组播地址范围完全一样）选举</span><span style="font-family:Arial">ip</span><span style="font-family:宋体">地址大的为</span><span style="font-family:Arial">RP</span><span style="font-family:宋体">。</span></span><span style="font-family:Arial; font-size:10pt"><br>                </span></span></div></li>
 <li><div style="background: white"><span style="color:black"><span style="font-size:9pt"><span style="font-family:宋体">如果</span>RP<span style="font-family:宋体">服务的组播地址不完全冲突，（不同</span>RP<span style="font-family:宋体">服务的组播地址范围不完全一样）此时</span>acl<span style="font-family:宋体">定义的服务范围小的</span>RP<span style="font-family:Times New Roman"> </span><span style="font-family:宋体">优先。</span></span><span style="font-size:10pt"><br>                </span></span></div></li>
@@ -1275,7 +1275,7 @@
 <li><div style="background: white"><span style="color:black"><span style="font-size:9pt"><span style="font-family:宋体">优先级相同（默认</span>0<span style="font-family:宋体">），</span>ip<span style="font-family:宋体">地址值越大越优，越可能成为</span>active BSR</span><span style="font-size:10pt"><br>                </span></span></div>
 
 <p><span style="color:black"><span style="font-size:9pt"><span style="font-family:宋体">为获得RP信息，所有普通路由器都要收集自举（Bootstrap）消息，即普通路由器接收并保存由自举路由器发送来的自举消息，它采用在自举消息中发布的一组可用汇集点来获得合适的组播组到汇集点的映射。所有路由器采用散列函数来计算组播组和汇集点的映射关系，散列函数的算法是把组播组地址和候选汇集点的地址作为输入值，从而得到一个组播组的实际RP地址。</span> <span style="font-family:宋体">其他路由器收到信息后会选择自己的</span>RP,<span style="font-family:宋体">依据原则选择</span>RP<span style="font-family:宋体">为：</span></span><span style="font-size:10pt"></span></span></p>
-<pre><code>            &lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;
 </code></pre><ol>
 <li><div style="background: white"><span style="color:black"><span style="font-size:9pt"><span style="font-family:宋体">最长匹配组（</span><span style="font-family:Arial">acl</span><span style="font-family:宋体">覆盖的范围小的优先）</span></span><span style="font-family:Arial; font-size:10pt"><br>                    </span></span></div></li>
 <li><div style="background: white"><span style="color:black"><span style="font-size:9pt">RP<span style="font-family:宋体">优先级数值低的</span></span><span style="font-size:10pt"><br>                    </span></span></div></li>
@@ -1285,7 +1285,7 @@
 </li>
 </ol>
 <p><span style="color:black; font-size:10pt">Server<span style="font-family:宋体">配置：</span></span></p>
-<pre><code>                &lt;/span&gt;
+<pre><code>&lt;/span&gt;
 </code></pre><p><span style="color:black; font-size:10pt">Server#conft<br></span></p>
 <p><span style="color:black; font-size:10pt">Server(config)#noip routing<br></span></p>
 <p><span style="color:black; font-size:10pt">Server(config)#ipdefault-gateway 192.168.1.1<br></span></p>
@@ -1294,7 +1294,7 @@
 <p><span style="color:black; font-size:10pt">Server(config-if)#nosh<br></span></p>
 <p><span style="color:black; font-size:10pt">Server(config-if)#exit<br></span></p>
 <p><span style="color:black; font-size:10pt">R1<span style="font-family:宋体">配置：</span></span></p>
-<pre><code>                &lt;/span&gt;
+<pre><code>&lt;/span&gt;
 </code></pre><p><span style="color:black; font-size:10pt">R1#conf t<br></span></p>
 <p><span style="color:black; font-size:10pt">R1(config)#ip multicast-routing<br></span></p>
 <p><span style="color:black; font-size:10pt">R1(config)#int e0/0<br></span></p>
@@ -1316,7 +1316,7 @@
 <p><span style="color:black; font-size:10pt">R1(config-router)#net 0.0.0.0 0.0.0.0area 0<br></span></p>
 <p><span style="color:black; font-size:10pt">R1(config-router)#exit<br></span></p>
 <p><span style="color:black; font-size:10pt">R2<span style="font-family:宋体">配置：</span></span></p>
-<pre><code>                &lt;/span&gt;
+<pre><code>&lt;/span&gt;
 </code></pre><p><span style="color:black; font-size:10pt">R2#conf t<br></span></p>
 <p><span style="color:black; font-size:10pt">R2(config)#ip multicast-routing<br></span></p>
 <p><span style="color:black; font-size:10pt">R2(config)#int e0/0<br></span></p>
@@ -1339,7 +1339,7 @@
 <p><span style="color:black; font-size:10pt">R2(config-router)#net 0.0.0.0 0.0.0.0area 0<br></span></p>
 <p><span style="color:black; font-size:10pt">R2(config-router)#exit<br></span></p>
 <p><span style="color:black; font-size:10pt">R3<span style="font-family:宋体">配置：</span></span></p>
-<pre><code>                &lt;/span&gt;
+<pre><code>&lt;/span&gt;
 </code></pre><p><span style="color:black; font-size:10pt">R3#conf t<br></span></p>
 <p><span style="color:black; font-size:10pt">R3(config)#ip multi<br></span></p>
 <p><span style="color:black; font-size:10pt">R3(config)#ip multicast-routing<br></span></p>
@@ -1379,7 +1379,7 @@
 <p><span style="color:black; font-size:10pt">R4(config-router)#net 0.0.0.0 0.0.0.0area 0<br></span></p>
 <p><span style="color:black; font-size:10pt">R4(config-router)#exit<br></span></p>
 <p><span style="color:black; font-size:10pt">R5<span style="font-family:宋体">配置：</span></span></p>
-<pre><code>                &lt;/span&gt;
+<pre><code>&lt;/span&gt;
 </code></pre><p><span style="color:black; font-size:10pt">R5#conf t<br></span></p>
 <p><span style="color:black; font-size:10pt">R5(config)#ip multicast-routing<br></span></p>
 <p><span style="color:black; font-size:10pt">R5(config)#int e0/0<br></span></p>
@@ -1402,7 +1402,7 @@
 <p><span style="color:black; font-size:10pt">R5(config-router)#net 0.0.0.0 0.0.0.0area 0<br></span></p>
 <p><span style="color:black; font-size:10pt">R5(config-router)#exit<br></span></p>
 <p><span style="color:black; font-size:10pt">PC<span style="font-family:宋体">配置：</span></span></p>
-<pre><code>                &lt;/span&gt;
+<pre><code>&lt;/span&gt;
 </code></pre><p><span style="color:black; font-size:10pt">PC#conf t<br></span></p>
 <p><span style="color:black; font-size:10pt">PC(config)#no ip routing<br></span></p>
 <p><span style="color:black; font-size:10pt">PC(config)#ip default-gateway192.168.0.1<br></span></p>
@@ -1413,13 +1413,13 @@
 <p><span style="color:black; font-size:10pt">PC(config-if)#exit<br></span></p>
 <p><span style="color:black; font-size:10pt"><span style="font-family:宋体">完成以上配置查看</span>R5<span style="font-family:宋体">、</span>R2<span style="font-family:宋体">、</span>R4<br></span></p>
 <p><span style="color:black; font-size:10pt">R5#sh ip pim bsr-router /<span style="color:red">/<span style="font-family:宋体">活动</span>BSR<span style="font-family:宋体">为</span>R4<span style="color:black"></span></span></span></p>
-<pre><code>                        &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
 </code></pre><p><span style="color:black; font-size:10pt">PIMv2 Bootstrap information<br></span></p>
 <p><span style="color:black; font-size:10pt"> BSR address: 4.4.4.4 (?)<br></span></p>
 <p><span style="color:black; font-size:10pt"> Uptime:      00:00:32, BSRPriority: 0, Hash mask length: 0<br></span></p>
 <p><span style="color:black; font-size:10pt"> Expires:     00:01:37<br></span></p>
 <p><span style="color:black; font-size:10pt">R2#sh ip mroute <span style="color:red">//R2<span style="font-family:宋体">不是</span>RP<span style="font-family:宋体">没有收到注册信息</span><span style="color:black"></span></span></span></p>
-<pre><code>                        &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
 </code></pre><p><span style="color:black; font-size:10pt">IP Multicast Routing Table<br></span></p>
 <p><span style="color:black; font-size:10pt">Flags: D - Dense, S - Sparse, B - BidirGroup, s - SSM Group, C - Connected,<br></span></p>
 <p><span style="color:black; font-size:10pt">      L - Local, P - Pruned, R - RP-bit set, F - Register flag,<br></span></p>
@@ -1436,7 +1436,7 @@
 <p><span style="color:black; font-size:10pt"> Outgoing interface list:<br></span></p>
 <p><span style="color:black; font-size:10pt">Ethernet0/0,Forward/Sparse, 00:27:56/00:02:40<br></span></p>
 <p><span style="color:black; font-size:10pt">R4#sh ip mroute /<span style="color:red">/R4<span style="font-family:宋体">有注册信息，说明它被选为</span>RP<span style="color:black"></span></span></span></p>
-<pre><code>                        &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
 </code></pre><p><span style="color:black; font-size:10pt">IP Multicast Routing Table<br></span></p>
 <p><span style="color:black; font-size:10pt">Flags: D - Dense, S - Sparse, B - BidirGroup, s - SSM Group, C - Connected,<br></span></p>
 <p><span style="color:black; font-size:10pt">      L - Local, P - Pruned, R - RP-bit set, F - Register flag,<br></span></p>
@@ -1449,18 +1449,18 @@
 <p><span style="color:black; font-size:10pt"> Timers: Uptime/Expires<br></span></p>
 <p><span style="color:black; font-size:10pt"> Interface state: Interface, Next-Hop or VCD,State/Mode<br></span></p>
 <p><span style="color:red; font-size:10pt">(*, 224.1.1.1),00:12:29/00:02:49, RP 4.4.4.4, flags: S<span style="color:black"></span></span></p>
-<pre><code>                    &lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;
 </code></pre><p><span style="color:red; font-size:10pt">  Incoming interface: Null, RPF nbr 0.0.0.0<span style="color:black"></span></span></p>
-<pre><code>                    &lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;
 </code></pre><p><span style="color:red; font-size:10pt">  Outgoing interface list:<span style="color:black"></span></span></p>
-<pre><code>                    &lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;
 </code></pre><p><span style="color:black; font-size:10pt">   Ethernet0/1, Forward/Sparse, 00:12:29/00:02:49<br></span></p>
 <p><span style="color:black; font-size:10pt">(*, 224.0.1.40), 00:22:23/00:02:35, RP0.0.0.0, flags: DCL<br></span></p>
 <p><span style="color:black; font-size:10pt"> Incoming interface: Null, RPF nbr 0.0.0.0<br></span></p>
 <p><span style="color:black; font-size:10pt"> Outgoing interface list:<br></span></p>
 <p><span style="color:black; font-size:10pt">   Ethernet0/0, Forward/Sparse, 00:22:23/00:02:35<br></span></p>
 <p><span style="color:black; font-size:10pt"><span style="font-family:宋体">从</span>Server<span style="font-family:宋体">端</span>ping 224.1.1.1<span style="font-family:宋体">，检查变化：</span></span></p>
-<pre><code>                &lt;/span&gt;
+<pre><code>&lt;/span&gt;
 </code></pre><p><span style="color:black; font-size:10pt">Server#ping 224.1.1.1 repeat 100<br></span></p>
 <p><span style="color:black; font-size:10pt">Type escape sequence to abort.<br></span></p>
 <p><span style="color:black; font-size:10pt">Sending 100, 100-byte ICMP Echos to224.1.1.1, timeout is 2 seconds:<br></span></p>
@@ -1480,39 +1480,39 @@
 <p><span style="color:black; font-size:10pt"> Timers: Uptime/Expires<br></span></p>
 <p><span style="color:black; font-size:10pt"> Interface state: Interface, Next-Hop or VCD,State/Mode<br></span></p>
 <p><span style="color:red; font-size:10pt">(*, 224.1.1.1),00:14:59/stopped, RP 4.4.4.4, flags: S //RPT<span style="font-family:宋体">树</span><span style="color:black"></span></span></p>
-<pre><code>                    &lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;
 </code></pre><p><span style="color:red; font-size:10pt">  Incoming interface: Null, RPF nbr 0.0.0.0<span style="color:black"></span></span></p>
-<pre><code>                    &lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;
 </code></pre><p><span style="color:red; font-size:10pt">  Outgoing interface list:<span style="color:black"></span></span></p>
-<pre><code>                    &lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;
 </code></pre><p><span style="color:red; font-size:10pt">    Ethernet0/1, Forward/Sparse,00:14:59/00:03:17<span style="color:black"></span></span></p>
-<pre><code>                    &lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;
 </code></pre><p><span style="color:red; font-size:10pt">(192.168.1.2,224.1.1.1), 00:00:04/00:02:59, flags: PTX //<span style="font-family:宋体">切换到</span>SPT<span style="font-family:宋体">树</span><span style="color:black"></span></span></p>
-<pre><code>                    &lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;
 </code></pre><p><span style="color:red; font-size:10pt">  Incoming interface: Ethernet0/1, RPF nbr192.168.45.5<span style="color:black"></span></span></p>
-<pre><code>                    &lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;
 </code></pre><p><span style="color:red; font-size:10pt">  Outgoing interface list: Null<span style="color:black"></span></span></p>
-<pre><code>                    &lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;
 </code></pre><p><span style="color:black; font-size:10pt">(*, 224.0.1.40), 00:24:53/00:02:03, RP0.0.0.0, flags: DCL<br></span></p>
 <p><span style="color:black; font-size:10pt"> Incoming interface: Null, RPF nbr 0.0.0.0<br></span></p>
 <p><span style="color:black; font-size:10pt"> Outgoing interface list:<br></span></p>
 <p><span style="color:black; font-size:10pt">   Ethernet0/0, Forward/Sparse, 00:24:55/00:02:01<br></span></p>
 <p><span style="color:black; font-size:10pt"><span style="font-family:宋体">关闭</span>R4<span style="font-family:宋体">的两个物理端口，查看</span>RP<span style="font-family:宋体">是否会自动切换到</span>2.2.2.2<br></span></p>
 <p><span style="color:black; font-size:10pt">R4#conf t <span style="color:red">//<span style="font-family:宋体">关闭</span>R4<span style="font-family:宋体">端口</span><span style="color:black"></span></span></span></p>
-<pre><code>                        &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
 </code></pre><p><span style="color:black; font-size:10pt">R4(config)#int e0/0<br></span></p>
 <p><span style="color:black; font-size:10pt">R4(config-if)#shutdown<br></span></p>
 <p><span style="color:black; font-size:10pt">R4(config-if)#int e0/1<br></span></p>
 <p><span style="color:black; font-size:10pt">R4(config-if)#shutdown<br></span></p>
 <p><span style="color:black; font-size:10pt">R5#sh ip pim bsr <span style="color:red">//<span style="font-family:宋体">活动</span>BSR<span style="font-family:宋体">变为</span>R2<span style="color:black"></span></span></span></p>
-<pre><code>                        &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
 </code></pre><p><span style="color:black; font-size:10pt">R5#sh ip pim bsr-router<br></span></p>
 <p><span style="color:black; font-size:10pt">PIMv2 Bootstrap information<br></span></p>
 <p><span style="color:black; font-size:10pt"> BSR address: 2.2.2.2 (?)<br></span></p>
 <p><span style="color:black; font-size:10pt"> Uptime:      00:03:17, BSRPriority: 0, Hash mask length: 0<br></span></p>
 <p><span style="color:black; font-size:10pt"> Expires:     00:01:52<br></span></p>
 <p><span style="color:black; font-size:10pt">R5#sh ip mroute <span style="color:red">//RP<span style="font-family:宋体">切换到</span>R2<span style="font-family:宋体">上</span><span style="color:black"></span></span></span></p>
-<pre><code>                        &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
 </code></pre><p><span style="color:black; font-size:10pt">IP Multicast Routing Table<br></span></p>
 <p><span style="color:black; font-size:10pt">Flags: D - Dense, S - Sparse, B - BidirGroup, s - SSM Group, C - Connected,<br></span></p>
 <p><span style="color:black; font-size:10pt">      L - Local, P - Pruned, R - RP-bit set, F - Register flag,<br></span></p>
@@ -1525,26 +1525,26 @@
 <p><span style="color:black; font-size:10pt"> Timers: Uptime/Expires<br></span></p>
 <p><span style="color:black; font-size:10pt"> Interface state: Interface, Next-Hop or VCD,State/Mode<br></span></p>
 <p><span style="color:red; font-size:10pt">(*, 224.1.1.1),00:23:01/00:02:57, RP 2.2.2.2, flags: SJC<span style="color:black"></span></span></p>
-<pre><code>                    &lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;
 </code></pre><p><span style="color:red; font-size:10pt">  Incoming interface: Ethernet0/0, RPF nbr192.168.25.2<span style="color:black"></span></span></p>
-<pre><code>                    &lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;
 </code></pre><p><span style="color:red; font-size:10pt">  Outgoing interface list:<span style="color:black"></span></span></p>
-<pre><code>                    &lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;
 </code></pre><p><span style="color:red; font-size:10pt">    Ethernet0/2, Forward/Sparse,00:23:01/00:02:57<span style="color:black"></span></span></p>
-<pre><code>                    &lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;
 </code></pre><p><span style="color:black; font-size:10pt">(*, 224.0.1.40), 00:27:21/00:02:30, RP0.0.0.0, flags: DCL<br></span></p>
 <p><span style="color:black; font-size:10pt"> Incoming interface: Null, RPF nbr 0.0.0.0<br></span></p>
 <p><span style="color:black; font-size:10pt"> Outgoing interface list:<br></span></p>
 <p><span style="color:black; font-size:10pt">   Ethernet0/0, Forward/Sparse, 00:27:21/00:02:30<br></span></p>
 <p><span style="color:black"><span style="font-family:宋体; font-size:14pt"><strong>实验六、组播双向树</strong></span><span style="font-size:10pt"></span></span></p>
-<pre><code>                    &lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;
 </code></pre><p><img src="http://www.madhex.com/wp-content/uploads/2016/05/051016_0624_CCNP6.jpg" alt=""><span style="color:black; font-family:宋体; font-size:10pt"></span></p>
 <pre><code>                &lt;/span&gt;
 
 5.  &lt;div style=&quot;background: white&quot;&gt;&lt;span style=&quot;color:black; font-family:宋体; font-size:10pt&quot;&gt;PIM Sparse-Mode (PIM-SM)是单向树的转发，初始组播流量从源发送到RP，然后由RP使用共享树转发给接收者；如果RP不在最短路径树上，会发生自动的从源到接受者的最短路径树的计算，进而生成源树路由条目（S,G）；这样的行为可能导致路由器维护比较多的源树路由条目（S,G），造成一定的系统和网络资源的占用。Bidirectional PIM (Bidir-PIM)即双向PIM属于PIM-SM的一个分支和扩展技术，能够优化PIM-SM单向树所导致的资源占用问题。
 </code></pre><p></p>
 <p><span style="color:black; font-family:宋体"><span style="font-size:10pt">在Bidir-PIM运行模式下，无需建立任何源树条目（S，G），所有的组播流量都使用共享树转发（*，G），在该模式下，没有任何源注册消息，组播源和接收者都加入到同一棵共享树。</span><span style="font-size:12pt"> Bidir-PI基本術語</span><span style="font-size:10pt"></span></span></p>
-<pre><code>                    &lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;
 </code></pre></li>
 <li><div style="background: white"><span style="color:black"><span style="font-size:9pt"><span style="font-family:Arial">MulticastRouting Information Base (MRIB)pim</span><span style="font-family:宋体">协议根据单播路由表计算的到</span><span style="font-family:Arial">RP</span><span style="font-family:宋体">的组播共享树路径。</span></span><span style="font-family:Arial; font-size:10pt"><br>                </span></span></div></li>
 <li><div style="background: white"><span style="color:black"><span style="font-size:9pt">RendezvousPoint Address (RPA)</span><span style="font-size:10pt"><br>                </span></span></div></li>
@@ -1553,20 +1553,20 @@
 <li><div style="background: white"><span style="color:black"><span style="font-size:9pt"><span style="font-family:Arial">RPFInterface  :</span><span style="font-family:宋体">每个路由器去往</span><span style="font-family:Arial">RP</span><span style="font-family:宋体">的最佳路径的接口，是与</span><span style="font-family:Arial">DF</span><span style="font-family:宋体">直连的接口。</span></span><span style="font-family:Arial; font-size:10pt"><br>                </span></span></div>
 
 <p><span style="color:black; font-size:10pt">Bidir-PIM<span style="font-family:宋体">组播路由的状态对于每个特定的组和</span>RP<span style="font-family:宋体">，在每个路由器建立以下的组播转发路径：</span></span></p>
-<pre><code>        &lt;/span&gt;
+<pre><code>&lt;/span&gt;
 </code></pre></li>
 <li><div style="background: white"><span style="color:black"><span style="font-size:9pt"><span style="font-family:宋体">从组播源到</span><span style="font-family:Arial">RP</span><span style="font-family:宋体">的转发路径，沿着</span><span style="font-family:Arial">RPF</span><span style="font-family:宋体">接口转发到</span><span style="font-family:Arial">RP</span><span style="font-family:宋体">。</span></span><span style="font-family:Arial; font-size:10pt"><br>                </span></span></div></li>
 <li><div style="background: white"><span style="color:black"><span style="font-size:9pt"><span style="font-family:宋体">从</span>RP<span style="font-family:宋体">到组播接收者的转发路径，或者从组播源直接转发到接收者的路径</span></span><span style="font-size:10pt"><br>                </span></span></div>
 
 <p><span style="color:black; font-size:10pt"><span style="font-family:宋体">按照以上方法建立转发路径，组播路由表项：</span></span></p>
-<pre><code>        &lt;/span&gt;
+<pre><code>&lt;/span&gt;
 </code></pre></li>
 <li><div style="background: white"><span style="color:black"><span style="font-family:宋体; font-size:9pt">仅仅有（*，G），falg为B</span><span style="font-family:Arial; font-size:10pt"><br>                </span></span></div></li>
 <li><div style="background: white"><span style="color:black"><span style="font-family:宋体; font-size:9pt">没有入接口，只有Bidir-Upstream，去往RP</span><span style="font-family:Arial; font-size:10pt"><br>                </span></span></div></li>
 <li><div style="background: white"><span style="color:black"><span style="font-family:宋体; font-size:9pt">出站接口列表：forward代表把流量转发给接收者；Bidir-Upstream代表拷贝自上行流量接口。</span><span style="font-family:Arial; font-size:10pt"><br>                </span></span></div>
 
 <p><span style="color:black; font-size:10pt"><span style="font-family:Arial">Bidir-PIM</span><span style="font-family:宋体">的对组播包的转发</span><span style="font-family:Arial"></span></span></p>
-<pre><code>            &lt;/span&gt;&lt;/span&gt;
+<pre><code>&lt;/span&gt;&lt;/span&gt;
 </code></pre><ol>
 <li><div style="background: white"><span style="color:black"><span style="font-size:9pt"><span style="font-family:宋体">仅仅当一个数据包是来自</span><span style="font-family:Arial">RPF</span><span style="font-family:宋体">接口（从源到</span><span style="font-family:Arial">RP</span><span style="font-family:宋体">方向），或者来自</span><span style="font-family:Arial">DF</span><span style="font-family:宋体">路由器的接口（从</span><span style="font-family:Arial">RP</span><span style="font-family:宋体">到接收者方向）；路由器才会接收该数据包。</span></span><span style="font-family:Arial; font-size:10pt"><br>                    </span></span></div></li>
 <li><div style="background: white"><span style="color:black"><span style="font-family:宋体; font-size:9pt">路由器开始构建数据包的转发出口，从所有的出站接口列表中删除入站接口，如果出站接口列表不为空，将数据包转发给其它所有的出站接口。</span><span style="font-size:10pt"><br>                    </span></span></div></li>
@@ -1575,7 +1575,7 @@
 </li>
 </ol>
 <p><span style="color:black; font-size:10pt">Server1<span style="font-family:宋体">配置：</span></span></p>
-<pre><code>                &lt;/span&gt;
+<pre><code>&lt;/span&gt;
 </code></pre><p><span style="color:black; font-size:10pt">Server#conf t<br></span></p>
 <p><span style="color:black; font-size:10pt">Server(config)#no ip routiiing<br></span></p>
 <p><span style="color:black; font-size:10pt">Server(config)#ip default-gateway 192.168.1.1<br></span></p>
@@ -1584,7 +1584,7 @@
 <p><span style="color:black; font-size:10pt">Server(config-if)#no sh<br></span></p>
 <p><span style="color:black; font-size:10pt">Server(config-if)#exit<br></span></p>
 <p><span style="color:black; font-size:10pt">R1<span style="font-family:宋体">配置：</span></span></p>
-<pre><code>                &lt;/span&gt;
+<pre><code>&lt;/span&gt;
 </code></pre><p><span style="color:black; font-size:10pt">R1#conf t<br></span></p>
 <p><span style="color:black; font-size:10pt">R1(config)#ip multicast-routing<br></span></p>
 <p><span style="color:black; font-size:10pt">R1(config)#ip pim bidir-enable<br></span></p>
@@ -1608,7 +1608,7 @@
 <p><span style="color:black; font-size:10pt">R1(config-router)#net 0.0.0.0 0.0.0.0 area 0<br></span></p>
 <p><span style="color:black; font-size:10pt">R1(config-router)#exit<br></span></p>
 <p><span style="color:black; font-size:10pt">R2<span style="font-family:宋体">配置：</span></span></p>
-<pre><code>                &lt;/span&gt;
+<pre><code>&lt;/span&gt;
 </code></pre><p><span style="color:black; font-size:10pt">R2#conf t<br></span></p>
 <p><span style="color:black; font-size:10pt">R2(config)#ip multicast-routing<br></span></p>
 <p><span style="color:black; font-size:10pt">R2(config)#ip pim bidir-enable<br></span></p>
@@ -1627,7 +1627,7 @@
 <p><span style="color:black; font-size:10pt">R2(config-router)#net 0.0.0.0 0.0.0.0 area 0<br></span></p>
 <p><span style="color:black; font-size:10pt">R2(config-router)#exit<br></span></p>
 <p><span style="color:black; font-size:10pt">R3<span style="font-family:宋体">配置：</span></span></p>
-<pre><code>                &lt;/span&gt;
+<pre><code>&lt;/span&gt;
 </code></pre><p><span style="color:black; font-size:10pt">R3#conf t<br></span></p>
 <p><span style="color:black; font-size:10pt">R3(config)#ip multicast-routing<br></span></p>
 <p><span style="color:black; font-size:10pt">R3(config)#ip pim bidir-enable<br></span></p>
@@ -1650,7 +1650,7 @@
 <p><span style="color:black; font-size:10pt">R3(config-router)#net 0.0.0.0 0.0.0.0 area 0<br></span></p>
 <p><span style="color:black; font-size:10pt">R3(config-router)#exit<br></span></p>
 <p><span style="color:black; font-size:10pt">R4<span style="font-family:宋体">配置：</span></span></p>
-<pre><code>                &lt;/span&gt;
+<pre><code>&lt;/span&gt;
 </code></pre><p><span style="color:black; font-size:10pt">R4#conf t<br></span></p>
 <p><span style="color:black; font-size:10pt">R4(config)#ip multicast-routing<br></span></p>
 <p><span style="color:black; font-size:10pt">R4(config)#ip pim bidir-enable<br></span></p>
@@ -1674,7 +1674,7 @@
 <p><span style="color:black; font-size:10pt">R4(config-router)#net 0.0.0.0 0.0.0.0 area 0<br></span></p>
 <p><span style="color:black; font-size:10pt">R4(config-router)#exit<br></span></p>
 <p><span style="color:black; font-size:10pt">PC<span style="font-family:宋体">配置：</span></span></p>
-<pre><code>                &lt;/span&gt;
+<pre><code>&lt;/span&gt;
 </code></pre><p><span style="color:black; font-size:10pt">PC#conf t<br></span></p>
 <p><span style="color:black; font-size:10pt">PC(config)#no ip routing<br></span></p>
 <p><span style="color:black; font-size:10pt">PC(config)#ip default-gateway 192.168.0.1<br></span></p>
@@ -1875,7 +1875,7 @@
 <li><div style="background: white"><span style="color:black"><span style="font-size:9pt"><span style="font-family:宋体">接收端域：只带接受端的域可以获取数据而不用全局通告组成员。</span>MSDP<span style="font-family:宋体">可以和其它非</span>PIM-SM<span style="font-family:宋体">协议一起使用。</span></span><span style="font-size:10pt"><br>                </span></span></div>
 
 <p><span style="color:black; font-size:10pt"><span style="font-family:宋体">在不同的</span>PIM-SM<span style="font-family:宋体">域之间建立</span>MSDP<span style="font-family:宋体">连接时，是使用</span>TCP 639<span style="font-family:宋体">，</span><span style="font-family:Times New Roman"> </span>IP<span style="font-family:宋体">地址高的初始化</span>TCP<span style="font-family:宋体">连接，</span>60<span style="font-family:宋体">秒一次</span>keepalive,75<span style="font-family:宋体">秒后没数据或</span>keepalive<span style="font-family:宋体">则重建</span>TCP<span style="font-family:宋体">。建立连接的双方均是各自区域的</span>RP<span style="font-family:宋体">，组播源向</span>RP<span style="font-family:宋体">注册之后，那么</span>RP<span style="font-family:宋体">将这些源信息通过在</span>MSDP<span style="font-family:宋体">连接上发送</span>Source-Active (SA)<span style="font-family:宋体">到远程</span>RP<span style="font-family:宋体">，以提供组播源的信息。因为</span>RP<span style="font-family:宋体">收到</span>Source-Active (SA)<span style="font-family:宋体">后，也是要做</span>RPF<span style="font-family:宋体">检测的，检测是根据</span>BGP<span style="font-family:宋体">来做的，在这里，需要使用</span>MBGP<span style="font-family:宋体">之组播协议，组成员的网络信息和建立</span>MSDP<span style="font-family:宋体">连接的</span>peer<span style="font-family:宋体">地址理论上都需要在</span>MBGP<span style="font-family:宋体">中进行通告，一是防止</span>RPF<span style="font-family:宋体">检测失败，二是由此来决定组播数据的传递，所以十分重要。</span><span style="font-family:Times New Roman">MBGP</span><span style="font-family:宋体">（多协议边界网关协议）增加了</span><span style="font-family:Times New Roman"> BGP </span><span style="font-family:宋体">的性能，使其能在整个因特网上组播路由策略，并能够在</span><span style="font-family:Times New Roman"> BGP </span><span style="font-family:宋体">自治系统内或之间连接组播拓朴。换句话说，</span><span style="font-family:Times New Roman"> MBGP </span><span style="font-family:宋体">可以说是增强版的携带</span><span style="font-family:Times New Roman"> IP </span><span style="font-family:宋体">组播路由的</span><span style="font-family:Times New Roman"> BGP</span><span style="font-family:宋体">（不仅限于此）。</span><span style="font-family:Times New Roman">BGP </span><span style="font-family:宋体">携带了两组路由，一组是提供单播路由，另一组是提供组播路由。协议独立组播（</span><span style="font-family:Times New Roman">PIM</span><span style="font-family:宋体">）使用连接组播路由的路由器建立数据分配树。当需要链接仅用于组播通信，或限制通信的资源使用时；也可能当网络访问点需要交换所有的组播通信时，</span><span style="font-family:Times New Roman">MBGP </span><span style="font-family:宋体">都是非常有用的。</span><span style="font-family:Times New Roman">MBGP </span><span style="font-family:宋体">允许单播路由拓朴不同于组播路由拓朴。</span></span></p>
-<pre><code>        &lt;/span&gt;
+<pre><code>&lt;/span&gt;
 </code></pre></li>
 </ol>
 <p><span style="color:black; font-size:10pt"><span style="font-family:Times New Roman"> </span><span style="font-family:宋体">但是在</span>PIM-SM<span style="font-family:宋体">域之间没有开启</span>MBGP<span style="font-family:宋体">，就会有</span>RPF<span style="font-family:宋体">检测失败的危险，失败后，</span>Source-Active (SA)<span style="font-family:宋体">将被丢弃，所以要想在不开启</span>MBGP<span style="font-family:宋体">的情况下，又要接收所有的</span>Source-Active (SA)<span style="font-family:宋体">，则将接收端配置成</span>default MSDP,<span style="font-family:宋体">那么该域将接收任何</span>SA<span style="font-family:宋体">信息。在配置</span>default MSDP<span style="font-family:宋体">时，需要指定从何处接收</span>SA<span style="font-family:宋体">，就需要指定对端</span>MSDP peer<span style="font-family:宋体">，使用</span>ip msdp default-peer<span style="font-family:宋体">指定，之后从对端过来的</span>SA<span style="font-family:宋体">将不做</span>RPF<span style="font-family:宋体">检测而完全被接收。</span><br>                </span></p>
@@ -2633,25 +2633,37 @@
         
           <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(95)</div></a></li>
+          <li><a class="flat-box child" title="/categories/DEVELOP/DEVELOP/" href="/categories/DEVELOP/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(15)</div></a></li>
         
           <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
         
           <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(12)</div></a></li>
+          <li><a class="flat-box child" title="/categories/LIVE/LIVE/" href="/categories/LIVE/LIVE/"><div class='name'>LIVE</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(11)</div></a></li>
         
           <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
         
+          <li><a class="flat-box child" title="/categories/SYSTEM/SYSTEM/" href="/categories/SYSTEM/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(9)</div></a></li>
+        
           <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/VPN系列之五花八门/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/embedded/" href="/categories/embedded/"><div class='name'>embedded</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/arm/EMBEDDED/" href="/categories/arm/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/linux/EMBEDDED/" href="/categories/linux/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/笑看人生/EMBEDDED/" href="/categories/笑看人生/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
         
       </ul>
     </div>
@@ -2665,27 +2677,6 @@
           
           
             
-  <section class='widget tagcloud'>
-    
-<header class='pure'>
-  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
-  
-    <a class="rightBtn"
-    
-      rel="nofollow"
-    
-    
-    href="/blog/tags/"
-    title="blog/tags/">
-    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
-  
-</header>
-
-    <div class='content pure'>
-      <a href="/tags/linux/" style="font-size: 14px; color: #999">linux</a>
-    </div>
-  </section>
-
 
           
         

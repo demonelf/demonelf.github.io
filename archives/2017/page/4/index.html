@@ -233,8 +233,8 @@
       
         
   <h2 class="title">
-    <a href="/EMBEDDED/S3C6410中断以及外部中断.html">
-      S3C6410中断以及外部中断
+    <a href="/EMBEDDED/linux 网络虚拟化： macvlan.html">
+      linux 网络虚拟化： macvlan
     </a>
   </h2>
 
@@ -262,7 +262,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-07-19</p>
+    <p>2017-05-18</p>
   </a>
 </div>
 
@@ -272,9 +272,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/EMBEDDED/' rel="nofollow">
+    <a href='/categories/arm/EMBEDDED/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>EMBEDDED</p>
+      <p>arm&nbsp;/&nbsp;EMBEDDED</p>
     </a>
   </div>
 
@@ -301,14 +301,24 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      6410的中断系统：
+      macvlan 简介
 
-嵌入式软件里的中断处理，除了中断初始化，主要工作就是编写ISR.
 
- 在嵌入式的SOC的CPU里，在CPU里内部会带一些设备模块，它们产生的中断称为内部中断。因为联线比较固定，因此编程比较简单。而且在物理上CPU分离的芯片产生的中断
+
+macvlan 是 linux kernel 比较新的特性，可以通过以下方法判断当前系统是否支持：
+
+
+$ modprobe macvlan
+
+
+$ lsmod | grep macvlan
+
+
+ macvlan 19046
+0
       
         <div class="readmore">
-          <a href="/EMBEDDED/S3C6410中断以及外部中断.html" class="flat-box">
+          <a href="/EMBEDDED/linux 网络虚拟化： macvlan.html" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             阅读全文
           </a>
@@ -335,8 +345,8 @@
       
         
   <h2 class="title">
-    <a href="/SYSTEM/git reset revert 回退回滚取消提交返回上一版本.html">
-      git reset revert 回退回滚取消提交返回上一版本
+    <a href="/EMBEDDED/ebuild文件阅读和撰写方法简介.html">
+      ebuild文件阅读和撰写方法简介
     </a>
   </h2>
 
@@ -364,7 +374,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-07-18</p>
+    <p>2017-04-12</p>
   </a>
 </div>
 
@@ -374,9 +384,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/SYSTEM/' rel="nofollow">
+    <a href='/categories/arm/EMBEDDED/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>SYSTEM</p>
+      <p>arm&nbsp;/&nbsp;EMBEDDED</p>
     </a>
   </div>
 
@@ -403,16 +413,12 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      总有一天你会遇到下面的问题.
+      ebuild文件是portage系统的一部分，它是一种采用bash脚本语法书写的脚本文件，当使用portage相关工具维护系统中的软件时，针对单个软件的下载、安装等动作会由对应的ebuild脚本完成
 
-(1)改完代码匆忙提交,上线发现有问题,怎么办? 赶紧回滚.
-
-(2)改完代码测试也没有问题,但是上线发现你的修改影响了之前运行正常的代码报错,必须回滚.
-
-这些开发中很常见的问题,所以git的取消提交,回退甚至返回上一版本
+关于ebuild文件，之前俺无任何撰写经验，偶尔会因需
       
         <div class="readmore">
-          <a href="/SYSTEM/git reset revert 回退回滚取消提交返回上一版本.html" class="flat-box">
+          <a href="/EMBEDDED/ebuild文件阅读和撰写方法简介.html" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             阅读全文
           </a>
@@ -439,8 +445,8 @@
       
         
   <h2 class="title">
-    <a href="/SYSTEM/Github上怎么修改别人的项目并且提交给原作者！图文并茂！.html">
-      Github上怎么修改别人的项目并且提交给原作者！图文并茂！
+    <a href="/EMBEDDED/S3C2440之内存管理单元MMU.html">
+      S3C2440之内存管理单元MMU
     </a>
   </h2>
 
@@ -468,7 +474,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-07-18</p>
+    <p>2017-02-14</p>
   </a>
 </div>
 
@@ -478,9 +484,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/SYSTEM/' rel="nofollow">
+    <a href='/categories/arm/EMBEDDED/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>SYSTEM</p>
+      <p>arm&nbsp;/&nbsp;EMBEDDED</p>
     </a>
   </div>
 
@@ -507,722 +513,15 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      Github上怎么修改别人的项目并且提交给原作者！图文并茂！
+      一、内存管理单元MMU简介
 
 
+内存管理单元（Memory Management Unit）简称MMU，它是一块硬件单元，类似于存储控制器，它负责虚拟地址到物理地址的映射，并提供硬件机制的内存访问授权。
 
-写这篇博客的初衷，是因为我的项目Only需要一些朋友一起参与进来，但是很多的Git都不是很熟练，其实版本控制这种东西没有什么难度的，只要稍微掌握以下就好了，如果有兴趣的话也可以到Only这
+MMU可以使每个用户进程都拥有独立的地址空间，同时
       
         <div class="readmore">
-          <a href="/SYSTEM/Github上怎么修改别人的项目并且提交给原作者！图文并茂！.html" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/EMBEDDED/MQTT C Client实现消息推送（入门指南）.html">
-      MQTT C Client实现消息推送（入门指南）
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-07-14</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/EMBEDDED/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>EMBEDDED</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      本篇文章主要介绍了”MQTT C Client实现消息推送（入门指南）”，主要涉及到MQTT C Client实现消息推送（入门指南）方面的内容，对于MQTT C Client实现消息推送（入门指南）感兴趣的同学可以参考一下。
-
-MQTT（Message 
-      
-        <div class="readmore">
-          <a href="/EMBEDDED/MQTT C Client实现消息推送（入门指南）.html" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/NETWORK/Incapsula免费CDN服务申请使用及加速效果测评.html">
-      Incapsula免费CDN服务申请使用及加速效果测评
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-07-13</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/NETWORK/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>NETWORK</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      作为差不多和cloudflare一道被国内的站长们认识的Incapsula，其提供的免费CDN加速服务一直可以正常使用，且有多个CDN节点可供选择。而cloudflare提供的免费CDN服务虽然不错，但是不知道是不是因为国内用户用太多了还是其他什么原因，现
-      
-        <div class="readmore">
-          <a href="/NETWORK/Incapsula免费CDN服务申请使用及加速效果测评.html" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/EMBEDDED/mini2440/qemu模拟mini2440调试手册.html">
-      qemu模拟mini2440调试手册
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-07-13</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/EMBEDDED/mini2440/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>EMBEDDED&nbsp;/&nbsp;mini2440</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      前情提要
-
-最近想在mini2440上模仿linux 0.12的代码实现arm版本的linux。
-一来是想巩固下arm，在就是学习下操作系统的相关只是。
-哎、最后之前的想法非常幼稚，心想学就学最新，当时想看懂linux 3.x的版本。
-没想到越看越老，从3
-      
-        <div class="readmore">
-          <a href="/EMBEDDED/mini2440/qemu模拟mini2440调试手册.html" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/NETWORK/linux-iptables nat设置路由转换.html">
-      linux-iptables nat设置路由转换
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-07-13</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/NETWORK/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>NETWORK</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      DNAT（Destination Network Address Translation,目的地址转换) 通常被叫做目的映射。而SNAT（Source Network Address Translation，源地址转换）通常被叫做源映射。
-
-这是我们在设置
-      
-        <div class="readmore">
-          <a href="/NETWORK/linux-iptables nat设置路由转换.html" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/EMBEDDED/MQTT学习笔记——MQTT协议体验 Mosquitto安装和使用.html">
-      MQTT学习笔记——MQTT协议体验 Mosquitto安装和使用
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-07-12</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/EMBEDDED/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>EMBEDDED</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      0 前言
-
- [MQTT](http://mqtt.org/)是IBM开发的一个即时通讯协议。MQTT是面向M2M和物联网的连接协议，采用轻量级发布和订阅消息传输机制。[Mosquitto](http://mosquitto.org/)是一款实现了 MQT
-      
-        <div class="readmore">
-          <a href="/EMBEDDED/MQTT学习笔记——MQTT协议体验 Mosquitto安装和使用.html" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/EMBEDDED/mqtt的c语言客户端库和实例使用.html">
-      mqtt的c语言客户端库和实例使用
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-07-12</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/EMBEDDED/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>EMBEDDED</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      C 客户端
-
-Eclipse Paho C
-
- 1. 支持 TCP/SSL Socket 连接
- 2. 支持自动重连
- 3. 支持 WebSocket
- 4. 代码样例
-
-#include "stdio.h"
-#include "stdlib.h"
-#in
-      
-        <div class="readmore">
-          <a href="/EMBEDDED/mqtt的c语言客户端库和实例使用.html" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/EMBEDDED/linux 下jansson安装和使用.html">
-      linux 下jansson安装和使用
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-07-12</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/EMBEDDED/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>EMBEDDED</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      http://www.cnblogs.com/etangyushan/p/3724017.html
-      
-        <div class="readmore">
-          <a href="/EMBEDDED/linux 下jansson安装和使用.html" class="flat-box">
+          <a href="/EMBEDDED/S3C2440之内存管理单元MMU.html" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             阅读全文
           </a>
@@ -1251,14 +550,8 @@ Eclipse Paho C
             </a>
           
           <p class="current">
-            4 / 5
+            4 / 4
           </p>
-          
-            <a class="next" rel="next" href="/archives/2017/page/5/">
-              <section class="post next">
-                &nbsp;下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i>
-              </section>
-            </a>
           
         </div>
       </div>
@@ -1453,25 +746,37 @@ Eclipse Paho C
         
           <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(95)</div></a></li>
+          <li><a class="flat-box child" title="/categories/DEVELOP/DEVELOP/" href="/categories/DEVELOP/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(15)</div></a></li>
         
           <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
         
           <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(12)</div></a></li>
+          <li><a class="flat-box child" title="/categories/LIVE/LIVE/" href="/categories/LIVE/LIVE/"><div class='name'>LIVE</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(11)</div></a></li>
         
           <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
         
+          <li><a class="flat-box child" title="/categories/SYSTEM/SYSTEM/" href="/categories/SYSTEM/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(9)</div></a></li>
+        
           <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/VPN系列之五花八门/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/embedded/" href="/categories/embedded/"><div class='name'>embedded</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/arm/EMBEDDED/" href="/categories/arm/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/linux/EMBEDDED/" href="/categories/linux/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/笑看人生/EMBEDDED/" href="/categories/笑看人生/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
         
       </ul>
     </div>
@@ -1485,27 +790,6 @@ Eclipse Paho C
           
           
             
-  <section class='widget tagcloud'>
-    
-<header class='pure'>
-  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
-  
-    <a class="rightBtn"
-    
-      rel="nofollow"
-    
-    
-    href="/blog/tags/"
-    title="blog/tags/">
-    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
-  
-</header>
-
-    <div class='content pure'>
-      <a href="/tags/linux/" style="font-size: 14px; color: #999">linux</a>
-    </div>
-  </section>
-
 
           
         

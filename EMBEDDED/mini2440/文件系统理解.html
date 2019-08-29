@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>文件系统笔记 | 芯机智</title>
+  <title>文件系统理解 | 芯机智</title>
   
   
   <meta name="description" content="以下都是自己瞎理解，并不一定对，但会慢慢完善。
@@ -234,7 +234,7 @@
   
     <h1 class="title">
       <a href="/EMBEDDED/mini2440/文件系统理解.html">
-        文件系统笔记
+        文件系统理解
       </a>
     </h1>
   
@@ -263,7 +263,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-12</p>
+    <p>2019-08-29</p>
   </a>
 </div>
 
@@ -338,74 +338,13 @@
 </ol>
 <p>通过blk_dev[MAJOR_NR].request_fn = DEVICE_REQUEST;<br>注册void do_hd_request(void)功能</p>
 <p>看看linux 0.11是怎么通过read调用到硬盘上的。</p>
-<p>调用流程</p>
-<pre><code>应用
-| read-&gt;中断
-V
-read_write.c----------------文件系统上层接口-----------------
-| sys_read
-V
-fs/block_dev.c--------------文件系统下层/块设备接口-----------
-| block_read
-V
-fs/buffer.c 
-| breada
-V
-blk_drv/ll_rw_blk.c---------块设备/设备驱动上层接口----------
-| ll_rw_block-&gt;make_request-&gt;add_request-&gt;request_fn
-| -&gt;do_hd_request
-V
-kernel/blk_drv/hd.c---------设备驱动底层接口----------------
-| do_hd_request
-V
-</code></pre><p>每个任务都有一个自己的task_struct <em>current;<br>current中包含了任务打开的文件fd。<br>struct file </em> filp[NR_OPEN];</p>
+<p>调用流程<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">应用</div><div class="line">| read-&gt;中断</div><div class="line">V</div><div class="line">read_write.c----------------文件系统上层接口-----------------</div><div class="line">| sys_read</div><div class="line">V</div><div class="line">fs/block_dev.c--------------文件系统下层/块设备接口-----------</div><div class="line">| block_read</div><div class="line">V</div><div class="line">fs/buffer.c </div><div class="line">| breada</div><div class="line">V</div><div class="line">blk_drv/ll_rw_blk.c---------块设备/设备驱动上层接口----------</div><div class="line">| ll_rw_block-&gt;make_request-&gt;add_request-&gt;request_fn</div><div class="line">| -&gt;do_hd_request</div><div class="line">V</div><div class="line">kernel/blk_drv/hd.c---------设备驱动底层接口----------------</div><div class="line">| do_hd_request</div><div class="line">V</div></pre></td></tr></table></figure></p>
+<p>每个任务都有一个自己的task_struct <em>current;<br>current中包含了任务打开的文件fd。<br>struct file </em> filp[NR_OPEN];</p>
 <p>open.c<br>open<br>|<br>V<br>open_namei<br>次函数是操作文件系统树目录的重要体现接口。</p>
-<p>open_namei返回的是struct m_inode</p>
-<pre><code>struct m_inode {
-    unsigned short i_mode;
-    unsigned short i_uid;
-    unsigned long i_size;
-    unsigned long i_mtime;
-    unsigned char i_gid;
-    unsigned char i_nlinks;
-    unsigned short i_zone[9];
-/* these are in memory also */
-    struct task_struct * i_wait;
-    unsigned long i_atime;
-    unsigned long i_ctime;
-    unsigned short i_dev;
-    unsigned short i_num;
-    unsigned short i_count;
-    unsigned char i_lock;
-    unsigned char i_dirt;
-    unsigned char i_pipe;
-    unsigned char i_mount;
-    unsigned char i_seek;
-    unsigned char i_update;
-};
-</code></pre><p><img src="i节点结构.JPG" alt=""></p>
-<pre><code>struct super_block {
-    unsigned short s_ninodes;
-    unsigned short s_nzones;
-    unsigned short s_imap_blocks;
-    unsigned short s_zmap_blocks;
-    unsigned short s_firstdatazone;
-    unsigned short s_log_zone_size;
-    unsigned long s_max_size;
-    unsigned short s_magic;
-/* These are only in memory */
-    struct buffer_head * s_imap[8];
-    struct buffer_head * s_zmap[8];
-    unsigned short s_dev;
-    struct m_inode * s_isup;
-    struct m_inode * s_imount;
-    unsigned long s_time;
-    struct task_struct * s_wait;
-    unsigned char s_lock;
-    unsigned char s_rd_only;
-    unsigned char s_dirt;
-};
-</code></pre><p><img src="超级块结构.JPG" alt=""></p>
+<p>open_namei返回的是struct m_inode<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">struct m_inode &#123;</div><div class="line">	unsigned short i_mode;</div><div class="line">	unsigned short i_uid;</div><div class="line">	unsigned long i_size;</div><div class="line">	unsigned long i_mtime;</div><div class="line">	unsigned char i_gid;</div><div class="line">	unsigned char i_nlinks;</div><div class="line">	unsigned short i_zone[9];</div><div class="line">/* these are in memory also */</div><div class="line">	struct task_struct * i_wait;</div><div class="line">	unsigned long i_atime;</div><div class="line">	unsigned long i_ctime;</div><div class="line">	unsigned short i_dev;</div><div class="line">	unsigned short i_num;</div><div class="line">	unsigned short i_count;</div><div class="line">	unsigned char i_lock;</div><div class="line">	unsigned char i_dirt;</div><div class="line">	unsigned char i_pipe;</div><div class="line">	unsigned char i_mount;</div><div class="line">	unsigned char i_seek;</div><div class="line">	unsigned char i_update;</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
+<p><img src="i节点结构.JPG" alt=""></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">struct super_block &#123;</div><div class="line">	unsigned short s_ninodes;</div><div class="line">	unsigned short s_nzones;</div><div class="line">	unsigned short s_imap_blocks;</div><div class="line">	unsigned short s_zmap_blocks;</div><div class="line">	unsigned short s_firstdatazone;</div><div class="line">	unsigned short s_log_zone_size;</div><div class="line">	unsigned long s_max_size;</div><div class="line">	unsigned short s_magic;</div><div class="line">/* These are only in memory */</div><div class="line">	struct buffer_head * s_imap[8];</div><div class="line">	struct buffer_head * s_zmap[8];</div><div class="line">	unsigned short s_dev;</div><div class="line">	struct m_inode * s_isup;</div><div class="line">	struct m_inode * s_imount;</div><div class="line">	unsigned long s_time;</div><div class="line">	struct task_struct * s_wait;</div><div class="line">	unsigned char s_lock;</div><div class="line">	unsigned char s_rd_only;</div><div class="line">	unsigned char s_dirt;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p><img src="超级块结构.JPG" alt=""></p>
 
         </div>
         
@@ -417,10 +356,10 @@ V
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2017-08-14T18:01:01+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-08-29T12:16:02+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
-    <p>最后更新于 2017年8月14日</p>
+    <p>最后更新于 2019年8月29日</p>
   </a>
 </div>
 
@@ -439,7 +378,7 @@ V
       
         <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://demonelf.github.io/EMBEDDED/mini2440/文件系统理解.html&title=文件系统笔记 | 芯机智&summary=以下都是自己瞎理解，并不一定对，但会慢慢完善。
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://demonelf.github.io/EMBEDDED/mini2440/文件系统理解.html&title=文件系统理解 | 芯机智&summary=以下都是自己瞎理解，并不一定对，但会慢慢完善。
 
 我们可以想象下，linux文件系统，是吧我们想利用的资源，以虚拟一种树状目录结构管理。最初我们主要想把，硬盘上的内容以树状的结构管理起来。
 但是发现，其实好多硬件都可以放到这个树中。例如：字符设备串口等。
@@ -455,7 +394,7 @@ V
       
         <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://demonelf.github.io/EMBEDDED/mini2440/文件系统理解.html&title=文件系统笔记 | 芯机智&summary=以下都是自己瞎理解，并不一定对，但会慢慢完善。
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://demonelf.github.io/EMBEDDED/mini2440/文件系统理解.html&title=文件系统理解 | 芯机智&summary=以下都是自己瞎理解，并不一定对，但会慢慢完善。
 
 我们可以想象下，linux文件系统，是吧我们想利用的资源，以虚拟一种树状目录结构管理。最初我们主要想把，硬盘上的内容以树状的结构管理起来。
 但是发现，其实好多硬件都可以放到这个树中。例如：字符设备串口等。
@@ -471,7 +410,7 @@ V
       
         <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=http://demonelf.github.io/EMBEDDED/mini2440/文件系统理解.html&title=文件系统笔记 | 芯机智&summary=以下都是自己瞎理解，并不一定对，但会慢慢完善。
+          href="http://service.weibo.com/share/share.php?url=http://demonelf.github.io/EMBEDDED/mini2440/文件系统理解.html&title=文件系统理解 | 芯机智&summary=以下都是自己瞎理解，并不一定对，但会慢慢完善。
 
 我们可以想象下，linux文件系统，是吧我们想利用的资源，以虚拟一种树状目录结构管理。最初我们主要想把，硬盘上的内容以树状的结构管理起来。
 但是发现，其实好多硬件都可以放到这个树中。例如：字符设备串口等。
@@ -503,9 +442,9 @@ V
                         <span class="art-item-left">
                             <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
                             <h4>
-                                <a href="/NETWORK/linux 下创建GRE隧道.html" rel="prev" title="linux 下创建GRE隧道">
+                                <a href="/EMBEDDED/mini2440/编写操作系统思路.html" rel="prev" title="编写操作系统思路">
                                   
-                                      linux 下创建GRE隧道
+                                      编写操作系统思路
                                   
                                 </a>
                             </h4>
@@ -518,9 +457,9 @@ V
                         <span class="art-item-right" aria-hidden="true">
                             <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                             <h4>
-                                <a href="/SYSTEM/x11vnc利用xvfd实现远程vncserver.html" rel="prev" title="x11vnc利用xvfd实现远程vncserver">
+                                <a href="/EMBEDDED/mini2440/qemu模拟mini2440调试手册.html" rel="prev" title="qemu模拟mini2440调试手册">
                                     
-                                        x11vnc利用xvfd实现远程vncserver
+                                        qemu模拟mini2440调试手册
                                     
                                 </a>
                             </h4>
@@ -553,7 +492,7 @@ V
 
   <script>
     window.subData = {
-      title: '文件系统笔记',
+      title: '文件系统理解',
       tools: true
     }
   </script>
@@ -740,25 +679,37 @@ V
         
           <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(95)</div></a></li>
+          <li><a class="flat-box child" title="/categories/DEVELOP/DEVELOP/" href="/categories/DEVELOP/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(15)</div></a></li>
         
           <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
         
           <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(12)</div></a></li>
+          <li><a class="flat-box child" title="/categories/LIVE/LIVE/" href="/categories/LIVE/LIVE/"><div class='name'>LIVE</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(11)</div></a></li>
         
           <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
         
+          <li><a class="flat-box child" title="/categories/SYSTEM/SYSTEM/" href="/categories/SYSTEM/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(9)</div></a></li>
+        
           <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/VPN系列之五花八门/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/embedded/" href="/categories/embedded/"><div class='name'>embedded</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/arm/EMBEDDED/" href="/categories/arm/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/linux/EMBEDDED/" href="/categories/linux/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/笑看人生/EMBEDDED/" href="/categories/笑看人生/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
         
       </ul>
     </div>
@@ -772,27 +723,6 @@ V
           
           
             
-  <section class='widget tagcloud'>
-    
-<header class='pure'>
-  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
-  
-    <a class="rightBtn"
-    
-      rel="nofollow"
-    
-    
-    href="/blog/tags/"
-    title="blog/tags/">
-    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
-  
-</header>
-
-    <div class='content pure'>
-      <a href="/tags/linux/" style="font-size: 14px; color: #999">linux</a>
-    </div>
-  </section>
-
 
           
         

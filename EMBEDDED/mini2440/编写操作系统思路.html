@@ -262,7 +262,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-07-31</p>
+    <p>2019-08-29</p>
   </a>
 </div>
 
@@ -351,22 +351,9 @@
 <blockquote>
 <p>lib目录下 - 用户系统接口</p>
 </blockquote>
-<pre><code>write.c
-_syscall3(int,write,int,fd,const char *,buf,off_t,count)
-</code></pre><pre><code>unistd.h
-#define _syscall3(type,name,atype,a,btype,b,ctype,c) \
-type name(atype a,btype b,ctype c) \
-{ \
-long __res; \
-__asm__ volatile (&quot;int $0x80&quot; \
-    : &quot;=a&quot; (__res) \
-    : &quot;0&quot; (__NR_##name),&quot;b&quot; ((long)(a)),&quot;c&quot; ((long)(b)),&quot;d&quot; ((long)(c))); \
-if (__res&gt;=0) \
-    return (type) __res; \
-errno=-__res; \
-return -1; \
-}
-</code></pre><p>从以上可以看出wirte是通过80中断到内核的，内核通过以下处理</p>
+<p>write.c<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">_syscall3(<span class="keyword">int</span>,write,<span class="keyword">int</span>,fd,<span class="keyword">const</span> <span class="keyword">char</span> *,buf,<span class="keyword">off_t</span>,count)</div></pre></td></tr></table></figure></p>
+<p>unistd.h<br><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _syscall3(type,name,atype,a,btype,b,ctype,c) \</span></div><div class="line">type name(atype a,btype b,ctype c) \</div><div class="line">&#123; \</div><div class="line"><span class="keyword">long</span> __res; \</div><div class="line">__<span class="function">asm__ <span class="title">volatile</span> <span class="params">(<span class="string">"int $0x80"</span> \</span></span></div><div class="line">	: "=a" (__res) \</div><div class="line">	: <span class="string">"0"</span> (__NR_##name),<span class="string">"b"</span> ((<span class="keyword">long</span>)(a)),<span class="string">"c"</span> ((<span class="keyword">long</span>)(b)),<span class="string">"d"</span> ((<span class="keyword">long</span>)(c))); \</div><div class="line"><span class="keyword">if</span> (__res&gt;=<span class="number">0</span>) \</div><div class="line">	<span class="keyword">return</span> (type) __res; \</div><div class="line">errno=-__res; \</div><div class="line"><span class="keyword">return</span> <span class="number">-1</span>; \</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>从以上可以看出wirte是通过80中断到内核的，内核通过以下处理</p>
 <blockquote>
 <p>kernel目录下 - 内核中断处理</p>
 </blockquote>
@@ -393,10 +380,10 @@ return -1; \
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2017-12-13T17:24:01+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-08-29T12:26:00+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
-    <p>最后更新于 2017年12月13日</p>
+    <p>最后更新于 2019年8月29日</p>
   </a>
 </div>
 
@@ -496,28 +483,14 @@ return -1; \
         
             <div class="prev-next">
                 
-                    <section class="prev">
-                        <span class="art-item-left">
-                            <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
-                            <h4>
-                                <a href="/SYSTEM/gentoo【显卡-驱动-xorg-gnome-gui】如何工作.html" rel="prev" title="gentoo【显卡-驱动-xorg-gnome-gui】工作原理">
-                                  
-                                      gentoo【显卡-驱动-xorg-gnome-gui】工作原理
-                                  
-                                </a>
-                            </h4>
-                            
-                        </span>
-                    </section>
-                
                 
                     <section class="next">
                         <span class="art-item-right" aria-hidden="true">
                             <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                             <h4>
-                                <a href="/EMBEDDED/openocd+jlink为mini2440调试u-boot.html" rel="prev" title="openocd+jlink为mini2440调试u-boot">
+                                <a href="/EMBEDDED/mini2440/文件系统理解.html" rel="prev" title="文件系统理解">
                                     
-                                        openocd+jlink为mini2440调试u-boot
+                                        文件系统理解
                                     
                                 </a>
                             </h4>
@@ -737,25 +710,37 @@ return -1; \
         
           <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(95)</div></a></li>
+          <li><a class="flat-box child" title="/categories/DEVELOP/DEVELOP/" href="/categories/DEVELOP/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(15)</div></a></li>
         
           <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
         
           <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(12)</div></a></li>
+          <li><a class="flat-box child" title="/categories/LIVE/LIVE/" href="/categories/LIVE/LIVE/"><div class='name'>LIVE</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(11)</div></a></li>
         
           <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
         
+          <li><a class="flat-box child" title="/categories/SYSTEM/SYSTEM/" href="/categories/SYSTEM/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(9)</div></a></li>
+        
           <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/VPN系列之五花八门/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/embedded/" href="/categories/embedded/"><div class='name'>embedded</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/arm/EMBEDDED/" href="/categories/arm/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/linux/EMBEDDED/" href="/categories/linux/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/笑看人生/EMBEDDED/" href="/categories/笑看人生/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
         
       </ul>
     </div>
@@ -769,27 +754,6 @@ return -1; \
           
           
             
-  <section class='widget tagcloud'>
-    
-<header class='pure'>
-  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
-  
-    <a class="rightBtn"
-    
-      rel="nofollow"
-    
-    
-    href="/blog/tags/"
-    title="blog/tags/">
-    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
-  
-</header>
-
-    <div class='content pure'>
-      <a href="/tags/linux/" style="font-size: 14px; color: #999">linux</a>
-    </div>
-  </section>
-
 
           
         

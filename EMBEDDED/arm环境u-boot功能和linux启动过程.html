@@ -272,9 +272,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/EMBEDDED/' rel="nofollow">
+    <a href='/categories/arm/EMBEDDED/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>EMBEDDED</p>
+      <p>arm&nbsp;/&nbsp;EMBEDDED</p>
     </a>
   </div>
 
@@ -320,20 +320,8 @@
 <ol>
 <li>启动代码为start.S</li>
 <li>由于u-boot为裸板上第一个程序，所以要初始化各个外设，由于u-boot已经初始化了，包括：中断禁用、分配动态内存、初始化BBS区域、初始化页目录、打开缓存等任务。所以linux内核不需要全部再次初始化，所以可以理解bootloader和kernel其实是两兄弟。</li>
-<li>U-boot引导内核第一步要做的的是把内核下到ram中，然后跳到内核的start函数。<br>例:<pre><code>/*start code on reset*/
-Reset:
-bl set_cpu_mode                /*设置特权模式*/
-bl turn_off_watchdog           /*关闭看门狗*/
-bl mask_irqs                   /*关闭中断*/
-bl set_clock                   /*设置时钟*/
-bl disable_id_caches           /*关闭caches*/
-bl init_memory                 /*初始化sram*/
-bl init_stack                  /*初始化栈*/
-bl clean_bss                   /*初始化bss*/
-bl nand_init                   /*初始化nand*/
-bl copy_to_ram                 /*复制自身到ram*/
-ldr pc, =arm_main              /*执行main函数*/
-</code></pre></li>
+<li>U-boot引导内核第一步要做的的是把内核下到ram中，然后跳到内核的start函数。<br>例:<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">/*start code on reset*/</div><div class="line">    Reset:</div><div class="line">    bl set_cpu_mode                /*设置特权模式*/</div><div class="line">    bl turn_off_watchdog           /*关闭看门狗*/</div><div class="line">    bl mask_irqs                   /*关闭中断*/</div><div class="line">    bl set_clock                   /*设置时钟*/</div><div class="line">    bl disable_id_caches           /*关闭caches*/</div><div class="line">    bl init_memory                 /*初始化sram*/</div><div class="line">    bl init_stack                  /*初始化栈*/</div><div class="line">    bl clean_bss                   /*初始化bss*/</div><div class="line">    bl nand_init                   /*初始化nand*/</div><div class="line">    bl copy_to_ram                 /*复制自身到ram*/</div><div class="line">    ldr pc, =arm_main              /*执行main函数*/</div></pre></td></tr></table></figure>
+</li>
 </ol>
 </li>
 </ol>
@@ -392,11 +380,11 @@ ldr pc, =arm_main              /*执行main函数*/
 </ol>
 <p><span style="font-family:幼圆">    linux/arch/arm/plat-s3c24xx/common-smdk.c<br></span></p>
 <p>static struct s3c24xx_led_platdata smdk_pdata_led5 = {</p>
-<pre><code>        .gpio        = S3C2410_GPF5,
-        .flags       = S3C24XX_LEDF_ACTLOW | S3C24XX_LEDF_TRISTATE,
-        .name        = &quot;led5&quot;,
-        .def_trigger    = &quot;nand-disk&quot;,
-    };
+<pre><code>    .gpio        = S3C2410_GPF5,
+    .flags       = S3C24XX_LEDF_ACTLOW | S3C24XX_LEDF_TRISTATE,
+    .name        = &quot;led5&quot;,
+    .def_trigger    = &quot;nand-disk&quot;,
+};
 </code></pre><p>linux/include/asm-arm/arch-s3c2410/regs-gpio.h</p>
 <p>#define S3C2410_GPF5        S3C2410_GPIONO(S3C2410_GPIO_BANKF, 5)</p>
 <p><span style="font-family:幼圆"></span></p>
@@ -786,25 +774,37 @@ ldr pc, =arm_main              /*执行main函数*/
         
           <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(95)</div></a></li>
+          <li><a class="flat-box child" title="/categories/DEVELOP/DEVELOP/" href="/categories/DEVELOP/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(15)</div></a></li>
         
           <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
         
           <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(12)</div></a></li>
+          <li><a class="flat-box child" title="/categories/LIVE/LIVE/" href="/categories/LIVE/LIVE/"><div class='name'>LIVE</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(11)</div></a></li>
         
           <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
         
+          <li><a class="flat-box child" title="/categories/SYSTEM/SYSTEM/" href="/categories/SYSTEM/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(9)</div></a></li>
+        
           <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/VPN系列之五花八门/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/embedded/" href="/categories/embedded/"><div class='name'>embedded</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/arm/EMBEDDED/" href="/categories/arm/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/linux/EMBEDDED/" href="/categories/linux/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/笑看人生/EMBEDDED/" href="/categories/笑看人生/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
         
       </ul>
     </div>
@@ -818,27 +818,6 @@ ldr pc, =arm_main              /*执行main函数*/
           
           
             
-  <section class='widget tagcloud'>
-    
-<header class='pure'>
-  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
-  
-    <a class="rightBtn"
-    
-      rel="nofollow"
-    
-    
-    href="/blog/tags/"
-    title="blog/tags/">
-    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
-  
-</header>
-
-    <div class='content pure'>
-      <a href="/tags/linux/" style="font-size: 14px; color: #999">linux</a>
-    </div>
-  </section>
-
 
           
         

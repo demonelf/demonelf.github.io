@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>Gentoo下利用pptpd搭建PPTP服务器 | 芯机智</title>
+  <title>Gentoo下利用pptpd搭建PPTP服务器  | 芯机智</title>
   
   
   <meta name="description" content="首先检查当前系统的linux kernel有没有支持ppp, netfilter, mppe和
@@ -233,7 +233,7 @@ netfilter的nat,如果没有，请先配置支持这些组建，编译更新内�
   
     <h1 class="title">
       <a href="/NETWORK/Gentoo下利用pptpd搭建PPTP服务器 .html">
-        Gentoo下利用pptpd搭建PPTP服务器
+        Gentoo下利用pptpd搭建PPTP服务器 
       </a>
     </h1>
   
@@ -319,19 +319,10 @@ netfilter的nat,如果没有，请先配置支持这些组建，编译更新内�
 <p>emerge ppp</p>
 <p>emerge pptpd</p>
 </blockquote>
-<p>然后修改配置文件<br>先是pptpd的配置文件 /etc/pptpd.conf</p>
-<pre><code>ppp /usr/sbin/pppd
-option /etc/ppp/options.pptpd
-logwtmp
-localip 172.16.0.1
-remoteip 172.16.0.2-254
-</code></pre><p>接着是ppp的配置文件 /etc/ppp/options.pptpd </p>
-<pre><code>ms-dns 8.8.8.8
-ms-dns 8.8.4.4
-</code></pre><p>最后是用户密码文件 /etc/ppp/chap-secret </p>
-<pre><code>#name server secret ip
-test@test.com pptpd test *
-</code></pre><p>第一项是登录vpn时使用的用户名，第二项是vpn服务器名（pptpd，l2tpd，xl2tpd等，也可以用*号），第三项是密码，第四项是分配给客户端的ip，如果是＊号，vpn服务器则会从自己的配置文件中选择一个ip分配给客户端。 </p>
+<p>然后修改配置文件<br>先是pptpd的配置文件 /etc/pptpd.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ppp /usr/sbin/pppd</div><div class="line">option /etc/ppp/options.pptpd</div><div class="line">logwtmp</div><div class="line">localip 172.16.0.1</div><div class="line">remoteip 172.16.0.2-254</div></pre></td></tr></table></figure></p>
+<p>接着是ppp的配置文件 /etc/ppp/options.pptpd<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">ms-dns 8.8.8.8</div><div class="line">ms-dns 8.8.4.4</div></pre></td></tr></table></figure></p>
+<p>最后是用户密码文件 /etc/ppp/chap-secret<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#name server secret ip</div><div class="line">test@test.com pptpd test *</div></pre></td></tr></table></figure></p>
+<p>第一项是登录vpn时使用的用户名，第二项是vpn服务器名（pptpd，l2tpd，xl2tpd等，也可以用*号），第三项是密码，第四项是分配给客户端的ip，如果是＊号，vpn服务器则会从自己的配置文件中选择一个ip分配给客户端。 </p>
 <p>开启系统的封包转发： </p>
 <blockquote>
 <p>echo 1 &gt; /proc/sys/net/ipv4/ip_forward</p>
@@ -355,7 +346,7 @@ test@test.com pptpd test *
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-08-29T11:37:39+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-08-29T12:00:00+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
     <p>最后更新于 2019年8月29日</p>
@@ -366,9 +357,6 @@ test@test.com pptpd test *
       
         
           
-  
-  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/linux/" rel="nofollow"><i class="fas fa-hashtag" aria-hidden="true"></i>&nbsp;<p>linux</p></a></div>
-
 
         
       
@@ -380,7 +368,7 @@ test@test.com pptpd test *
       
         <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://demonelf.github.io/NETWORK/Gentoo下利用pptpd搭建PPTP服务器 .html&title=Gentoo下利用pptpd搭建PPTP服务器 | 芯机智&summary=首先检查当前系统的linux kernel有没有支持ppp, netfilter, mppe和 netfilter的nat,如果没有，请先配置支持这些组建，编译更新内核，然后重启系统。这块不再详述，如果想知道详细情况，可以留言问我。
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://demonelf.github.io/NETWORK/Gentoo下利用pptpd搭建PPTP服务器 .html&title=Gentoo下利用pptpd搭建PPTP服务器  | 芯机智&summary=首先检查当前系统的linux kernel有没有支持ppp, netfilter, mppe和 netfilter的nat,如果没有，请先配置支持这些组建，编译更新内核，然后重启系统。这块不再详述，如果想知道详细情况，可以留言问我。
 接着安装必要软件
 
 e"
@@ -395,7 +383,7 @@ e"
       
         <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://demonelf.github.io/NETWORK/Gentoo下利用pptpd搭建PPTP服务器 .html&title=Gentoo下利用pptpd搭建PPTP服务器 | 芯机智&summary=首先检查当前系统的linux kernel有没有支持ppp, netfilter, mppe和 netfilter的nat,如果没有，请先配置支持这些组建，编译更新内核，然后重启系统。这块不再详述，如果想知道详细情况，可以留言问我。
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://demonelf.github.io/NETWORK/Gentoo下利用pptpd搭建PPTP服务器 .html&title=Gentoo下利用pptpd搭建PPTP服务器  | 芯机智&summary=首先检查当前系统的linux kernel有没有支持ppp, netfilter, mppe和 netfilter的nat,如果没有，请先配置支持这些组建，编译更新内核，然后重启系统。这块不再详述，如果想知道详细情况，可以留言问我。
 接着安装必要软件
 
 e"
@@ -410,7 +398,7 @@ e"
       
         <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=http://demonelf.github.io/NETWORK/Gentoo下利用pptpd搭建PPTP服务器 .html&title=Gentoo下利用pptpd搭建PPTP服务器 | 芯机智&summary=首先检查当前系统的linux kernel有没有支持ppp, netfilter, mppe和 netfilter的nat,如果没有，请先配置支持这些组建，编译更新内核，然后重启系统。这块不再详述，如果想知道详细情况，可以留言问我。
+          href="http://service.weibo.com/share/share.php?url=http://demonelf.github.io/NETWORK/Gentoo下利用pptpd搭建PPTP服务器 .html&title=Gentoo下利用pptpd搭建PPTP服务器  | 芯机智&summary=首先检查当前系统的linux kernel有没有支持ppp, netfilter, mppe和 netfilter的nat,如果没有，请先配置支持这些组建，编译更新内核，然后重启系统。这块不再详述，如果想知道详细情况，可以留言问我。
 接着安装必要软件
 
 e"
@@ -437,14 +425,28 @@ e"
         
             <div class="prev-next">
                 
+                    <section class="prev">
+                        <span class="art-item-left">
+                            <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
+                            <h4>
+                                <a href="/NETWORK/Incapsula免费CDN服务申请使用及加速效果测评.html" rel="prev" title="Incapsula免费CDN服务申请使用及加速效果测评">
+                                  
+                                      Incapsula免费CDN服务申请使用及加速效果测评
+                                  
+                                </a>
+                            </h4>
+                            
+                        </span>
+                    </section>
+                
                 
                     <section class="next">
                         <span class="art-item-right" aria-hidden="true">
                             <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                             <h4>
-                                <a href="/NETWORK/Socks代理反弹突破内网.html" rel="prev" title="Socks代理反弹突破内网">
+                                <a href="/LIVE/自己选择的路.html" rel="prev" title="自己选择的路">
                                     
-                                        Socks代理反弹突破内网
+                                        自己选择的路
                                     
                                 </a>
                             </h4>
@@ -477,7 +479,7 @@ e"
 
   <script>
     window.subData = {
-      title: 'Gentoo下利用pptpd搭建PPTP服务器',
+      title: 'Gentoo下利用pptpd搭建PPTP服务器 ',
       tools: true
     }
   </script>
@@ -664,25 +666,37 @@ e"
         
           <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(95)</div></a></li>
+          <li><a class="flat-box child" title="/categories/DEVELOP/DEVELOP/" href="/categories/DEVELOP/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(15)</div></a></li>
         
           <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
         
           <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(12)</div></a></li>
+          <li><a class="flat-box child" title="/categories/LIVE/LIVE/" href="/categories/LIVE/LIVE/"><div class='name'>LIVE</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(11)</div></a></li>
         
           <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
         
+          <li><a class="flat-box child" title="/categories/SYSTEM/SYSTEM/" href="/categories/SYSTEM/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(9)</div></a></li>
+        
           <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/VPN系列之五花八门/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/embedded/" href="/categories/embedded/"><div class='name'>embedded</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/arm/EMBEDDED/" href="/categories/arm/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/linux/EMBEDDED/" href="/categories/linux/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/笑看人生/EMBEDDED/" href="/categories/笑看人生/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
         
       </ul>
     </div>
@@ -696,27 +710,6 @@ e"
           
           
             
-  <section class='widget tagcloud'>
-    
-<header class='pure'>
-  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
-  
-    <a class="rightBtn"
-    
-      rel="nofollow"
-    
-    
-    href="/blog/tags/"
-    title="blog/tags/">
-    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
-  
-</header>
-
-    <div class='content pure'>
-      <a href="/tags/linux/" style="font-size: 14px; color: #999">linux</a>
-    </div>
-  </section>
-
 
           
         

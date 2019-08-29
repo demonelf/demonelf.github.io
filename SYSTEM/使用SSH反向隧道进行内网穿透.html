@@ -272,9 +272,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/SYSTEM/' rel="nofollow">
+    <a href='/categories/SYSTEM/SYSTEM/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>SYSTEM</p>
+      <p>SYSTEM&nbsp;/&nbsp;SYSTEM</p>
     </a>
   </div>
 
@@ -347,57 +347,28 @@
 </table>
 <p>实现目的：使得位于家庭NAT网络内的C机，可以SSH访问位于公司NAT网络内的A机。</p>
 <p><strong>2，原理分析</strong><br>这里先讲向SS反向隧道的原理，如果你对原理不感兴趣，可以跳过这一节。</p>
-<pre><code>ssh -p 22 -qngfNTR 6766:127.0.0.1:22 usera@VPS的IP  #回车以后没有反应是正常的,隧道已经建立
-</code></pre><p>命令解析：<br>从(位于本地NAT网络里的)<strong>本机</strong>访问<strong>VPS</strong>，建立一条SSH隧道（本机的随机端口到VPS的22端口）<br>同时建立了一条反向隧道，将<strong>VPS</strong>上的6766端口转发到<strong>本机</strong>的22端口。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh -p 22 -qngfNTR 6766:127.0.0.1:22 usera@VPS的IP  #回车以后没有反应是正常的,隧道已经建立</div></pre></td></tr></table></figure>
+<p>命令解析：<br>从(位于本地NAT网络里的)<strong>本机</strong>访问<strong>VPS</strong>，建立一条SSH隧道（本机的随机端口到VPS的22端口）<br>同时建立了一条反向隧道，将<strong>VPS</strong>上的6766端口转发到<strong>本机</strong>的22端口。</p>
 <p>然后，就可以从VPS的6766端口访问本地的22端口了</p>
-<pre><code>ssh -p 6766 userA@127.0.0.1  #从SSH访问位于NAT网络里的linux机器
-</code></pre><p>从SSH访问位于本地NAT网络里的linux机器，这里的userA当然是本地NAT网络里的linux机器用户啦。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh -p 6766 userA@127.0.0.1  #从SSH访问位于NAT网络里的linux机器</div></pre></td></tr></table></figure>
+<p>从SSH访问位于本地NAT网络里的linux机器，这里的userA当然是本地NAT网络里的linux机器用户啦。</p>
 <p>这样做有一个问题，那就是，由本地建立的SSH连接是会超时关闭的，如果连接关闭，隧道无法维持，那么VPS就无法利用反向隧道访问本地NAT网络了，为此我们需要一种方案来提供一条稳定的SSH反向隧道，于是autossh就派上用场了；</p>
 <p>另外有个问题是，如果本地的Linux系统重启，那么autossh建立的隧道仍然会失效。所以这里我们采取的做法是：<br>1，将本地Linux系统的public key发给VPS，建立信任机制，这样，本地Linux系统可以无需VPS的密码而建立一条SSH隧道；<br>2，将autossh写入系统服务，使之在开机时可以自动建立SSH隧道。</p>
 <p>知道了原理以后，接下来开始实际的操作步骤。</p>
 <p><strong>3，VPS(B机)的操作</strong></p>
-<pre><code>vim /etc/ssh/sshd_config  #打开如下选项
-GatewayPorts yes
-
-/etc/init.d/sshd reload
-</code></pre><p><strong>4，A机的操作</strong><br>前面说了，A机位于公司内部NAT网络内，是一台安装在VMware Workstation Player里的Debian 8 64bit虚拟机。</p>
-<pre><code>sudo apt-get install autossh openssh-server
-</code></pre><p><strong>配置A机可以免密码登陆到VPS(B机)</strong><br>具体方法为将A机的公钥发给VPS(B机)，这样A机开机时就可以自动建立一条到VPS的SSH隧道</p>
-<pre><code>su - userA    #这步可省略,但需要确保以下命令是在A机上以userA用户的身份运行的
-
-ssh-keygen -t rsa    #连续三次回车,即在本地生成了公钥和私钥,不要设置密码
-ssh-copy-id -p VPS的SSH端口 -i ~/.ssh/id_rsa.pub userVPS@VPS的IP
-
-sudo touch /var/log/ssh_nat.log &amp;&amp; sudo chmod 777 /var/log/ssh_nat.log
-
-sudo vim /lib/systemd/system/autossh.service  #将下例内容粘贴复制进去
-</code></pre><pre><code>[Unit]
-Description=Auto SSH Tunnel
-After=network-online.target
-
-[Service]
-User=userA     #改掉这里A机的用户
-Type=simple
-ExecStart=/usr/bin/autossh -M 6777 -NR 8388:127.0.0.1:22 -i ~/.ssh/id_rsa userVPS@VPS的IP -p VPS的SSH端口 &gt;&gt; /var/log/ssh_nat.log 2&gt;&amp;1 &amp;
-ExecReload=/bin/kill -HUP $MAINPID
-KillMode=process
-Restart=always
-
-[Install]
-WantedBy=multi-user.target
-WantedBy=graphical.target
-</code></pre><p>解释一下上面的autossh命令：<br>添加的一个-M 6777参数,负责通过6777端口监视连接状态,连接有问题时就会自动重连<br>去掉了一个-f参数,因为autossh本身就会在background运行</p>
-<pre><code>sudo chmod +x /lib/systemd/system/autossh.service    #给予可执行权限
-sudo systemctl enable autossh    #设置开机自启
-sudo systemctl start autossh     #现在就启动服务
-sudo systemctl status autossh  #查看状态,出现Active: active (running)表示正常运行
-</code></pre><p>也可以<strong>登陆到VPS（B机）</strong>上看看8388端口是否真的有程序在监听</p>
-<pre><code>$ netstat -antp | grep :8388
-tcp        0      0 0.0.0.0:8388       0.0.0.0:*                   LISTEN      20041/sshd
-tcp        0      0 :::8388            :::*                        LISTEN      20041/sshd
-</code></pre><p><strong>5，尝试远程登陆</strong><br>接下来，我们就可以在家里的电脑(C机)上登陆到位于公司NAT网络里的那台Debian8虚拟机(A机)。</p>
-<pre><code>ssh userA@VPS的IP -p 8388
-</code></pre><p>注意：这里的userA并不是VPS(B机)上的用户，而是Debian8虚拟机(A机)上的用户。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">vim /etc/ssh/sshd_config  #打开如下选项</div><div class="line">GatewayPorts yes</div><div class="line"> </div><div class="line">/etc/init.d/sshd reload</div></pre></td></tr></table></figure>
+<p><strong>4，A机的操作</strong><br>前面说了，A机位于公司内部NAT网络内，是一台安装在VMware Workstation Player里的Debian 8 64bit虚拟机。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo apt-get install autossh openssh-server</div></pre></td></tr></table></figure>
+<p><strong>配置A机可以免密码登陆到VPS(B机)</strong><br>具体方法为将A机的公钥发给VPS(B机)，这样A机开机时就可以自动建立一条到VPS的SSH隧道</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">su - userA    #这步可省略,但需要确保以下命令是在A机上以userA用户的身份运行的</div><div class="line"> </div><div class="line">ssh-keygen -t rsa    #连续三次回车,即在本地生成了公钥和私钥,不要设置密码</div><div class="line">ssh-copy-id -p VPS的SSH端口 -i ~/.ssh/id_rsa.pub userVPS@VPS的IP</div><div class="line"> </div><div class="line">sudo touch /var/log/ssh_nat.log &amp;&amp; sudo chmod 777 /var/log/ssh_nat.log</div><div class="line"> </div><div class="line">sudo vim /lib/systemd/system/autossh.service  #将下例内容粘贴复制进去</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">[Unit]</div><div class="line">Description=Auto SSH Tunnel</div><div class="line">After=network-online.target</div><div class="line"> </div><div class="line">[Service]</div><div class="line">User=userA     #改掉这里A机的用户</div><div class="line">Type=simple</div><div class="line">ExecStart=/usr/bin/autossh -M 6777 -NR 8388:127.0.0.1:22 -i ~/.ssh/id_rsa userVPS@VPS的IP -p VPS的SSH端口 &gt;&gt; /var/log/ssh_nat.log 2&gt;&amp;1 &amp;</div><div class="line">ExecReload=/bin/kill -HUP $MAINPID</div><div class="line">KillMode=process</div><div class="line">Restart=always</div><div class="line"> </div><div class="line">[Install]</div><div class="line">WantedBy=multi-user.target</div><div class="line">WantedBy=graphical.target</div></pre></td></tr></table></figure>
+<p>解释一下上面的autossh命令：<br>添加的一个-M 6777参数,负责通过6777端口监视连接状态,连接有问题时就会自动重连<br>去掉了一个-f参数,因为autossh本身就会在background运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">sudo chmod +x /lib/systemd/system/autossh.service    #给予可执行权限</div><div class="line">sudo systemctl enable autossh    #设置开机自启</div><div class="line">sudo systemctl start autossh     #现在就启动服务</div><div class="line">sudo systemctl status autossh  #查看状态,出现Active: active (running)表示正常运行</div></pre></td></tr></table></figure>
+<p>也可以<strong>登陆到VPS（B机）</strong>上看看8388端口是否真的有程序在监听</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ netstat -antp | grep :8388</div><div class="line">tcp        0      0 0.0.0.0:8388       0.0.0.0:*                   LISTEN      20041/sshd</div><div class="line">tcp        0      0 :::8388            :::*                        LISTEN      20041/sshd</div></pre></td></tr></table></figure>
+<p><strong>5，尝试远程登陆</strong><br>接下来，我们就可以在家里的电脑(C机)上登陆到位于公司NAT网络里的那台Debian8虚拟机(A机)。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh userA@VPS的IP -p 8388</div></pre></td></tr></table></figure>
+<p>注意：这里的userA并不是VPS(B机)上的用户，而是Debian8虚拟机(A机)上的用户。</p>
 <p>参考资料：<br><a href="http://arondight.me/2016/02/17/%E4%BD%BF%E7%94%A8SSH%E5%8F%8D%E5%90%91%E9%9A%A7%E9%81%93%E8%BF%9B%E8%A1%8C%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" target="_blank" rel="external">使用SSH反向隧道进行内网穿透</a><br><a href="http://www.cnblogs.com/eshizhan/archive/2012/07/16/2592902.html" target="_blank" rel="external">SSH反向连接及Autossh</a><br><a href="https://hobo.house/2016/06/20/fun-and-profit-with-reverse-ssh-tunnels-and-autossh/" target="_blank" rel="external">Fun and Profit with Reverse SSH Tunnels and AutoSSH</a></p>
 <p>2016/10/29 由 <a href="https://www.zhukun.net/archives/author/admin" target="_blank" rel="external">bear</a> 发表在 <a href="https://www.zhukun.net/archives/category/linux-2" target="_blank" rel="external">Linux运维</a> 分类 | 标签: | 将 <a href="https://www.zhukun.net/archives/8130" target="_blank" rel="external">固定链接</a> 加入收藏夹</p>
 
@@ -728,25 +699,37 @@ tcp        0      0 :::8388            :::*                        LISTEN      2
         
           <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(95)</div></a></li>
+          <li><a class="flat-box child" title="/categories/DEVELOP/DEVELOP/" href="/categories/DEVELOP/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(15)</div></a></li>
         
           <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
         
           <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(12)</div></a></li>
+          <li><a class="flat-box child" title="/categories/LIVE/LIVE/" href="/categories/LIVE/LIVE/"><div class='name'>LIVE</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(11)</div></a></li>
         
           <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
         
+          <li><a class="flat-box child" title="/categories/SYSTEM/SYSTEM/" href="/categories/SYSTEM/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(9)</div></a></li>
+        
           <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/VPN系列之五花八门/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/embedded/" href="/categories/embedded/"><div class='name'>embedded</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/arm/EMBEDDED/" href="/categories/arm/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/linux/EMBEDDED/" href="/categories/linux/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/笑看人生/EMBEDDED/" href="/categories/笑看人生/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
         
       </ul>
     </div>
@@ -760,27 +743,6 @@ tcp        0      0 :::8388            :::*                        LISTEN      2
           
           
             
-  <section class='widget tagcloud'>
-    
-<header class='pure'>
-  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
-  
-    <a class="rightBtn"
-    
-      rel="nofollow"
-    
-    
-    href="/blog/tags/"
-    title="blog/tags/">
-    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
-  
-</header>
-
-    <div class='content pure'>
-      <a href="/tags/linux/" style="font-size: 14px; color: #999">linux</a>
-    </div>
-  </section>
-
 
           
         

@@ -7,7 +7,8 @@
   <title>ppp协议总结 | 芯机智</title>
   
   
-  <meta name="description" content="协议规范 实现原理 struct ppp_info{ int unit; /**/ int dev_fd; /**/ int lcp_fd; /**/ int">
+  <meta name="description" content="协议规范 实现原理 1234567891011121314151617181920212223242526272829303132333435363738
+struct ppp_info{ int unit; /**/ int dev_fd; /">
   
 
   
@@ -271,9 +272,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/VPN系列之五花八门/' rel="nofollow">
+    <a href='/categories/VPN系列之五花八门/VPN系列之五花八门/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>VPN系列之五花八门</p>
+      <p>VPN系列之五花八门&nbsp;/&nbsp;VPN系列之五花八门</p>
     </a>
   </div>
 
@@ -313,45 +314,7 @@
 
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
-          <h2 id="协议规范"><a href="#协议规范" class="headerlink" title="协议规范"></a>协议规范</h2><h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h2><pre><code class="c">struct ppp_info{
-    int unit;            /**/
-    int dev_fd;            /**/
-    int lcp_fd;            /**/
-    int ppp_fd;            /**/
-    int remote_id;        /**/
-    char    *user;        /* Username for authentication */
-    char    *passwd;    /* Password for authentication */
-    char *ifname;
-    char attach_inter[16];
-    unsigned char distance;
-    unsigned char weight;
-    unsigned char gateway;
-    unsigned char dns;
-    unsigned char auth;
-    unsigned char auth_type;
-    unsigned char down_flag;            //避免PPP主动down掉和手动清除冲突
-    unsigned int unique;
-    unsigned int dns_value;
-    unsigned int wins_value;
-    char usergrp[MAXNAMELEN];
-    struct prefix_ipv4 localaddr;
-    unsigned int peer_address;            //tunnip
-    int lcp_detect_interval_time;        //for change interval time of lcp echo request
-    int lcp_detect_lost_times;            //for change times of no respons lcp echo request
-    struct thread * lcp_thread;
-    struct thread * ipcp_rthread;
-    void *conn;
-    void *priv_data;
-    int natid;
-    int mtu;
-    Ppp_if_type iftype;
-    int (*manage_auto_down) (char *ifname);
-    int (*ipcp_up_cb) (struct ppp_cb_info *cb_info);
-    int (*ipcp_down_cb) (struct ppp_cb_info *cb_info);
-    int (*lcp_auth) (char *name, char *group, char *password, unsigned char *challenge, int unit, int type);
-    int (*check_rqci)(__u32 addr);
-};
-</code></pre>
+          <h2 id="协议规范"><a href="#协议规范" class="headerlink" title="协议规范"></a>协议规范</h2><h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ppp_info</span>&#123;</span></div><div class="line">	<span class="keyword">int</span> unit;			<span class="comment">/**/</span></div><div class="line">	<span class="keyword">int</span> dev_fd;			<span class="comment">/**/</span></div><div class="line">	<span class="keyword">int</span> lcp_fd;			<span class="comment">/**/</span></div><div class="line">	<span class="keyword">int</span> ppp_fd;			<span class="comment">/**/</span></div><div class="line">	<span class="keyword">int</span> remote_id;		<span class="comment">/**/</span></div><div class="line">	<span class="keyword">char</span>	*user;		<span class="comment">/* Username for authentication */</span></div><div class="line">	<span class="keyword">char</span>	*passwd;	<span class="comment">/* Password for authentication */</span></div><div class="line">	<span class="keyword">char</span> *ifname;</div><div class="line">	<span class="keyword">char</span> attach_inter[<span class="number">16</span>];</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> distance;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> weight;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> gateway;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> dns;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> auth;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> auth_type;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> down_flag;			<span class="comment">//避免PPP主动down掉和手动清除冲突</span></div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> unique;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> dns_value;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> wins_value;</div><div class="line">	<span class="keyword">char</span> usergrp[MAXNAMELEN];</div><div class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">prefix_ipv4</span> <span class="title">localaddr</span>;</span></div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> peer_address;			<span class="comment">//tunnip</span></div><div class="line">	<span class="keyword">int</span> lcp_detect_interval_time;		<span class="comment">//for change interval time of lcp echo request</span></div><div class="line">	<span class="keyword">int</span> lcp_detect_lost_times;			<span class="comment">//for change times of no respons lcp echo request</span></div><div class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">thread</span> * <span class="title">lcp_thread</span>;</span></div><div class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">thread</span> * <span class="title">ipcp_rthread</span>;</span></div><div class="line">    <span class="keyword">void</span> *conn;</div><div class="line">    <span class="keyword">void</span> *priv_data;</div><div class="line">    <span class="keyword">int</span> natid;</div><div class="line">	<span class="keyword">int</span> mtu;</div><div class="line">	Ppp_if_type iftype;</div><div class="line">	<span class="keyword">int</span> (*manage_auto_down) (<span class="keyword">char</span> *ifname);</div><div class="line">	<span class="keyword">int</span> (*ipcp_up_cb) (struct ppp_cb_info *cb_info);</div><div class="line">	<span class="keyword">int</span> (*ipcp_down_cb) (struct ppp_cb_info *cb_info);</div><div class="line">	<span class="keyword">int</span> (*lcp_auth) (<span class="keyword">char</span> *name, <span class="keyword">char</span> *group, <span class="keyword">char</span> *password, <span class="keyword">unsigned</span> <span class="keyword">char</span> *challenge, <span class="keyword">int</span> unit, <span class="keyword">int</span> type);</div><div class="line">	<span class="keyword">int</span> (*check_rqci)(__u32 addr);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
 <p>void LcpLinkFailure (f)</p>
 <p>lcp_close(f-&gt;unit, “Peer not responding”);</p>
 
@@ -389,11 +352,9 @@
           
           href="http://connect.qq.com/widget/shareqq/index.html?url=http://demonelf.github.io/VPN系列之五花八门/ppp协议总结.html&title=ppp协议总结 | 芯机智&summary=协议规范
 实现原理
-struct ppp_info{
-    int unit;            /**/
-    int dev_fd;            /**/
-    int lcp_fd;            /**/
-    int"
+1234567891011121314151617181920212223242526272829303132333435363738
+
+struct ppp_info{	int unit;			/**/	int dev_fd;			/"
           
           >
           
@@ -407,11 +368,9 @@ struct ppp_info{
           
           href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://demonelf.github.io/VPN系列之五花八门/ppp协议总结.html&title=ppp协议总结 | 芯机智&summary=协议规范
 实现原理
-struct ppp_info{
-    int unit;            /**/
-    int dev_fd;            /**/
-    int lcp_fd;            /**/
-    int"
+1234567891011121314151617181920212223242526272829303132333435363738
+
+struct ppp_info{	int unit;			/**/	int dev_fd;			/"
           
           >
           
@@ -425,11 +384,9 @@ struct ppp_info{
           
           href="http://service.weibo.com/share/share.php?url=http://demonelf.github.io/VPN系列之五花八门/ppp协议总结.html&title=ppp协议总结 | 芯机智&summary=协议规范
 实现原理
-struct ppp_info{
-    int unit;            /**/
-    int dev_fd;            /**/
-    int lcp_fd;            /**/
-    int"
+1234567891011121314151617181920212223242526272829303132333435363738
+
+struct ppp_info{	int unit;			/**/	int dev_fd;			/"
           
           >
           
@@ -708,25 +665,37 @@ struct ppp_info{
         
           <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(95)</div></a></li>
+          <li><a class="flat-box child" title="/categories/DEVELOP/DEVELOP/" href="/categories/DEVELOP/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(15)</div></a></li>
         
           <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
         
           <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(12)</div></a></li>
+          <li><a class="flat-box child" title="/categories/LIVE/LIVE/" href="/categories/LIVE/LIVE/"><div class='name'>LIVE</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(11)</div></a></li>
         
           <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
         
+          <li><a class="flat-box child" title="/categories/SYSTEM/SYSTEM/" href="/categories/SYSTEM/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(9)</div></a></li>
+        
           <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/VPN系列之五花八门/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/embedded/" href="/categories/embedded/"><div class='name'>embedded</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/arm/EMBEDDED/" href="/categories/arm/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/linux/EMBEDDED/" href="/categories/linux/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/笑看人生/EMBEDDED/" href="/categories/笑看人生/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
         
       </ul>
     </div>
@@ -740,27 +709,6 @@ struct ppp_info{
           
           
             
-  <section class='widget tagcloud'>
-    
-<header class='pure'>
-  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
-  
-    <a class="rightBtn"
-    
-      rel="nofollow"
-    
-    
-    href="/blog/tags/"
-    title="blog/tags/">
-    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
-  
-</header>
-
-    <div class='content pure'>
-      <a href="/tags/linux/" style="font-size: 14px; color: #999">linux</a>
-    </div>
-  </section>
-
 
           
         

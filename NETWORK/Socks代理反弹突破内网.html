@@ -261,7 +261,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-08-28</p>
+    <p>2019-08-29</p>
   </a>
 </div>
 
@@ -319,27 +319,27 @@
 <p>sSocks是一个<a href="http://www.freebuf.com/news/topnews/111545.html" target="_blank" rel="external">socks代理</a>工具套装，可用来开启socks代理服务，支持socks5验证，支持IPV6和UDP，并提供反向socks代理服务，即将远程计算机作为socks代理服务端，反弹回本地，极大方便内网的渗透测试，其最新版为0.0.13，可在以下链接处下载。</p>
 <p><a href="http://sourceforge.net/projects/ssocks/" target="_blank" rel="external">http://sourceforge.net/projects/ssocks/</a></p>
 <p>下载解压后，执行命令编译。</p>
-<pre><code>./configure &amp;&amp; make
-</code></pre><p>编译完成，进入src目录，会发现有nsocks、ssocksd、ssocks、rcsocks，其功能说明介绍如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./configure &amp;&amp; make</div></pre></td></tr></table></figure>
+<p>编译完成，进入src目录，会发现有nsocks、ssocksd、ssocks、rcsocks，其功能说明介绍如下：</p>
 <p>程序 功能<br><strong>nsocks</strong> 类似通过Socks5代理后的netcat，可用来测试socks server<br><strong>ssocksd</strong> 用来开启Socks5代理服务<br><strong>ssocks</strong> 本地启用Socks5服务，并反弹到另一IP地址<br><strong>rcsocks</strong> 接收反弹过来的Socks5服务，并转向另一端口</p>
 <p><strong>2.模拟网络环境说明</strong></p>
 <p> 本文模拟的网络环境见下图1，渗透测试端IP为192.168.10.50，内网区域IP段192.168.206.0/24，内网区域能正常访问192.168.10.0/24，现假设已获得192.168.206.130权限。 </p>
 <p><a href="http://image.3001.net/uploads/image/20130901/20130901105859_75679.jpg" target="_blank" rel="external"><img src="http://image.3001.net/uploads/image/20130901/20130901105859_75679.jpg" alt="模拟的网络环境"></a></p>
 <p><strong>3.实施Socks代理反弹</strong><br><strong>1)本地监听端口</strong><br>在渗透测试端192.168.10.50执行</p>
-<pre><code>./rcsocks -l 1088 -p 1080 -vv
-</code></pre><p>等待远程Socks5服务器访问本地1080端口，创建端口1080与本地端口1088的连接通道，如图2。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./rcsocks -l 1088 -p 1080 -vv</div></pre></td></tr></table></figure>
+<p>等待远程Socks5服务器访问本地1080端口，创建端口1080与本地端口1088的连接通道，如图2。 </p>
 <p><a href="http://image.3001.net/uploads/image/20130901/20130901105926_77843.jpg" target="_blank" rel="external"><img src="http://image.3001.net/uploads/image/20130901/20130901105926_77843.jpg" alt="Socks代理反弹突破内网"></a></p>
 <p><strong>2)开启Socks5代理服务，反弹</strong><br>在192.168.206.130上执行</p>
-<pre><code>./rssocks -vv -s 192.168.10.50:1080
-</code></pre><p>启用Socks5服务，反弹到192.168.10.50的端口1080上，如图3。 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./rssocks -vv -s 192.168.10.50:1080</div></pre></td></tr></table></figure>
+<p>启用Socks5服务，反弹到192.168.10.50的端口1080上，如图3。 </p>
 <p><a href="http://image.3001.net/uploads/image/20130901/20130901110001_38329.jpg" target="_blank" rel="external"><img src="http://image.3001.net/uploads/image/20130901/20130901110001_38329.jpg" alt="开启Socks5代理服务，反弹"></a></p>
 <p>此时在渗透测试端192.168.10.50可看到通道连接成功，效果如图4。</p>
 <p><a href="http://image.3001.net/uploads/image/20130901/20130901110020_58042.jpg" target="_blank" rel="external"><img src="http://image.3001.net/uploads/image/20130901/20130901110020_58042.jpg" alt="通道连接成功"></a></p>
 <p><strong>4.利用proxychains进行Socks5代理</strong><br>通过前面的步骤，Socks5代理已创建完成了。由于在渗透测试过程中，需要使用不同的工具程序，而在各程序中分别配置Socks5代理信息较为繁琐，而部分程序并不支持配置Socks5代理。为了简化这些操作，我们可以采用proxychains。<br>proxychains是一个代理客户端软件，可以支持几乎所有程序的代理，如ssh，telnet，ftp等。利用proxychains，程序能在代理的环境下被加载运行，而本身不需要具备代理功能。使用前需要对proxychains进行简单配置，打开配置文件proxychains.conf（在BT5位于/etc/proxychains.conf），如图5所示，在[ProxyList]处添加<br><strong>socks5 127.0.0.1 1088</strong></p>
 <p><a href="http://image.3001.net/uploads/image/20130901/20130901110043_92020.jpg" target="_blank" rel="external"><img src="http://image.3001.net/uploads/image/20130901/20130901110043_92020.jpg" alt="利用proxychains进行Socks5代理"></a></p>
 <p>配置成功后若要启动程序，仅需要在启动程序命令前加上proxychains。<br><strong>1)启用浏览器firefox，在终端执行命令：</strong></p>
-<pre><code>proxychains firefox
-</code></pre><p>firefox启动成功，访问192.168.206.135的web服务如图6，通过代理访问成功。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">proxychains firefox</div></pre></td></tr></table></figure>
+<p>firefox启动成功，访问192.168.206.135的web服务如图6，通过代理访问成功。</p>
 <p><a href="http://image.3001.net/uploads/image/20130901/20130901110125_93242.jpg" target="_blank" rel="external"><img src="http://image.3001.net/uploads/image/20130901/20130901110125_93242.jpg" alt="通过代理访问成功"></a></p>
 <p><strong>2)利用sqlmap进行注入：</strong><br>先切换到sqlmap目录<br>cd /pentest/database/sqlmap<br>proxychains python sqlmap.py -u “存在SQL注入的链接” –dbs<br>注入成功，注入点信息及获取数据库信息如图7所示。</p>
 <p><a href="http://image.3001.net/uploads/image/20130901/20130901110208_52827.jpg" target="_blank" rel="external"><img src="http://image.3001.net/uploads/image/20130901/20130901110208_52827.jpg" alt="利用sqlmap进行注入"></a></p>
@@ -355,10 +355,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-08-28T17:33:56+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-08-29T12:13:37+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
-    <p>最后更新于 2019年8月28日</p>
+    <p>最后更新于 2019年8月29日</p>
   </a>
 </div>
 
@@ -429,17 +429,12 @@
                         <span class="art-item-left">
                             <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
                             <h4>
-                                <a href="/NETWORK/Gentoo下利用pptpd搭建PPTP服务器 .html" rel="prev" title="Gentoo下利用pptpd搭建PPTP服务器">
+                                <a href="/NETWORK/Linux PPP 框架分析.html" rel="prev" title="Linux PPP 框架分析">
                                   
-                                      Gentoo下利用pptpd搭建PPTP服务器
+                                      Linux PPP 框架分析
                                   
                                 </a>
                             </h4>
-                            
-                                
-                                <h6 class="tags">
-                                    <a class="tag" href="/tags/linux/"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i>linux</a>
-                                </h6>
                             
                         </span>
                     </section>
@@ -449,9 +444,9 @@
                         <span class="art-item-right" aria-hidden="true">
                             <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                             <h4>
-                                <a href="/NETWORK/关于linux 802.1d (bridge) 和 802.1q(vlan) 实现的再思考.html" rel="prev" title="关于linux 802.1d (bridge) 和 802.1q(vlan) 实现的再思考">
+                                <a href="/NETWORK/Incapsula免费CDN服务申请使用及加速效果测评.html" rel="prev" title="Incapsula免费CDN服务申请使用及加速效果测评">
                                     
-                                        关于linux 802.1d (bridge) 和 802.1q(vlan) 实现的再思考
+                                        Incapsula免费CDN服务申请使用及加速效果测评
                                     
                                 </a>
                             </h4>
@@ -671,25 +666,37 @@
         
           <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(95)</div></a></li>
+          <li><a class="flat-box child" title="/categories/DEVELOP/DEVELOP/" href="/categories/DEVELOP/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(15)</div></a></li>
         
           <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
         
           <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(12)</div></a></li>
+          <li><a class="flat-box child" title="/categories/LIVE/LIVE/" href="/categories/LIVE/LIVE/"><div class='name'>LIVE</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(11)</div></a></li>
         
           <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
         
+          <li><a class="flat-box child" title="/categories/SYSTEM/SYSTEM/" href="/categories/SYSTEM/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(9)</div></a></li>
+        
           <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/VPN系列之五花八门/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/embedded/" href="/categories/embedded/"><div class='name'>embedded</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/arm/EMBEDDED/" href="/categories/arm/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/linux/EMBEDDED/" href="/categories/linux/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/笑看人生/EMBEDDED/" href="/categories/笑看人生/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
         
       </ul>
     </div>
@@ -703,27 +710,6 @@
           
           
             
-  <section class='widget tagcloud'>
-    
-<header class='pure'>
-  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
-  
-    <a class="rightBtn"
-    
-      rel="nofollow"
-    
-    
-    href="/blog/tags/"
-    title="blog/tags/">
-    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
-  
-</header>
-
-    <div class='content pure'>
-      <a href="/tags/linux/" style="font-size: 14px; color: #999">linux</a>
-    </div>
-  </section>
-
 
           
         

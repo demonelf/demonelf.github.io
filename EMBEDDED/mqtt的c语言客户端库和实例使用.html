@@ -8,7 +8,7 @@
   
   
   <meta name="description" content="C 客户端 Eclipse Paho C 1. 支持 TCP/SSL Socket 连接 2. 支持自动重连 3. 支持 WebSocket 4. 代码样例
-#include "stdio.h" #include "stdlib.h" #in">
+123456789101112131415161718192021222324252">
   
 
   
@@ -324,174 +324,22 @@
 <li>支持 WebSocket</li>
 <li>代码样例</li>
 </ol>
-<pre><code>#include &quot;stdio.h&quot;
-#include &quot;stdlib.h&quot;
-#include &quot;string.h&quot;
-#include &quot;MQTTClient.h&quot;
-
-#define ADDRESS     &quot;tcp://localhost:1883&quot;
-#define CLIENTID    &quot;ExampleClientPub&quot;
-#define TOPIC       &quot;MQTT Examples&quot;
-#define PAYLOAD     &quot;Hello World!&quot;
-#define QOS         1
-#define TIMEOUT     10000L
-
-int main(int argc, char* argv[])
-{
-    MQTTClient client;
-    MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
-    MQTTClient_message pubmsg = MQTTClient_message_initializer;
-    MQTTClient_deliveryToken token;
-    int rc;
-
-    MQTTClient_create(&amp;client, ADDRESS, CLIENTID,
-        MQTTCLIENT_PERSISTENCE_NONE, NULL);
-    conn_opts.keepAliveInterval = 20;
-    conn_opts.cleansession = 1;
-
-    if ((rc = MQTTClient_connect(client, &amp;conn_opts)) != MQTTCLIENT_SUCCESS)
-    {
-        printf(&quot;Failed to connect, return code %d\n&quot;, rc);
-        exit(-1);
-    }
-    pubmsg.payload = PAYLOAD;
-    pubmsg.payloadlen = strlen(PAYLOAD);
-    pubmsg.qos = QOS;
-    pubmsg.retained = 0;
-    MQTTClient_publishMessage(client, TOPIC, &amp;pubmsg, &amp;token);
-    printf(&quot;Waiting for up to %d seconds for publication of %s\n&quot;
-            &quot;on topic %s for client with ClientID: %s\n&quot;,
-            (int)(TIMEOUT/1000), PAYLOAD, TOPIC, CLIENTID);
-    rc = MQTTClient_waitForCompletion(client, token, TIMEOUT);
-    printf(&quot;Message with delivery token %d delivered\n&quot;, token);
-    MQTTClient_disconnect(client, 10000);
-    MQTTClient_destroy(&amp;client);
-    return rc;
-}
-</code></pre><p>mqttc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div></pre></td><td class="code"><pre><div class="line">#include &quot;stdio.h&quot;</div><div class="line">#include &quot;stdlib.h&quot;</div><div class="line">#include &quot;string.h&quot;</div><div class="line">#include &quot;MQTTClient.h&quot;</div><div class="line"></div><div class="line">#define ADDRESS     &quot;tcp://localhost:1883&quot;</div><div class="line">#define CLIENTID    &quot;ExampleClientPub&quot;</div><div class="line">#define TOPIC       &quot;MQTT Examples&quot;</div><div class="line">#define PAYLOAD     &quot;Hello World!&quot;</div><div class="line">#define QOS         1</div><div class="line">#define TIMEOUT     10000L</div><div class="line"></div><div class="line">int main(int argc, char* argv[])</div><div class="line">&#123;</div><div class="line">    MQTTClient client;</div><div class="line">    MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;</div><div class="line">    MQTTClient_message pubmsg = MQTTClient_message_initializer;</div><div class="line">    MQTTClient_deliveryToken token;</div><div class="line">    int rc;</div><div class="line"></div><div class="line">    MQTTClient_create(&amp;client, ADDRESS, CLIENTID,</div><div class="line">        MQTTCLIENT_PERSISTENCE_NONE, NULL);</div><div class="line">    conn_opts.keepAliveInterval = 20;</div><div class="line">    conn_opts.cleansession = 1;</div><div class="line"></div><div class="line">    if ((rc = MQTTClient_connect(client, &amp;conn_opts)) != MQTTCLIENT_SUCCESS)</div><div class="line">    &#123;</div><div class="line">        printf(&quot;Failed to connect, return code %d\n&quot;, rc);</div><div class="line">        exit(-1);</div><div class="line">    &#125;</div><div class="line">    pubmsg.payload = PAYLOAD;</div><div class="line">    pubmsg.payloadlen = strlen(PAYLOAD);</div><div class="line">    pubmsg.qos = QOS;</div><div class="line">    pubmsg.retained = 0;</div><div class="line">    MQTTClient_publishMessage(client, TOPIC, &amp;pubmsg, &amp;token);</div><div class="line">    printf(&quot;Waiting for up to %d seconds for publication of %s\n&quot;</div><div class="line">            &quot;on topic %s for client with ClientID: %s\n&quot;,</div><div class="line">            (int)(TIMEOUT/1000), PAYLOAD, TOPIC, CLIENTID);</div><div class="line">    rc = MQTTClient_waitForCompletion(client, token, TIMEOUT);</div><div class="line">    printf(&quot;Message with delivery token %d delivered\n&quot;, token);</div><div class="line">    MQTTClient_disconnect(client, 10000);</div><div class="line">    MQTTClient_destroy(&amp;client);</div><div class="line">    return rc;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>mqttc</p>
 <p>1.支持消息发布、主题订阅以及取消订阅<br>2.代码样例</p>
-<pre><code>mqttc -h host -p port -u username -P password -k keepalive
-</code></pre><p>Eclipse Paho Embedded C</p>
-<p>1.支持 MQTT V3.1 以及 V3.1.1 协议<br>2.支持 TCP/SSL Socket 连接<br>3.代码样例</p>
-<pre><code>#define MQTTCLIENT_QOS2 1
-#include &quot;MQTTClient.h&quot;
-#define DEFAULT_STACK_SIZE -1
-#include &quot;linux.cpp&quot;
-
-int arrivedcount = 0;
-
-void messageArrived(MQTT::MessageData&amp; md)
-{
-    MQTT::Message &amp;message = md.message;
-
-    printf(&quot;Message %d arrived: qos %d, retained %d, dup %d, packetid %d\n&quot;,
-        ++arrivedcount, message.qos, message.retained, message.dup, message.id);
-    printf(&quot;Payload %.*s\n&quot;, (int)message.payloadlen, (char*)message.payload);
-}
-
-int main(int argc, char* argv[])
-{
-    IPStack ipstack = IPStack();
-    float version = 0.3;
-    const char* topic = &quot;mbed-sample&quot;;
-
-    printf(&quot;Version is %f\n&quot;, version);
-
-    MQTT::Client client = MQTT::Client(ipstack);
-
-    const char* hostname = &quot;iot.eclipse.org&quot;;
-    int port = 1883;
-    printf(&quot;Connecting to %s:%d\n&quot;, hostname, port);
-    int rc = ipstack.connect(hostname, port);
-    if (rc != 0)
-        printf(&quot;rc from TCP connect is %d\n&quot;, rc);
-
-    printf(&quot;MQTT connecting\n&quot;);
-    MQTTPacket_connectData data = MQTTPacket_connectData_initializer;
-    data.MQTTVersion = 3;
-    data.clientID.cstring = (char*)&quot;mbed-icraggs&quot;;
-    rc = client.connect(data);
-    if (rc != 0)
-        printf(&quot;rc from MQTT connect is %d\n&quot;, rc);
-    printf(&quot;MQTT connected\n&quot;);
-
-    rc = client.subscribe(topic, MQTT::QOS2, messageArrived);
-    if (rc != 0)
-        printf(&quot;rc from MQTT subscribe is %d\n&quot;, rc);
-
-    MQTT::Message message;
-
-    // QoS 0
-    char buf[100];
-    sprintf(buf, &quot;Hello World!  QoS 0 message from app version %f&quot;, version);
-    message.qos = MQTT::QOS0;
-    message.retained = false;
-    message.dup = false;
-    message.payload = (void*)buf;
-    message.payloadlen = strlen(buf)+1;
-    rc = client.publish(topic, message);
-    if (rc != 0)
-        printf(&quot;Error %d from sending QoS 0 message\n&quot;, rc);
-    else while (arrivedcount == 0)
-        client.yield(100);
-
-    rc = client.unsubscribe(topic);
-    if (rc != 0)
-        printf(&quot;rc from unsubscribe was %d\n&quot;, rc);
-
-    rc = client.disconnect();
-    if (rc != 0)
-        printf(&quot;rc from disconnect was %d\n&quot;, rc);
-
-    ipstack.disconnect();
-
-    return 0;
-}
-</code></pre><p>libmosquitto</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">mqttc -h host -p port -u username -P password -k keepalive</div></pre></td></tr></table></figure>
+<p>Eclipse Paho Embedded C</p>
+<p>1.支持 MQTT V3.1 以及 V3.1.1 协议<br>2.支持 TCP/SSL Socket 连接<br>3.代码样例<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div></pre></td><td class="code"><pre><div class="line">#define MQTTCLIENT_QOS2 1</div><div class="line">#include &quot;MQTTClient.h&quot;</div><div class="line">#define DEFAULT_STACK_SIZE -1</div><div class="line">#include &quot;linux.cpp&quot;</div><div class="line"></div><div class="line">int arrivedcount = 0;</div><div class="line"></div><div class="line">void messageArrived(MQTT::MessageData&amp; md)</div><div class="line">&#123;</div><div class="line">    MQTT::Message &amp;message = md.message;</div><div class="line"></div><div class="line">    printf(&quot;Message %d arrived: qos %d, retained %d, dup %d, packetid %d\n&quot;,</div><div class="line">        ++arrivedcount, message.qos, message.retained, message.dup, message.id);</div><div class="line">    printf(&quot;Payload %.*s\n&quot;, (int)message.payloadlen, (char*)message.payload);</div><div class="line">&#125;</div><div class="line"></div><div class="line">int main(int argc, char* argv[])</div><div class="line">&#123;</div><div class="line">    IPStack ipstack = IPStack();</div><div class="line">    float version = 0.3;</div><div class="line">    const char* topic = &quot;mbed-sample&quot;;</div><div class="line"></div><div class="line">    printf(&quot;Version is %f\n&quot;, version);</div><div class="line"></div><div class="line">    MQTT::Client client = MQTT::Client(ipstack);</div><div class="line"></div><div class="line">    const char* hostname = &quot;iot.eclipse.org&quot;;</div><div class="line">    int port = 1883;</div><div class="line">    printf(&quot;Connecting to %s:%d\n&quot;, hostname, port);</div><div class="line">    int rc = ipstack.connect(hostname, port);</div><div class="line">    if (rc != 0)</div><div class="line">        printf(&quot;rc from TCP connect is %d\n&quot;, rc);</div><div class="line"></div><div class="line">    printf(&quot;MQTT connecting\n&quot;);</div><div class="line">    MQTTPacket_connectData data = MQTTPacket_connectData_initializer;</div><div class="line">    data.MQTTVersion = 3;</div><div class="line">    data.clientID.cstring = (char*)&quot;mbed-icraggs&quot;;</div><div class="line">    rc = client.connect(data);</div><div class="line">    if (rc != 0)</div><div class="line">        printf(&quot;rc from MQTT connect is %d\n&quot;, rc);</div><div class="line">    printf(&quot;MQTT connected\n&quot;);</div><div class="line"></div><div class="line">    rc = client.subscribe(topic, MQTT::QOS2, messageArrived);</div><div class="line">    if (rc != 0)</div><div class="line">        printf(&quot;rc from MQTT subscribe is %d\n&quot;, rc);</div><div class="line"></div><div class="line">    MQTT::Message message;</div><div class="line"></div><div class="line">    // QoS 0</div><div class="line">    char buf[100];</div><div class="line">    sprintf(buf, &quot;Hello World!  QoS 0 message from app version %f&quot;, version);</div><div class="line">    message.qos = MQTT::QOS0;</div><div class="line">    message.retained = false;</div><div class="line">    message.dup = false;</div><div class="line">    message.payload = (void*)buf;</div><div class="line">    message.payloadlen = strlen(buf)+1;</div><div class="line">    rc = client.publish(topic, message);</div><div class="line">    if (rc != 0)</div><div class="line">        printf(&quot;Error %d from sending QoS 0 message\n&quot;, rc);</div><div class="line">    else while (arrivedcount == 0)</div><div class="line">        client.yield(100);</div><div class="line"></div><div class="line">    rc = client.unsubscribe(topic);</div><div class="line">    if (rc != 0)</div><div class="line">        printf(&quot;rc from unsubscribe was %d\n&quot;, rc);</div><div class="line"></div><div class="line">    rc = client.disconnect();</div><div class="line">    if (rc != 0)</div><div class="line">        printf(&quot;rc from disconnect was %d\n&quot;, rc);</div><div class="line"></div><div class="line">    ipstack.disconnect();</div><div class="line"></div><div class="line">    return 0;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>libmosquitto</p>
 <p>libmosquitto 是 C 语言共享库，可以创建 MQTT 客户端程序。所有的 API 函数都有 mosquitto_ 前缀。</p>
-<pre><code>// 获取库的版本信息，返回到三个参数中
-int mosquitto_lib_version(int *major,int *minor,int *revision)
-
-// 初始化和清除
-int mosquitto_lib_init();    
-int mosquitto_lib_cleanup(); 
-
-// 新建一个 mosquitto 客户端对象，并返回 struct mosquitto
-struct mosquitto *mosquitto_new(const char *id, bool clean_session, void *userdata);    
-
-// 释放一个 mosquitto 客户端对象
-void mosquitto_destroy(struct mosquitto *mosq);
-</code></pre><p>libemqtt</p>
-<p>1.Embedded C client library for the MQTT protocol. It also provides a binding for Python.<br>2.编译</p>
-<pre><code>// C Library
-$ make
-
-// Python binding
-$ make python
-</code></pre><p>wolfMQTT</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">// 获取库的版本信息，返回到三个参数中</div><div class="line">int mosquitto_lib_version(int *major,int *minor,int *revision)</div><div class="line"></div><div class="line">// 初始化和清除</div><div class="line">int mosquitto_lib_init();    </div><div class="line">int mosquitto_lib_cleanup(); </div><div class="line"></div><div class="line">// 新建一个 mosquitto 客户端对象，并返回 struct mosquitto</div><div class="line">struct mosquitto *mosquitto_new(const char *id, bool clean_session, void *userdata);    </div><div class="line"></div><div class="line">// 释放一个 mosquitto 客户端对象</div><div class="line">void mosquitto_destroy(struct mosquitto *mosq);</div></pre></td></tr></table></figure>
+<p>libemqtt</p>
+<p>1.Embedded C client library for the MQTT protocol. It also provides a binding for Python.<br>2.编译<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">// C Library</div><div class="line">$ make</div><div class="line"></div><div class="line">// Python binding</div><div class="line">$ make python</div></pre></td></tr></table></figure></p>
+<p>wolfMQTT</p>
 <p>This is an implementation of the MQTT Client written in C for embedded use, which supports SSL/TLS via the wolfSSL library. This library was built from the ground up to be multi-platform, space conscience and extensible. Integrates with wolfSSL to provide TLS support.</p>
 <p>Example code</p>
-<pre><code>// This is where the top level application interfaces for the MQTT client reside.
-int MqttClient_Init(MqttClient *client, MqttNet *net, MqttMsgCb msg_cb, byte *tx_buf, int tx_buf_len, byte *rx_buf, int rx_buf_len, int cmd_timeout_ms);
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">// This is where the top level application interfaces for the MQTT client reside.</div><div class="line">int MqttClient_Init(MqttClient *client, MqttNet *net, MqttMsgCb msg_cb, byte *tx_buf, int tx_buf_len, byte *rx_buf, int rx_buf_len, int cmd_timeout_ms);</div><div class="line"></div><div class="line">// These API&apos;s are blocking on MqttNet.read until error/timeout (cmd_timeout_ms):</div><div class="line">int MqttClient_Connect(MqttClient *client, MqttConnect *connect);</div><div class="line">int MqttClient_Publish(MqttClient *client, MqttPublish *publish);</div><div class="line">int MqttClient_Subscribe(MqttClient *client, MqttSubscribe *subscribe);</div><div class="line">int MqttClient_Unsubscribe(MqttClient *client, MqttUnsubscribe *unsubscribe);</div><div class="line">int MqttClient_Ping(MqttClient *client);</div><div class="line">int MqttClient_Disconnect(MqttClient *client);</div><div class="line"></div><div class="line">// This function blocks waiting for a new publish message to arrive for a maximum duration of timeout_ms.</div><div class="line">int MqttClient_WaitMessage(MqttClient *client, MqttMessage *message, int timeout_ms);</div><div class="line"></div><div class="line">// These are the network connect / disconnect interfaces that wrap the MqttNet callbacks and handle WolfSSL TLS:</div><div class="line">int MqttClient_NetConnect(MqttClient *client, const char* host, word16 port, int timeout_ms, int use_tls, MqttTlsCb cb);</div><div class="line">int MqttClient_NetDisconnect(MqttClient *client);</div><div class="line"></div><div class="line">// Helper functions:</div><div class="line">const char* MqttClient_ReturnCodeToString(int return_code);</div></pre></td></tr></table></figure>
 
-// These API&#39;s are blocking on MqttNet.read until error/timeout (cmd_timeout_ms):
-int MqttClient_Connect(MqttClient *client, MqttConnect *connect);
-int MqttClient_Publish(MqttClient *client, MqttPublish *publish);
-int MqttClient_Subscribe(MqttClient *client, MqttSubscribe *subscribe);
-int MqttClient_Unsubscribe(MqttClient *client, MqttUnsubscribe *unsubscribe);
-int MqttClient_Ping(MqttClient *client);
-int MqttClient_Disconnect(MqttClient *client);
-
-// This function blocks waiting for a new publish message to arrive for a maximum duration of timeout_ms.
-int MqttClient_WaitMessage(MqttClient *client, MqttMessage *message, int timeout_ms);
-
-// These are the network connect / disconnect interfaces that wrap the MqttNet callbacks and handle WolfSSL TLS:
-int MqttClient_NetConnect(MqttClient *client, const char* host, word16 port, int timeout_ms, int use_tls, MqttTlsCb cb);
-int MqttClient_NetDisconnect(MqttClient *client);
-
-// Helper functions:
-const char* MqttClient_ReturnCodeToString(int return_code);
-</code></pre>
         </div>
         
           
@@ -533,9 +381,7 @@ Eclipse Paho C
  3. 支持 WebSocket
  4. 代码样例
 
-#include "stdio.h"
-#include "stdlib.h"
-#in"
+123456789101112131415161718192021222324252"
           
           >
           
@@ -556,9 +402,7 @@ Eclipse Paho C
  3. 支持 WebSocket
  4. 代码样例
 
-#include "stdio.h"
-#include "stdlib.h"
-#in"
+123456789101112131415161718192021222324252"
           
           >
           
@@ -579,9 +423,7 @@ Eclipse Paho C
  3. 支持 WebSocket
  4. 代码样例
 
-#include "stdio.h"
-#include "stdlib.h"
-#in"
+123456789101112131415161718192021222324252"
           
           >
           
@@ -846,25 +688,37 @@ Eclipse Paho C
         
           <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(95)</div></a></li>
+          <li><a class="flat-box child" title="/categories/DEVELOP/DEVELOP/" href="/categories/DEVELOP/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(15)</div></a></li>
         
           <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
         
           <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(12)</div></a></li>
+          <li><a class="flat-box child" title="/categories/LIVE/LIVE/" href="/categories/LIVE/LIVE/"><div class='name'>LIVE</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(11)</div></a></li>
         
           <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
         
+          <li><a class="flat-box child" title="/categories/SYSTEM/SYSTEM/" href="/categories/SYSTEM/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(9)</div></a></li>
+        
           <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/VPN系列之五花八门/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/embedded/" href="/categories/embedded/"><div class='name'>embedded</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/arm/EMBEDDED/" href="/categories/arm/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/linux/EMBEDDED/" href="/categories/linux/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/笑看人生/EMBEDDED/" href="/categories/笑看人生/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
         
       </ul>
     </div>
@@ -878,27 +732,6 @@ Eclipse Paho C
           
           
             
-  <section class='widget tagcloud'>
-    
-<header class='pure'>
-  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
-  
-    <a class="rightBtn"
-    
-      rel="nofollow"
-    
-    
-    href="/blog/tags/"
-    title="blog/tags/">
-    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
-  
-</header>
-
-    <div class='content pure'>
-      <a href="/tags/linux/" style="font-size: 14px; color: #999">linux</a>
-    </div>
-  </section>
-
 
           
         

@@ -272,9 +272,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/SYSTEM/' rel="nofollow">
+    <a href='/categories/SYSTEM/SYSTEM/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>SYSTEM</p>
+      <p>SYSTEM&nbsp;/&nbsp;SYSTEM</p>
     </a>
   </div>
 
@@ -328,104 +328,18 @@
 <blockquote>
 <p>现在的xorg也不需要/etc/X11/xorg.conf<br>注意把/etc/X11/xorg.conf.d/下默认的配置删除 例如:01-nv.conf</p>
 </blockquote>
-<pre><code>当然你就想手动指定驱动等信息添加xorg.conf
-也是没有问题的。例如：
-Section &quot;Device&quot;                                     
-        Identifier      &quot;Configured Video Device&quot;     
-        Driver          &quot;fbdev&quot;                  
-EndSection 
-以上显卡设备为lcd 驱动设备为：/dev/fb0
-驱动类型为：framebuffer xf86-video-fbdev
-大家可以看看韦东山介绍 mini2440就是用此驱动。
-framebuffer表示显卡不具备任何计算能力，完全利用cpu计算。
-</code></pre><p>startx：为以上xorg gnome协同作战的脚本</p>
-<pre><code>不用startx ，手动
-xorg的xinit和
-gnome的gnome-session
-都是可以的。
-xinit 找的是/dev/nvidia0, /dev/nvidiactl
-gnome-session 找的是export DISPLAY=:2
-</code></pre><p>配置文件：.xinitrc</p>
-<pre><code>export GTK_IM_MODULE=ibus
-export XMODIFIERS=@im=ibus
-export QT_IM_MODULE=ibus
-export XDG_MENU_PREFIX=gnome-
-xrandr --setprovideroutputsource modesetting NVIDIA-0
-xrandr --auto
-exec gnome-session
-dbus-launch nm-applet &amp;
-</code></pre><pre><code>01:00.0 VGA compatible controller: NVIDIA Corporation G84GLM [Quadro FX 570M] (rev a1) (prog-if 00 [VGA controller])
-        Subsystem: Lenovo ThinkPad T61p
-        Physical Slot: 1
-        Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-
-        Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast &gt;TAbort- &lt;TAbort- &lt;MAbort- &gt;SERR- &lt;PERR- INTx-
-        Latency: 0
-        Interrupt: pin A routed to IRQ 16
-        Region 0: Memory at d6000000 (32-bit, non-prefetchable) [size=16M]
-        Region 1: Memory at e0000000 (64-bit, prefetchable) [size=256M]
-        Region 3: Memory at d4000000 (64-bit, non-prefetchable) [size=32M]
-        Region 5: I/O ports at 2000 [size=128]
-        [virtual] Expansion ROM at 000c0000 [disabled] [size=128K]
-        Capabilities: [60] Power Management version 2
-                Flags: PMEClk- DSI- D1- D2- AuxCurrent=0mA PME(D0-,D1-,D2-,D3hot-,D3cold-)
-                Status: D0 NoSoftRst- PME-Enable- DSel=0 DScale=0 PME-
-        Capabilities: [68] MSI: Enable- Count=1/1 Maskable- 64bit+
-                Address: 0000000000000000  Data: 0000
-        Capabilities: [78] Express (v1) Endpoint, MSI 00
-                DevCap: MaxPayload 128 bytes, PhantFunc 0, Latency L0s &lt;512ns, L1 &lt;4us
-                        ExtTag+ AttnBtn- AttnInd- PwrInd- RBE+ FLReset- SlotPowerLimit 75.000W
-                DevCtl: Report errors: Correctable- Non-Fatal- Fatal- Unsupported-
-                        RlxdOrd+ ExtTag+ PhantFunc- AuxPwr- NoSnoop+
-                        MaxPayload 128 bytes, MaxReadReq 512 bytes
-                DevSta: CorrErr- UncorrErr- FatalErr- UnsuppReq- AuxPwr- TransPend-
-                LnkCap: Port #0, Speed 2.5GT/s, Width x16, ASPM L0s L1, Exit Latency L0s &lt;512ns, L1 &lt;4us
-                        ClockPM- Surprise- LLActRep- BwNot- ASPMOptComp-
-                LnkCtl: ASPM L0s Enabled; RCB 128 bytes Disabled- CommClk+
-                        ExtSynch- ClockPM- AutWidDis- BWInt- AutBWInt-
-                LnkSta: Speed 2.5GT/s, Width x16, TrErr- Train- SlotClk+ DLActive- BWMgmt- ABWMgmt-
-        Capabilities: [100 v1] Virtual Channel
-                Caps:   LPEVC=0 RefClk=100ns PATEntryBits=1
-                Arb:    Fixed- WRR32- WRR64- WRR128-
-                Ctrl:   ArbSelect=Fixed
-                Status: InProgress-
-                VC0:    Caps:   PATOffset=00 MaxTimeSlots=1 RejSnoopTrans-
-                        Arb:    Fixed- WRR32- WRR64- WRR128- TWRR128- WRR256-
-                        Ctrl:   Enable+ ID=0 ArbSelect=Fixed TC/VC=01
-                        Status: NegoPending- InProgress-
-        Capabilities: [128 v1] Power Budgeting &lt;?&gt;
-        Capabilities: [600 v1] Vendor Specific Information: ID=0001 Rev=1 Len=024 &lt;?&gt;
-        Kernel driver in use: nvidia
-        Kernel modules: nouveau, nvidia_drm, nvidia
-</code></pre><p>注:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">当然你就想手动指定驱动等信息添加xorg.conf</div><div class="line">也是没有问题的。例如：</div><div class="line">Section &quot;Device&quot;                                     </div><div class="line">        Identifier      &quot;Configured Video Device&quot;     </div><div class="line">        Driver          &quot;fbdev&quot;                  </div><div class="line">EndSection </div><div class="line">以上显卡设备为lcd 驱动设备为：/dev/fb0</div><div class="line">驱动类型为：framebuffer xf86-video-fbdev</div><div class="line">大家可以看看韦东山介绍 mini2440就是用此驱动。</div><div class="line">framebuffer表示显卡不具备任何计算能力，完全利用cpu计算。</div></pre></td></tr></table></figure>
+<p>startx：为以上xorg gnome协同作战的脚本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">不用startx ，手动</div><div class="line">xorg的xinit和</div><div class="line">gnome的gnome-session</div><div class="line">都是可以的。</div><div class="line">xinit 找的是/dev/nvidia0, /dev/nvidiactl</div><div class="line">gnome-session 找的是export DISPLAY=:2</div></pre></td></tr></table></figure></p>
+<p>配置文件：.xinitrc<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">export GTK_IM_MODULE=ibus</div><div class="line">export XMODIFIERS=@im=ibus</div><div class="line">export QT_IM_MODULE=ibus</div><div class="line">export XDG_MENU_PREFIX=gnome-</div><div class="line">xrandr --setprovideroutputsource modesetting NVIDIA-0</div><div class="line">xrandr --auto</div><div class="line">exec gnome-session</div><div class="line">dbus-launch nm-applet &amp;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">01:00.0 VGA compatible controller: NVIDIA Corporation G84GLM [Quadro FX 570M] (rev a1) (prog-if 00 [VGA controller])</div><div class="line">        Subsystem: Lenovo ThinkPad T61p</div><div class="line">        Physical Slot: 1</div><div class="line">        Control: I/O+ Mem+ BusMaster+ SpecCycle- MemWINV- VGASnoop- ParErr- Stepping- SERR- FastB2B- DisINTx-</div><div class="line">        Status: Cap+ 66MHz- UDF- FastB2B- ParErr- DEVSEL=fast &gt;TAbort- &lt;TAbort- &lt;MAbort- &gt;SERR- &lt;PERR- INTx-</div><div class="line">        Latency: 0</div><div class="line">        Interrupt: pin A routed to IRQ 16</div><div class="line">        Region 0: Memory at d6000000 (32-bit, non-prefetchable) [size=16M]</div><div class="line">        Region 1: Memory at e0000000 (64-bit, prefetchable) [size=256M]</div><div class="line">        Region 3: Memory at d4000000 (64-bit, non-prefetchable) [size=32M]</div><div class="line">        Region 5: I/O ports at 2000 [size=128]</div><div class="line">        [virtual] Expansion ROM at 000c0000 [disabled] [size=128K]</div><div class="line">        Capabilities: [60] Power Management version 2</div><div class="line">                Flags: PMEClk- DSI- D1- D2- AuxCurrent=0mA PME(D0-,D1-,D2-,D3hot-,D3cold-)</div><div class="line">                Status: D0 NoSoftRst- PME-Enable- DSel=0 DScale=0 PME-</div><div class="line">        Capabilities: [68] MSI: Enable- Count=1/1 Maskable- 64bit+</div><div class="line">                Address: 0000000000000000  Data: 0000</div><div class="line">        Capabilities: [78] Express (v1) Endpoint, MSI 00</div><div class="line">                DevCap: MaxPayload 128 bytes, PhantFunc 0, Latency L0s &lt;512ns, L1 &lt;4us</div><div class="line">                        ExtTag+ AttnBtn- AttnInd- PwrInd- RBE+ FLReset- SlotPowerLimit 75.000W</div><div class="line">                DevCtl: Report errors: Correctable- Non-Fatal- Fatal- Unsupported-</div><div class="line">                        RlxdOrd+ ExtTag+ PhantFunc- AuxPwr- NoSnoop+</div><div class="line">                        MaxPayload 128 bytes, MaxReadReq 512 bytes</div><div class="line">                DevSta: CorrErr- UncorrErr- FatalErr- UnsuppReq- AuxPwr- TransPend-</div><div class="line">                LnkCap: Port #0, Speed 2.5GT/s, Width x16, ASPM L0s L1, Exit Latency L0s &lt;512ns, L1 &lt;4us</div><div class="line">                        ClockPM- Surprise- LLActRep- BwNot- ASPMOptComp-</div><div class="line">                LnkCtl: ASPM L0s Enabled; RCB 128 bytes Disabled- CommClk+</div><div class="line">                        ExtSynch- ClockPM- AutWidDis- BWInt- AutBWInt-</div><div class="line">                LnkSta: Speed 2.5GT/s, Width x16, TrErr- Train- SlotClk+ DLActive- BWMgmt- ABWMgmt-</div><div class="line">        Capabilities: [100 v1] Virtual Channel</div><div class="line">                Caps:   LPEVC=0 RefClk=100ns PATEntryBits=1</div><div class="line">                Arb:    Fixed- WRR32- WRR64- WRR128-</div><div class="line">                Ctrl:   ArbSelect=Fixed</div><div class="line">                Status: InProgress-</div><div class="line">                VC0:    Caps:   PATOffset=00 MaxTimeSlots=1 RejSnoopTrans-</div><div class="line">                        Arb:    Fixed- WRR32- WRR64- WRR128- TWRR128- WRR256-</div><div class="line">                        Ctrl:   Enable+ ID=0 ArbSelect=Fixed TC/VC=01</div><div class="line">                        Status: NegoPending- InProgress-</div><div class="line">        Capabilities: [128 v1] Power Budgeting &lt;?&gt;</div><div class="line">        Capabilities: [600 v1] Vendor Specific Information: ID=0001 Rev=1 Len=024 &lt;?&gt;</div><div class="line">        Kernel driver in use: nvidia</div><div class="line">        Kernel modules: nouveau, nvidia_drm, nvidia</div></pre></td></tr></table></figure>
+<p>注:</p>
 <p>之前virtualbox的驱动总是不能成功, <strong>改为vesa折中解决</strong>.          </p>
 <p>具体为删除virtualbox驱动, emerge -C virtualbox-guest-additions          </p>
 <p>如果启动还是加载vboxvideo等驱动, </p>
 <p>那就直接删除重新安装</p>
-<pre><code class="shell"> rm /lib/modules/* -rf          
- cd /usr/src/linux &amp;&amp;  make modules_install
- emerge -av @module-rebuild
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">rm /lib/modules/* -rf  		</div><div class="line">cd /usr/src/linux &amp;&amp;  make modules_install</div><div class="line">emerge -av @module-rebuild</div></pre></td></tr></table></figure>
 <p>并且添加/etc/X11/xorg.conf.d/10-monitor.conf</p>
-<pre><code class="shell">Section &quot;Monitor&quot;
-    Identifier    &quot;Monitor0&quot;
-EndSection
-
-Section &quot;Device&quot;
-    Identifier    &quot;Device0&quot;
-    Driver        &quot;vesa&quot; #Choose the driver used for this monitor
-EndSection
-
-Section &quot;Screen&quot;
-    Identifier    &quot;Screen0&quot;  #Collapse Monitor and Device section to Screen section
-    Device        &quot;Device0&quot;
-    Monitor       &quot;Monitor0&quot;
-    DefaultDepth  16 #Choose the depth (16||24)
-    SubSection &quot;Display&quot;
-        Depth     16
-        Modes     &quot;1024x768_75.00&quot; #Choose the resolution
-    EndSubSection
-EndSection
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">Section "Monitor"</div><div class="line">    Identifier    "Monitor0"</div><div class="line">EndSection</div><div class="line"></div><div class="line">Section "Device"</div><div class="line">    Identifier    "Device0"</div><div class="line">    Driver        "vesa" #Choose the driver used for this monitor</div><div class="line">EndSection</div><div class="line"></div><div class="line">Section "Screen"</div><div class="line">    Identifier    "Screen0"  #Collapse Monitor and Device section to Screen section</div><div class="line">    Device        "Device0"</div><div class="line">    Monitor       "Monitor0"</div><div class="line">    DefaultDepth  16 #Choose the depth (16||24)</div><div class="line">    SubSection "Display"</div><div class="line">        Depth     16</div><div class="line">        Modes     "1024x768_75.00" #Choose the resolution</div><div class="line">    EndSubSection</div><div class="line">EndSection</div></pre></td></tr></table></figure>
 <p>这样省了virtualbox 驱动版本等匹配问题.当然性能也下降了.</p>
 <p>当然我自己还挖了个坑 那就是还要删除</p>
 <p> /etc/local.d/nvidia.start<br>不然重启又修改了</p>
@@ -574,9 +488,9 @@ EndSection
                         <span class="art-item-right" aria-hidden="true">
                             <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                             <h4>
-                                <a href="/EMBEDDED/mini2440/编写操作系统思路.html" rel="prev" title="编写操作系统思路">
+                                <a href="/EMBEDDED/openocd+jlink为mini2440调试u-boot.html" rel="prev" title="openocd+jlink为mini2440调试u-boot">
                                     
-                                        编写操作系统思路
+                                        openocd+jlink为mini2440调试u-boot
                                     
                                 </a>
                             </h4>
@@ -796,25 +710,37 @@ EndSection
         
           <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(95)</div></a></li>
+          <li><a class="flat-box child" title="/categories/DEVELOP/DEVELOP/" href="/categories/DEVELOP/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(15)</div></a></li>
         
           <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
         
           <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(12)</div></a></li>
+          <li><a class="flat-box child" title="/categories/LIVE/LIVE/" href="/categories/LIVE/LIVE/"><div class='name'>LIVE</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(11)</div></a></li>
         
           <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
         
+          <li><a class="flat-box child" title="/categories/SYSTEM/SYSTEM/" href="/categories/SYSTEM/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(9)</div></a></li>
+        
           <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/VPN系列之五花八门/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/embedded/" href="/categories/embedded/"><div class='name'>embedded</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/arm/EMBEDDED/" href="/categories/arm/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/linux/EMBEDDED/" href="/categories/linux/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/笑看人生/EMBEDDED/" href="/categories/笑看人生/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
         
       </ul>
     </div>
@@ -828,27 +754,6 @@ EndSection
           
           
             
-  <section class='widget tagcloud'>
-    
-<header class='pure'>
-  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
-  
-    <a class="rightBtn"
-    
-      rel="nofollow"
-    
-    
-    href="/blog/tags/"
-    title="blog/tags/">
-    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
-  
-</header>
-
-    <div class='content pure'>
-      <a href="/tags/linux/" style="font-size: 14px; color: #999">linux</a>
-    </div>
-  </section>
-
 
           
         

