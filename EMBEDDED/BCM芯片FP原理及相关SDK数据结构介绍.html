@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>BCM芯片FP原理及相关SDK数据结构介绍 | 芯机智</title>
+  
+  
+
+  
+  <link rel="alternate" href="/atom.xml" title="芯机智">
+  
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.10.1/css/all.min.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/style.css">
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  
+  <header class="l_header pure">
+  <div id="loading-bar-wrapper">
+    <div id="loading-bar" class="pure"></div>
+  </div>
+
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/' >
+        
+          芯机智
+        
+      </a>
+			<div class='menu navgation'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a class="nav flat-box" href="/"
+                  
+                  
+                  id="home">
+									<i class='fas fa-home fa-fw'></i>&nbsp;主页
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/categories/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="categories">
+									<i class='fas fa-folder-open fa-fw'></i>&nbsp;分类
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/blog/tags/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="blogtags">
+									<i class='fas fa-hashtag fa-fw'></i>&nbsp;标签
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/blog/archives/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="blogarchives">
+									<i class='fas fa-archive fa-fw'></i>&nbsp;归档
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="搜索" />
+						<i class="icon fas fa-search fa-fw"></i>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a class="fas fa-search fa-fw" href='javascript:void(0)'></a></li>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+        
+          <li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+        
+			</ul>
+		</div>
+	</div>
+</header>
+	<aside class="menu-phone">
+    <header>
+		<nav class="menu navgation">
+      <ul>
+        
+          
+            <li>
+							<a class="nav flat-box" href="/"
+                
+                
+                id="home">
+								<i class='fas fa-clock fa-fw'></i>&nbsp;近期文章
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/blog/archives/"
+                
+                  rel="nofollow"
+                
+                
+                id="blogarchives">
+								<i class='fas fa-archive fa-fw'></i>&nbsp;文章归档
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/projects/"
+                
+                
+                id="projects">
+								<i class='fas fa-code-branch fa-fw'></i>&nbsp;开源项目
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/friends/"
+                
+                  rel="nofollow"
+                
+                
+                id="friends">
+								<i class='fas fa-link fa-fw'></i>&nbsp;我的友链
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="https://xaoxuu.com/wiki/material-x/"
+                
+                  rel="nofollow"
+                
+                
+                id="https:xaoxuu.comwikimaterial-x">
+								<i class='fas fa-book fa-fw'></i>&nbsp;主题文档
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/about/"
+                
+                  rel="nofollow"
+                
+                
+                id="about">
+								<i class='fas fa-info-circle fa-fw'></i>&nbsp;关于小站
+							</a>
+            </li>
+          
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      <div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/EMBEDDED/BCM芯片FP原理及相关SDK数据结构介绍.html">
+        BCM芯片FP原理及相关SDK数据结构介绍
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2016-08-04</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/EMBEDDED/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>EMBEDDED</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          <p><span style="color:#333333; font-family:幼圆; font-size:10pt">作者: 北京—小武<br></span></p>
+<a id="more"></a>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">邮箱：<a href="mailto:night_elf1020@163.com" target="_blank" rel="external"><span style="color:#336699">night_elf1020@163.com</span></a><br>        </span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">新浪微博：北京-小武<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">BCM芯片有几个大的模块： VLAN、L2、L3和FP等几个，其中FP的使用也最为灵活，能解析匹配数据包文的前128字节比特级的内容，动作包括转发、丢弃、结合qos修改相应字段、分配vid、流镜像、流重定向、指定端口转发（比如CPU口）、指定下一跳转发往、指定隧道转发等，往往在实现功能上有意想不到的功效。简单来说，如果硬件和BSP分别是九阳真经和九阴真经的话，那么port和vlan是少林七十二项绝技的组合，L2转发则是显得有点悠闲的峨眉派功夫，当然L3则是以太极拳为代表的武当派功夫，那么FP可以是以乾坤大挪移、吸星大法等为代表的魔教的邪而又邪的”旁门左道”，当然其他功能是零零散散的其他门派功夫。能够灵活运用好FP是增加很多交换机新功能的一种常用的手段。本文总结下FP这个模块BCM在硬件上的实现原理及SDK的相关数据结构。因为FP在实现功能上的灵活性，在此希望能抛砖引玉，激发大家更多的应用FP实现新功能的火花。<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:18pt"><strong><a name="t1">BCM芯片FP实现原理
+</a></strong></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">FP的全称是Fields Processors，也称为ContentAwareProcess（CAP），在BCM较早的芯片称为Fast Filter Processors（FFP），和现在的FP相比有一些原理不同，不过现在交换芯片已经不再使用FFP，所以在此也不再介绍。FP本质来说，是一组相互之间有关联的表，一起通过查找、匹配等来决定对报文施加的动作；在BCM芯片交换机中，有三种查找查找方式：hash，index，tcam。FP的查找主要用到了index和tcam，其中CAM的全称是ContentAddressable Memory，中文是内容寻址器，TCAM则是Ternary ContentAddressable Memory，中文称为三态内存寻址器，TCAM的实现是通过对应比特位+掩码产生三种匹配方式：掩码为0表示不关心、掩码为1且对应位为1或掩码为1且对应位为0。 这就是三态的具体含义。<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt"><br>在我们自研交换机所用的芯片中有三个FP：VFP(VLAN FP)、IFP（ingres FP）和EFP（Egress FP），另外在四代芯片kylin卡中曾出现外扩FP，称为E-IFP，表项大小为128K，为L2和L3转发用，有点openflow的意味。其中VFP主要用于对报文tag的处理，比如添删或修改vid的灵活QINQ的实现就基于此FP；IFP的用途比较多，主要是对进入端口后的报文进行处理，主要有入口acl、流重定向、流镜像、设置下一跳、为qos数据报文分类等用途；EFP的用途和IFP类似，但是因为EFP是报文在转出前在出端口进行处理的规则，IFP有的动作类型在EFP不太适用。虽然三种FP用途和数据包流经顺序不太一样，但是硬件原理是一致的。下面介绍下FP的硬件原理。<br></span></p>
+<p><img src="http://www.madhex.com/wp-content/uploads/2016/08/080416_0642_BCMFPSDK1.png" alt=""><span style="color:#333333; font-size:10pt"><span style="font-family:Arial"> </span><span style="font-family:幼圆"><br>            </span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">图1 FP原理组成图<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">图1中，每一个查找引擎和策略引擎及后面的counter资源和meter资源组合成一个规则组，芯片称之为一个slice，从图1可以看出，FP的实现有五部分组成：<br></span></p>
+<p><span style="color:red; font-family:幼圆; font-size:10pt">智能解析模板<span style="color:#333333">：主要将报文信息（最多报文前128字节，可以精确到每一位bit）根据对每个slice的care字段将各对应字段解析出来，再加上前面L2、L3的转发信息，一起送给每个slice的查找引擎去匹配；<br></span></span></p>
+<p><span style="color:red; font-family:幼圆; font-size:10pt">查找引擎：<span style="color:#333333">将解析出来的字段按照TCAM方式去查找本slice的规则是否有匹配的，即HIT的，只要有一条hit的即刻返回这条规则的index不再继续查找本slice后面规则，后面即使还有匹配的规则；这样做就是为了保证一个slice内部规则的优先级；如果没有匹配说明此slice没有匹配的规则或根本就没有规则，后面的流程也无需再走；<br></span></span></p>
+<p><span style="color:red; font-family:幼圆; font-size:10pt">策略引擎：<span style="color:#333333">根据查找引擎得到的index直接索引策略引擎的动作，动作类型有转发、丢弃、重定向（包括到CPU口且可指定队列）、流镜像（包括到CPU口且可指定队列）、修改报文特定的字段（COS、DSCP、EXP等）、与后面的meter一起对报文染色并对不同染色报文指定相应动作、指定下一跳、指定ECMP、指定TTL是否修改、指定URPF的模式等相关动作；需要说明的是，一条规可以对报文执行多种动作，当然需要报文动作之间是不冲突的，即slice规则的动作冲突是靠配置下发来检查的，同一条规则有冲突的动作无法下发硬件；<br></span></span></p>
+<p><span style="color:red; font-family:幼圆; font-size:10pt">Counter和meter资源<span style="color:#333333">： counter资源用于计数，有基于byte和packet的两种方式；meter主要用于测速，然后根据速度对报文进行染色（绿、黄和红）然后对报文应用不同的QOS策略；meter的工作原理可以参见我原先写的有关令牌桶相关文档。<br></span></span></p>
+<p><span style="color:red; font-family:幼圆; font-size:10pt">动作冲突决策引擎：<span style="color:#333333">前面说过，一条slice的动作冲突是靠配置下发检查来实现的，冲突的动作无法同时下发到硬件；但是FP通常有多个slice，每个slice都有规则被匹配且动作时间有冲突时，需要动作冲突决策引擎来处理到底执行哪一个规则的动作，如果多个动作不冲突都执行；原则是丢弃、重定向等优先级最高，其他时候看slice号（这个slice号有的芯片只支持是物理的，高级芯片支持虚拟slice号），slice号越大优先级越高；<br></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">我们一条规则的匹配报文长度信息是有限的，对于IPV4报文同时匹配SMAC、DMAC、SIP、DIP等信息的时候，就不够了，芯片提供了将两条规则合并成一条规则，组成更大长度规则的方法，主要有图2示的两种,：<br></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">    <img src="http://www.madhex.com/wp-content/uploads/2016/08/080416_0642_BCMFPSDK2.png" alt=""></span><span style="font-family:幼圆"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">                      </span><span style="font-family:幼圆">图2 两种slice宽模式<br></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">第一种是将一条slice的规则分为前后两部分，然后进行如图2左边的方式拼成double模式，这种模式称为double wide模式；第二种是用两条slice，直接如图2右边所示的方式拼成double模式，这种拼接方式称之为slice-paring模式。这两种模式，有的低级芯片都不支持，只能用单倍模式，有的芯片支持其中一种，我们的redstone交换机就只支持左边的这种方式。还有的芯片可以同时支持这两种拼接方式，那么就可以利用这点拼接处具有更大长度信息的四倍模式：<br></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial"> <img src="http://www.madhex.com/wp-content/uploads/2016/08/080416_0642_BCMFPSDK3.png" alt=""></span><span style="font-family:幼圆"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">                      </span><span style="font-family:幼圆"> 图3 四倍key模式<br></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">这种模式常用于IPV6报文的匹配中，因为IPV6的SIP和DIP实在太长了，再加上匹配其他信息，只能用四倍模式才能完全覆盖所有字段。但是我们的redstone交换机只支持slice-pairng模式，所以在IPV6报文的匹配中需要做折中。<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">前面我们提到slice有物理slice和虚拟slice，这个与物理内存和虚拟内存有点类似，FP都有物理slice，在高级的芯片上，为了更好的解决slice之间的动作冲突，对slice进行了虚拟编号，虚拟slice号越大优先级越高，这样就可以实现动作的优先级指定；可能做过物理slice的同学能体会为了保证各种应用slice的优先级在软件处理所做的代码处理工作有多么的艰辛；硬件进步这么一步，支持虚拟slice后，这部分工作就完全交给硬件来处理了，我们只需要指定优先级高低就可以了。而且虚拟slice还支持虚拟slice组的概念，每一个虚拟slice组就像一条slice一样，只会有一个动作产生出，这样就又大大减少了动作冲突的机会，而且还能使得每种应用使用更多的slice资源，无需考虑因为物理slice带来的动作优先级打破应用的优先级，更符合实际。<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:18pt"><strong><a name="t2">BCM对FP操作的接口
+</a></strong></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">BCM的SDK提供了四套对于FP资源使用和管理的函数接口，需要视具体应用环境和个人喜好来定夺，四种接口如下：<br></span></p>
+<p><span style="color:red; font-family:幼圆; font-size:10pt">SOC API<span style="color:#333333">：直接硬件表项或寄存器操作，BCM各种问题明确不提倡的接口，因为需要配置人员管理和组织大量的逻辑；<br></span></span></p>
+<p><span style="color:red; font-family:幼圆; font-size:10pt">Bcmx接口<span style="color:#333333">：通常不被使用的接口，因为不太灵活，且SDK被改造成为所有ACL规则为一个大的group，现在暂时IFP只有协议规则和ACL使用，所以还勉强满足需求，以lport作为端口的配置参数；但是每次下发新规则都要先删除原来规则，这个是没有必要的；这套接口和下面BCM接口的区别不是很大。相关函数接口有：<br></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcmx_field_group_create<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcmx_field_group_create_id<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcmx_field_group_compress<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcmx_field_group_install<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcmx_field_group_remove<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcmx_field_group_destroy<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcmx_field_entry_create<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcmx_field_entry_destroy<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcmx_field_entry_destroy_all<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcmx_field_data_qualifier_destroy<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcmx_field_data_qualifier_destroy_all<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcmx_field_qualify_clear<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcmx_field_data<em>qualifier</em>**_add<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcmx_field_data<em>qualifier</em>**_ delete等。<br></span></p>
+<p><span style="color:red; font-family:幼圆; font-size:10pt">Bcm接口<span style="color:#333333">：BCM中对FP操作的最灵活的一组接口，非常适合运营商多种应用的场合，这组接口传递的参数也非常详细；相关函数接口有：<br></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcm_field_group_create<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcm_field_group_create_id<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcm_field_group_priority_set<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcm_field_group_compress<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcm_field_group_install<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcm_field_group_remove<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcm_field_group_destroy<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcm_field_entry_create<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcm_field_entry_create_id<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcm_field_entry_destroy<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcm_field_entry_destroy_all<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcm_field_entry_reinstall<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcm_field_entry_remove<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcm_field_qualify_clea<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcm_field<em>qualify</em><em>**</em><br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcm_field_action_add<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">bcm_field_action_delete等。<br></span></p>
+<p><span style="color:red; font-family:幼圆; font-size:10pt">Bcma接口<span style="color:#333333">：这套接口称为AdvancedContentAware Enhanced Software (ACES) implementation，传递的参数为bcma_acl_t*list，以结构体形式将规则所有参数下发到硬件；<br></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">/<em> List Management functions </em>/<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">extern int bcma_acl_add(bcma_acl_t*list_id);<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">extern int bcma_acl_remove(bcma_acl_list_id_tlist_id);<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">extern int bcma_acl_get(bcma_acl_list_id_tlist_id, bcma_acl_t *list);<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">extern intbcma_acl_rule_add(bcma_acl_list_id_t list_id,<br></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">                            </span><span style="font-family:幼圆"> bcma_acl_rule_t*rule);<br></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">extern int bcma_acl_rule_remove(bcma_acl_list_id_tlist_id,<br></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">                               </span><span style="font-family:幼圆">bcma_acl_rule_id_t rule_id);<br></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">extern intbcma_acl_rule_get(bcma_acl_rule_id_t rule_id,<br></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">                     </span><span style="font-family:幼圆"><br>            </span><span style="font-family:Arial">       </span><span style="font-family:幼圆">bcma_acl_rule_t **rule);<br></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">/<em> Validation and Installation functions </em>/<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">extern int bcma_acl_install(void);<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">extern int bcma_acl_uninstall(void); 等。<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:18pt"><strong><a name="t3">SDK对FP资源管理的相关数据结构
+</a></strong></span></p>
+<p><span style="color:red; font-size:10pt"><span style="font-family:幼圆">1.</span><span style="font-family:Arial">      </span><span style="font-family:幼圆">BCM芯片每一个unit都有这么一个结构体来保存芯片所有FP的资源占用情况：<span style="color:#333333"><br>                </span></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:幼圆">static _field_control_t</span><span style="font-family:Arial">        </span><span style="font-family:幼圆"> *_field_control[BCM_MAX_NUM_UNITS];<br></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">field_control_t的具体内容为（每个变量都有详细注释，此处不再阐述）：<br></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:幼圆">struct _field_control_s {</span><span style="font-family:Arial">                                           </span><span style="font-family:幼圆"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:幼圆">sal_mutex_t</span><span style="font-family:Arial">           </span><span style="font-family:幼圆">fc_lock;</span><span style="font-family:Arial">      </span><span style="font-family:幼圆"> /<em> Protectionmutex.</em></span><span style="font-family:Arial">            </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">bcm_field_stage_t</span><span style="font-family:Arial">     </span><span style="font-family:幼圆"><br>            </span><span style="font-family:Arial"> </span><span style="font-family:幼圆">stage;</span><span style="font-family:Arial">        </span><span style="font-family:幼圆">/<em> Default FP pipeline stage.</em></span><span style="font-family:Arial">   </span><span style="font-family:幼圆">/<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">int</span><span style="font-family:Arial">                   </span><span style="font-family:幼圆">max_stage_id;</span><span style="font-family:Arial"> </span><span style="font-family:幼圆"> /<em> Number of fpstages.</em></span><span style="font-family:Arial">         </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">_field_udf_t</span><span style="font-family:Arial">          </span><span style="font-family:幼圆"> <em>udf;</em></span><span style="font-family:Arial">         </span><span style="font-family:幼圆"> / field_status-&gt;group_total</span><span style="font-family:Arial">    </span><span style="font-family:幼圆"> */<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">struct _field_group_s</span><span style="font-family:Arial"> </span><span style="font-family:幼圆"><em>groups;</em></span><span style="font-family:Arial">      </span><span style="font-family:幼圆"> / List of groupsin unit.</span><span style="font-family:Arial">      </span><span style="font-family:幼圆"> */<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:幼圆">struct_field_stage_s </span><span style="font-family:Arial"> </span><span style="font-family:幼圆"><em>stages;</em></span><span style="font-family:Arial">      </span><span style="font-family:幼圆"> / Pipeline stage FP info.</span><span style="font-family:Arial">  </span><span style="font-family:幼圆"><br>            </span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">}<br></span></p>
+<p><span style="color:red; font-size:10pt"><span style="font-family:幼圆">2.</span><span style="font-family:Arial">      </span><span style="font-family:幼圆">然后对field_control_t中的_field_group_s表示一种应用占用的slice和slice的规则记录：<span style="color:#333333"><br>                </span></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">_field_group_s {<br></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">bcm_field_group_t</span><span style="font-family:Arial">     </span><span style="font-family:幼圆"> gid;</span><span style="font-family:Arial">           </span><span style="font-family:幼圆"> /<em> Opaque handle.</em></span><span style="font-family:Arial">               </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">int</span><span style="font-family:Arial">                   </span><span style="font-family:幼圆">priority;</span><span style="font-family:Arial">      </span><span style="font-family:幼圆"> /<em> Field grouppriority.</em></span><span style="font-family:Arial">        </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">bcm_field_qset_t</span><span style="font-family:Arial">      </span><span style="font-family:幼圆"> qset;</span><span style="font-family:Arial">          </span><span style="font-family:幼圆"> /<em> This group’s Qualifier Set.</em></span><span style="font-family:Arial">  </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">uint8</span><span style="font-family:Arial">                 </span><span style="font-family:幼圆"> flags;</span><span style="font-family:Arial">         </span><span style="font-family:幼圆"> /<em> Group configuration flags.</em></span><span style="font-family:Arial">   </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">_field_slice_t</span><span style="font-family:Arial">        </span><span style="font-family:幼圆"><em>slices;</em></span><span style="font-family:Arial">       </span><span style="font-family:幼圆"> / Pointer intoslice array.</span><span style="font-family:Arial">    </span><span style="font-family:幼圆"> */<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">bcm_pbmp_t</span><span style="font-family:Arial">            </span><span style="font-family:幼圆"> pbmp;</span><span style="font-family:Arial">          </span><span style="font-family:幼圆"> /<em> Ports in use this group.</em></span><span style="font-family:Arial">     </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">_field_sel_t sel_codes[_FP_MAX_ENTRY_WIDTH]; /<em> Select codes forslice(s). </em>/<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">_bcm_field_group_qual_t qual_arr[_FP_MAX_ENTRY_WIDTH];<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">                          </span><span style="font-family:幼圆"><br>            </span><span style="font-family:Arial">                </span><span style="font-family:幼圆">/* Qualifiers available in each<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">                                             </span><span style="font-family:幼圆">individual entry part.</span><span style="font-family:Arial">       </span><span style="font-family:幼圆"> */<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:幼圆">_field_stage_id_t</span><span style="font-family:Arial">     </span><span style="font-family:幼圆"> stage_id;</span><span style="font-family:Arial">      </span><span style="font-family:幼圆"> /<em> FP pipeline stage id.</em></span><span style="font-family:Arial">        </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">}<br></span></p>
+<p><span style="color:red; font-size:10pt"><span style="font-family:幼圆">3.</span><span style="font-family:Arial">      </span><span style="font-family:幼圆">在每一个unit中还有_field_stage_s来对各种FP（VFP/IFP/EFP）的资源记录的数据结构：<span style="color:#333333"><br>                </span></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">typedef struct _field_stage_s {<br></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">_field_stage_id_t</span><span style="font-family:Arial">     </span><span style="font-family:幼圆">stage_id;</span><span style="font-family:Arial">       </span><span style="font-family:幼圆"> /<em> Pipeline stageid.</em></span><span style="font-family:Arial">          </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">uint8</span><span style="font-family:Arial">                 </span><span style="font-family:幼圆"> flags;</span><span style="font-family:Arial">          </span><span style="font-family:幼圆"> /<em> Stage flags.</em></span><span style="font-family:Arial">                </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">int</span><span style="font-family:Arial">                   </span><span style="font-family:幼圆">tcam_sz;</span><span style="font-family:Arial">        </span><span style="font-family:幼圆"> /<em> Number ofentries in TCAM.</em></span><span style="font-family:Arial">  </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">int</span><span style="font-family:Arial">                   </span><span style="font-family:幼圆">tcam_slices;</span><span style="font-family:Arial">    </span><span style="font-family:幼圆"> /<em> Number ofinternal slices.</em></span><span style="font-family:Arial">  </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:幼圆">struct_field_slice_s</span><span style="font-family:Arial"> </span><span style="font-family:幼圆"> <em>slices;</em></span><span style="font-family:Arial">        </span><span style="font-family:幼圆"> / Array of slices.*/<br></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">}<br></span></p>
+<p><span style="color:red; font-size:10pt"><span style="font-family:幼圆">4.</span><span style="font-family:Arial">      </span><span style="font-family:幼圆">在在每一个_field_stage_s中用_field_slice_s对每一个slice资源进行记录的结构体：<span style="color:#333333"><br>                </span></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">_field_slice_s {<br></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">uint8</span><span style="font-family:Arial">                 </span><span style="font-family:幼圆">slice_number;</span><span style="font-family:Arial"> </span><span style="font-family:幼圆"> /<em> Hardware slicenumber.</em></span><span style="font-family:Arial">        </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">int</span><span style="font-family:Arial">                   </span><span style="font-family:幼圆">start_tcam_idx;/<em> Slice first entry tcam index.</em></span><span style="font-family:Arial"> </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">int</span><span style="font-family:Arial">                   </span><span style="font-family:幼圆">entry_count;</span><span style="font-family:Arial">  </span><span style="font-family:幼圆"> /<em> Number of entriesin the slice.</em>/<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">int</span><span style="font-family:Arial">                   </span><span style="font-family:幼圆">free_count;</span><span style="font-family:Arial">   </span><span style="font-family:幼圆"> /<em> Number of freeentries.</em></span><span style="font-family:Arial">       </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">int</span><span style="font-family:Arial">                   </span><span style="font-family:幼圆">counters_count;/<em> Number of counters accessible. </em>/<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">int</span><span style="font-family:Arial">                   </span><span style="font-family:幼圆">meters_count;</span><span style="font-family:Arial"> </span><span style="font-family:幼圆"> /<em> Number of metersaccessible.</em></span><span style="font-family:Arial">  </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">_field_counter_bmp_t</span><span style="font-family:Arial">  </span><span style="font-family:幼圆">counter_bmp;</span><span style="font-family:Arial">  </span><span style="font-family:幼圆"> /<em> Bitmap forcounter allocation. </em>/<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">_field_meter_bmp_t</span><span style="font-family:Arial">    </span><span style="font-family:幼圆">meter_bmp;</span><span style="font-family:Arial">    </span><span style="font-family:幼圆"> /<em> Bitmap for meterallocation.</em></span><span style="font-family:Arial">  </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">_field_stage_id_t</span><span style="font-family:Arial">     </span><span style="font-family:幼圆">stage_id;</span><span style="font-family:Arial">     </span><span style="font-family:幼圆"> /<em> Pipeline stageslice belongs.</em></span><span style="font-family:Arial"> </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆">bcm_pbmp_t</span><span style="font-family:Arial">   </span><span style="font-family:幼圆"><br>            </span><span style="font-family:Arial">         </span><span style="font-family:幼圆">pbmp;</span><span style="font-family:Arial">         </span><span style="font-family:幼圆"> /<em> Ports in use by groups.</em></span><span style="font-family:Arial">       </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">    </span><span style="font-family:幼圆">struct _field_entry_s</span><span style="font-family:Arial"> </span><span style="font-family:幼圆"><em>*entries;</em></span><span style="font-family:Arial">    </span><span style="font-family:幼圆"> / List of entriespointers.</span><span style="font-family:Arial">     </span><span style="font-family:幼圆"> */<br></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">}<br></span></p>
+<p><span style="color:red; font-size:10pt"><span style="font-family:幼圆">5.</span><span style="font-family:Arial">      </span><span style="font-family:幼圆">在在每一个_field_slice_s中用_field_entry_s对slice内部的entry进行记录：<span style="color:#333333"><br>                </span></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">struct_field_entry_s {<br></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆"> bcm_field_entry_t</span><span style="font-family:Arial">     </span><span style="font-family:幼圆"> eid;</span><span style="font-family:Arial">       </span><span style="font-family:幼圆">/<em> BCM unit unique entryidentifier</em></span><span style="font-family:Arial">  </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆"> int</span><span style="font-family:Arial">                   </span><span style="font-family:幼圆"> prio;</span><span style="font-family:Arial">      </span><span style="font-family:幼圆"> /<em> Entry priority</em></span><span style="font-family:Arial">                    </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆"> uint32</span><span style="font-family:Arial">                </span><span style="font-family:幼圆"> slice_idx;</span><span style="font-family:Arial"> </span><span style="font-family:幼圆"> /<em> Field entry tcam index.</em></span><span style="font-family:Arial">           </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆"> uint16</span><span style="font-family:Arial">                </span><span style="font-family:幼圆"> flags;</span><span style="font-family:Arial">     </span><span style="font-family:幼圆"> /<em> _FP_ENTRY_xxx flags</em></span><span style="font-family:Arial">               </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆"> _field_tcam_t</span><span style="font-family:Arial">         </span><span style="font-family:幼圆"> tcam;</span><span style="font-family:Arial">      </span><span style="font-family:幼圆"> /<em> Fields to be written intoFP_TCAM</em></span><span style="font-family:Arial"> </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆"> _field_tcam_t</span><span style="font-family:Arial">         </span><span style="font-family:幼圆"> extra_tcam;<br></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">#ifdefined(BCM_RAPTOR_SUPPORT) || defined(BCM_TRX_SUPPORT)<br></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆"> _field_pbmp_t</span><span style="font-family:Arial">         </span><span style="font-family:幼圆"> pbmp;</span><span style="font-family:Arial">     </span><span style="font-family:幼圆"> /<em> Port bitmap </em>/<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:幼圆">#endif /<em>BCM_RAPTOR_SUPPORT || BCM_TRX_SUPPORT </em>/</span><span style="font-family:Arial">   </span><span style="font-family:幼圆"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆"> _field_action_t</span><span style="font-family:Arial">       </span><span style="font-family:幼圆"> <em>actions;</em></span><span style="font-family:Arial">  </span><span style="font-family:幼圆"> / linked list of actions for entry</span><span style="font-family:Arial">  </span><span style="font-family:幼圆"> */<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆"> _field_slice_t</span><span style="font-family:Arial">        </span><span style="font-family:幼圆"> <em>fs;</em></span><span style="font-family:Arial">       </span><span style="font-family:幼圆"> / Slice where entry lives</span><span style="font-family:Arial">           </span><span style="font-family:幼圆"> */<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆"> _field_group_t</span><span style="font-family:Arial">        </span><span style="font-family:幼圆"> <em>group;</em></span><span style="font-family:Arial">    </span><span style="font-family:幼圆"> / Group where entry lives</span><span style="font-family:Arial">           </span><span style="font-family:幼圆"> */<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆"> _field_entry_stat_t</span><span style="font-family:Arial">   </span><span style="font-family:幼圆"> statistic;</span><span style="font-family:Arial"> </span><span style="font-family:幼圆">/<em> Statistics collection entity.</em></span><span style="font-family:Arial">     </span><span style="font-family:幼圆">/</span><span style="font-family:Arial">          </span><span style="font-family:幼圆"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">                                      </span><span style="font-family:幼圆"> /<em>Policers attached to the entry.</em></span><span style="font-family:Arial">   </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆"> _field_entry_policer_tpolicer[_FP_POLICER_LEVEL_COUNT];<br></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">#ifdefined(BCM_KATANA_SUPPORT)<br></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆"> _field_entry_policer_tglobal_meter_policer;<br></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">#endif<br></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆"> struct _field_entry_s</span><span style="font-family:Arial"> </span><span style="font-family:幼圆"> <em>next;</em></span><span style="font-family:Arial">     </span><span style="font-family:幼圆">/ Entry lookup linked list.</span><span style="font-family:Arial">         </span><span style="font-family:幼圆">*/<br></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">};<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">上面actions 是一个_field_action_t的结构体的链表，其信息为：<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">typedef struct_field_action_s {<br></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆"> bcm_field_action_t</span><span style="font-family:Arial">    </span><span style="font-family:幼圆"> action;</span><span style="font-family:Arial">      </span><span style="font-family:幼圆"> /<em> action type</em></span><span style="font-family:Arial">              </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆"> uint32</span><span style="font-family:Arial">                </span><span style="font-family:幼圆"> param0;</span><span style="font-family:Arial">      </span><span style="font-family:幼圆"> /<em> Action specific parameter </em>/<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆"> uint32</span><span style="font-family:Arial">                </span><span style="font-family:幼圆"> param1;</span><span style="font-family:Arial">      </span><span style="font-family:幼圆"> /<em> Action specific parameter </em>/<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆"> uint8</span><span style="font-family:Arial">                 </span><span style="font-family:幼圆"> inst_flg;</span><span style="font-family:Arial">    </span><span style="font-family:幼圆"> /<em> Installed Flag</em></span><span style="font-family:Arial">           </span><span style="font-family:幼圆"> /<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆"> struct _field_action_s *next;<br></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">}_field_action_t;<br></span></p>
+<p><span style="color:red; font-size:10pt"><span style="font-family:幼圆">6.</span><span style="font-family:Arial">      </span><span style="font-family:幼圆">在SDK编码中，用UNIT号获取对应的_field_control_t信息的代码可以如下：<span style="color:#333333"><br>                </span></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:幼圆">_field_control_t</span><span style="font-family:Arial">   </span><span style="font-family:幼圆"> *fc;<br></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">BCM_IF_ERROR_RETURN(_field_control_get(unit,&amp;fc));<br></span></p>
+<p><span style="color:red; font-size:10pt"><span style="font-family:幼圆">7.</span><span style="font-family:Arial">      </span><span style="font-family:幼圆">进而获取每一个group资源的代码可以如下：<span style="color:#333333"><br>                </span></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial"> </span><span style="font-family:幼圆">_field_group_t</span><span style="font-family:Arial">     </span><span style="font-family:幼圆"> *fg;<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial"> </span><span style="font-family:幼圆">fg = fc-&gt;groups;<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆"> while (fg != NULL) {<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">       </span><span style="font-family:幼圆"> if (fg-&gt;gid == gid) {<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">           </span><span style="font-family:幼圆"> *group_p = fg;<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">           </span><span style="font-family:幼圆"> return (BCM_E_NONE);<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">       </span><span style="font-family:幼圆"> }<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">       </span><span style="font-family:幼圆"> fg = fg-&gt;next;<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">   </span><span style="font-family:幼圆"> }<br></span></span></p>
+<p><span style="color:red; font-size:10pt"><span style="font-family:幼圆">8.</span><span style="font-family:Arial">      </span><span style="font-family:幼圆">获取每一个slice的资源可以如下<span style="color:#333333"><br>                </span></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:幼圆">_field_slice_t</span><span style="font-family:Arial">        </span><span style="font-family:幼圆"> *slices;<br></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">slice =&amp;fg-&gt;slices[0];<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">while(slice !=NULL){<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">slice = slice-&gt;prev;<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">}<br></span></p>
+<p><span style="color:red; font-size:10pt"><span style="font-family:幼圆">9.</span><span style="font-family:Arial">      </span><span style="font-family:幼圆">获取slice中规则的的资源可以如下：<span style="color:#333333"><br>                </span></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:幼圆">_field_entry_t</span><span style="font-family:Arial">  </span><span style="font-family:幼圆">*f_ent;<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial"> </span><span style="font-family:幼圆">_field_action_t</span><span style="font-family:Arial"> </span><span style="font-family:幼圆"> *fa_iter;<br></span></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">_field_entry_get(unit, entry, _FP_ENTRY_PRIMARY,&amp;f_ent);//entry<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">fa_iter = f_ent-&gt;actions;//entry的action<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">熟悉FP同学可能深知FP资源的稀缺性和重要性，可以用惜slice如黄金来做比喻；虽然FP的规则数很多，但是FP的资源申请和释放是按照slice为单位来进行的，且slice的数目一般都不是很多；所以我们要将尽量多的规则整合到一个slice里，尽量减少slice里有规则被浪费的现象；这个也是再将来的协议改造中必须考虑到的一个因素。<br></span></p>
+<p><span style="color:#333333; font-family:幼圆; font-size:10pt">到这里对FP的原理和SDK的相关数据结构介绍到这里，如果描述中有不清晰或者不准确的地方欢迎随时沟通讨论。<br></span></p>
+
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <hr>
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2017-07-10T16:45:11+08:00">
+  <a class='notlink'>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>最后更新于 2017年7月10日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://demonelf.github.io/EMBEDDED/BCM芯片FP原理及相关SDK数据结构介绍.html&title=BCM芯片FP原理及相关SDK数据结构介绍 | 芯机智&summary=作者: 北京—小武"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://demonelf.github.io/EMBEDDED/BCM芯片FP原理及相关SDK数据结构介绍.html&title=BCM芯片FP原理及相关SDK数据结构介绍 | 芯机智&summary=作者: 北京—小武"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=http://demonelf.github.io/EMBEDDED/BCM芯片FP原理及相关SDK数据结构介绍.html&title=BCM芯片FP原理及相关SDK数据结构介绍 | 芯机智&summary=作者: 北京—小武"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+            <div class="prev-next">
+                
+                    <section class="prev">
+                        <span class="art-item-left">
+                            <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
+                            <h4>
+                                <a href="/EMBEDDED/記住一句話：「越努力，越幸運」！如果你累了，請看這 9張圖！特別是最後一張....html" rel="prev" title="記住一句話：「越努力，越幸運」！如果你累了，請看這 9張圖！特別是最後一張...">
+                                  
+                                      記住一句話：「越努力，越幸運」！如果你累了，請看這 9張圖！特別是最後一張...
+                                  
+                                </a>
+                            </h4>
+                            
+                        </span>
+                    </section>
+                
+                
+                    <section class="next">
+                        <span class="art-item-right" aria-hidden="true">
+                            <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                            <h4>
+                                <a href="/EMBEDDED/higighigighigig2.html" rel="prev" title="HiGig/HiGig+/HiGig2">
+                                    
+                                        HiGig/HiGig+/HiGig2
+                                    
+                                </a>
+                            </h4>
+                            
+                        </span>
+                    </section>
+                
+            </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'BCM芯片FP原理及相关SDK数据结构介绍',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+    
+    
+      
+        
+          
+          
+            <section class='widget author'>
+  <div class='content pure'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='http://bbs.dnsnat.com/discuz/uc_server/data/avatar/000/00/00/01_avatar_big.jpg'/>
+      </div>
+    
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="mailto:me@xaoxuu.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://github.com/xaoxuu"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://music.163.com/#/user/home?id=63035382"
+              class="social fas fa-headphones-alt flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+          
+        
+      
+        
+          
+          
+            
+
+          
+        
+      
+        
+          
+          
+            <section class='widget grid'>
+  
+<header class='pure'>
+  <div><i class="fas fa-map-signs fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;站内导航</div>
+  
+</header>
+
+  <div class='content pure'>
+    <ul class="grid navgation">
+      
+        <li><a class="flat-box" title="/" href="/"
+          
+          
+          id="home">
+          
+            <i class="fas fa-clock fa-fw" aria-hidden="true"></i>
+          
+          近期文章
+        </a></li>
+      
+        <li><a class="flat-box" title="/blog/archives/" href="/blog/archives/"
+          
+            rel="nofollow"
+          
+          
+          id="blogarchives">
+          
+            <i class="fas fa-archive fa-fw" aria-hidden="true"></i>
+          
+          文章归档
+        </a></li>
+      
+        <li><a class="flat-box" title="/projects/" href="/projects/"
+          
+          
+          id="projects">
+          
+            <i class="fas fa-code-branch fa-fw" aria-hidden="true"></i>
+          
+          开源项目
+        </a></li>
+      
+        <li><a class="flat-box" title="/friends/" href="/friends/"
+          
+            rel="nofollow"
+          
+          
+          id="friends">
+          
+            <i class="fas fa-link fa-fw" aria-hidden="true"></i>
+          
+          我的友链
+        </a></li>
+      
+        <li><a class="flat-box" title="https://xaoxuu.com/wiki/material-x/" href="https://xaoxuu.com/wiki/material-x/"
+          
+            rel="nofollow"
+          
+          
+          id="https:xaoxuu.comwikimaterial-x">
+          
+            <i class="fas fa-book fa-fw" aria-hidden="true"></i>
+          
+          主题文档
+        </a></li>
+      
+        <li><a class="flat-box" title="/about/" href="/about/"
+          
+            rel="nofollow"
+          
+          
+          id="about">
+          
+            <i class="fas fa-info-circle fa-fw" aria-hidden="true"></i>
+          
+          关于小站
+        </a></li>
+      
+    </ul>
+  </div>
+</section>
+
+          
+        
+      
+        
+          
+          
+            
+  <section class='widget category'>
+    
+<header class='pure'>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/categories/"
+    title="categories/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content pure'>
+      <ul class="entry">
+        
+          <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(95)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(12)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(0)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/embedded/" href="/categories/embedded/"><div class='name'>embedded</div><div class='badge'>(0)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(0)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(0)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+          
+        
+      
+        
+          
+          
+            
+  <section class='widget tagcloud'>
+    
+<header class='pure'>
+  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/blog/tags/"
+    title="blog/tags/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content pure'>
+      <a href="/tags/linux/" style="font-size: 14px; color: #999">linux</a>
+    </div>
+  </section>
+
+
+          
+        
+      
+        
+          
+          
+            
+
+
+  <section class='widget music'>
+    
+<header class='pure'>
+  <div><i class="fas fa-compact-disc fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;最近在听</div>
+  
+    <a class="rightBtn"
+    
+      rel="external nofollow noopener noreferrer"
+    
+    
+      target="_blank"
+    
+    href="https://music.163.com/#/user/home?id=63035382"
+    title="https://music.163.com/#/user/home?id=63035382">
+    <i class="far fa-heart fa-fw"></i></a>
+  
+</header>
+
+    <div class='content pure'>
+      
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.7.0/dist/APlayer.min.css">
+  <div class="aplayer"
+    data-theme="#1BCDFC"
+    
+    
+    data-mode="circulation"
+    data-server="netease"
+    data-type="playlist"
+    data-id="2615636388"
+    data-volume="0.7">
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/aplayer@1.7.0/dist/APlayer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/meting@1.1.0/dist/Meting.min.js"></script>
+
+
+    </div>
+  </section>
+
+
+          
+        
+      
+    
+
+  
+</aside>
+
+<footer id="footer" class="clearfix">
+  
+  
+    <div class="social-wrapper">
+      
+        
+          <a href="/atom.xml"
+            class="social fas fa-rss flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="mailto:me@xaoxuu.com"
+            class="social fas fa-envelope flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://github.com/xaoxuu"
+            class="social fab fa-github flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://music.163.com/#/user/home?id=63035382"
+            class="social fas fa-headphones-alt flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+    </div>
+  
+  <br>
+  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+  <div>
+    本站使用
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
+    作为主题
+    
+      ，
+      总访问量为
+      <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+      次
+    
+    。
+  </div>
+</footer>
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+
+  <script>
+    var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+    var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+    var ALGOLIA_API_KEY = "";
+    var ALGOLIA_APP_ID = "";
+    var ALGOLIA_INDEX_NAME = "";
+    var AZURE_SERVICE_NAME = "";
+    var AZURE_INDEX_NAME = "";
+    var AZURE_QUERY_KEY = "";
+    var BAIDU_API_ID = "";
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/"||"/";
+    if(!ROOT.endsWith('/'))ROOT += '/';
+  </script>
+
+<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
+
+
+  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      const $reveal = $('.reveal');
+      if ($reveal.length === 0) return;
+      const sr = ScrollReveal({ distance: 0 });
+      sr.reveal('.reveal');
+    });
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        if ('.cover') {
+          $('.cover').backstretch(
+          ["https://img.vim-cn.com/6d/a0c9e6f9efad8b731cb7376504bd10d79d2053.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        } else {
+          $.backstretch(
+          ["https://img.vim-cn.com/6d/a0c9e6f9efad8b731cb7376504bd10d79d2053.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/app.js"></script>
+
+
+  <script src="/js/search.js"></script>
+
+
+
+
+<!-- 复制 -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  let COPY_SUCCESS = "复制成功";
+  let COPY_FAILURE = "复制失败";
+  /*页面载入完成后，创建复制按钮*/
+  !function (e, t, a) {
+    /* code */
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+
+      clipboard.on('success', function(e) {
+        //您可以加入成功提示
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        success_prompt(COPY_SUCCESS);
+        e.clearSelection();
+      });
+      clipboard.on('error', function(e) {
+        //您可以加入失败提示
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        fail_prompt(COPY_FAILURE);
+      });
+    }
+    initCopyCode();
+
+  }(window, document);
+
+  /**
+   * 弹出式提示框，默认1.5秒自动消失
+   * @param message 提示信息
+   * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+   * @param time 消失时间
+   */
+  var prompt = function (message, style, time)
+  {
+      style = (style === undefined) ? 'alert-success' : style;
+      time = (time === undefined) ? 1500 : time*1000;
+      $('<div>')
+          .appendTo('body')
+          .addClass('alert ' + style)
+          .html(message)
+          .show()
+          .delay(time)
+          .fadeOut();
+  };
+
+  // 成功提示
+  var success_prompt = function(message, time)
+  {
+      prompt(message, 'alert-success', time);
+  };
+
+  // 失败提示
+  var fail_prompt = function(message, time)
+  {
+      prompt(message, 'alert-danger', time);
+  };
+
+  // 提醒
+  var warning_prompt = function(message, time)
+  {
+      prompt(message, 'alert-warning', time);
+  };
+
+  // 信息提示
+  var info_prompt = function(message, time)
+  {
+      prompt(message, 'alert-info', time);
+  };
+
+</script>
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

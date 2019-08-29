@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>arm交叉编译器gnueabi、none-eabi、arm-eabi、gnueabihf、gnueabi区别 | 芯机智</title>
+  
+  
+
+  
+  <link rel="alternate" href="/atom.xml" title="芯机智">
+  
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.10.1/css/all.min.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/style.css">
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  
+  <header class="l_header pure">
+  <div id="loading-bar-wrapper">
+    <div id="loading-bar" class="pure"></div>
+  </div>
+
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/' >
+        
+          芯机智
+        
+      </a>
+			<div class='menu navgation'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a class="nav flat-box" href="/"
+                  
+                  
+                  id="home">
+									<i class='fas fa-home fa-fw'></i>&nbsp;主页
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/categories/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="categories">
+									<i class='fas fa-folder-open fa-fw'></i>&nbsp;分类
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/blog/tags/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="blogtags">
+									<i class='fas fa-hashtag fa-fw'></i>&nbsp;标签
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/blog/archives/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="blogarchives">
+									<i class='fas fa-archive fa-fw'></i>&nbsp;归档
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="搜索" />
+						<i class="icon fas fa-search fa-fw"></i>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a class="fas fa-search fa-fw" href='javascript:void(0)'></a></li>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+        
+          <li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+        
+			</ul>
+		</div>
+	</div>
+</header>
+	<aside class="menu-phone">
+    <header>
+		<nav class="menu navgation">
+      <ul>
+        
+          
+            <li>
+							<a class="nav flat-box" href="/"
+                
+                
+                id="home">
+								<i class='fas fa-clock fa-fw'></i>&nbsp;近期文章
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/blog/archives/"
+                
+                  rel="nofollow"
+                
+                
+                id="blogarchives">
+								<i class='fas fa-archive fa-fw'></i>&nbsp;文章归档
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/projects/"
+                
+                
+                id="projects">
+								<i class='fas fa-code-branch fa-fw'></i>&nbsp;开源项目
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/friends/"
+                
+                  rel="nofollow"
+                
+                
+                id="friends">
+								<i class='fas fa-link fa-fw'></i>&nbsp;我的友链
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="https://xaoxuu.com/wiki/material-x/"
+                
+                  rel="nofollow"
+                
+                
+                id="https:xaoxuu.comwikimaterial-x">
+								<i class='fas fa-book fa-fw'></i>&nbsp;主题文档
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/about/"
+                
+                  rel="nofollow"
+                
+                
+                id="about">
+								<i class='fas fa-info-circle fa-fw'></i>&nbsp;关于小站
+							</a>
+            </li>
+          
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      <div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/EMBEDDED/arm交叉编译器gnueabi、none-eabi、arm-eabi、gnueabihf、gnueabi区别.html">
+        arm交叉编译器gnueabi、none-eabi、arm-eabi、gnueabihf、gnueabi区别
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2016-06-03</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/EMBEDDED/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>EMBEDDED</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          <p><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi1.png" alt=""><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi2.png" alt=""><span style="font-family:Times New Roman; font-size:10pt"><br>        </span></p>
+<a id="more"></a>
+<p><span style="font-size:12pt"><span style="color:#333333"><span style="font-family:宋体">交叉编译工具链的命名规则为：</span><span style="font-family:Arial"><strong>arch [-vendor] [-os] [-(gnu)eabi]</strong></span></span><span style="font-family:Arial"><br>            </span></span></p>
+<p><span style="font-size:12pt"><span style="color:#333333"><span style="font-family:Arial"><strong>arch </strong>- </span><span style="font-family:宋体">体系架构，如 </span><span style="font-family:Arial">ARM</span><span style="font-family:宋体">，</span><span style="font-family:Arial">MIPS</span></span><span style="font-family:Arial"><br>            </span></span></p>
+<p><span style="font-size:12pt"><span style="color:#333333"><span style="font-family:Arial"><strong>vendor </strong>- </span><span style="font-family:宋体">工具链提供商</span></span><span style="font-family:宋体"><br>            </span></span></p>
+<p><span style="font-size:12pt"><span style="color:#333333"><span style="font-family:Arial"><strong>os </strong>- </span><span style="font-family:宋体">目标操作系统</span></span><span style="font-family:宋体"><br>            </span></span></p>
+<p><span style="color:#333333"><strong>eabi </strong>- <span style="font-family:宋体">嵌入式应用二进制接口（</span><span style="color:#3c3c3c">Embedded Application Binary Interface<span style="color:#333333"><span style="font-family:宋体">） <span style="color:#454545">根据对操作系统的支持与否，</span></span>ARM GCC<span style="color:#454545"><br>                        <span style="font-family:宋体">可分为支持和不支持操作系统，如</span></span><span style="font-family:宋体"><br>                    </span></span></span></span></p>
+<p><span style="color:#333333"><strong>arm-none-eabi</strong><span style="font-family:宋体">：这个是没有操作系统的，自然不可能支持那些跟操作系统 关系密切的函数，比如 </span>fork(2)<span style="font-family:宋体">。他使用的是 </span>newlib <span style="font-family:宋体">这个专用于嵌入式系统 的 </span>C <span style="font-family:宋体">库。</span></span><span style="font-family:宋体"><br>        </span></p>
+<p><span style="font-size:12pt"><span style="color:#333333"><span style="font-family:Arial"><strong>arm-none-<span style="color:blue">linux<span style="color:#333333">-eabi</span></span></strong></span><span style="font-family:宋体">：用于 </span><span style="font-family:Arial">Linux </span><span style="font-family:宋体">的，使用 </span><span style="font-family:Arial">Glibc</span></span><span style="font-family:Arial"><br>            </span></span></p>
+<p><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi3.png" alt=""><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi4.png" alt=""><span style="font-family:Arial; font-size:10pt"><br>        </span></p>
+<h1 id="1、arm-none-eabi-gcc"><a href="#1、arm-none-eabi-gcc" class="headerlink" title="1、arm-none-eabi-gcc"></a><span style="color:#333333">1<span style="font-family:Microsoft JhengHei">、</span>arm-none-eabi-gcc</span></h1><p><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi5.png" alt=""><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi6.png" alt=""><span style="font-family:Arial; font-size:1pt"><br>        </span></p>
+<p><span style="color:#333333"><span style="font-family:宋体">（</span><span style="text-decoration:underline">ARM architecture</span><span style="font-family:宋体">，</span><span style="color:red"><span style="text-decoration:underline">no <span style="color:#333333">vendor</span></span><span style="font-family:宋体">，</span><span style="text-decoration:underline">not <span style="color:#3c3c3c">target an operating system</span></span><span style="color:#333333"><span style="font-family:宋体">，</span><span style="color:#3c3c3c"><span style="text-decoration:underline">complies</span><br>                        <span style="text-decoration:underline">with the ARM EABI</span><span style="font-family:宋体"><span style="color:#333333">）</span><br>                        </span></span></span></span></span></p>
+<p><span style="color:#333333"><span style="font-family:宋体">用于编译 </span>ARM <span style="font-family:宋体">架构的裸机系统（包括 </span>ARM Linux <span style="font-family:宋体">的 </span>boot<span style="font-family:宋体">、</span>kernel<span style="font-family:宋体">，<span style="color:red">不适用编 译 </span></span>Linux<span style="color:red"><br>                <span style="font-family:宋体">应用 </span>Application<span style="color:#333333"><span style="font-family:宋体">），一般适合 </span>ARM7<span style="font-family:宋体">、</span>Cortex-M <span style="font-family:宋体">和 </span>Cortex-R <span style="font-family:宋体">内核的 芯片使用，所以不支持那些跟操作系统关系密切的函数，比如 </span>fork(2)<span style="font-family:宋体">，他使用 的是 </span>newlib <span style="font-family:宋体">这个专用于嵌入式系统的 </span>C <span style="font-family:宋体">库。</span></span><span style="font-family:宋体"><br>                </span></span></span></p>
+<h1 id="2、arm-none-linux-gnueabi-gcc"><a href="#2、arm-none-linux-gnueabi-gcc" class="headerlink" title="2、arm-none-linux-gnueabi-gcc"></a><span style="color:#333333">2<span style="font-family:Microsoft JhengHei">、</span>arm-none-linux-gnueabi-gcc</span></h1><p><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi7.png" alt=""><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi8.png" alt=""><span style="font-family:Arial; font-size:1pt"><br>        </span></p>
+<p><span style="color:#333333">(<span style="text-decoration:underline">ARM architecture</span>, <span style="color:red"><span style="text-decoration:underline">no <span style="color:#333333">vendor</span></span>, <span style="color:#3c3c3c"><span style="text-decoration:underline">creates binaries that run on</span><br>                    <span style="text-decoration:underline">the <span style="color:green"><strong>Linux </strong><span style="color:#3c3c3c">operating system</span></span></span>, <span style="text-decoration:underline">and uses the GNU EABI</span><span style="color:#333333">)</span><br>                </span></span></span></p>
+<p><span style="color:#333333"><span style="font-family:宋体">主要用于基于 </span>ARM <span style="font-family:宋体">架构的 </span>Linux <span style="font-family:宋体">系统，可用于编译 </span>ARM <span style="font-family:宋体">架构的 </span>u-boot<span style="font-family:宋体">、</span></span><span style="font-family:宋体"><br>        </span></p>
+<p><span style="color:#333333">Linux <span style="font-family:宋体">内核、</span>linux <span style="font-family:宋体">应用等。</span>arm-none-linux-gnueabi <span style="font-family:宋体">基于 </span>GCC<span style="font-family:宋体">，使用 </span><span style="color:#454545">Glibc <span style="font-family:宋体">库， <span style="color:#333333">经过 </span></span>Codesourcery<span style="color:#333333"><br>                    <span style="font-family:宋体">公司优化过推出的编译器。</span>arm-none-linux-gnueabi-xxx <span style="font-family:宋体">交 叉编译工具的浮点运算非常优秀。一般 </span>ARM9<span style="font-family:宋体">、</span>ARM11<span style="font-family:宋体">、</span>Cortex-A <span style="font-family:宋体">内核，带有 </span>Linux <span style="font-family:宋体">操作系统的会用到。</span></span><span style="font-family:宋体"><br>                </span></span></span></p>
+<h1 id="3、arm-eabi-gcc"><a href="#3、arm-eabi-gcc" class="headerlink" title="3、arm-eabi-gcc"></a><span style="color:#333333">3<span style="font-family:Microsoft JhengHei">、</span>arm-eabi-gcc</span></h1><p><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi9.png" alt=""><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi10.png" alt=""><span style="font-family:Arial; font-size:1pt"><br>        </span></p>
+<p><span style="color:#333333">Android ARM <span style="font-family:宋体">编译器。</span></span><span style="font-family:宋体"><br>        </span></p>
+<h1 id="4、armcc"><a href="#4、armcc" class="headerlink" title="4、armcc"></a><span style="color:#333333">4<span style="font-family:Microsoft JhengHei">、</span>armcc</span></h1><p><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi11.png" alt=""><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi12.png" alt=""><span style="font-family:Arial; font-size:1pt"><br>        </span></p>
+<p><span style="color:#333333">ARM <span style="font-family:宋体">公司推出的编译工具，<span style="text-decoration:underline">功能和 </span></span><span style="text-decoration:underline">arm-none-eabi <span style="font-family:宋体">类似</span></span>，可以编译裸机程序</span><span style="font-family:宋体"><br>        </span></p>
+<p><span style="color:#333333"><span style="font-family:宋体">（</span>u-boot<span style="font-family:宋体">、</span>kernel<span style="font-family:宋体">），但是不能编译 </span>Linux <span style="font-family:宋体">应用程序。</span>armcc <span style="font-family:宋体">一般和 </span>ARM <span style="font-family:宋体">开发 工具一起，</span>Keil MDK<span style="font-family:宋体">、</span>ADS<span style="font-family:宋体">、</span>RVDS <span style="font-family:宋体">和 </span>DS-5 <span style="font-family:宋体">中的编译器都是 </span>armcc<span style="font-family:宋体">，所以 </span>armcc <span style="font-family:宋体">编译器都是收费的（爱国版除外，呵呵</span>~~<span style="font-family:宋体">）。</span></span><span style="font-family:宋体"><br>        </span></p>
+<h1 id="5、arm-none-uclinuxeabi-gcc-和-arm-none-symbianelf-gcc"><a href="#5、arm-none-uclinuxeabi-gcc-和-arm-none-symbianelf-gcc" class="headerlink" title="5、arm-none-uclinuxeabi-gcc 和 arm-none-symbianelf-gcc"></a><span style="color:#333333">5<span style="font-family:Microsoft JhengHei">、</span><span style="color:#454545">arm-none-uclinuxeabi-gcc <span style="font-family:Microsoft JhengHei">和 </span>arm-none-symbianelf-gcc</span></span></h1><pre><code>    &lt;/span&gt;
+</code></pre><p><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi13.png" alt=""><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi14.png" alt=""><span style="font-family:Arial; font-size:1pt"><br>        </span></p>
+<p><span style="color:#454545">arm-none-uclinuxeabi <span style="font-family:宋体">用于 </span><span style="text-decoration:underline"><strong>uCLinux</strong></span><span style="font-family:宋体">，使用 </span>Glibc<span style="font-family:宋体">。</span></span><span style="font-family:宋体"><br>        </span></p>
+<p><span style="color:#454545">arm-none-symbianelf <span style="font-family:宋体">用于 </span><span style="text-decoration:underline"><strong>symbian</strong></span><span style="font-family:宋体">，没用过，不知道 </span>C <span style="font-family:宋体">库是什么 <span style="color:#333333">。</span><br>            </span></span></p>
+<p><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi15.png" alt=""><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi16.png" alt=""><span style="font-family:宋体; font-size:10pt"><br>        </span></p>
+<p><span style="color:#333333"><strong>Codesourcery </strong><span style="font-family:宋体">推出的产品叫 </span>Sourcery G++ Lite Edition<span style="font-family:宋体">，其中基于 </span>command-line <span style="font-family:宋体">的编译器是免费的，在官网上可以下载，而其中包含的 </span>IDE <span style="font-family:宋体">和 </span>debug <span style="font-family:宋体">工具是收费的，当然也有 </span>30 <span style="font-family:宋体">天试用版本的。</span></span><span style="font-family:宋体"><br>        </span></p>
+<p><span style="color:#333333; font-family:宋体">目前 </span>CodeSourcery <span style="font-family:宋体">已经由明导国际</span>(Mentor Graphics)<span style="font-family:宋体">收购，所以原本的网站 风格已经全部变为 </span>Mentor <span style="font-family:宋体">样式，但是 </span>Sourcery G++ Lite Edition <span style="font-family:宋体">同样可以注 册后免费下载。<br></span></p>
+<p><span style="color:#333333">Codesourcery <span style="font-family:宋体">一直是在做 </span>ARM <span style="font-family:宋体">目标 </span>GCC <span style="font-family:宋体">的开发和优化，它的 </span>ARM GCC <span style="font-family:宋体">在 目前在市场上非常优秀，很多 </span>patch <span style="font-family:宋体">可能还没被 </span>gcc <span style="font-family:宋体">接受，所以还是应该直接 用它的（而且他提供 </span>Windows <span style="font-family:宋体">下</span>[mingw <span style="font-family:宋体">交叉编译的</span>]<span style="font-family:宋体">和 </span>Linux <span style="font-family:宋体">下的二进制版本， 比较方便；如果不是很有时间和兴趣，不建议下载 </span>src <span style="font-family:宋体">源码包自己编译，很麻 烦，</span>Codesourcery <span style="font-family:宋体">给的 </span>shell <span style="font-family:宋体">脚本很多时候根本没办法直接用，得自行提取关 键的部分手工执行，又费精力又费时间，如果想知道细节，其实不用自己编译 一遍，看看他是用什么步骤构建的即可，如果你对交叉编译器感兴趣的话。</span></span><span style="font-family:宋体"><br>        </span></p>
+<p><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi17.png" alt=""><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi18.png" alt=""><span style="font-family:宋体; font-size:10pt"><br>        </span></p>
+<p><span style="color:#333333"><strong>ABI</strong><span style="font-family:宋体">：二进制应用程序接口</span>(Application Binary Interface (ABI) for the ARM Architecture)<span style="font-family:宋体">。在计算机中，应用二进制接口描述了应用程序（或者其他类型） 和操作系统之间或其他应用程序的低级接口。</span></span><span style="font-family:宋体"><br>        </span></p>
+<p><span style="color:#333333"><strong>EABI</strong><span style="font-family:宋体">：嵌入式 </span>ABI<span style="font-family:宋体">。嵌入式应用二进制接口指定了文件格式、数据类型、寄存 器使用、堆积组织优化和在一个嵌入式软件中的参数的标准约定。开发者使用 自己的汇编语言也可以使用 </span>EABI <span style="font-family:宋体">作为与兼容的编译器生成的汇编语言的接口。</span></span><span style="font-family:宋体"><br>        </span></p>
+<p><span style="color:#333333"><span style="font-family:宋体">两者主要区别是，</span>ABI <span style="font-family:宋体">是计算机上的，</span>EABI <span style="font-family:宋体">是嵌入式平台上（如 </span>ARM<span style="font-family:宋体">，</span>MIPS</span></p>
+<p><span style="font-family:宋体"><span style="color:#333333">等）。</span><br>        </span></p>
+<p><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi19.png" alt=""><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi20.png" alt=""><span style="font-family:宋体; font-size:10pt"><br>        </span></p>
+<p><span style="color:#333333"><span style="font-family:宋体">两个交叉编译器分别适用于 </span>armel <span style="font-family:宋体">和 </span>armhf <span style="font-family:宋体">两个不同的架构，</span>armel <span style="font-family:宋体">和 </span>armhf <span style="font-family:宋体">这两种架构在对待浮点运算采取了不同的策略（有 </span>fpu <span style="font-family:宋体">的 </span>arm <span style="font-family:宋体">才能支持这两种 浮点运算策略）。</span></span><span style="font-family:宋体"><br>        </span></p>
+<p><span style="color:#333333"><span style="font-family:宋体">其实这两个交叉编译器只不过是 </span>gcc <span style="font-family:宋体">的选项 </span><span style="text-decoration:underline">-mfloat-abi </span><span style="font-family:宋体">的默认值不同。</span>gcc <span style="font-family:宋体">的 选项 </span>-mfloat-abi <span style="font-family:宋体">有三种值 </span><strong>soft<span style="font-family:Microsoft JhengHei">、</span>softfp<span style="font-family:Microsoft JhengHei">、</span>hard</strong><span style="font-family:宋体">（其中后两者都要求 </span>arm <span style="font-family:宋体">里有 </span>fpu <span style="font-family:宋体">浮点运算单元，</span>soft <span style="font-family:宋体">与后两者是兼容的，但 </span>softfp <span style="font-family:宋体">和 </span>hard <span style="font-family:宋体">两种模式互不兼</span></span><span style="font-family:宋体"><br>        </span></p>
+<p><span style="font-family:宋体"><span style="color:#333333">容）：</span><br>        </span></p>
+<p><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi21.png" alt=""><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi22.png" alt=""><span style="color:#333333"><strong>soft<span style="font-family:Microsoft JhengHei">： </span></strong><span style="font-family:宋体">不用 </span>fpu <span style="font-family:宋体">进行浮点计算，即使有 </span>fpu <span style="font-family:宋体">浮点运算单元也不用，而是使用软 件模式。</span></span><span style="font-family:宋体"><br>        </span></p>
+<p><span style="color:#333333"><strong>softfp<span style="font-family:Microsoft JhengHei">： </span></strong>armel <span style="font-family:宋体">架构（对应的编译器为 </span><span style="text-decoration:underline">arm-linux-gnueabi-gcc </span><span style="font-family:宋体">）采用的默认值</span></span><span style="font-family:宋体"><br>        </span></p>
+<p><span style="color:#333333"><span style="font-family:宋体">用 </span>fpu <span style="font-family:宋体">计算，但是传参数用普通寄存器传，这样中断的时候，只需要保存普通 寄存器，中断负荷小，但是参数需要转换成浮点的再计算。</span></span><span style="font-family:宋体"><br>        </span></p>
+<p><span style="color:#333333"><strong>hard<span style="font-family:Microsoft JhengHei">： </span></strong>armhf <span style="font-family:宋体">架构（对应的编译器 </span><span style="text-decoration:underline">arm-linux-gnueabi<span style="color:blue">hf-gcc </span></span><span style="font-family:宋体"><span style="color:#333333">）采用的默认值，</span><br>            </span></span></p>
+<p><span style="color:#333333"><span style="font-family:宋体">用 </span>fpu <span style="font-family:宋体">计算，传参数也用 </span>fpu <span style="font-family:宋体">中的浮点寄存器传，省去了转换，性能最好，但 是中断负荷高。</span></span><span style="font-family:宋体"><br>        </span></p>
+<p><span style="color:#333333"><span style="font-family:宋体">把以下测试使用的 </span>C <span style="font-family:宋体">文件内容保存成 </span>mfloat.c<span style="font-family:宋体">：</span></span><span style="font-family:宋体"><br>        </span></p>
+<p><span style="color:#333333">#include &lt;stdio.h&gt; int main(void)</span></p>
+<p><span style="color:#333333">{</span></p>
+<p><span style="color:#333333">double a,b,c; a = 23.543;</span></p>
+<p><span style="color:#333333">b = 323.234;</span></p>
+<p><span style="color:#333333">c = b/a;</span></p>
+<p><span style="color:#333333">printf(“the 13/2 = %f\n”, c); printf(“hello world !\n”); return 0;</span></p>
+<p><span style="color:#333333">}</span></p>
+<h1 id="1、使用-arm-linux-gnueabihf-gcc-编译，使用“-v”选项以获取更详细的信息："><a href="#1、使用-arm-linux-gnueabihf-gcc-编译，使用“-v”选项以获取更详细的信息：" class="headerlink" title="1、使用  arm-linux-gnueabihf-gcc 编译，使用“-v”选项以获取更详细的信息："></a><span style="color:#333333">1<span style="font-family:Microsoft JhengHei">、使用  </span>arm-linux-gnueabihf-gcc <span style="font-family:Microsoft JhengHei">编译，使用</span>“-v”<span style="font-family:Microsoft JhengHei">选项以获取更详细的信息：</span></span><span style="font-family:Microsoft JhengHei"></span></h1><pre><code>    &lt;/span&gt;
+</code></pre><p><span style="color:blue"># arm-linux-gnueabihf-gcc -v mfloat.c</span></p>
+<p><span style="color:#333333">COLLECT_GCC_OPTIONS=’-v’ ‘-march=armv7-a’ ‘-mfloat-abi=hard’ ‘- mfpu=vfpv3-d16′ ‘-mthumb’</span></p>
+<p><span style="color:#333333">-mfloat-abi=<span style="color:red">hard</span><br>        </span></p>
+<p><span style="color:#333333"><span style="font-family:宋体">可看出使用 </span>hard <span style="font-family:宋体">硬件浮点模式。</span></span><span style="font-family:宋体"><br>        </span></p>
+<h1 id="2、使用-arm-linux-gnueabi-gcc-编译："><a href="#2、使用-arm-linux-gnueabi-gcc-编译：" class="headerlink" title="2、使用 arm-linux-gnueabi-gcc 编译："></a><span style="color:#333333">2<span style="font-family:Microsoft JhengHei">、使用 </span>arm-linux-gnueabi-gcc <span style="font-family:Microsoft JhengHei">编译：</span></span><span style="font-family:Microsoft JhengHei"></span></h1><pre><code>    &lt;/span&gt;
+</code></pre><p><span style="color:blue"># arm-linux-gnueabi-gcc -v mfloat.c</span></p>
+<p><span style="color:#333333">COLLECT_GCC_OPTIONS=’-v’ ‘-march=armv7-a’ ‘-mfloat-abi=softfp’ ‘- mfpu=vfpv3-d16′ ‘-mthumb’</span></p>
+<p><span style="color:#333333">-mfloat-abi=<span style="color:red">softfp</span><br>        </span></p>
+<p><span style="color:#333333"><span style="font-family:宋体">可看出使用 </span>softfp <span style="font-family:宋体">模式。</span></span><span style="font-family:宋体"><br>        </span></p>
+<p><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi23.jpg" alt=""><span style="font-family:宋体; font-size:10pt"><br>        </span></p>
+<p><span style="font-family:宋体"><span style="color:#333333">交叉编译工具</span><br>        </span></p>
+<p><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi24.png" alt=""><img src="http://www.madhex.com/wp-content/uploads/2016/06/060316_0349_armgnueabi25.png" alt=""><span style="font-family:宋体; font-size:10pt"><br>        </span></p>
+<ul>
+<li><div><span style="font-size:12pt"><span style="color:#333333"><span style="font-family:宋体">交叉编译器 </span><span style="font-family:Arial">arm-linux-gnueabi </span><span style="font-family:宋体">和 </span><span style="font-family:Arial">arm-linux-gnueabihf </span><span style="font-family:宋体">的区别：</span></span><span style="font-family:宋体"><br>                </span></span></div>
+
+<p><a href="http://www.cnblogs.com/xiaotlili/p/3306100.html" target="_blank" rel="external"><span style="color:#418bca; text-decoration:underline">http://www.cnblogs.com/xiaotlili/p/3306100.html</span></a></p>
+</li>
+<li><div><span style="font-size:12pt"><span style="color:#333333"><span style="font-family:Arial">arm-none-linux-gnueabi</span><span style="font-family:宋体">，</span><span style="font-family:Arial">arm-none-eabi </span><span style="font-family:宋体">与 </span><span style="font-family:Arial">arm-eabi </span><span style="font-family:宋体">区别：</span></span><span style="font-family:宋体"><br>                </span></span></div>
+
+<p><a href="http://blog.csdn.net/mantis_1984/article/details/21049273" target="_blank" rel="external"><span style="color:#418bca; text-decoration:underline">http://blog.csdn.net/mantis_1984/article/details/21049273</span></a></p>
+</li>
+<li><p><span style="color:#333333; font-family:Arial; font-size:12pt">What’s the difference between arm-linux- / arm-none-linux-gnueabi- / arm-fsl-linux-gnueabi- in LTIB?<span style="color:#418bca; text-decoration:underline"><a href="https://community.freescale.com/thread/313490" target="_blank" rel="external">https://community.freescale.com/thread/313490</a></span></span></p>
+<pre><code>    &lt;/span&gt;
+</code></pre></li>
+</ul>
+<p><span style="color:#333333"><span style="font-family:宋体">文章来自 </span>VeryARM<span style="font-family:宋体">：<a href="http://www.veryarm.com/296.html" target="_blank" rel="external"></a></span><span style="color:#418bca"><span style="text-decoration:underline">http://www.veryarm.com/296.html</span><span style="color:#333333; font-family:宋体">，转载请保留。</span></span></span></p>
+
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <hr>
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2017-07-10T16:44:49+08:00">
+  <a class='notlink'>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>最后更新于 2017年7月10日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://demonelf.github.io/EMBEDDED/arm交叉编译器gnueabi、none-eabi、arm-eabi、gnueabihf、gnueabi区别.html&title=arm交叉编译器gnueabi、none-eabi、arm-eabi、gnueabihf、gnueabi区别 | 芯机智&summary=        "
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://demonelf.github.io/EMBEDDED/arm交叉编译器gnueabi、none-eabi、arm-eabi、gnueabihf、gnueabi区别.html&title=arm交叉编译器gnueabi、none-eabi、arm-eabi、gnueabihf、gnueabi区别 | 芯机智&summary=        "
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=http://demonelf.github.io/EMBEDDED/arm交叉编译器gnueabi、none-eabi、arm-eabi、gnueabihf、gnueabi区别.html&title=arm交叉编译器gnueabi、none-eabi、arm-eabi、gnueabihf、gnueabi区别 | 芯机智&summary=        "
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+            <div class="prev-next">
+                
+                    <section class="prev">
+                        <span class="art-item-left">
+                            <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
+                            <h4>
+                                <a href="/EMBEDDED/一、桥接及二层转发.html" rel="prev" title="一、桥接及二层转发">
+                                  
+                                      一、桥接及二层转发
+                                  
+                                </a>
+                            </h4>
+                            
+                        </span>
+                    </section>
+                
+                
+                    <section class="next">
+                        <span class="art-item-right" aria-hidden="true">
+                            <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                            <h4>
+                                <a href="/EMBEDDED/Linux 时钟管理.html" rel="prev" title="Linux 时钟管理">
+                                    
+                                        Linux 时钟管理
+                                    
+                                </a>
+                            </h4>
+                            
+                        </span>
+                    </section>
+                
+            </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'arm交叉编译器gnueabi、none-eabi、arm-eabi、gnueabihf、gnueabi区别',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+    
+    
+      
+        
+          
+          
+            <section class='widget author'>
+  <div class='content pure'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='http://bbs.dnsnat.com/discuz/uc_server/data/avatar/000/00/00/01_avatar_big.jpg'/>
+      </div>
+    
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="mailto:me@xaoxuu.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://github.com/xaoxuu"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://music.163.com/#/user/home?id=63035382"
+              class="social fas fa-headphones-alt flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+          
+        
+      
+        
+          
+          
+            
+  <section class='widget toc-wrapper'>
+    
+<header class='pure'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div>
+  
+</header>
+
+    <div class='content pure'>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1、arm-none-eabi-gcc"><span class="toc-text">1、arm-none-eabi-gcc</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2、arm-none-linux-gnueabi-gcc"><span class="toc-text">2、arm-none-linux-gnueabi-gcc</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3、arm-eabi-gcc"><span class="toc-text">3、arm-eabi-gcc</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4、armcc"><span class="toc-text">4、armcc</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#5、arm-none-uclinuxeabi-gcc-和-arm-none-symbianelf-gcc"><span class="toc-text">5、arm-none-uclinuxeabi-gcc 和 arm-none-symbianelf-gcc</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#1、使用-arm-linux-gnueabihf-gcc-编译，使用“-v”选项以获取更详细的信息："><span class="toc-text">1、使用  arm-linux-gnueabihf-gcc 编译，使用“-v”选项以获取更详细的信息：</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2、使用-arm-linux-gnueabi-gcc-编译："><span class="toc-text">2、使用 arm-linux-gnueabi-gcc 编译：</span></a></li></ol>
+    </div>
+  </section>
+
+
+          
+        
+      
+        
+          
+          
+            <section class='widget grid'>
+  
+<header class='pure'>
+  <div><i class="fas fa-map-signs fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;站内导航</div>
+  
+</header>
+
+  <div class='content pure'>
+    <ul class="grid navgation">
+      
+        <li><a class="flat-box" title="/" href="/"
+          
+          
+          id="home">
+          
+            <i class="fas fa-clock fa-fw" aria-hidden="true"></i>
+          
+          近期文章
+        </a></li>
+      
+        <li><a class="flat-box" title="/blog/archives/" href="/blog/archives/"
+          
+            rel="nofollow"
+          
+          
+          id="blogarchives">
+          
+            <i class="fas fa-archive fa-fw" aria-hidden="true"></i>
+          
+          文章归档
+        </a></li>
+      
+        <li><a class="flat-box" title="/projects/" href="/projects/"
+          
+          
+          id="projects">
+          
+            <i class="fas fa-code-branch fa-fw" aria-hidden="true"></i>
+          
+          开源项目
+        </a></li>
+      
+        <li><a class="flat-box" title="/friends/" href="/friends/"
+          
+            rel="nofollow"
+          
+          
+          id="friends">
+          
+            <i class="fas fa-link fa-fw" aria-hidden="true"></i>
+          
+          我的友链
+        </a></li>
+      
+        <li><a class="flat-box" title="https://xaoxuu.com/wiki/material-x/" href="https://xaoxuu.com/wiki/material-x/"
+          
+            rel="nofollow"
+          
+          
+          id="https:xaoxuu.comwikimaterial-x">
+          
+            <i class="fas fa-book fa-fw" aria-hidden="true"></i>
+          
+          主题文档
+        </a></li>
+      
+        <li><a class="flat-box" title="/about/" href="/about/"
+          
+            rel="nofollow"
+          
+          
+          id="about">
+          
+            <i class="fas fa-info-circle fa-fw" aria-hidden="true"></i>
+          
+          关于小站
+        </a></li>
+      
+    </ul>
+  </div>
+</section>
+
+          
+        
+      
+        
+          
+          
+            
+  <section class='widget category'>
+    
+<header class='pure'>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/categories/"
+    title="categories/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content pure'>
+      <ul class="entry">
+        
+          <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(95)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(12)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(0)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/embedded/" href="/categories/embedded/"><div class='name'>embedded</div><div class='badge'>(0)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(0)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(0)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+          
+        
+      
+        
+          
+          
+            
+  <section class='widget tagcloud'>
+    
+<header class='pure'>
+  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/blog/tags/"
+    title="blog/tags/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content pure'>
+      <a href="/tags/linux/" style="font-size: 14px; color: #999">linux</a>
+    </div>
+  </section>
+
+
+          
+        
+      
+        
+          
+          
+            
+
+
+  <section class='widget music'>
+    
+<header class='pure'>
+  <div><i class="fas fa-compact-disc fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;最近在听</div>
+  
+    <a class="rightBtn"
+    
+      rel="external nofollow noopener noreferrer"
+    
+    
+      target="_blank"
+    
+    href="https://music.163.com/#/user/home?id=63035382"
+    title="https://music.163.com/#/user/home?id=63035382">
+    <i class="far fa-heart fa-fw"></i></a>
+  
+</header>
+
+    <div class='content pure'>
+      
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.7.0/dist/APlayer.min.css">
+  <div class="aplayer"
+    data-theme="#1BCDFC"
+    
+    
+    data-mode="circulation"
+    data-server="netease"
+    data-type="playlist"
+    data-id="2615636388"
+    data-volume="0.7">
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/aplayer@1.7.0/dist/APlayer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/meting@1.1.0/dist/Meting.min.js"></script>
+
+
+    </div>
+  </section>
+
+
+          
+        
+      
+    
+
+  
+</aside>
+
+<footer id="footer" class="clearfix">
+  
+  
+    <div class="social-wrapper">
+      
+        
+          <a href="/atom.xml"
+            class="social fas fa-rss flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="mailto:me@xaoxuu.com"
+            class="social fas fa-envelope flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://github.com/xaoxuu"
+            class="social fab fa-github flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://music.163.com/#/user/home?id=63035382"
+            class="social fas fa-headphones-alt flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+    </div>
+  
+  <br>
+  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+  <div>
+    本站使用
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
+    作为主题
+    
+      ，
+      总访问量为
+      <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+      次
+    
+    。
+  </div>
+</footer>
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+
+  <script>
+    var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+    var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+    var ALGOLIA_API_KEY = "";
+    var ALGOLIA_APP_ID = "";
+    var ALGOLIA_INDEX_NAME = "";
+    var AZURE_SERVICE_NAME = "";
+    var AZURE_INDEX_NAME = "";
+    var AZURE_QUERY_KEY = "";
+    var BAIDU_API_ID = "";
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/"||"/";
+    if(!ROOT.endsWith('/'))ROOT += '/';
+  </script>
+
+<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
+
+
+  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      const $reveal = $('.reveal');
+      if ($reveal.length === 0) return;
+      const sr = ScrollReveal({ distance: 0 });
+      sr.reveal('.reveal');
+    });
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        if ('.cover') {
+          $('.cover').backstretch(
+          ["https://img.vim-cn.com/6d/a0c9e6f9efad8b731cb7376504bd10d79d2053.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        } else {
+          $.backstretch(
+          ["https://img.vim-cn.com/6d/a0c9e6f9efad8b731cb7376504bd10d79d2053.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/app.js"></script>
+
+
+  <script src="/js/search.js"></script>
+
+
+
+
+<!-- 复制 -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  let COPY_SUCCESS = "复制成功";
+  let COPY_FAILURE = "复制失败";
+  /*页面载入完成后，创建复制按钮*/
+  !function (e, t, a) {
+    /* code */
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+
+      clipboard.on('success', function(e) {
+        //您可以加入成功提示
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        success_prompt(COPY_SUCCESS);
+        e.clearSelection();
+      });
+      clipboard.on('error', function(e) {
+        //您可以加入失败提示
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        fail_prompt(COPY_FAILURE);
+      });
+    }
+    initCopyCode();
+
+  }(window, document);
+
+  /**
+   * 弹出式提示框，默认1.5秒自动消失
+   * @param message 提示信息
+   * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+   * @param time 消失时间
+   */
+  var prompt = function (message, style, time)
+  {
+      style = (style === undefined) ? 'alert-success' : style;
+      time = (time === undefined) ? 1500 : time*1000;
+      $('<div>')
+          .appendTo('body')
+          .addClass('alert ' + style)
+          .html(message)
+          .show()
+          .delay(time)
+          .fadeOut();
+  };
+
+  // 成功提示
+  var success_prompt = function(message, time)
+  {
+      prompt(message, 'alert-success', time);
+  };
+
+  // 失败提示
+  var fail_prompt = function(message, time)
+  {
+      prompt(message, 'alert-danger', time);
+  };
+
+  // 提醒
+  var warning_prompt = function(message, time)
+  {
+      prompt(message, 'alert-warning', time);
+  };
+
+  // 信息提示
+  var info_prompt = function(message, time)
+  {
+      prompt(message, 'alert-info', time);
+  };
+
+</script>
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

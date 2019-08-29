@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>MQTT C Client实现消息推送（入门指南） | 芯机智</title>
+  
+  
+
+  
+  <link rel="alternate" href="/atom.xml" title="芯机智">
+  
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.10.1/css/all.min.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/style.css">
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  
+  <header class="l_header pure">
+  <div id="loading-bar-wrapper">
+    <div id="loading-bar" class="pure"></div>
+  </div>
+
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/' >
+        
+          芯机智
+        
+      </a>
+			<div class='menu navgation'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a class="nav flat-box" href="/"
+                  
+                  
+                  id="home">
+									<i class='fas fa-home fa-fw'></i>&nbsp;主页
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/categories/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="categories">
+									<i class='fas fa-folder-open fa-fw'></i>&nbsp;分类
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/blog/tags/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="blogtags">
+									<i class='fas fa-hashtag fa-fw'></i>&nbsp;标签
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/blog/archives/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="blogarchives">
+									<i class='fas fa-archive fa-fw'></i>&nbsp;归档
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="搜索" />
+						<i class="icon fas fa-search fa-fw"></i>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a class="fas fa-search fa-fw" href='javascript:void(0)'></a></li>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+        
+          <li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+        
+			</ul>
+		</div>
+	</div>
+</header>
+	<aside class="menu-phone">
+    <header>
+		<nav class="menu navgation">
+      <ul>
+        
+          
+            <li>
+							<a class="nav flat-box" href="/"
+                
+                
+                id="home">
+								<i class='fas fa-clock fa-fw'></i>&nbsp;近期文章
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/blog/archives/"
+                
+                  rel="nofollow"
+                
+                
+                id="blogarchives">
+								<i class='fas fa-archive fa-fw'></i>&nbsp;文章归档
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/projects/"
+                
+                
+                id="projects">
+								<i class='fas fa-code-branch fa-fw'></i>&nbsp;开源项目
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/friends/"
+                
+                  rel="nofollow"
+                
+                
+                id="friends">
+								<i class='fas fa-link fa-fw'></i>&nbsp;我的友链
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="https://xaoxuu.com/wiki/material-x/"
+                
+                  rel="nofollow"
+                
+                
+                id="https:xaoxuu.comwikimaterial-x">
+								<i class='fas fa-book fa-fw'></i>&nbsp;主题文档
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/about/"
+                
+                  rel="nofollow"
+                
+                
+                id="about">
+								<i class='fas fa-info-circle fa-fw'></i>&nbsp;关于小站
+							</a>
+            </li>
+          
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      <div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/EMBEDDED/MQTT C Client实现消息推送（入门指南）.html">
+        MQTT C Client实现消息推送（入门指南）
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2017-07-14</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/EMBEDDED/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>EMBEDDED</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          <p>本篇文章主要介绍了”MQTT C Client实现消息推送（入门指南）”，主要涉及到MQTT C Client实现消息推送（入门指南）方面的内容，对于MQTT C Client实现消息推送（入门指南）感兴趣的同学可以参考一下。</p>
+<p>MQTT（Message Queuing Telemetry Transport，消息队列遥测传输）是IBM开发的一个即时通讯协议，通过MQTT协议，目前已经扩展出了数十个MQTT服务器端程序，可以通过PHP，JAVA，Python，C，C#等系统语言来向MQTT发送相关消息。随着移动互联网的发展，MQTT由于开放源代码，耗电量小等特点，将会在移动消息推送领域会有更多的贡献，在物联网领域，传感器与服务器的通信，信息的收集，MQTT都可以作为考虑的方案之一。在未来MQTT会进入到我们生活的各各方面。The Paho MQTT C Client is a fully fledged MQTT client written in ANSI standard C. It avoids C++ in order to be as portable as possible. A C++ layer over this library is also available in Paho.</p>
+<hr>
+<p>目录：</p>
+<ul>
+<li><a href="http://www.fx114.net/qa-170-148600.aspx#何为mqtt" target="_blank" rel="external">何为MQTT</a></li>
+<li><a href="http://www.fx114.net/qa-170-148600.aspx#生成dll库混合编程" target="_blank" rel="external">生成dll库混合编程</a></li>
+<li><a href="http://www.fx114.net/qa-170-148600.aspx#mqtt-c-client实战" target="_blank" rel="external">MQTT C Client实战</a><ul>
+<li><a href="http://www.fx114.net/qa-170-148600.aspx#synchronous-publication-example" target="_blank" rel="external">Synchronous publication example</a></li>
+<li><a href="http://www.fx114.net/qa-170-148600.aspx#asynchronous-publication-example" target="_blank" rel="external">Asynchronous publication example</a></li>
+<li><a href="http://www.fx114.net/qa-170-148600.aspx#asynchronous-subscription-example" target="_blank" rel="external">Asynchronous subscription example</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="何为MQTT？"><a href="#何为MQTT？" class="headerlink" title="何为MQTT？"></a>何为MQTT？</h1><p>MQTT主要用于服务端对客户端进行消息推送，根据这个具体要求，很容易知道它包括两个部分：客户端、服务端。</p>
+<p>MQTT消息推送是基于主题<code>topic</code>模式的，可以分开来说：</p>
+<ul>
+<li>客户端发布一条消息时，必须指定消息主题。（如，topic=”天气”,payload=”北京今天雾霾好大啊~~呜呜”），其中topic就是主题，payload是发送的具体内容。</li>
+<li><p>服务端推送消息，也是基于主题的。当服务器发现有主题（如，topic=“天气”）时，就会给所有订阅该主题的客户端推送payload内容。</p>
+<ul>
+<li>这里需要个前提，就是有客户端订阅topic=”天气”这个主题；</li>
+<li>一旦客户端订阅该主题，服务端就会每收到该主题的消息，都会推送给订阅该主题的客户端。如果客户端不需要关注该主题了，也就是说不想接受到这样的推送消息了，只要取消otpic=”天气”的主题订阅即可。</li>
+</ul>
+</li>
+</ul>
+<p>MQTT协议是为大量计算能力有限，且工作在低带宽、不可靠的网络的远程传感器和控制设备通讯而设计的协议，它具有以下主要的几项特性：</p>
+<ol>
+<li>使用发布/订阅消息模式，提供一对多的消息发布，解除应用程序耦合；</li>
+<li>对负载内容屏蔽的消息传输；</li>
+<li>使用 TCP/IP 提供网络连接；</li>
+<li><p>有三种消息发布服务质量：</p>
+<ul>
+<li>“至多一次”，消息发布完全依赖底层 TCP/IP 网络。会发生消息丢失或重复。这一级别可用于如下情况，环境传感器数据，丢失一次读记录无所谓，因为不久后还会有第二次发送。</li>
+<li>“至少一次”，确保消息到达，但消息重复可能会发生。</li>
+<li>“只有一次”，确保消息到达一次。这一级别可用于如下情况，在计费系统中，消息重复或丢失会导致不正确的结果。（在实际编程中，只需要设置QoS值即可实现以上几种不同消息发布服务质量模式）</li>
+</ul>
+</li>
+<li>小型传输，开销很小（固定长度的头部是 2 字节），协议交换最小化，以降低网络流量；</li>
+<li>使用 Last Will 和 Testament 特性通知有关各方客户端异常中断的机制；</li>
+</ol>
+<h1 id="生成dll库？混合编程？"><a href="#生成dll库？混合编程？" class="headerlink" title="生成dll库？混合编程？"></a>生成dll库？混合编程？</h1><p>在开始开发之前需要做一些准备工作，MQTT已经把所有的APIs封装好了，我们可以使用它的dll库，也可以直接导入源码进行混合编程，一般要求不高的话（因为不太懂得话，最好不要修改源码）可以直接将源码生成dll，然后使用即可，下文就是使用该方式：</p>
+<blockquote>
+<p>git clone <a href="https://github.com/eclipse/paho.mqtt.c.git" target="_blank" rel="external">https://github.com/eclipse/paho.mqtt.c.git</a></p>
+</blockquote>
+<p>从这里获得C Client源码之后，可以直接使用VS打开（我是VS2013）：</p>
+<p><img src="http://img.blog.csdn.net/20170501145609146?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvcWluZ2R1anVu/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>对于上图的说明，下载源码后，打开将是以上界面，包括十来个工程，这里讲解几个：</p>
+<ul>
+<li>paho-mqtt3a ： 一般实际开发中就是使用这个，a表示的是异步消息推送（asynchronous）。</li>
+<li>paho-mqtt3as ： as表示的是 异步+加密（asynchronous+OpenSSL）。</li>
+<li>paho-mqtt3c ： c 表示的应该是同步（Synchronize），一般性能较差，是发送+等待模式。</li>
+<li>paho-mqtt3cs ： 同上，增加了一个OpenSSL而已。</li>
+</ul>
+<p>这里根据自身的需要选择不同的项目生成DLL即可，右击单个项目-&gt;生成。由于你电脑中可能没有OPenSSL环境，如果点击VS工具栏中的生成解决方案，十有八九会失败，因为它会生成所有项目的解决方案，其实你根本用不着这么多。</p>
+<p>另外，上图中无法打开包括文件<code>VersionInfo.h</code>，你只需要在src文件夹中找到VersionInfo.h.in文件，去掉.in后缀-&gt;重新生成即可。</p>
+<h1 id="MQTT-C-Client实战"><a href="#MQTT-C-Client实战" class="headerlink" title="MQTT C Client实战"></a>MQTT C Client实战</h1><p>了解更多可以阅读《<a href="https://www.eclipse.org/paho/clients/c/" target="_blank" rel="external">MQTT C Client for Posix and Windows</a>》一文，下面根据官网资料，摘录了几个C语言实现MQTT的小DEMO。</p>
+<p>MQTT使用起来也十分容易，基本上就那四五个函数：MQTTClient_create（创建客户端）、MQTTClient_connect（连接服务端）、MQTTClient_publishMessage（客户端-&gt;服务端发送消息）、MQTTClient_subscribe（客户端订阅某个主题）等等。其中，很多异步回调函数，需要自己去实现，如，</p>
+<pre><code>MQTTAsync_setCallbacks(mqtt-&gt;_client, mqtt-&gt;_client, connlost, msgarrvd, NULL);
+</code></pre><p>MQTTAsync_setCallbacks中，</p>
+<ul>
+<li>connlost函数指针，是当MQTT意外断开链接时会回调的函数，由自己实现；</li>
+<li>msgarrvd函数指针，是当服务器有消息推送回来时，客户端在此处接受服务端消息内容。</li>
+</ul>
+<p>另外，就是一些函数执行是否成功的回调函数，C语言封装回调之后，就是这么写法，看起来有些变扭。有兴趣的可以看《<a href="http://blog.csdn.net/qingdujun/article/details/69789300" target="_blank" rel="external">浅谈C/C++回调函数（Callback）&amp; 函数指针</a>》文章，再了解以下回调函数。</p>
+<pre><code>mqtt-&gt;_conn_opts.onSuccess = onConnect;
+mqtt-&gt;_conn_opts.onFailure = onConnectFailure;
+</code></pre><p>最后，不得不说的就是，MQTT有些发送或者是订阅的内容时（某些函数中），在编程最好将参数中传进来的值在内存中拷贝一份再操作，笔者当时开发时，就是因为这样的问题，折腾了较长时间，后来在wireshark中发现数据包中根本没有内容，才知道是由于函数参数是指针形式，直接在异步中使用可能会发生一些未知的错误。</p>
+<h2 id="Synchronous-publication-example"><a href="#Synchronous-publication-example" class="headerlink" title="Synchronous publication example"></a>Synchronous publication example</h2><pre><code>#include &quot;stdio.h&quot;
+#include &quot;stdlib.h&quot;
+#include &quot;string.h&quot;
+#include &quot;MQTTClient.h&quot;
+#define ADDRESS     &quot;tcp://localhost:1883&quot;
+#define CLIENTID    &quot;ExampleClientPub&quot;
+#define TOPIC       &quot;MQTT Examples&quot;
+#define PAYLOAD     &quot;Hello World!&quot;
+#define QOS         1
+#define TIMEOUT     10000L
+int main(int argc, char* argv[])
+{
+    MQTTClient client;
+    MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
+    MQTTClient_message pubmsg = MQTTClient_message_initializer;
+    MQTTClient_deliveryToken token;
+    int rc;
+    MQTTClient_create(&amp;client, ADDRESS, CLIENTID,
+        MQTTCLIENT_PERSISTENCE_NONE, NULL);
+    conn_opts.keepAliveInterval = 20;
+    conn_opts.cleansession = 1;
+    if ((rc = MQTTClient_connect(client, &amp;conn_opts)) != MQTTCLIENT_SUCCESS)
+    {
+        printf(&quot;Failed to connect, return code %d\n&quot;, rc);
+        exit(EXIT_FAILURE);
+    }
+    pubmsg.payload = PAYLOAD;
+    pubmsg.payloadlen = strlen(PAYLOAD);
+    pubmsg.qos = QOS;
+    pubmsg.retained = 0;
+    MQTTClient_publishMessage(client, TOPIC, &amp;pubmsg, &amp;token);
+    printf(&quot;Waiting for up to %d seconds for publication of %s\n&quot;
+            &quot;on topic %s for client with ClientID: %s\n&quot;,
+            (int)(TIMEOUT/1000), PAYLOAD, TOPIC, CLIENTID);
+    rc = MQTTClient_waitForCompletion(client, token, TIMEOUT);
+    printf(&quot;Message with delivery token %d delivered\n&quot;, token);
+    MQTTClient_disconnect(client, 10000);
+    MQTTClient_destroy(&amp;client);
+    return rc;
+}
+</code></pre><h2 id="Asynchronous-publication-example"><a href="#Asynchronous-publication-example" class="headerlink" title="Asynchronous publication example"></a>Asynchronous publication example</h2><pre><code>#include &quot;stdio.h&quot;
+#include &quot;stdlib.h&quot;
+#include &quot;string.h&quot;
+#include &quot;MQTTClient.h&quot;
+#define ADDRESS     &quot;tcp://localhost:1883&quot;
+#define CLIENTID    &quot;ExampleClientPub&quot;
+#define TOPIC       &quot;MQTT Examples&quot;
+#define PAYLOAD     &quot;Hello World!&quot;
+#define QOS         1
+#define TIMEOUT     10000L
+volatile MQTTClient_deliveryToken deliveredtoken;
+void delivered(void *context, MQTTClient_deliveryToken dt)
+{
+    printf(&quot;Message with token value %d delivery confirmed\n&quot;, dt);
+    deliveredtoken = dt;
+}
+int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message)
+{
+    int i;
+    char* payloadptr;
+    printf(&quot;Message arrived\n&quot;);
+    printf(&quot;     topic: %s\n&quot;, topicName);
+    printf(&quot;   message: &quot;);
+    payloadptr = message-&gt;payload;
+    for(i=0; i&lt;message-&gt;payloadlen; i++)
+    {
+        putchar(*payloadptr++);
+    }
+    putchar(&#39;\n&#39;);
+    MQTTClient_freeMessage(&amp;message);
+    MQTTClient_free(topicName);
+    return 1;
+}
+void connlost(void *context, char *cause)
+{
+    printf(&quot;\nConnection lost\n&quot;);
+    printf(&quot;     cause: %s\n&quot;, cause);
+}
+int main(int argc, char* argv[])
+{
+    MQTTClient client;
+    MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
+    MQTTClient_message pubmsg = MQTTClient_message_initializer;
+    MQTTClient_deliveryToken token;
+    int rc;
+    MQTTClient_create(&amp;client, ADDRESS, CLIENTID,
+        MQTTCLIENT_PERSISTENCE_NONE, NULL);
+    conn_opts.keepAliveInterval = 20;
+    conn_opts.cleansession = 1;
+    MQTTClient_setCallbacks(client, NULL, connlost, msgarrvd, delivered);
+    if ((rc = MQTTClient_connect(client, &amp;conn_opts)) != MQTTCLIENT_SUCCESS)
+    {
+        printf(&quot;Failed to connect, return code %d\n&quot;, rc);
+        exit(EXIT_FAILURE);
+    }
+    pubmsg.payload = PAYLOAD;
+    pubmsg.payloadlen = strlen(PAYLOAD);
+    pubmsg.qos = QOS;
+    pubmsg.retained = 0;
+    deliveredtoken = 0;
+    MQTTClient_publishMessage(client, TOPIC, &amp;pubmsg, &amp;token);
+    printf(&quot;Waiting for publication of %s\n&quot;
+            &quot;on topic %s for client with ClientID: %s\n&quot;,
+            PAYLOAD, TOPIC, CLIENTID);
+    while(deliveredtoken != token);
+    MQTTClient_disconnect(client, 10000);
+    MQTTClient_destroy(&amp;client);
+    return rc;
+}
+</code></pre><h2 id="Asynchronous-subscription-example"><a href="#Asynchronous-subscription-example" class="headerlink" title="Asynchronous subscription example"></a>Asynchronous subscription example</h2><pre><code>#include &quot;stdio.h&quot;
+#include &quot;stdlib.h&quot;
+#include &quot;string.h&quot;
+#include &quot;MQTTClient.h&quot;
+#define ADDRESS     &quot;tcp://localhost:1883&quot;
+#define CLIENTID    &quot;ExampleClientSub&quot;
+#define TOPIC       &quot;MQTT Examples&quot;
+#define PAYLOAD     &quot;Hello World!&quot;
+#define QOS         1
+#define TIMEOUT     10000L
+volatile MQTTClient_deliveryToken deliveredtoken;
+void delivered(void *context, MQTTClient_deliveryToken dt)
+{
+    printf(&quot;Message with token value %d delivery confirmed\n&quot;, dt);
+    deliveredtoken = dt;
+}
+int msgarrvd(void *context, char *topicName, int topicLen, MQTTClient_message *message)
+{
+    int i;
+    char* payloadptr;
+    printf(&quot;Message arrived\n&quot;);
+    printf(&quot;     topic: %s\n&quot;, topicName);
+    printf(&quot;   message: &quot;);
+    payloadptr = message-&gt;payload;
+    for(i=0; i&lt;message-&gt;payloadlen; i++)
+    {
+        putchar(*payloadptr++);
+    }
+    putchar(&#39;\n&#39;);
+    MQTTClient_freeMessage(&amp;message);
+    MQTTClient_free(topicName);
+    return 1;
+}
+void connlost(void *context, char *cause)
+{
+    printf(&quot;\nConnection lost\n&quot;);
+    printf(&quot;     cause: %s\n&quot;, cause);
+}
+int main(int argc, char* argv[])
+{
+    MQTTClient client;
+    MQTTClient_connectOptions conn_opts = MQTTClient_connectOptions_initializer;
+    int rc;
+    int ch;
+    MQTTClient_create(&amp;client, ADDRESS, CLIENTID,
+        MQTTCLIENT_PERSISTENCE_NONE, NULL);
+    conn_opts.keepAliveInterval = 20;
+    conn_opts.cleansession = 1;
+    MQTTClient_setCallbacks(client, NULL, connlost, msgarrvd, delivered);
+    if ((rc = MQTTClient_connect(client, &amp;conn_opts)) != MQTTCLIENT_SUCCESS)
+    {
+        printf(&quot;Failed to connect, return code %d\n&quot;, rc);
+        exit(EXIT_FAILURE);
+    }
+    printf(&quot;Subscribing to topic %s\nfor client %s using QoS%d\n\n&quot;
+           &quot;Press Q&lt;Enter&gt; to quit\n\n&quot;, TOPIC, CLIENTID, QOS);
+    MQTTClient_subscribe(client, TOPIC, QOS);
+    do 
+    {
+        ch = getchar();
+    } while(ch!=&#39;Q&#39; &amp;&amp; ch != &#39;q&#39;);
+    MQTTClient_disconnect(client, 10000);
+    MQTTClient_destroy(&amp;client);
+    return rc;
+}
+</code></pre>
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <hr>
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2017-07-14T15:25:43+08:00">
+  <a class='notlink'>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>最后更新于 2017年7月14日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://demonelf.github.io/EMBEDDED/MQTT C Client实现消息推送（入门指南）.html&title=MQTT C Client实现消息推送（入门指南） | 芯机智&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://demonelf.github.io/EMBEDDED/MQTT C Client实现消息推送（入门指南）.html&title=MQTT C Client实现消息推送（入门指南） | 芯机智&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=http://demonelf.github.io/EMBEDDED/MQTT C Client实现消息推送（入门指南）.html&title=MQTT C Client实现消息推送（入门指南） | 芯机智&summary="
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+            <div class="prev-next">
+                
+                    <section class="prev">
+                        <span class="art-item-left">
+                            <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
+                            <h4>
+                                <a href="/SYSTEM/Github上怎么修改别人的项目并且提交给原作者！图文并茂！.html" rel="prev" title="Github上怎么修改别人的项目并且提交给原作者！图文并茂！">
+                                  
+                                      Github上怎么修改别人的项目并且提交给原作者！图文并茂！
+                                  
+                                </a>
+                            </h4>
+                            
+                        </span>
+                    </section>
+                
+                
+                    <section class="next">
+                        <span class="art-item-right" aria-hidden="true">
+                            <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                            <h4>
+                                <a href="/NETWORK/Incapsula免费CDN服务申请使用及加速效果测评.html" rel="prev" title="Incapsula免费CDN服务申请使用及加速效果测评">
+                                    
+                                        Incapsula免费CDN服务申请使用及加速效果测评
+                                    
+                                </a>
+                            </h4>
+                            
+                        </span>
+                    </section>
+                
+            </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'MQTT C Client实现消息推送（入门指南）',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+    
+    
+      
+        
+          
+          
+            <section class='widget author'>
+  <div class='content pure'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='http://bbs.dnsnat.com/discuz/uc_server/data/avatar/000/00/00/01_avatar_big.jpg'/>
+      </div>
+    
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="mailto:me@xaoxuu.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://github.com/xaoxuu"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://music.163.com/#/user/home?id=63035382"
+              class="social fas fa-headphones-alt flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+          
+        
+      
+        
+          
+          
+            
+  <section class='widget toc-wrapper'>
+    
+<header class='pure'>
+  <div><i class="fas fa-list fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;本文目录</div>
+  
+    <div class='wrapper'><a class="s-toc rightBtn" rel="external nofollow noopener noreferrer" href="javascript:void(0)"><i class="fas fa-thumbtack fa-fw"></i></a></div>
+  
+</header>
+
+    <div class='content pure'>
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#何为MQTT？"><span class="toc-text">何为MQTT？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生成dll库？混合编程？"><span class="toc-text">生成dll库？混合编程？</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MQTT-C-Client实战"><span class="toc-text">MQTT C Client实战</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Synchronous-publication-example"><span class="toc-text">Synchronous publication example</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Asynchronous-publication-example"><span class="toc-text">Asynchronous publication example</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Asynchronous-subscription-example"><span class="toc-text">Asynchronous subscription example</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+          
+        
+      
+        
+          
+          
+            <section class='widget grid'>
+  
+<header class='pure'>
+  <div><i class="fas fa-map-signs fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;站内导航</div>
+  
+</header>
+
+  <div class='content pure'>
+    <ul class="grid navgation">
+      
+        <li><a class="flat-box" title="/" href="/"
+          
+          
+          id="home">
+          
+            <i class="fas fa-clock fa-fw" aria-hidden="true"></i>
+          
+          近期文章
+        </a></li>
+      
+        <li><a class="flat-box" title="/blog/archives/" href="/blog/archives/"
+          
+            rel="nofollow"
+          
+          
+          id="blogarchives">
+          
+            <i class="fas fa-archive fa-fw" aria-hidden="true"></i>
+          
+          文章归档
+        </a></li>
+      
+        <li><a class="flat-box" title="/projects/" href="/projects/"
+          
+          
+          id="projects">
+          
+            <i class="fas fa-code-branch fa-fw" aria-hidden="true"></i>
+          
+          开源项目
+        </a></li>
+      
+        <li><a class="flat-box" title="/friends/" href="/friends/"
+          
+            rel="nofollow"
+          
+          
+          id="friends">
+          
+            <i class="fas fa-link fa-fw" aria-hidden="true"></i>
+          
+          我的友链
+        </a></li>
+      
+        <li><a class="flat-box" title="https://xaoxuu.com/wiki/material-x/" href="https://xaoxuu.com/wiki/material-x/"
+          
+            rel="nofollow"
+          
+          
+          id="https:xaoxuu.comwikimaterial-x">
+          
+            <i class="fas fa-book fa-fw" aria-hidden="true"></i>
+          
+          主题文档
+        </a></li>
+      
+        <li><a class="flat-box" title="/about/" href="/about/"
+          
+            rel="nofollow"
+          
+          
+          id="about">
+          
+            <i class="fas fa-info-circle fa-fw" aria-hidden="true"></i>
+          
+          关于小站
+        </a></li>
+      
+    </ul>
+  </div>
+</section>
+
+          
+        
+      
+        
+          
+          
+            
+  <section class='widget category'>
+    
+<header class='pure'>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/categories/"
+    title="categories/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content pure'>
+      <ul class="entry">
+        
+          <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(95)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(12)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(0)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/embedded/" href="/categories/embedded/"><div class='name'>embedded</div><div class='badge'>(0)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(0)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(0)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+          
+        
+      
+        
+          
+          
+            
+  <section class='widget tagcloud'>
+    
+<header class='pure'>
+  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/blog/tags/"
+    title="blog/tags/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content pure'>
+      <a href="/tags/linux/" style="font-size: 14px; color: #999">linux</a>
+    </div>
+  </section>
+
+
+          
+        
+      
+        
+          
+          
+            
+
+
+  <section class='widget music'>
+    
+<header class='pure'>
+  <div><i class="fas fa-compact-disc fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;最近在听</div>
+  
+    <a class="rightBtn"
+    
+      rel="external nofollow noopener noreferrer"
+    
+    
+      target="_blank"
+    
+    href="https://music.163.com/#/user/home?id=63035382"
+    title="https://music.163.com/#/user/home?id=63035382">
+    <i class="far fa-heart fa-fw"></i></a>
+  
+</header>
+
+    <div class='content pure'>
+      
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.7.0/dist/APlayer.min.css">
+  <div class="aplayer"
+    data-theme="#1BCDFC"
+    
+    
+    data-mode="circulation"
+    data-server="netease"
+    data-type="playlist"
+    data-id="2615636388"
+    data-volume="0.7">
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/aplayer@1.7.0/dist/APlayer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/meting@1.1.0/dist/Meting.min.js"></script>
+
+
+    </div>
+  </section>
+
+
+          
+        
+      
+    
+
+  
+</aside>
+
+<footer id="footer" class="clearfix">
+  
+  
+    <div class="social-wrapper">
+      
+        
+          <a href="/atom.xml"
+            class="social fas fa-rss flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="mailto:me@xaoxuu.com"
+            class="social fas fa-envelope flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://github.com/xaoxuu"
+            class="social fab fa-github flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://music.163.com/#/user/home?id=63035382"
+            class="social fas fa-headphones-alt flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+    </div>
+  
+  <br>
+  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+  <div>
+    本站使用
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
+    作为主题
+    
+      ，
+      总访问量为
+      <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+      次
+    
+    。
+  </div>
+</footer>
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+
+  <script>
+    var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+    var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+    var ALGOLIA_API_KEY = "";
+    var ALGOLIA_APP_ID = "";
+    var ALGOLIA_INDEX_NAME = "";
+    var AZURE_SERVICE_NAME = "";
+    var AZURE_INDEX_NAME = "";
+    var AZURE_QUERY_KEY = "";
+    var BAIDU_API_ID = "";
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/"||"/";
+    if(!ROOT.endsWith('/'))ROOT += '/';
+  </script>
+
+<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
+
+
+  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      const $reveal = $('.reveal');
+      if ($reveal.length === 0) return;
+      const sr = ScrollReveal({ distance: 0 });
+      sr.reveal('.reveal');
+    });
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        if ('.cover') {
+          $('.cover').backstretch(
+          ["https://img.vim-cn.com/6d/a0c9e6f9efad8b731cb7376504bd10d79d2053.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        } else {
+          $.backstretch(
+          ["https://img.vim-cn.com/6d/a0c9e6f9efad8b731cb7376504bd10d79d2053.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/app.js"></script>
+
+
+  <script src="/js/search.js"></script>
+
+
+
+
+<!-- 复制 -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  let COPY_SUCCESS = "复制成功";
+  let COPY_FAILURE = "复制失败";
+  /*页面载入完成后，创建复制按钮*/
+  !function (e, t, a) {
+    /* code */
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+
+      clipboard.on('success', function(e) {
+        //您可以加入成功提示
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        success_prompt(COPY_SUCCESS);
+        e.clearSelection();
+      });
+      clipboard.on('error', function(e) {
+        //您可以加入失败提示
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        fail_prompt(COPY_FAILURE);
+      });
+    }
+    initCopyCode();
+
+  }(window, document);
+
+  /**
+   * 弹出式提示框，默认1.5秒自动消失
+   * @param message 提示信息
+   * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+   * @param time 消失时间
+   */
+  var prompt = function (message, style, time)
+  {
+      style = (style === undefined) ? 'alert-success' : style;
+      time = (time === undefined) ? 1500 : time*1000;
+      $('<div>')
+          .appendTo('body')
+          .addClass('alert ' + style)
+          .html(message)
+          .show()
+          .delay(time)
+          .fadeOut();
+  };
+
+  // 成功提示
+  var success_prompt = function(message, time)
+  {
+      prompt(message, 'alert-success', time);
+  };
+
+  // 失败提示
+  var fail_prompt = function(message, time)
+  {
+      prompt(message, 'alert-danger', time);
+  };
+
+  // 提醒
+  var warning_prompt = function(message, time)
+  {
+      prompt(message, 'alert-warning', time);
+  };
+
+  // 信息提示
+  var info_prompt = function(message, time)
+  {
+      prompt(message, 'alert-info', time);
+  };
+
+</script>
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

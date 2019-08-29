@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>SO_TIMESTAMP - 《Unix网络编程》中未提及的Socket选项 | 芯机智</title>
+  
+  
+
+  
+  <link rel="alternate" href="/atom.xml" title="芯机智">
+  
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.10.1/css/all.min.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/style.css">
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  
+  <header class="l_header pure">
+  <div id="loading-bar-wrapper">
+    <div id="loading-bar" class="pure"></div>
+  </div>
+
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/' >
+        
+          芯机智
+        
+      </a>
+			<div class='menu navgation'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a class="nav flat-box" href="/"
+                  
+                  
+                  id="home">
+									<i class='fas fa-home fa-fw'></i>&nbsp;主页
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/categories/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="categories">
+									<i class='fas fa-folder-open fa-fw'></i>&nbsp;分类
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/blog/tags/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="blogtags">
+									<i class='fas fa-hashtag fa-fw'></i>&nbsp;标签
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/blog/archives/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="blogarchives">
+									<i class='fas fa-archive fa-fw'></i>&nbsp;归档
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="搜索" />
+						<i class="icon fas fa-search fa-fw"></i>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a class="fas fa-search fa-fw" href='javascript:void(0)'></a></li>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+        
+          <li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+        
+			</ul>
+		</div>
+	</div>
+</header>
+	<aside class="menu-phone">
+    <header>
+		<nav class="menu navgation">
+      <ul>
+        
+          
+            <li>
+							<a class="nav flat-box" href="/"
+                
+                
+                id="home">
+								<i class='fas fa-clock fa-fw'></i>&nbsp;近期文章
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/blog/archives/"
+                
+                  rel="nofollow"
+                
+                
+                id="blogarchives">
+								<i class='fas fa-archive fa-fw'></i>&nbsp;文章归档
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/projects/"
+                
+                
+                id="projects">
+								<i class='fas fa-code-branch fa-fw'></i>&nbsp;开源项目
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/friends/"
+                
+                  rel="nofollow"
+                
+                
+                id="friends">
+								<i class='fas fa-link fa-fw'></i>&nbsp;我的友链
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="https://xaoxuu.com/wiki/material-x/"
+                
+                  rel="nofollow"
+                
+                
+                id="https:xaoxuu.comwikimaterial-x">
+								<i class='fas fa-book fa-fw'></i>&nbsp;主题文档
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/about/"
+                
+                  rel="nofollow"
+                
+                
+                id="about">
+								<i class='fas fa-info-circle fa-fw'></i>&nbsp;关于小站
+							</a>
+            </li>
+          
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      <div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/EMBEDDED/so-timestamp-e3-80-8aunix-e7-bd-91-e7-bb-9c-e7-bc-96-e7-a8-8b-e3-80-8b-e4-b8-ad-e6-9c-aa-e6-8f-90-e5-8f-8a-e7-9a-84socket-e9-80-89-e9-a1-b9.html">
+        SO_TIMESTAMP - 《Unix网络编程》中未提及的Socket选项
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2016-05-26</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/EMBEDDED/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>EMBEDDED</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          <p><span style="color:#555555; font-family:宋体; font-size:10pt">在setsockopt函数中常用Socket选项对socket进行一些必要的设置，使socket可以按我们预期的特性去工作。<br></span><br><a id="more"></a></p>
+<p><span style="color:#555555; font-family:宋体; font-size:10pt">    SO_TIMESTAMP，一个Socket选项，在权威著作《Unix网络编程》中未提及到，即使在google上也难找到其详细解释与用法。然而在开源代码ptpv2d-rc1中用到了这个socket选项，那么它到底是用来做什么的呢。<br></span></p>
+<p><span style="color:#555555; font-family:宋体; font-size:10pt">    分析过linux-2.6.32内核源码后，发现通过设置此选项，我们可以让内核协议栈在接受到一个网络帧时为其打上时间戳，并将此时间戳作为一笔附加数据，与网络帧数据一起递交到上层协议。<br></span></p>
+<p><span style="color:#555555; font-family:宋体; font-size:10pt">    netif_receive_skb()，linux内核协议栈中的关键函数，通常在网卡驱动程序poll函数（RX中断处理函数会调度poll函数，详情参考最新内核机制NAPI）的最后一步调用，占们用来处理网络帧，并将网络帧递交至上层协议，而netif_receive_skb函数第一件要做的事就是调用net_timestamp，为当前收到的网络帧打时间戳（net_timestamp函数里会判断是否已经使能了网络时间戳功能，即netstamp_need），并将此时间戳作为一笔SCM_TIMESTAMP类型的附加数据插入sk_buff（即cmsg）。<br></span></p>
+<p><span style="color:#555555; font-family:宋体; font-size:10pt">    上层代码如果要获取内核协议栈为网络帧打的时间戳，就需要拿到附加数据，很显然，我们要拿的是SCM_TIMESTAMP类型的附加数据。<br></span></p>
+<p><span style="color:#555555; font-family:宋体; font-size:10pt">    我们要在收到的报文中遍历附加数据（可能有很多笔附加数据），可以使用CMSG_FIRSTHDR()与CMSG_NXTHDR()宏在附加数据对象中进行遍历，if(cmsg-&gt;cmsg_level == SOL_SOCKET &amp;&amp; cmsg-&gt;cmsg_type == SCM_TIMESTAMP)条件一旦成立，就表明已经找到了SCM_TIMESTAMP类型的附加数据，那就是之前内核协议栈为这一帧网络报文打上的时间戳，也就是收到此网络报文的时间。<br></span></p>
+<p><span style="color:#555555; font-family:宋体; font-size:10pt">这个特性在PTP协议中非常有用，要做网络时间同步，必须有办法知道网络报文收到的时间，如果没有硬件时间戳（精密PHY），上层应用程序就需要使用此特性获取网络帧收到时的时间戳，或者自己编写内核模块代码接入底层协议栈，加盖软件时间戳。<br></span></p>
+<p><span style="color:#555555; font-family:宋体; font-size:10pt">分为几个部分阐述<br></span></p>
+<p><span style="color:#555555; font-family:宋体; font-size:10pt">1、linux时间系统<br></span></p>
+<p><span style="color:#555555; font-family:宋体; font-size:10pt">2、网卡工作原理<br></span></p>
+<p><span style="color:#555555; font-family:宋体; font-size:10pt">3、socket编程里的硬件时间戳选项<br></span></p>
+<p><span style="color:#555555; font-family:宋体; font-size:10pt">4、网络硬时间戳是什么时候打？在哪儿打的？<br></span></p>
+<p><span style="color:#555555; font-family:宋体; font-size:10pt"><strong><a name="t0">一、linux时间系统
+</a></strong></span></p>
+<p><span style="color:#555555; font-family:宋体; font-size:10pt">陈莉君《深入分析linux内核源码》一篇很不错的文章：<a href="http://www.eefocus.com/article/09-06/74890s.html" target="_blank">linux时间系统</a><br>        </span></p>
+<p><span style="color:#555555; font-family:宋体; font-size:10pt">linux有两个时钟源，分别是RTC和OS时钟。<br></span></p>
+<p><span style="color:#555555; font-family:宋体; font-size:10pt">RTC独立于操作系统，由电池供电，即使系统断电它也能维护自己的时钟。LINUX系统启动时从其中获得时间初始值。<br></span></p>
+<p><span style="color:#555555; font-family:宋体; font-size:10pt">OS时钟从可编程计数器（如intel的8524）获得时钟。如图1所示的输出脉冲是OS时钟工作的基础，因为是由它产生时钟中断的。<br></span></p>
+<p><img src="http://www.madhex.com/wp-content/uploads/2016/05/052616_0337_SOTIMESTAMP1.png" alt=""><span style="color:#555555; font-family:宋体; font-size:10pt"><br>        </span></p>
+<p><span style="color:#555555; font-family:宋体; font-size:10pt">图1 8524工作示意图<br></span></p>
+<p><img src="http://www.madhex.com/wp-content/uploads/2016/05/052616_0337_SOTIMESTAMP2.png" alt=""><span style="color:#555555; font-family:宋体; font-size:10pt"><br>        </span></p>
+<p><span style="color:#555555; font-family:宋体; font-size:10pt">图1 时钟机制<br></span></p>
+<p><span style="color:#555555; font-family:宋体; font-size:10pt"><strong><a name="t1">二、网卡工作原理 
+</a></strong></span></p>
+<p><span style="color:#555555; font-family:宋体; font-size:10pt">发送数据时，网卡首先侦听介质上是否有载波（载波由电压指示），如果有，则认为其他站点正在传送信息，继续侦听介质。一旦通信介质在一定时间段内（称为帧间缝隙IFG=9.6微秒）是安静的，即没有被其他站点占用，则开始进行帧数据发送，同时继续侦听通信介质，以检测冲突。在发送数据期间。<br></span></p>
+<p><span style="color:#555555; font-family:宋体; font-size:10pt">如果检测到冲突，则立即停止该次发送，并向介质发送一个”阻塞”信号，告知其他站点已经发生冲突，从而丢弃那些可能一直在接收的受到损坏的帧数据，并等待一段随机时间（CSMA/CD确定等待时间的算法是二进制指数退避算法）。在等待一段随机时间后，再进行新的发送。如果重传多次后（大于16次）仍发生冲突，就放弃发送。<br></span></p>
+<p><span style="color:#555555; font-family:宋体; font-size:10pt">接收时，网卡浏览介质上传输的每个帧，如果其长度小于64字节，则认为是冲突碎片。如果接收到的帧不是冲突碎片且目的地址是本地地址，则对帧进行完整性校验，如果帧长度大于1518字节（称为超长帧，可能由错误的LAN驱动程序或干扰造成）或未能通过CRC校验，则认为该帧发生了畸变。通过校验的帧被认为是有效的，网卡将它接收下来进行本地处理。<br></span></p>
+<p><a href="http://blog.sina.com.cn/s/blog_501dcd710100y2wp.html" target="_blank"><span style="font-family:宋体; font-size:10pt">linux网卡驱动程序框架</span></a><span style="color:#555555; font-family:宋体; font-size:10pt"><br>        </span></p>
+<p><span style="color:#333333"><strong><span style="font-family:宋体; font-size:10pt">三、</span><span style="font-family:Arial; font-size:10pt">socket</span><span style="font-family:宋体; font-size:10pt">编程里的硬件时间戳选项</span><span style="font-family:Arial; font-size:18pt"><br>                </span></strong></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:宋体">参考文章：<a href="http://blog.sina.com.cn/s/blog_6348a13d0100ntme.html" target="_blank" rel="external"><span style="color:#336699; background-color:#f0f0f0; text-decoration:underline">硬件时间戳</span></a></span><span style="font-family:Arial; background-color:#f0f0f0; text-decoration:underline">socket</span><span style="color:#336699"><span style="font-family:宋体; background-color:#f0f0f0; text-decoration:underline">选项解析</span><span style="font-family:Arial"><span style="background-color:#f0f0f0; text-decoration:underline"><br>                    </span><span style="color:#333333"><br>                    </span></span></span></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">The existing interfaces for getting network packages time stamped are:<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">* SO_TIMESTAMP<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">  Generate time stamp for each incoming packet using the (not necessarily<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">  monotonous!) system time. Result is returned via recv_msg() in a<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">  control message as timeval_r(usec resolution).<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">* SO_TIMESTAMPNS<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">  Same time stamping mechanism as SO_TIMESTAMP, but returns result as<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">  timespec (nsec resolution).<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">* IP_MULTICAST_LOOP + SO_TIMESTAMP[NS]<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">  Only for multicasts: approximate send time stamp by receiving the looped<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">  packet and using its receive time stamp.<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">The following interface complements the existing ones: receive time<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">stamps can be generated and returned for arbitrary packets and much<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">closer to the point where the packet is really sent. Time stamps can<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">be generated in software (as before) or in hardware (if the hardware<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">has such a feature).<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">SO_TIMESTAMPING:<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">Instructs the socket layer which kind of information is wanted. The<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">parameter is an integer with some of the following bits set. Setting<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">other bits is an error and doesn’t change the current state.<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">SOF_TIMESTAMPING_TX_HARDWARE:  try to obtain send time stamp in hardware<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">SOF_TIMESTAMPING_TX_SOFTWARE:  if SOF_TIMESTAMPING_TX_HARDWARE is off or<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">                               fails, then do it in software<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">SOF_TIMESTAMPING_RX_HARDWARE:  return the original, unmodified time stamp<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">                               as generated by the hardware<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">SOF_TIMESTAMPING_RX_SOFTWARE:  if SOF_TIMESTAMPING_RX_HARDWARE is off or<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">                               fails, then do it in software<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">SOF_TIMESTAMPING_RAW_HARDWARE: return original raw hardware time stamp<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">SOF_TIMESTAMPING_SYS_HARDWARE: return hardware time stamp transformed to<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">                               the system time base<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">SOF_TIMESTAMPING_SOFTWARE:     return system time stamp generated in<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">                               software<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">SOF_TIMESTAMPING_TX/RX determine how time stamps are generated.<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">SOF_TIMESTAMPING_RAW/SYS determine how they are reported in the<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">following control message:<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">struct scm_timestamping {<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt"> struct timespec systime;<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt"> struct timespec hwtimetrans;<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt"> struct timespec hwtimeraw;<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">};<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">recvmsg() can be used to get this control message for regular incoming<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">packets. For send time stamps the outgoing packet is looped back to<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">the socket’s error queue with the send time stamp(s) attached. It can<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">be received with recvmsg(flags=MSG_ERRQUEUE). The call returns the<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">original outgoing packet data including all headers preprended down to<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">and including the link layer, the scm_timestamping control message and<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">a sock_extended_err control message with ee_errno==ENOMSG and<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">ee_origin==SO_EE_ORIGIN_TIMESTAMPING. A socket with such a pending<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">bounced packet is ready for reading as far as select() is concerned.<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">If the outgoing packet has to be fragmented, then only the first<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">fragment is time stamped and returned to the sending socket.<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">All three values correspond to the same event in time, but were<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">generated in different ways. Each of these values may be empty (= all<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">zero), in which case no such value was available. If the application<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">is not interested in some of these values, they can be left blank to<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">avoid the potential overhead of calculating them.<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">systime is the value of the system time at that moment. This<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">corresponds to the value also returned via SO_TIMESTAMP[NS]. If the<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">time stamp was generated by hardware, then this field is<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">empty. Otherwise it is filled in if SOF_TIMESTAMPING_SOFTWARE is<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">set.<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">hwtimeraw is the original hardware time stamp. Filled in if<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">SOF_TIMESTAMPING_RAW_HARDWARE is set. No assumptions about its<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">relation to system time should be made.<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">hwtimetrans is the hardware time stamp transformed so that it<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">corresponds as good as possible to system time. This correlation is<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">not perfect; as a consequence, sorting packets received via different<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">NICs by their hwtimetrans may differ from the order in which they were<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">received. hwtimetrans may be non-monotonic even for the same NIC.<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">Filled in if SOF_TIMESTAMPING_SYS_HARDWARE is set. Requires support<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">by the network device and will be empty without that support.<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">SIOCSHWTSTAMP:<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">Hardware time stamping must also be initialized for each device driver<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">that is expected to do hardware time stamping. The parameter is defined in<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">/include/linux/net_tstamp.h as:<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">struct hwtstamp_config {<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt"> int flags;<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt"> int tx_type;<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt"> int rx_filter;<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">};<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">Desired behavior is passed into the kernel and to a specific device by<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">calling ioctl(SIOCSHWTSTAMP) with a pointer to a struct ifreq whose<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">ifr_data points to a struct hwtstamp_config. The tx_type and<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">rx_filter are hints to the driver what it is expected to do. If<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">the requested fine-grained filtering for incoming packets is not<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">supported, the driver may time stamp more than just the requested types<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">of packets.<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">A driver which supports hardware time stamping shall update the struct<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">with the actual, possibly more permissive configuration. If the<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">requested packets cannot be time stamped, then nothing should be<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">changed and ERANGE shall be returned (in contrast to EINVAL, which<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">indicates that SIOCSHWTSTAMP is not supported at all).<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">Only a processes with admin rights may change the configuration. User<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">space is responsible to ensure that multiple processes don’t interfere<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">with each other and that the settings are reset.<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">enum {<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt"> HWTSTAMP_TX_OFF,<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt"> HWTSTAMP_TX_ON,<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">};<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">enum {<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt"> HWTSTAMP_FILTER_NONE,<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt"> HWTSTAMP_FILTER_ALL,<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt"> HWTSTAMP_FILTER_SOME,<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt"> HWTSTAMP_FILTER_PTP_V1_L4_EVENT,<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">};<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">DEVICE IMPLEMENTATION<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">A driver which supports hardware time stamping must support the<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">SIOCSHWTSTAMP ioctl and update the supplied struct hwtstamp_config with<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">the actual values as described in the section on SIOCSHWTSTAMP.<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">Time stamps for received packets must be stored in the skb. To get a pointer<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">to the shared time stamp structure of the skb call skb_hwtstamps(). Then<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">set the time stamps in the structure:<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">struct skb_shared_hwtstamps {<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt"> ktime_t hwtstamp;<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt"> ktime_t syststamp;<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">};<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">Time stamps for outgoing packets are to be generated as follows:<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">- <strong>In hard_start_xmit(), check if skb_tx(skb)-&gt;hardware is set no-zero.
+</strong></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt"><strong>  If yes, then the driver is expected to do hardware time stamping.</strong><br>        </span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">- If this is possible for the skb and requested, then declare<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">  that the driver is doing the time stamping by setting the field<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">  skb_tx(skb)-&gt;in_progress non-zero. You might want to keep a pointer<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">  to the associated skb for the next step and not free the skb. A driver<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">  not supporting hardware time stamping doesn’t do that. A driver must<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">  never touch sk_buff::tstamp! It is used to store software generated<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">  time stamps by the network subsystem.<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">- As soon as the driver has sent the packet and/or obtained a<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">  hardware time stamp for it, it passes the time stamp back by<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">  calling skb_hwtstamp_tx() with the original skb, the raw<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">  hardware time stamp. skb_hwtstamp_tx() clones the original skb and<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">  adds the timestamps, therefore the original skb has to be freed now.<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">  If obtaining the hardware time stamp somehow fails, then the driver<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">  should not fall back to software time stamping. The rationale is that<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">  this would occur at a later time in the processing pipeline than other<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">  software time stamping and therefore could lead to unexpected deltas<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">  between time stamps.<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">- If the driver did not call set skb_tx(skb)-&gt;in_progress, then<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">  dev_hard_start_xmit() checks whether software time stamping<br></span></p>
+<p><span style="color:#494949; font-family:宋体; font-size:10pt">  is wanted as fallback and potentially generates the time stamp.<br></span></p>
+<p><span style="color:#333333; font-size:10pt"><strong><span style="font-family:宋体">四、</span><span style="font-family:Arial"> linux</span><span style="font-family:宋体">如何获取高精度时间</span></strong><span style="font-family:Arial"><br>            </span></span></p>
+<p><span style="color:#333333; font-family:宋体; font-size:10pt">在linux下通常可用的精度最高的时间接口是gettimeofday，它返回一个<a href="http://nathanxu.blog.51cto.com/50836/56663" target="_blank" rel="external"><span style="color:#004276; text-decoration:underline">timeval结构</span></a>，其精度为us，即10-6 秒，大多数情况这个精度已经够用了。不过有时为了更高的精度，比如纳秒级的时间精度，我们需求探索Linux为我们提供的时间调用。<br></span></p>
+<p><span style="color:#333333; font-family:宋体; font-size:10pt">首先介绍struct timespec结构，这个结构体有两个成员，一个是秒，一个是纳秒。<br></span></p>
+<p><span style="color:#333333; font-family:宋体; font-size:10pt">在librt库中，提供了高精度的时间函数，分别是：<br></span></p>
+<p><span style="color:#333333; font-family:Courier New; font-size:12pt">long clock_gettime(clockid_t ,struct timespec*)<br></span></p>
+<p><span style="color:#333333; font-family:宋体; font-size:10pt">获取特定时钟的时间，时间通过fp结构传回，目前定义了6种时钟，分别是<br></span></p>
+<p><span style="color:#333333; font-size:12pt"><span style="font-family:Courier New">CLOCK_REALTIME               </span><span style="font-family:宋体">系统当前时间，从</span><span style="font-family:Courier New">1970</span><span style="font-family:宋体">年</span><span style="font-family:Courier New">1.1</span><span style="font-family:宋体">日算起</span><span style="font-family:Courier New"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:12pt"><span style="font-family:Courier New">CLOCK_MONOTONIC              </span><span style="font-family:宋体">系统的启动时间，不能被设置</span><span style="font-family:Courier New"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:12pt"><span style="font-family:Courier New">CLOCK_PROCESS_CPUTIME_ID     </span><span style="font-family:宋体">进程运行时间</span><span style="font-family:Courier New"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:12pt"><span style="font-family:Courier New">CLOCK_THREAD_CPUTIME_ID      </span><span style="font-family:宋体">线程运行时间</span><span style="font-family:Courier New"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:12pt"><span style="font-family:Courier New">CLOCK_REALTIME_HR            CLOCK_REALTIME</span><span style="font-family:宋体">的高精度版本</span><span style="font-family:Courier New"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:12pt"><span style="font-family:Courier New">CLOCK_MONOTONIC_HR           CLOCK_MONOTONIC</span><span style="font-family:宋体">的高精度版本</span><span style="font-family:Courier New"><br>            </span></span></p>
+<p><span style="color:#333333; font-family:宋体; font-size:10pt">获取特定时钟的时间精度：<br></span></p>
+<p><span style="color:#333333; font-family:Courier New; font-size:12pt">long clock_getres(clockid_t )<br></span></p>
+<p><span style="color:#333333; font-family:宋体; font-size:10pt">设置特定时钟的时间：<br></span></p>
+<p><span style="color:#333333; font-family:Courier New; font-size:12pt">long clock_settime(clockid_t ,struct timespec*)<br></span></p>
+<p><span style="color:#333333; font-family:宋体; font-size:10pt">休眠time中指定的时间，如果遇到信号中断而提前返回，则由left_time返回剩余的时间：<br></span></p>
+<p><span style="color:#333333; font-family:Courier New; font-size:12pt">long clock_nanosleep(clockid_t ,int flag,timespec<em> time,timespec</em> left_time)<br></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:宋体"><strong>五、硬时间戳模块的物理实现</strong></span><span style="font-family:Arial"><br>            </span></span></p>
+<p><a href="http://wenku.baidu.com/link?url=W7knlls1lVHtA4-ufDz4xWn6znjD2VNX1ES0aVsoWo4M73V8dhbrHO2-PBUnJgeGDQYz95SUG5EELg7_9WyXi7ISfvysg8XFe4h0HGX5N5m" target="_blank" rel="external"><span style="color:#336699; font-size:10pt; text-decoration:underline"><span style="font-family:宋体">基于硬件时间戳的</span><span style="font-family:Arial">IEEE1588</span><span style="font-family:宋体">时间同步技术的一种实现方法</span></span></a><span style="color:#333333; font-family:Arial; font-size:10pt"><br>        </span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:宋体">本地时间戳模块的计数器的工作频率越高，本地</span><span style="font-family:Arial"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:宋体">时间戳的分辨率就越高。但在实际的工程中，这个频率受</span><span style="font-family:Arial"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">FPGA</span><span style="font-family:宋体">器件本身的性能和本地晶振的限制，不可能无限制的</span><span style="font-family:Arial"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:宋体">提高，否则不仅不能提高同步性能，甚至还会因为系统达</span><span style="font-family:Arial"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:宋体">不到这个频率而无法正常工作。进而影响开发进度和开发</span><span style="font-family:Arial"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:宋体">成本。本文采用</span><span style="font-family:Arial">FPGA</span><span style="font-family:宋体">设计硬件时间戳模块，在</span><span style="font-family:Arial">MAC</span><span style="font-family:宋体">和</span><span style="font-family:Arial">PHY<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:宋体">之间的</span><span style="font-family:Arial">GMlI</span><span style="font-family:宋体">接口处打时间戳，也就是图</span><span style="font-family:Arial">6</span><span style="font-family:宋体">所示的</span><span style="font-family:Arial">C</span><span style="font-family:宋体">点，图</span><span style="font-family:Arial">7<br></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:宋体">为硬件时间戳模块框图。</span><span style="font-family:Arial"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">50Mhz</span><span style="font-family:宋体">晶振接入</span><span style="font-family:Arial">FPGA</span><span style="font-family:宋体">，经过</span><span style="font-family:Arial">FPGA</span><span style="font-family:宋体">内部的</span><span style="font-family:Arial">DCM</span><span style="font-family:宋体">倍频至</span><span style="font-family:Arial"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">1OOMhz</span><span style="font-family:宋体">作为本地时间计数器的</span><span style="font-family:Arial">It,-t~~</span><span style="font-family:宋体">信号</span><span style="font-family:Arial">clk</span><span style="font-family:宋体">。在每个</span><span style="font-family:Arial">clk</span><span style="font-family:宋体">的</span><span style="font-family:Arial"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:宋体">上升沿累加，每次累加值为</span><span style="font-family:Arial">1 Ons</span><span style="font-family:宋体">，也就是本地时间戳的分</span><span style="font-family:Arial"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:宋体">辨率是</span><span style="font-family:Arial">1 Ons</span><span style="font-family:宋体">。开始上电时，时间戳模块需要初始时间，由</span><span style="font-family:Arial"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">CPU</span><span style="font-family:宋体">发出更新时间的命令并将要更新的时间写入更新时间</span><span style="font-family:Arial"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:宋体">寄存器，时间戳模块就能更新本地时间，然后在此基础上</span><span style="font-family:Arial"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:宋体">开始累加。当</span><span style="font-family:Arial">CPU</span><span style="font-family:宋体">发出调整本地时间命令时，时间戳模块</span><span style="font-family:Arial"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:宋体">通过读取时间偏差调整寄存器来更新本地时间以同步于主</span><span style="font-family:Arial"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:宋体">时钟。该时间戳模块按照</span><span style="font-family:Arial">IEEE1 588</span><span style="font-family:宋体">的标准时间格式输出本</span><span style="font-family:Arial"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:宋体">地时间供需要时间戳的模块使用。</span><span style="font-family:Arial"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:宋体">拓展文献</span><span style="font-family:Arial"><br>            </span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">1.[</span><span style="color:#336699"><span style="text-decoration:underline"><span style="font-family:宋体">基于</span><span style="font-family:Arial">IEEE1588</span><span style="font-family:宋体">协议的时间戳的生成与分析</span></span><span style="color:#333333; font-family:Arial"><br>                </span></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">2.<a href="http://www.linuxidc.com/Linux/2012-02/53374.htm" target="_blank"></a></span><span style="color:#336699"><span style="text-decoration:underline"><span style="font-family:宋体">浅谈时间函数</span><span style="font-family:Arial">gettimeofday</span><span style="font-family:宋体">的成本</span></span><span style="color:#333333; font-family:Arial"><br>                </span></span></span></p>
+<p><span style="color:#333333; font-size:10pt"><span style="font-family:Arial">3. <a href="http://blog.chinaunix.net/uid-127037-id-2919505.html" target="_blank"><span style="color:#336699; text-decoration:underline">linux 2.6</span>](http://wenku.baidu.com/link?url=MlUag6NhaBAAl30w4-SFjWftYQRs9lwcCiA59tmgSXDMRU2xDWdRkvSlg2kfMTYvvtAjZfT7SMz85t0FxMHZFHBA8p8IlOoBl6JVttmFYi_)</a></span><span style="font-family:宋体; text-decoration:underline">的网络时间戳</span><span style="font-family:Arial"><br>            </span></span></p>
+
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <hr>
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2017-07-10T16:51:39+08:00">
+  <a class='notlink'>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>最后更新于 2017年7月10日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://demonelf.github.io/EMBEDDED/so-timestamp-e3-80-8aunix-e7-bd-91-e7-bb-9c-e7-bc-96-e7-a8-8b-e3-80-8b-e4-b8-ad-e6-9c-aa-e6-8f-90-e5-8f-8a-e7-9a-84socket-e9-80-89-e9-a1-b9.html&title=SO_TIMESTAMP - 《Unix网络编程》中未提及的Socket选项 | 芯机智&summary=在setsockopt函数中常用Socket选项对socket进行一些必要的设置，使socket可以按我们预期的特性去工作。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://demonelf.github.io/EMBEDDED/so-timestamp-e3-80-8aunix-e7-bd-91-e7-bb-9c-e7-bc-96-e7-a8-8b-e3-80-8b-e4-b8-ad-e6-9c-aa-e6-8f-90-e5-8f-8a-e7-9a-84socket-e9-80-89-e9-a1-b9.html&title=SO_TIMESTAMP - 《Unix网络编程》中未提及的Socket选项 | 芯机智&summary=在setsockopt函数中常用Socket选项对socket进行一些必要的设置，使socket可以按我们预期的特性去工作。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=http://demonelf.github.io/EMBEDDED/so-timestamp-e3-80-8aunix-e7-bd-91-e7-bb-9c-e7-bc-96-e7-a8-8b-e3-80-8b-e4-b8-ad-e6-9c-aa-e6-8f-90-e5-8f-8a-e7-9a-84socket-e9-80-89-e9-a1-b9.html&title=SO_TIMESTAMP - 《Unix网络编程》中未提及的Socket选项 | 芯机智&summary=在setsockopt函数中常用Socket选项对socket进行一些必要的设置，使socket可以按我们预期的特性去工作。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+            <div class="prev-next">
+                
+                    <section class="prev">
+                        <span class="art-item-left">
+                            <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
+                            <h4>
+                                <a href="/EMBEDDED/Linux 时钟管理.html" rel="prev" title="Linux 时钟管理">
+                                  
+                                      Linux 时钟管理
+                                  
+                                </a>
+                            </h4>
+                            
+                        </span>
+                    </section>
+                
+                
+                    <section class="next">
+                        <span class="art-item-right" aria-hidden="true">
+                            <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                            <h4>
+                                <a href="/EMBEDDED/PTN时钟同步技术及应用.html" rel="prev" title="PTN时钟同步技术及应用">
+                                    
+                                        PTN时钟同步技术及应用
+                                    
+                                </a>
+                            </h4>
+                            
+                        </span>
+                    </section>
+                
+            </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'SO_TIMESTAMP - 《Unix网络编程》中未提及的Socket选项',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+    
+    
+      
+        
+          
+          
+            <section class='widget author'>
+  <div class='content pure'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='http://bbs.dnsnat.com/discuz/uc_server/data/avatar/000/00/00/01_avatar_big.jpg'/>
+      </div>
+    
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="mailto:me@xaoxuu.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://github.com/xaoxuu"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://music.163.com/#/user/home?id=63035382"
+              class="social fas fa-headphones-alt flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+          
+        
+      
+        
+          
+          
+            
+
+          
+        
+      
+        
+          
+          
+            <section class='widget grid'>
+  
+<header class='pure'>
+  <div><i class="fas fa-map-signs fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;站内导航</div>
+  
+</header>
+
+  <div class='content pure'>
+    <ul class="grid navgation">
+      
+        <li><a class="flat-box" title="/" href="/"
+          
+          
+          id="home">
+          
+            <i class="fas fa-clock fa-fw" aria-hidden="true"></i>
+          
+          近期文章
+        </a></li>
+      
+        <li><a class="flat-box" title="/blog/archives/" href="/blog/archives/"
+          
+            rel="nofollow"
+          
+          
+          id="blogarchives">
+          
+            <i class="fas fa-archive fa-fw" aria-hidden="true"></i>
+          
+          文章归档
+        </a></li>
+      
+        <li><a class="flat-box" title="/projects/" href="/projects/"
+          
+          
+          id="projects">
+          
+            <i class="fas fa-code-branch fa-fw" aria-hidden="true"></i>
+          
+          开源项目
+        </a></li>
+      
+        <li><a class="flat-box" title="/friends/" href="/friends/"
+          
+            rel="nofollow"
+          
+          
+          id="friends">
+          
+            <i class="fas fa-link fa-fw" aria-hidden="true"></i>
+          
+          我的友链
+        </a></li>
+      
+        <li><a class="flat-box" title="https://xaoxuu.com/wiki/material-x/" href="https://xaoxuu.com/wiki/material-x/"
+          
+            rel="nofollow"
+          
+          
+          id="https:xaoxuu.comwikimaterial-x">
+          
+            <i class="fas fa-book fa-fw" aria-hidden="true"></i>
+          
+          主题文档
+        </a></li>
+      
+        <li><a class="flat-box" title="/about/" href="/about/"
+          
+            rel="nofollow"
+          
+          
+          id="about">
+          
+            <i class="fas fa-info-circle fa-fw" aria-hidden="true"></i>
+          
+          关于小站
+        </a></li>
+      
+    </ul>
+  </div>
+</section>
+
+          
+        
+      
+        
+          
+          
+            
+  <section class='widget category'>
+    
+<header class='pure'>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/categories/"
+    title="categories/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content pure'>
+      <ul class="entry">
+        
+          <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(95)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(12)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(0)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/embedded/" href="/categories/embedded/"><div class='name'>embedded</div><div class='badge'>(0)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(0)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(0)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+          
+        
+      
+        
+          
+          
+            
+  <section class='widget tagcloud'>
+    
+<header class='pure'>
+  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/blog/tags/"
+    title="blog/tags/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content pure'>
+      <a href="/tags/linux/" style="font-size: 14px; color: #999">linux</a>
+    </div>
+  </section>
+
+
+          
+        
+      
+        
+          
+          
+            
+
+
+  <section class='widget music'>
+    
+<header class='pure'>
+  <div><i class="fas fa-compact-disc fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;最近在听</div>
+  
+    <a class="rightBtn"
+    
+      rel="external nofollow noopener noreferrer"
+    
+    
+      target="_blank"
+    
+    href="https://music.163.com/#/user/home?id=63035382"
+    title="https://music.163.com/#/user/home?id=63035382">
+    <i class="far fa-heart fa-fw"></i></a>
+  
+</header>
+
+    <div class='content pure'>
+      
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.7.0/dist/APlayer.min.css">
+  <div class="aplayer"
+    data-theme="#1BCDFC"
+    
+    
+    data-mode="circulation"
+    data-server="netease"
+    data-type="playlist"
+    data-id="2615636388"
+    data-volume="0.7">
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/aplayer@1.7.0/dist/APlayer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/meting@1.1.0/dist/Meting.min.js"></script>
+
+
+    </div>
+  </section>
+
+
+          
+        
+      
+    
+
+  
+</aside>
+
+<footer id="footer" class="clearfix">
+  
+  
+    <div class="social-wrapper">
+      
+        
+          <a href="/atom.xml"
+            class="social fas fa-rss flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="mailto:me@xaoxuu.com"
+            class="social fas fa-envelope flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://github.com/xaoxuu"
+            class="social fab fa-github flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://music.163.com/#/user/home?id=63035382"
+            class="social fas fa-headphones-alt flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+    </div>
+  
+  <br>
+  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+  <div>
+    本站使用
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
+    作为主题
+    
+      ，
+      总访问量为
+      <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+      次
+    
+    。
+  </div>
+</footer>
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+
+  <script>
+    var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+    var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+    var ALGOLIA_API_KEY = "";
+    var ALGOLIA_APP_ID = "";
+    var ALGOLIA_INDEX_NAME = "";
+    var AZURE_SERVICE_NAME = "";
+    var AZURE_INDEX_NAME = "";
+    var AZURE_QUERY_KEY = "";
+    var BAIDU_API_ID = "";
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/"||"/";
+    if(!ROOT.endsWith('/'))ROOT += '/';
+  </script>
+
+<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
+
+
+  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      const $reveal = $('.reveal');
+      if ($reveal.length === 0) return;
+      const sr = ScrollReveal({ distance: 0 });
+      sr.reveal('.reveal');
+    });
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        if ('.cover') {
+          $('.cover').backstretch(
+          ["https://img.vim-cn.com/6d/a0c9e6f9efad8b731cb7376504bd10d79d2053.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        } else {
+          $.backstretch(
+          ["https://img.vim-cn.com/6d/a0c9e6f9efad8b731cb7376504bd10d79d2053.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/app.js"></script>
+
+
+  <script src="/js/search.js"></script>
+
+
+
+
+<!-- 复制 -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  let COPY_SUCCESS = "复制成功";
+  let COPY_FAILURE = "复制失败";
+  /*页面载入完成后，创建复制按钮*/
+  !function (e, t, a) {
+    /* code */
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+
+      clipboard.on('success', function(e) {
+        //您可以加入成功提示
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        success_prompt(COPY_SUCCESS);
+        e.clearSelection();
+      });
+      clipboard.on('error', function(e) {
+        //您可以加入失败提示
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        fail_prompt(COPY_FAILURE);
+      });
+    }
+    initCopyCode();
+
+  }(window, document);
+
+  /**
+   * 弹出式提示框，默认1.5秒自动消失
+   * @param message 提示信息
+   * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+   * @param time 消失时间
+   */
+  var prompt = function (message, style, time)
+  {
+      style = (style === undefined) ? 'alert-success' : style;
+      time = (time === undefined) ? 1500 : time*1000;
+      $('<div>')
+          .appendTo('body')
+          .addClass('alert ' + style)
+          .html(message)
+          .show()
+          .delay(time)
+          .fadeOut();
+  };
+
+  // 成功提示
+  var success_prompt = function(message, time)
+  {
+      prompt(message, 'alert-success', time);
+  };
+
+  // 失败提示
+  var fail_prompt = function(message, time)
+  {
+      prompt(message, 'alert-danger', time);
+  };
+
+  // 提醒
+  var warning_prompt = function(message, time)
+  {
+      prompt(message, 'alert-warning', time);
+  };
+
+  // 信息提示
+  var info_prompt = function(message, time)
+  {
+      prompt(message, 'alert-info', time);
+  };
+
+</script>
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>

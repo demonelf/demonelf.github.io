@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  <title>Keil、uVision、RealView、MDK、Keil C51之间的区别比较 | 芯机智</title>
+  
+  
+
+  
+  <link rel="alternate" href="/atom.xml" title="芯机智">
+  
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <!-- meta -->
+  
+
+  <!-- link -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.css">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.10.1/css/all.min.css">
+  
+
+  
+
+  
+    <link rel="stylesheet" href="/style.css">
+  
+
+  <script>
+    function setLoadingBarProgress(num) {
+      document.getElementById('loading-bar').style.width=num+"%";
+    }
+  </script>
+
+  
+  
+</head>
+
+<body>
+  
+  
+  <header class="l_header pure">
+  <div id="loading-bar-wrapper">
+    <div id="loading-bar" class="pure"></div>
+  </div>
+
+	<div class='wrapper'>
+		<div class="nav-main container container--flex">
+      <a class="logo flat-box" href='/' >
+        
+          芯机智
+        
+      </a>
+			<div class='menu navgation'>
+				<ul class='h-list'>
+          
+  					
+  						<li>
+								<a class="nav flat-box" href="/"
+                  
+                  
+                  id="home">
+									<i class='fas fa-home fa-fw'></i>&nbsp;主页
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/categories/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="categories">
+									<i class='fas fa-folder-open fa-fw'></i>&nbsp;分类
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/blog/tags/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="blogtags">
+									<i class='fas fa-hashtag fa-fw'></i>&nbsp;标签
+								</a>
+							</li>
+      			
+  						<li>
+								<a class="nav flat-box" href="/blog/archives/"
+                  
+                    rel="nofollow"
+                  
+                  
+                  id="blogarchives">
+									<i class='fas fa-archive fa-fw'></i>&nbsp;归档
+								</a>
+							</li>
+      			
+      		
+				</ul>
+			</div>
+
+			
+				<div class="m_search">
+					<form name="searchform" class="form u-search-form">
+						<input type="text" class="input u-search-input" placeholder="搜索" />
+						<i class="icon fas fa-search fa-fw"></i>
+					</form>
+				</div>
+			
+			<ul class='switcher h-list'>
+				
+					<li class='s-search'><a class="fas fa-search fa-fw" href='javascript:void(0)'></a></li>
+				
+				<li class='s-menu'><a class="fas fa-bars fa-fw" href='javascript:void(0)'></a></li>
+			</ul>
+		</div>
+
+		<div class='nav-sub container container--flex'>
+			<a class="logo flat-box"></a>
+			<ul class='switcher h-list'>
+				<li class='s-comment'><a class="flat-btn fas fa-comments fa-fw" href='javascript:void(0)'></a></li>
+        
+          <li class='s-toc'><a class="flat-btn fas fa-list fa-fw" href='javascript:void(0)'></a></li>
+        
+			</ul>
+		</div>
+	</div>
+</header>
+	<aside class="menu-phone">
+    <header>
+		<nav class="menu navgation">
+      <ul>
+        
+          
+            <li>
+							<a class="nav flat-box" href="/"
+                
+                
+                id="home">
+								<i class='fas fa-clock fa-fw'></i>&nbsp;近期文章
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/blog/archives/"
+                
+                  rel="nofollow"
+                
+                
+                id="blogarchives">
+								<i class='fas fa-archive fa-fw'></i>&nbsp;文章归档
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/projects/"
+                
+                
+                id="projects">
+								<i class='fas fa-code-branch fa-fw'></i>&nbsp;开源项目
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/friends/"
+                
+                  rel="nofollow"
+                
+                
+                id="friends">
+								<i class='fas fa-link fa-fw'></i>&nbsp;我的友链
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="https://xaoxuu.com/wiki/material-x/"
+                
+                  rel="nofollow"
+                
+                
+                id="https:xaoxuu.comwikimaterial-x">
+								<i class='fas fa-book fa-fw'></i>&nbsp;主题文档
+							</a>
+            </li>
+          
+            <li>
+							<a class="nav flat-box" href="/about/"
+                
+                  rel="nofollow"
+                
+                
+                id="about">
+								<i class='fas fa-info-circle fa-fw'></i>&nbsp;关于小站
+							</a>
+            </li>
+          
+       
+      </ul>
+		</nav>
+    </header>
+	</aside>
+<script>setLoadingBarProgress(40);</script>
+
+
+
+  <div class="l_body nocover">
+    <div class='body-wrapper'>
+      <div class='l_main'>
+  
+
+  
+    <article id="post" class="post white-box article-type-post" itemscope itemprop="blogPost">
+      
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  
+    <h1 class="title">
+      <a href="/EMBEDDED/Keil、uVision、RealView、MDK、Keil C51之间的区别比较.html">
+        Keil、uVision、RealView、MDK、Keil C51之间的区别比较
+      </a>
+    </h1>
+  
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2016-05-17</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/EMBEDDED/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>EMBEDDED</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+  
+    <div class="new-meta-item browse busuanzi">
+      <a class='notlink'>
+        <i class="fas fa-eye" aria-hidden="true"></i>
+        <p>
+          <span id="busuanzi_value_page_pv">
+            <i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i>
+          </span>
+        </p>
+      </a>
+    </div>
+  
+
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+      <section class="article typo">
+        <div class="article-entry" itemprop="articleBody">
+          <p><img src="http://www.madhex.com/wp-content/uploads/2016/05/051616_2357_KeiluVision1.png" alt=""><span style="color:black; font-family:Verdana; font-size:9pt"><br>        </span><br><a id="more"></a></p>
+<p><span style="color:black; font-size:9pt"><span style="font-family:宋体">我们要区别的概念：</span><span style="font-family:Verdana"><strong>KEIL uVision</strong></span><span style="font-family:宋体">，</span><span style="font-family:Verdana"><strong>KEIL MDK</strong></span><span style="font-family:宋体">，</span><span style="font-family:Verdana"><strong>KEIL For ARM</strong></span><span style="font-family:宋体">，</span><span style="font-family:Verdana"><strong>RealView MDK</strong></span><span style="font-family:宋体">，</span><span style="font-family:Verdana"><strong>KEIL C51</strong></span><span style="font-family:宋体">，</span><span style="font-family:Verdana"><strong>KEIL C166</strong></span><span style="font-family:宋体">，</span><span style="font-family:Verdana"><strong>KEIL C251</strong><br>            </span></span></p>
+<p><span style="color:black; font-size:9pt"><span style="font-family:宋体">从接触</span><span style="font-family:Verdana">MCS-51</span><span style="font-family:宋体">单片机开始，我们就知道有一个叫</span><span style="font-family:Verdana">KEIL</span><span style="font-family:宋体">的软件。在开发单片机时，使用的是</span><span style="font-family:Verdana">C</span><span style="font-family:宋体">语言或者汇编语言，我们知道，这两种语言都不能直接烧写到单片机里面，执不执行暂且不说，光是代码的体积，就足以撑破整个单片机。</span><span style="font-family:Verdana"><br>            </span></span></p>
+<p><span style="color:black; font-size:9pt"><span style="font-family:宋体">所以，我们需要一个软件，把</span><span style="font-family:Verdana">C</span><span style="font-family:宋体">语言或者汇编语言编译生成单片机可执行的二进制代码，而且它的体积也非常的小，足够存放在单片机的存储器里面。</span><span style="font-family:Verdana">KEIL</span><span style="font-family:宋体">公司（现在是</span><span style="font-family:Verdana">ARM</span><span style="font-family:宋体">公司的一个公司）的软件恰好可以提供这样的功能，并且它还有很多优点，比如工程易于管理，自动加载启动代码，集编辑、编译、仿真一体，调试功能强大等等。因此，不管是初学单片机的爱好者，还是经验丰富的工程师，都非常喜欢使用这些软件。</span><span style="font-family:Verdana"><br></span></span></p>
+<p><span style="color:black; font-size:9pt"><span style="font-family:宋体">但是，即使熟练使用了</span><span style="font-family:Verdana">KEIL</span><span style="font-family:宋体">软件，有些概念我们还是不容易理清，常常混淆。</span><span style="font-family:Verdana">KEIL</span><span style="font-family:宋体">、</span><span style="font-family:Verdana">uVision</span><span style="font-family:宋体">、</span><span style="font-family:Verdana">RealView</span><span style="font-family:宋体">、</span><span style="font-family:Verdana">MDK</span><span style="font-family:宋体">、</span><span style="font-family:Verdana">KEIL C51</span><span style="font-family:宋体">，它们到底有什么区别，又有什么联系？下面我们就做一个详细的分析。</span><span style="font-family:Verdana"><br>            </span></span></p>
+<p><img src="http://www.madhex.com/wp-content/uploads/2016/05/051616_2357_KeiluVision2.png" alt=""><span style="color:black; font-family:Verdana; font-size:9pt"><br>        </span></p>
+<p><span style="color:#4c33e5"><span style="font-family:Verdana; font-size:12pt"><strong>KEIL</strong></span><span style="color:black; font-size:9pt"><span style="font-family:宋体">是<strong>公司的名称</strong>，有时候也指</span><span style="font-family:Verdana">KEIL</span><span style="font-family:宋体">公司的所有软件开发工具，目前</span><span style="font-family:Verdana">2005</span><span style="font-family:宋体">年</span><span style="font-family:Verdana">Keil</span><span style="font-family:宋体">由</span><span style="font-family:Verdana">ARM</span><span style="font-family:宋体">公司收购，成为</span><span style="font-family:Verdana">ARM</span><span style="font-family:宋体">的公司之一。</span><span style="font-family:Verdana"><br>                </span></span></span></p>
+<p><span style="color:#4c33e5"><span style="font-family:Verdana; font-size:12pt"><strong>uVision</strong></span><span style="color:black; font-size:9pt"><span style="font-family:宋体">是</span><span style="font-family:Verdana">KEIL</span><span style="font-family:宋体">公司开发的一个<strong>集成开发环境</strong>（</span><span style="font-family:Verdana">IDE</span><span style="font-family:宋体">），和</span><span style="font-family:Verdana">Eclipse</span><span style="font-family:宋体">类似。它包括工程管理，源代码编辑，编译设</span><span style="font-family:Verdana">uVision</span><span style="font-family:宋体">置，下载调试和模拟仿真等功能，</span><span style="font-family:Verdana">uVision</span><span style="font-family:宋体">有</span><span style="font-family:Verdana">uVision2</span><span style="font-family:宋体">、</span><span style="font-family:Verdana">uVision3</span><span style="font-family:宋体">、</span><span style="font-family:Verdana">uVision4</span><span style="font-family:宋体">、</span><span style="font-family:Verdana">uVision5</span><span style="font-family:宋体">四个版本，目前最新的版本是</span><span style="font-family:Verdana">uVision5</span><span style="font-family:宋体">。它提供一个环境，让开发者易于操作，并不提供能具体的编译和下载功能，需要软件开发者添加。</span><span style="font-family:Verdana">uVisionu</span><span style="font-family:宋体">通用于</span><span style="font-family:Verdana">KEIL</span><span style="font-family:宋体">的开发工具中，例如</span><span style="font-family:Verdana">MDK</span><span style="font-family:宋体">，</span><span style="font-family:Verdana">PK51</span><span style="font-family:宋体">，</span><span style="font-family:Verdana">PK166</span><span style="font-family:宋体">，</span><span style="font-family:Verdana">DK251</span><span style="font-family:宋体">等。</span><span style="font-family:Verdana"><br>                </span></span></span></p>
+<p><span style="color:#4c33e5"><span style="font-family:Verdana; font-size:12pt"><strong>RealView</strong></span><span style="color:black; font-size:9pt"><span style="font-family:宋体">是<strong>一系列开发工具集合的称呼</strong>，简称</span><span style="font-family:Verdana">RV</span><span style="font-family:宋体">，包括有</span><span style="font-family:Verdana">RVD</span><span style="font-family:宋体">（</span><span style="font-family:Verdana">RealView Debugger</span><span style="font-family:宋体">），</span><span style="font-family:Verdana">RVI</span><span style="font-family:宋体">（</span><span style="font-family:Verdana">RealView ICE</span><span style="font-family:宋体">），</span><span style="font-family:Verdana">RVT</span><span style="font-family:宋体">（</span><span style="font-family:Verdana">RealView Trace</span><span style="font-family:宋体">），</span><span style="font-family:Verdana">RVDS</span><span style="font-family:宋体">（</span><span style="font-family:Verdana">RealView Development Suite</span><span style="font-family:宋体">），</span><span style="font-family:Verdana">RV MDK</span><span style="font-family:宋体">（</span><span style="font-family:Verdana">RealView Microcontroller Development Kit</span><span style="font-family:宋体">）这些产品。这些都是为了让客户容易记住，采取的一个宣传策略。</span><span style="font-family:Verdana"><br>                </span></span></span></p>
+<p><img src="http://www.madhex.com/wp-content/uploads/2016/05/051616_2357_KeiluVision3.jpg" alt=""><span style="color:black; font-family:Verdana; font-size:9pt"><br>        </span></p>
+<p><span style="color:black; font-size:9pt"><span style="font-family:宋体">举个例子说，<a href="http://www.myir-tech.com/" target="_blank" rel="external"><span style="color:#0f758e; text-decoration:underline">米尔科技</span></a>是一家主营优质</span><span style="font-family:Verdana">ARM</span><span style="font-family:宋体">工控板的企业，其产品系列由工控板（开发板）、单板机和核心板组成，虽然本来可以都叫工控板，但是为了让客户清晰了解产品的功能，进行选型，所以就分为</span><span style="font-family:Verdana">3</span><span style="font-family:宋体">个系列。不过</span><span style="font-family:Verdana">2009</span><span style="font-family:宋体">年</span><span style="font-family:Verdana">ARM</span><span style="font-family:宋体">又宣布停止使用</span><span style="font-family:Verdana">Realview</span><span style="font-family:宋体">品牌，所以目前</span><span style="font-family:Verdana">ARM</span><span style="font-family:宋体">就剩下了</span><span style="font-family:Verdana">ARM</span><span style="font-family:宋体">和</span><span style="font-family:Verdana">KEIL</span><span style="font-family:宋体">两个品牌了。</span><span style="font-family:Verdana"><br>            </span></span></p>
+<p><span style="color:#4c33e5"><span style="font-family:Verdana; font-size:12pt"><strong>MDK</strong></span><span style="color:black; font-size:9pt"><span style="font-family:宋体">（</span><span style="font-family:Verdana">Microcontroller Development Kit</span><span style="font-family:宋体">），也称</span><span style="font-family:Verdana"><strong>MDK-ARM</strong></span><span style="font-family:宋体">、</span><span style="font-family:Verdana"><strong>KEIL MDK</strong></span><span style="font-family:宋体">、</span><span style="font-family:Verdana"><strong>RealView MDK</strong></span><span style="font-family:宋体">、</span><span style="font-family:Verdana"><strong>KEIL For ARM</strong></span><span style="font-family:宋体">，都是同一个东西。</span><span style="font-family:Verdana">ARM</span><span style="font-family:宋体">公司现在统一使用</span><span style="font-family:Verdana">MDK-ARM</span><span style="font-family:宋体">的称呼，</span><span style="font-family:Verdana">MDK</span><span style="font-family:宋体">的设备数据库中有很多厂商的芯片，是专为微控制器开发的工具，为满足基于</span><span style="font-family:Verdana">MCU</span><span style="font-family:宋体">进行嵌入式软件开发的工程师需求而设计，支持</span><span style="font-family:Verdana">ARM7</span><span style="font-family:宋体">，</span><span style="font-family:Verdana">ARM9</span><span style="font-family:宋体">，</span><span style="font-family:Verdana">Cortex-M4/M3/M1</span><span style="font-family:宋体">，</span><span style="font-family:Verdana">Cortex-R0/R3/R4</span><span style="font-family:宋体">等</span><span style="font-family:Verdana">ARM</span><span style="font-family:宋体">微控制器内核。</span><span style="font-family:Verdana"><br>                </span></span></span></p>
+<p><img src="http://www.madhex.com/wp-content/uploads/2016/05/051616_2357_KeiluVision4.jpg" alt=""><span style="color:black; font-family:Verdana; font-size:9pt"><br>        </span></p>
+<p><span style="color:#4c33e5"><span style="font-family:Verdana; font-size:12pt"><strong>KEIL C51</strong></span><span style="color:black; font-size:9pt"><span style="font-family:宋体">，亦即</span><span style="font-family:Verdana"><strong>PK51</strong></span><span style="font-family:宋体">，</span><span style="font-family:Verdana">KEIL</span><span style="font-family:宋体">公司开发的基于</span><span style="font-family:Verdana">uVision IDE</span><span style="font-family:宋体">，支持绝大部分</span><span style="font-family:Verdana">8051</span><span style="font-family:宋体">内核的微控制器开发工具。</span><span style="font-family:Verdana"><br>                </span></span></span></p>
+<p><span style="color:#4c33e5"><span style="font-family:Verdana; font-size:12pt"><strong>KEIL C166</strong></span><span style="color:black; font-size:9pt"><span style="font-family:宋体">，亦即</span><span style="font-family:Verdana"><strong>PK166</strong></span><span style="font-family:宋体">，</span><span style="font-family:Verdana">KEIL</span><span style="font-family:宋体">公司开发的基于</span><span style="font-family:Verdana">uVision IDE</span><span style="font-family:宋体">，支持绝大部分</span><span style="font-family:Verdana">XC16x</span><span style="font-family:宋体">，</span><span style="font-family:Verdana">C16x</span><span style="font-family:宋体">和</span><span style="font-family:Verdana">ST10</span><span style="font-family:宋体">系列的微控制器开发工具。</span><span style="font-family:Verdana"><br>                </span></span></span></p>
+<p><span style="color:#4c33e5"><span style="font-family:Verdana; font-size:12pt"><strong>KEIL C251</strong></span><span style="color:black; font-size:9pt"><span style="font-family:宋体">，亦即</span><span style="font-family:Verdana"><strong>DK251</strong></span><span style="font-family:宋体">，是</span><span style="font-family:Verdana">KEIL</span><span style="font-family:宋体">公司开发的基于</span><span style="font-family:Verdana">uVision IDE</span><span style="font-family:宋体">，支持绝大部分基于</span><span style="font-family:Verdana">251</span><span style="font-family:宋体">核的微控制器的开发工具。</span><span style="font-family:Verdana"><br>                </span></span></span></p>
+<p><span style="color:black; font-size:9pt"><span style="font-family:宋体">总结来说，</span><span style="font-family:Verdana">KEIL</span><span style="font-family:宋体">公司目前有四款独立的嵌入式软件开发工具，即</span><span style="font-family:Verdana">MDK</span><span style="font-family:宋体">、</span><span style="font-family:Verdana">KEIL C51</span><span style="font-family:宋体">、</span><span style="font-family:Verdana">KEIL C166</span><span style="font-family:宋体">、</span><span style="font-family:Verdana">KEIL C251</span><span style="font-family:宋体">，它们都是</span><span style="font-family:Verdana">KEIL</span><span style="font-family:宋体">公司品牌下的产品，都基于</span><span style="font-family:Verdana">uVision</span><span style="font-family:宋体">集成开发环境，其中</span><span style="font-family:Verdana">MDK</span><span style="font-family:宋体">是</span><span style="font-family:Verdana">RealView</span><span style="font-family:宋体">系列中的一员。</span><span style="font-family:Verdana"><br></span></span></p>
+<ul>
+<li><div style="background: white"><a href="http://www.myir-tech.com/product/mdk-arm.htm" target="_blank" rel="external"><span style="color:#0f758e; font-size:9pt; text-decoration:underline"><span style="font-family:Verdana">Keil MDK-ARM</span><span style="font-family:宋体">开发工具介绍</span></span></a><span style="color:black; font-family:Verdana; font-size:9pt"><br>            </span></div></li>
+<li><div style="background: white"><a href="http://www.myir-tech.com/download.asp?nid=25" target="_blank" rel="external"><span style="color:#0f758e; font-size:9pt; text-decoration:underline"><span style="font-family:Verdana">Keil MDK-ARM uVision5</span><span style="font-family:宋体">最新下载</span></span></a><span style="color:black; font-family:Verdana; font-size:9pt"> <span style="color:#e53333">new!<span style="color:black"><br>                    </span></span></span></div></li>
+<li><div style="background: white"><a href="http://www.myir-tech.com/product/c51.htm" target="_blank" rel="external"><span style="color:#0f758e; font-size:9pt; text-decoration:underline"><span style="font-family:Verdana">Keil C51</span><span style="font-family:宋体">开发工具介绍</span></span></a><span style="color:black; font-family:Verdana; font-size:9pt"><br>            </span></div></li>
+<li><div style="background: white"><a href="http://www.myir-tech.com/download.asp?nid=26" target="_blank" rel="external"><span style="color:#0f758e; font-size:9pt; text-decoration:underline"><span style="font-family:Verdana">Keil C51</span><span style="font-family:宋体">最新下载</span></span></a><span style="color:black; font-family:Verdana; font-size:9pt"> <span style="color:#e53333">new!<span style="color:black"><br>                    </span></span></span></div>
+
+<p><span style="color:black; font-size:9pt"><span style="font-family:Verdana"><br></span><span style="font-family:宋体">本文来自<a href="http://www.myir-tech.com/" target="_blank" rel="external"><span style="color:#0f758e; text-decoration:underline">米尔</span></a>科技，原文地址：</span><span style="font-family:Verdana"> <a href="http://www.myir-tech.com/resource/512.asp" target="_blank" rel="external"><span style="color:#0f758e; text-decoration:underline">http://www.myir-tech.com/resource/512.asp</span></a></span><span style="font-family:宋体">，转载请注明出处。</span><span style="font-family:Verdana"></span></span></p>
+<pre><code>            &lt;/span&gt;&lt;/span&gt;
+</code></pre></li>
+</ul>
+
+        </div>
+        
+          
+
+
+  <section class='meta' id="footer-meta">
+    <hr>
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2017-07-10T16:50:37+08:00">
+  <a class='notlink'>
+    <i class="fas fa-clock" aria-hidden="true"></i>
+    <p>最后更新于 2017年7月10日</p>
+  </a>
+</div>
+
+        
+      
+        
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
+          
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://demonelf.github.io/EMBEDDED/Keil、uVision、RealView、MDK、Keil C51之间的区别比较.html&title=Keil、uVision、RealView、MDK、Keil C51之间的区别比较 | 芯机智&summary=        "
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
+          
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://demonelf.github.io/EMBEDDED/Keil、uVision、RealView、MDK、Keil C51之间的区别比较.html&title=Keil、uVision、RealView、MDK、Keil C51之间的区别比较 | 芯机智&summary=        "
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
+          
+          href="http://service.weibo.com/share/share.php?url=http://demonelf.github.io/EMBEDDED/Keil、uVision、RealView、MDK、Keil C51之间的区别比较.html&title=Keil、uVision、RealView、MDK、Keil C51之间的区别比较 | 芯机智&summary=        "
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/xaoxuu/assets@19.1.9/logo/128/weibo.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </section>
+
+
+        
+        
+            <div class="prev-next">
+                
+                    <section class="prev">
+                        <span class="art-item-left">
+                            <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
+                            <h4>
+                                <a href="/EMBEDDED/Keil C51 v9.55下载及激活.html" rel="prev" title="Keil C51 v9.55下载及激活">
+                                  
+                                      Keil C51 v9.55下载及激活
+                                  
+                                </a>
+                            </h4>
+                            
+                        </span>
+                    </section>
+                
+                
+                    <section class="next">
+                        <span class="art-item-right" aria-hidden="true">
+                            <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
+                            <h4>
+                                <a href="/EMBEDDED/make Image uImage与zImage的区别.html" rel="prev" title="make Image uImage与zImage的区别">
+                                    
+                                        make Image uImage与zImage的区别
+                                    
+                                </a>
+                            </h4>
+                            
+                        </span>
+                    </section>
+                
+            </div>
+        
+      </section>
+    </article>
+  
+
+  
+    <!-- 显示推荐文章和评论 -->
+
+
+
+  
+
+
+  
+
+
+
+
+<!-- 根据页面mathjax变量决定是否加载MathJax数学公式js -->
+
+
+
+  <script>
+    window.subData = {
+      title: 'Keil、uVision、RealView、MDK、Keil C51之间的区别比较',
+      tools: true
+    }
+  </script>
+
+
+</div>
+<aside class='l_side'>
+  
+    
+    
+      
+        
+          
+          
+            <section class='widget author'>
+  <div class='content pure'>
+    
+      <div class='avatar'>
+        <img class='avatar' src='http://bbs.dnsnat.com/discuz/uc_server/data/avatar/000/00/00/01_avatar_big.jpg'/>
+      </div>
+    
+    
+    
+      <div class="social-wrapper">
+        
+          
+            <a href="/atom.xml"
+              class="social fas fa-rss flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="mailto:me@xaoxuu.com"
+              class="social fas fa-envelope flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://github.com/xaoxuu"
+              class="social fab fa-github flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+          
+            <a href="https://music.163.com/#/user/home?id=63035382"
+              class="social fas fa-headphones-alt flat-btn"
+              target="_blank"
+              rel="external nofollow noopener noreferrer">
+            </a>
+          
+        
+      </div>
+    
+  </div>
+</section>
+
+          
+        
+      
+        
+          
+          
+            
+
+          
+        
+      
+        
+          
+          
+            <section class='widget grid'>
+  
+<header class='pure'>
+  <div><i class="fas fa-map-signs fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;站内导航</div>
+  
+</header>
+
+  <div class='content pure'>
+    <ul class="grid navgation">
+      
+        <li><a class="flat-box" title="/" href="/"
+          
+          
+          id="home">
+          
+            <i class="fas fa-clock fa-fw" aria-hidden="true"></i>
+          
+          近期文章
+        </a></li>
+      
+        <li><a class="flat-box" title="/blog/archives/" href="/blog/archives/"
+          
+            rel="nofollow"
+          
+          
+          id="blogarchives">
+          
+            <i class="fas fa-archive fa-fw" aria-hidden="true"></i>
+          
+          文章归档
+        </a></li>
+      
+        <li><a class="flat-box" title="/projects/" href="/projects/"
+          
+          
+          id="projects">
+          
+            <i class="fas fa-code-branch fa-fw" aria-hidden="true"></i>
+          
+          开源项目
+        </a></li>
+      
+        <li><a class="flat-box" title="/friends/" href="/friends/"
+          
+            rel="nofollow"
+          
+          
+          id="friends">
+          
+            <i class="fas fa-link fa-fw" aria-hidden="true"></i>
+          
+          我的友链
+        </a></li>
+      
+        <li><a class="flat-box" title="https://xaoxuu.com/wiki/material-x/" href="https://xaoxuu.com/wiki/material-x/"
+          
+            rel="nofollow"
+          
+          
+          id="https:xaoxuu.comwikimaterial-x">
+          
+            <i class="fas fa-book fa-fw" aria-hidden="true"></i>
+          
+          主题文档
+        </a></li>
+      
+        <li><a class="flat-box" title="/about/" href="/about/"
+          
+            rel="nofollow"
+          
+          
+          id="about">
+          
+            <i class="fas fa-info-circle fa-fw" aria-hidden="true"></i>
+          
+          关于小站
+        </a></li>
+      
+    </ul>
+  </div>
+</section>
+
+          
+        
+      
+        
+          
+          
+            
+  <section class='widget category'>
+    
+<header class='pure'>
+  <div><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;文章分类</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/categories/"
+    title="categories/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content pure'>
+      <ul class="entry">
+        
+          <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(95)</div></a></li>
+        
+          <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(12)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(0)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/embedded/" href="/categories/embedded/"><div class='name'>embedded</div><div class='badge'>(0)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(0)</div></a></li>
+        
+          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(0)</div></a></li>
+        
+      </ul>
+    </div>
+  </section>
+
+
+          
+        
+      
+        
+          
+          
+            
+  <section class='widget tagcloud'>
+    
+<header class='pure'>
+  <div><i class="fas fa-fire fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;热门标签</div>
+  
+    <a class="rightBtn"
+    
+      rel="nofollow"
+    
+    
+    href="/blog/tags/"
+    title="blog/tags/">
+    <i class="fas fa-expand-arrows-alt fa-fw"></i></a>
+  
+</header>
+
+    <div class='content pure'>
+      <a href="/tags/linux/" style="font-size: 14px; color: #999">linux</a>
+    </div>
+  </section>
+
+
+          
+        
+      
+        
+          
+          
+            
+
+
+  <section class='widget music'>
+    
+<header class='pure'>
+  <div><i class="fas fa-compact-disc fa-fw" aria-hidden="true"></i>&nbsp;&nbsp;最近在听</div>
+  
+    <a class="rightBtn"
+    
+      rel="external nofollow noopener noreferrer"
+    
+    
+      target="_blank"
+    
+    href="https://music.163.com/#/user/home?id=63035382"
+    title="https://music.163.com/#/user/home?id=63035382">
+    <i class="far fa-heart fa-fw"></i></a>
+  
+</header>
+
+    <div class='content pure'>
+      
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.7.0/dist/APlayer.min.css">
+  <div class="aplayer"
+    data-theme="#1BCDFC"
+    
+    
+    data-mode="circulation"
+    data-server="netease"
+    data-type="playlist"
+    data-id="2615636388"
+    data-volume="0.7">
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/aplayer@1.7.0/dist/APlayer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/meting@1.1.0/dist/Meting.min.js"></script>
+
+
+    </div>
+  </section>
+
+
+          
+        
+      
+    
+
+  
+</aside>
+
+<footer id="footer" class="clearfix">
+  
+  
+    <div class="social-wrapper">
+      
+        
+          <a href="/atom.xml"
+            class="social fas fa-rss flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="mailto:me@xaoxuu.com"
+            class="social fas fa-envelope flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://github.com/xaoxuu"
+            class="social fab fa-github flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+        
+          <a href="https://music.163.com/#/user/home?id=63035382"
+            class="social fas fa-headphones-alt flat-btn"
+            target="_blank"
+            rel="external nofollow noopener noreferrer">
+          </a>
+        
+      
+    </div>
+  
+  <br>
+  <div><p>博客内容遵循 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+  <div>
+    本站使用
+    <a href="https://xaoxuu.com/wiki/material-x/" target="_blank" class="codename">Material X</a>
+    作为主题
+    
+      ，
+      总访问量为
+      <span id="busuanzi_value_site_pv"><i class="fas fa-spinner fa-spin fa-fw" aria-hidden="true"></i></span>
+      次
+    
+    。
+  </div>
+</footer>
+<script>setLoadingBarProgress(80);</script>
+
+
+      <script>setLoadingBarProgress(60);</script>
+    </div>
+    <a class="s-top fas fa-arrow-up fa-fw" href='javascript:void(0)'></a>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+
+  <script>
+    var GOOGLE_CUSTOM_SEARCH_API_KEY = "";
+    var GOOGLE_CUSTOM_SEARCH_ENGINE_ID = "";
+    var ALGOLIA_API_KEY = "";
+    var ALGOLIA_APP_ID = "";
+    var ALGOLIA_INDEX_NAME = "";
+    var AZURE_SERVICE_NAME = "";
+    var AZURE_INDEX_NAME = "";
+    var AZURE_QUERY_KEY = "";
+    var BAIDU_API_ID = "";
+    var SEARCH_SERVICE = "hexo" || "hexo";
+    var ROOT = "/"||"/";
+    if(!ROOT.endsWith('/'))ROOT += '/';
+  </script>
+
+<script src="//instant.page/1.2.2" type="module" integrity="sha384-2xV8M5griQmzyiY3CDqh1dn4z3llDVqZDqzjzcY+jCBCk/a5fXJmuZ/40JJAPeoU"></script>
+
+
+  <script async src="https://cdn.jsdelivr.net/npm/scrollreveal@4.0.5/dist/scrollreveal.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      const $reveal = $('.reveal');
+      if ($reveal.length === 0) return;
+      const sr = ScrollReveal({ distance: 0 });
+      sr.reveal('.reveal');
+    });
+  </script>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/node-waves@0.7.6/dist/waves.min.js"></script>
+  <script type="text/javascript">
+    $(function() {
+      Waves.attach('.flat-btn', ['waves-button']);
+      Waves.attach('.float-btn', ['waves-button', 'waves-float']);
+      Waves.attach('.float-btn-light', ['waves-button', 'waves-float', 'waves-light']);
+      Waves.attach('.flat-box', ['waves-block']);
+      Waves.attach('.float-box', ['waves-block', 'waves-float']);
+      Waves.attach('.waves-image');
+      Waves.init();
+    });
+  </script>
+
+
+  <script async src="https://cdn.jsdelivr.net/gh/xaoxuu/cdn-busuanzi@2.3/js/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+  
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-backstretch/2.0.4/jquery.backstretch.min.js"></script>
+    <script type="text/javascript">
+      $(function(){
+        if ('.cover') {
+          $('.cover').backstretch(
+          ["https://img.vim-cn.com/6d/a0c9e6f9efad8b731cb7376504bd10d79d2053.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        } else {
+          $.backstretch(
+          ["https://img.vim-cn.com/6d/a0c9e6f9efad8b731cb7376504bd10d79d2053.jpg"],
+          {
+            duration: "6000",
+            fade: "2500"
+          });
+        }
+      });
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+  <script src="/js/app.js"></script>
+
+
+  <script src="/js/search.js"></script>
+
+
+
+
+<!-- 复制 -->
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  let COPY_SUCCESS = "复制成功";
+  let COPY_FAILURE = "复制失败";
+  /*页面载入完成后，创建复制按钮*/
+  !function (e, t, a) {
+    /* code */
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '  <i class="fa fa-copy"></i><span>复制</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+
+      clipboard.on('success', function(e) {
+        //您可以加入成功提示
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        success_prompt(COPY_SUCCESS);
+        e.clearSelection();
+      });
+      clipboard.on('error', function(e) {
+        //您可以加入失败提示
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+        fail_prompt(COPY_FAILURE);
+      });
+    }
+    initCopyCode();
+
+  }(window, document);
+
+  /**
+   * 弹出式提示框，默认1.5秒自动消失
+   * @param message 提示信息
+   * @param style 提示样式，有alert-success、alert-danger、alert-warning、alert-info
+   * @param time 消失时间
+   */
+  var prompt = function (message, style, time)
+  {
+      style = (style === undefined) ? 'alert-success' : style;
+      time = (time === undefined) ? 1500 : time*1000;
+      $('<div>')
+          .appendTo('body')
+          .addClass('alert ' + style)
+          .html(message)
+          .show()
+          .delay(time)
+          .fadeOut();
+  };
+
+  // 成功提示
+  var success_prompt = function(message, time)
+  {
+      prompt(message, 'alert-success', time);
+  };
+
+  // 失败提示
+  var fail_prompt = function(message, time)
+  {
+      prompt(message, 'alert-danger', time);
+  };
+
+  // 提醒
+  var warning_prompt = function(message, time)
+  {
+      prompt(message, 'alert-warning', time);
+  };
+
+  // 信息提示
+  var info_prompt = function(message, time)
+  {
+      prompt(message, 'alert-info', time);
+  };
+
+</script>
+
+
+<!-- fancybox -->
+<script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+<script>
+  let LAZY_LOAD_IMAGE = "";
+  $(".article-entry").find("fancybox").find("img").each(function () {
+      var element = document.createElement("a");
+      $(element).attr("data-fancybox", "gallery");
+      $(element).attr("href", $(this).attr("src"));
+      /* 图片采用懒加载处理时,
+       * 一般图片标签内会有个属性名来存放图片的真实地址，比如 data-original,
+       * 那么此处将原本的属性名src替换为对应属性名data-original,
+       * 修改如下
+       */
+       if (LAZY_LOAD_IMAGE) {
+         $(element).attr("href", $(this).attr("data-original"));
+       }
+      $(this).wrap(element);
+  });
+</script>
+
+
+
+
+
+  <script>setLoadingBarProgress(100);</script>
+</body>
+</html>
