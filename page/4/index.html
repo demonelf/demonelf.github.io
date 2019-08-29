@@ -232,8 +232,8 @@
       
         
   <h2 class="title">
-    <a href="/VPN系列之五花八门/vpn系列文章概述.html">
-      vpn系列文章概述
+    <a href="/NETWORK/关于linux 802.1d (bridge) 和 802.1q(vlan) 实现的再思考.html">
+      关于linux 802
     </a>
   </h2>
 
@@ -261,7 +261,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-09-19</p>
+    <p>2019-08-29</p>
   </a>
 </div>
 
@@ -271,9 +271,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/VPN系列之五花八门/VPN系列之五花八门/' rel="nofollow">
+    <a href='/categories/NETWORK/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>VPN系列之五花八门&nbsp;/&nbsp;VPN系列之五花八门</p>
+      <p>NETWORK</p>
     </a>
   </div>
 
@@ -300,19 +300,12 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      ​ 我们要讨论的相关vpn
-
- 1. l2tp
- 2. pptp
- 3. ipsec
- 4. websocket vpn
- 5. dns vpn
- 6. mpls vpn
-
-​ 由于ppp协议是以上大部分vpn的核心技术,所以我们还要讨论ppp相关技术.
+      <p>​    linux bridge - (brctl)实现了ieee 802.1d协议，这个实现，应该是不能支持VLAN的功能。也就是说，这个实现，只能承载一个广播域，而不能承载多个广播域。当然，可以创建多个bridge device，每个bridge都对应不同的vlan，在bridge内部，包通过fdb表来转发，但是这个fdb表里面并没有vlan的信息。如果要在多个bridge device之间通信，比必须在bridge device上创建vlan interface，然后配置路由，这样可以实现不同bridge之间的转发。<br>​    linux vlan - (vconfig)实现了ieee 802.1q协议。802.1q本来应该是一个二层协议，但是linux的实现需要创建vlan interface,而且可以在vlan interface上配置ip地址。所以，这个interface可以放到路由表里面。一般来说，在这个interface上收到的包，会带这个interface配置的vlan id，而从这个interface发出去的包，会打上这个interface的vlan id.</p>
+<p>​    举一个例子。一个盒子有6个物理interface, eth0,eth1,eth2,eth3,eth4,eth5,eth6.<br>​    bridge0 { eth0, eth1, eth2 }, vlan id 是2<br>​    bridge1 { eth3, eth4, eth5 }, vlan id 是3<br>​    eth0,eth1,eth2,eth3,eth4,eth5都在混杂模式，并且没有ip地址，它们是bridge的port.<br>​    创建vlan interface, bridge0.2, bridge1.3。在bridge0.2和bridge1.3上配置ip地址。vlan 2的机器，把bridge0.2的地址设置为缺省网关；vlan 3的机器，把bridge1.3设置为缺省网关。当有包要从vlan 2发往vlan 3是，它将送到bridge0.2，然后，通过路由，找到bridge1.3，然后由bridge1.3发出去。这个过程中，packet里面的vlan id会发生改变。<br>​    这个例子里面，要求从bridge port上收到的包都必须是打tag的，在bridge里面，并不能识别和处理tag，只有到三层的vlan interface才能识别并处理这些tag.<br>在bridge是还会运行STP协议来消除回环，进而实现了link一级的HA。STP，RSTP都是没有vlan的概念，而后来的PVST,PVST+，以及MSTP等，都能识别vlan，并且能消除一个vlan里面的回环。</p>
+<p>关于Bridge，可以参考：<a href="http://www.linuxfoundation.org/en/Net:Bridge" target="_blank" rel="external">http://www.linuxfoundation.org/en/Net:Bridge</a><br>关于Vlan,可以参考：<a href="http://www.candelatech.com/~greear/vlan.html" target="_blank" rel="external">http://www.candelatech.com/~greear/vlan.html</a><br>关于STP，可以参考：<a href="http://en.wikipedia.org/wiki/Spanning_tree_protocol" target="_blank" rel="external">http://en.wikipedia.org/wiki/Spanning_tree_protocol</a></p>
       
         <div class="readmore">
-          <a href="/VPN系列之五花八门/vpn系列文章概述.html" class="flat-box">
+          <a href="/NETWORK/关于linux 802.1d (bridge) 和 802.1q(vlan) 实现的再思考.html" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             阅读全文
           </a>
@@ -339,8 +332,8 @@
       
         
   <h2 class="title">
-    <a href="/DEVELOP/编写多进程、线程同步问题总结.html">
-      编写多进程、线程同步问题总结
+    <a href="/NETWORK/使用ARP的四种典型情况.html">
+      使用ARP的四种典型情况
     </a>
   </h2>
 
@@ -368,7 +361,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-23</p>
+    <p>2019-08-29</p>
   </a>
 </div>
 
@@ -378,9 +371,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/DEVELOP/DEVELOP/' rel="nofollow">
+    <a href='/categories/NETWORK/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>DEVELOP&nbsp;/&nbsp;DEVELOP</p>
+      <p>NETWORK</p>
     </a>
   </div>
 
@@ -407,16 +400,12 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      注: 多进程时所主要解决的就是进程同步问题。
-
- 1. 进程同步:
-    进程同步的主要任务是对多个相关进程在执行次序上进行协调，以使并发执行的诸进程之间能有效地共享资源和相互合作，从而使程序的执行具有可再现性。
-
-1.1 进程同步存在的问题:
-一、两种
+      <p>使用ARP的四种典型情况</p>
+<p>1.发送方是主机，把IP数据包发送到本网络上的另一个主机。这时用ARP找到目的主机的硬件MAC地址。  </p>
+<p>2.发送方是主机，要把IP数据报发送到另一个网络上的主机。这时用ARP找到本网络上的一个<a href="https://www.2cto.com/net/router/" target="_blank" rel="external">路由器</a>（网关）的硬件MAC地址。剩下的工作由这个路由器来完成。 </p>
       
         <div class="readmore">
-          <a href="/DEVELOP/编写多进程、线程同步问题总结.html" class="flat-box">
+          <a href="/NETWORK/使用ARP的四种典型情况.html" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             阅读全文
           </a>
@@ -443,8 +432,8 @@
       
         
   <h2 class="title">
-    <a href="/DEVELOP/pty示例代码.html">
-      pty示例代码
+    <a href="/NETWORK/linux 下创建GRE隧道.html">
+      linux 下创建GRE隧道
     </a>
   </h2>
 
@@ -472,7 +461,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-17</p>
+    <p>2019-08-29</p>
   </a>
 </div>
 
@@ -482,9 +471,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/DEVELOP/DEVELOP/' rel="nofollow">
+    <a href='/categories/NETWORK/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>DEVELOP&nbsp;/&nbsp;DEVELOP</p>
+      <p>NETWORK</p>
     </a>
   </div>
 
@@ -511,12 +500,20 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657
-
-#define _XOPEN_SOURCE
+      <p>其他国家的互联网如同一个孤岛。要想访问国外网站异常的缓慢，甚至被和谐了。可以建立一条隧道来避免这种情况，下面说说GRE隧道如何建立。</p>
+<ol>
+<li>GRE介绍<br>GRE隧道是一种IP-over-IP的隧道，是通用路由封装协议，可以对某些网路层协议的数据报进行封装，使这些被封装的数据报能够在IPv4/IPv6 网络中传输。<br>Tunnel 是一个虚拟的点对点的连接，提供了一条通路使封装的数据报文能够在这个通路上传输，并且在一个Tunnel 的两端分别对数据报进行封装及解封装。　一个X协议的报文要想穿越IP网络在Tunnel中传输，必须要经过加封装与解封装两个过程。<br>要在Linux上创建GRE隧道，需要ip_gre内核模块，它是GRE通过IPv4隧道的驱动程序。</li>
+<li><p>查看是否有加载ip_gre模块</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"># modprobe ip_gre</div><div class="line"># lsmod | grep gre</div><div class="line">ip_gre                 22432  0</div><div class="line">gre                    12989  1 ip_gre</div><div class="line"># modprobe ip_gre</div><div class="line"># lsmod | grep gre</div><div class="line">ip_gre                 22432  0</div><div class="line">gre                    12989  1 ip_gre</div></pre></td></tr></table></figure>
+</li>
+<li><p>创建步骤<br>环境如下：<br>host A :  121.207.22.123<br>host B: 111.2.33.28<br>在host A上面：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"># ip tunnel add gre1 mode gre remote 111.2.33.28 local 121.207.22.123 ttl 255</div><div class="line"># ip link set gre1 up</div><div class="line"># ip addr add 10.10.10.1 peer 10.10.10.2 dev gre1</div><div class="line"># ip tunnel add gre1 mode gre remote 111.2.33.28 local 121.207.22.123 ttl 255</div><div class="line"># ip link set gre1 up</div><div class="line"># ip addr add 10.10.10.1 peer 10.10.10.2 dev gre1</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>创建一个GRE类型隧道设备gre0, 并设置对端IP为111.2.33.28。隧道数据包将被从121.207.22.123也就是本地IP地址发起，其TTL字段被设置为255。隧道设备分配的IP地址为10.10.10.1，掩码为255.255.255.0。<br>在host B上面：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">#  ip tunnel add gre1 mode gre remote  121.207.22.123 local 111.2.33.28 ttl 255</div><div class="line">#  ip link set gre1 up</div><div class="line">#  ip addr add 10.10.10.2 peer 10.10.10.1 dev gre1</div><div class="line">#  ip tunnel add gre1 mode gre remote  121.207.22.123 local 111.2.33.28 ttl 255</div><div class="line">#  ip link set gre1 up</div><div class="line">#  ip addr add 10.10.10.2 peer 10.10.10.1 dev gre1</div></pre></td></tr></table></figure></p>
       
         <div class="readmore">
-          <a href="/DEVELOP/pty示例代码.html" class="flat-box">
+          <a href="/NETWORK/linux 下创建GRE隧道.html" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             阅读全文
           </a>
@@ -543,8 +540,8 @@
       
         
   <h2 class="title">
-    <a href="/SYSTEM/x11vnc利用xvfd实现远程vncserver.html">
-      x11vnc利用xvfd实现远程vncserver
+    <a href="/NETWORK/linux-iptables nat设置路由转换.html">
+      linux-iptables nat设置路由转换
     </a>
   </h2>
 
@@ -572,7 +569,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-09</p>
+    <p>2019-08-29</p>
   </a>
 </div>
 
@@ -582,9 +579,9 @@
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/SYSTEM/SYSTEM/' rel="nofollow">
+    <a href='/categories/NETWORK/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>SYSTEM&nbsp;/&nbsp;SYSTEM</p>
+      <p>NETWORK</p>
     </a>
   </div>
 
@@ -611,21 +608,12 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      当然你可以直接安装vncserver实现以下功能。
-例如：TigerVNC
-
-环境：gentoo
-
-安装：xvfd
-
-sudo USE=”xvfb” emerge -av xorg-server
-
-启动：xvfd
-
-Xvfb :2 -screen 0 80
+      <p>DNAT（Destination Network Address Translation,目的地址转换) 通常被叫做目的映射。而SNAT（Source Network Address Translation，源地址转换）通常被叫做源映射。</p>
+<p>这是我们在设置<a href="http://lib.csdn.net/base/linux" title="Linux知识库" target="_blank" rel="external">Linux</a>网关或者防火墙时经常要用来的两种方式。以前对这两个都解释得不太清楚，现在我在这里解释一下。</p>
+<p>首先，我们要了解一下IP包的结构，如下图所示：<br><img src="http://blog.myhnet.cn/wp-content/uploads/2009/01/iphdr.gif" alt="ipv4"><br>在任何一个IP数据包中，都会有Source IP Address与Destination IP Address这两个字段，数据包所经过的路由器也是根据这两个字段是判定数据包是由什么地方发过来的，它要将数据包发到什么地方去。而iptables的DNAT与SNAT就是根据这个原理，对Source IP Address与Destination IP Address进行修改。</p>
       
         <div class="readmore">
-          <a href="/SYSTEM/x11vnc利用xvfd实现远程vncserver.html" class="flat-box">
+          <a href="/NETWORK/linux-iptables nat设置路由转换.html" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             阅读全文
           </a>
@@ -652,8 +640,8 @@ Xvfb :2 -screen 0 80
       
         
   <h2 class="title">
-    <a href="/SYSTEM/gentoo_stage_diy.html">
-      gentoo_stage_diy
+    <a href="/NETWORK/nat穿透.html">
+      nat穿透
     </a>
   </h2>
 
@@ -681,7 +669,7 @@ Xvfb :2 -screen 0 80
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-09</p>
+    <p>2019-08-29</p>
   </a>
 </div>
 
@@ -691,9 +679,9 @@ Xvfb :2 -screen 0 80
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/SYSTEM/SYSTEM/' rel="nofollow">
+    <a href='/categories/NETWORK/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>SYSTEM&nbsp;/&nbsp;SYSTEM</p>
+      <p>NETWORK</p>
     </a>
   </div>
 
@@ -720,13 +708,12 @@ Xvfb :2 -screen 0 80
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      stage1：
-12345
-
-包含bootstrap.sh，scripts/bootstrap.sh用于安装glibc、gcc、zlib、binutils、textinfo、ncurses、gettext、sed、emerge、portage等创建stag
+      <p><img src="nat分类.png" alt=""></p>
+<p>作者：陈军链接：<a href="https://www.zhihu.com/question/38729355/answer/77877260" target="_blank" rel="external">https://www.zhihu.com/question/38729355/answer/77877260</a></p>
+<p>来源：知乎著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。      </p>
       
         <div class="readmore">
-          <a href="/SYSTEM/gentoo_stage_diy.html" class="flat-box">
+          <a href="/NETWORK/nat穿透.html" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             阅读全文
           </a>
@@ -753,8 +740,8 @@ Xvfb :2 -screen 0 80
       
         
   <h2 class="title">
-    <a href="/SYSTEM/gentoo【显卡-驱动-xorg-gnome-gui】如何工作.html">
-      gentoo【显卡-驱动-xorg-gnome-gui】工作原理
+    <a href="/NETWORK/三层交换机路由设计方案.html">
+      三层交换机路由设计方案
     </a>
   </h2>
 
@@ -782,7 +769,7 @@ Xvfb :2 -screen 0 80
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-08-09</p>
+    <p>2019-08-29</p>
   </a>
 </div>
 
@@ -792,9 +779,9 @@ Xvfb :2 -screen 0 80
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/SYSTEM/SYSTEM/' rel="nofollow">
+    <a href='/categories/NETWORK/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>SYSTEM&nbsp;/&nbsp;SYSTEM</p>
+      <p>NETWORK</p>
     </a>
   </div>
 
@@ -821,21 +808,106 @@ Xvfb :2 -screen 0 80
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      显卡->驱动->xorg->gnome->gui
+      <iframe src="http://docs.google.com/viewer?url=http://www.madhex.com/NETWORK/三层交换机路由设计方案.doc&embedded=true" width="100%" height="480" scrolling="no" style="border: none;"></iframe>
 
-查看显卡：lspci | grep -i VGA
+      
+    </div>
+    
+  </section>
+</article>
 
-查看驱动：lspci -vvv
-​ 
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
 
-/dev/nvidia0, /dev/nvidiactl
 
-是NV 官方驱动引入的两个设备文件
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/NETWORK/Linux PPP 框架分析.html">
+      Linux PPP 框架分析
+    </a>
+  </h2>
 
-驱动安装：x1
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2019-08-29</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/NETWORK/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>NETWORK</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <ol>
+<li>介绍</li>
+</ol>
+<p>通过对Linux源代码的分析,了解PPP设备在linux内的工作原理.顺便了解一下PPPoE如何利用PPP设备来完成上网的工作的.下面是代码研究的基础版本：</p>
+<p>Software      version<br>Linux内核    2.6.15<br>PPPd    ppp-2.4.3<br>PPPoE    rp-pppoe-3.8</p>
       
         <div class="readmore">
-          <a href="/SYSTEM/gentoo【显卡-驱动-xorg-gnome-gui】如何工作.html" class="flat-box">
+          <a href="/NETWORK/Linux PPP 框架分析.html" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             阅读全文
           </a>
@@ -862,8 +934,8 @@ Xvfb :2 -screen 0 80
       
         
   <h2 class="title">
-    <a href="/EMBEDDED/openocd+jlink为mini2440调试u-boot.html">
-      openocd+jlink为mini2440调试u-boot
+    <a href="/NETWORK/Socks代理反弹突破内网.html">
+      Socks代理反弹突破内网
     </a>
   </h2>
 
@@ -891,7 +963,7 @@ Xvfb :2 -screen 0 80
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-07-21</p>
+    <p>2019-08-29</p>
   </a>
 </div>
 
@@ -901,9 +973,9 @@ Xvfb :2 -screen 0 80
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/EMBEDDED/' rel="nofollow">
+    <a href='/categories/NETWORK/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>EMBEDDED</p>
+      <p>NETWORK</p>
     </a>
   </div>
 
@@ -930,14 +1002,12 @@ Xvfb :2 -screen 0 80
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      需要安装openocd，如果已经安装了系统默认的openocd(默认是0.5.0，版本太低），需要先卸载掉。
-
-在安装前需要安装必需的一些库文件：
-
- sudo apt-get install libusb-1.0-0-dev libusb-1.0-0 a
+      <p><strong>随着信息安全意识的提升，越来越多的信息系统前端均部署有防火墙，系统管理员根据业务需求将内部必要的服务端口通过端口映射等手段映射到公网中，如默认**</strong>web<strong>服务端口</strong>80<strong>、</strong>MSSQL<em>*数据库服务端口</em>1433等。通过部署防火墙可以将信息系统内部区域与公网逻辑隔离开来，利用相关的策略有效避免或减轻来自外部的攻击。</p>
+<p>对于渗透测试者来说，如何绕过防火墙的阻挡在内网展开渗透测试成为亟需解决的问题，本文介绍了在夺取映射到外网的内网服务器权限后，如何利用socks代理反弹获得内网访问权限。</p>
+<p>1.sSocks</p>
       
         <div class="readmore">
-          <a href="/EMBEDDED/openocd+jlink为mini2440调试u-boot.html" class="flat-box">
+          <a href="/NETWORK/Socks代理反弹突破内网.html" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             阅读全文
           </a>
@@ -964,8 +1034,8 @@ Xvfb :2 -screen 0 80
       
         
   <h2 class="title">
-    <a href="/EMBEDDED/JTAG基本原理与调试.html">
-      JTAG基本原理与调试
+    <a href="/NETWORK/Incapsula免费CDN服务申请使用及加速效果测评.html">
+      Incapsula免费CDN服务申请使用及加速效果测评
     </a>
   </h2>
 
@@ -993,7 +1063,7 @@ Xvfb :2 -screen 0 80
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-07-21</p>
+    <p>2019-08-29</p>
   </a>
 </div>
 
@@ -1003,9 +1073,9 @@ Xvfb :2 -screen 0 80
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/EMBEDDED/' rel="nofollow">
+    <a href='/categories/NETWORK/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>EMBEDDED</p>
+      <p>NETWORK</p>
     </a>
   </div>
 
@@ -1032,216 +1102,12 @@ Xvfb :2 -screen 0 80
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      JTAG(Joint Test Action Group)联合测试行动小组)是一种国际标准测试协议（IEEE 1149.1兼容），主要用于芯片内部测试。现在多数的高级器件都支持JTAG协议，如DSP、FPGA器件等。标准的JTAG接口是4线：TMS、 TC
+      <p><a href="http://www.aspku.com/yunying/jingyan/47681.html" target="_blank" rel="external"><img src="http://www.aspku.com/uploads/allimg/150128/1343221Y0-0.gif" alt="Incapsula免费CDN服务申请使用及加速效果测评" title="Incapsula免费CDN服务申请使用及加速效果测评"></a></p>
+<p>作为差不多和cloudflare一道被国内的站长们认识的Incapsula，其提供的免费CDN加速服务一直可以正常使用，且有多个CDN节点可供选择。而cloudflare提供的免费CDN服务虽然不错，但是不知道是不是因为国内用户用太多了还是其他什么原因，现在用起来总会有各种问题。</p>
+<p>Incapsula最早部落是在三年前介绍的，现在之所以要再次分享一下Incapsula的免费CDN申请使用教程，一来是给不是很了解Incapsula的朋友一个简单普及，Incapsula的CDN其实有不少的高级用法；二来是Incapsula最近推出的香港CDN节点，很必要来体验不同的CDN节点在国内连接速度快慢。</p>
       
         <div class="readmore">
-          <a href="/EMBEDDED/JTAG基本原理与调试.html" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/EMBEDDED/S3C6410中断以及外部中断.html">
-      S3C6410中断以及外部中断
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-07-19</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/EMBEDDED/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>EMBEDDED</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      6410的中断系统：
-
-嵌入式软件里的中断处理，除了中断初始化，主要工作就是编写ISR.
-
- 在嵌入式的SOC的CPU里，在CPU里内部会带一些设备模块，它们产生的中断称为内部中断。因为联线比较固定，因此编程比较简单。而且在物理上CPU分离的芯片产生的中断
-      
-        <div class="readmore">
-          <a href="/EMBEDDED/S3C6410中断以及外部中断.html" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/SYSTEM/git reset revert 回退回滚取消提交返回上一版本.html">
-      git reset revert 回退回滚取消提交返回上一版本
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-07-18</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/SYSTEM/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>SYSTEM</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      总有一天你会遇到下面的问题.
-
-(1)改完代码匆忙提交,上线发现有问题,怎么办? 赶紧回滚.
-
-(2)改完代码测试也没有问题,但是上线发现你的修改影响了之前运行正常的代码报错,必须回滚.
-
-这些开发中很常见的问题,所以git的取消提交,回退甚至返回上一版本
-      
-        <div class="readmore">
-          <a href="/SYSTEM/git reset revert 回退回滚取消提交返回上一版本.html" class="flat-box">
+          <a href="/NETWORK/Incapsula免费CDN服务申请使用及加速效果测评.html" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             阅读全文
           </a>
@@ -1270,14 +1136,8 @@ Xvfb :2 -screen 0 80
             </a>
           
           <p class="current">
-            4 / 13
+            4 / 4
           </p>
-          
-            <a class="next" rel="next" href="/page/5/">
-              <section class="post next">
-                &nbsp;下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i>
-              </section>
-            </a>
           
         </div>
       </div>
@@ -1471,37 +1331,17 @@ Xvfb :2 -screen 0 80
         
           <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
         
-          <li><a class="flat-box child" title="/categories/DEVELOP/DEVELOP/" href="/categories/DEVELOP/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
-        
-          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(15)</div></a></li>
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(9)</div></a></li>
         
           <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/LIVE/LIVE/" href="/categories/LIVE/LIVE/"><div class='name'>LIVE</div><div class='badge'>(2)</div></a></li>
+          <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(1)</div></a></li>
         
           <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(11)</div></a></li>
         
           <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
         
-          <li><a class="flat-box child" title="/categories/SYSTEM/SYSTEM/" href="/categories/SYSTEM/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(9)</div></a></li>
-        
           <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/VPN系列之五花八门/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(78)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/arm/EMBEDDED/" href="/categories/arm/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(78)</div></a></li>
-        
-          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/linux/EMBEDDED/" href="/categories/linux/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/笑看人生/EMBEDDED/" href="/categories/笑看人生/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
         
       </ul>
     </div>
@@ -1837,5 +1677,10 @@ Xvfb :2 -screen 0 80
 
 
   <script>setLoadingBarProgress(100);</script>
+
+  <script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>
+  <script type="text/javascript">
+  L2Dwidget.init();
+  </script>
 </body>
 </html>

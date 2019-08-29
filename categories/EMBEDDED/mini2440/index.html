@@ -313,18 +313,9 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      计算机基本硬件：I/O接口 硬盘 内存 CPU 时钟 看门狗
-
-​ 内存(有可能需要考虑 MMU和cache等)
-
-​ CPU(中断)
-
-操作系统分为 两部分 ：
-
- 1. 资源部分：以文件系统的方式呈现
- 2. 调度部分：以多进程的方式呈现
-
-操作系统说
+      <p>计算机基本硬件：I/O接口 硬盘 内存 CPU 时钟 看门狗</p>
+<p>​                   内存(有可能需要考虑 MMU和cache等)</p>
+<p>​                CPU(中断)</p>
       
         <div class="readmore">
           <a href="/EMBEDDED/mini2440/编写操作系统思路.html" class="flat-box">
@@ -422,11 +413,9 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      以下都是自己瞎理解，并不一定对，但会慢慢完善。
-
-我们可以想象下，linux文件系统，是吧我们想利用的资源，以虚拟一种树状目录结构管理。最初我们主要想把，硬盘上的内容以树状的结构管理起来。
-但是发现，其实好多硬件都可以放到这个树中。例如：字符设备串口等。
-
+      <p>以下都是自己瞎理解，并不一定对，但会慢慢完善。</p>
+<p>我们可以想象下，linux文件系统，是吧我们想利用的资源，以虚拟一种树状目录结构管理。最初我们主要想把，硬盘上的内容以树状的结构管理起来。<br>但是发现，其实好多硬件都可以放到这个树中。例如：字符设备串口等。<br>这要我们能清楚的管理硬件。简单既是美。这也是linux可能玩不了复杂的，只能简单的想到一切皆文件的理念吧。</p>
+<p>我们先不考虑虚拟文件系统，其实虚拟文件系统只是在我们这个真实的文件系统上再虚拟一层。因为可能由于兴趣原因，我们不想在每个硬盘上都放一种真实文件，有的像放fat，有的想放ext3，有的想法minix。呵呵，有点开玩笑。由于一个电脑上有多个文件系统。我们又不想让用户用写个应用还得open_ext3 read_ext3z这个样子。所以我们又封装了以下open-&gt;open_ext3,用户还是只要调用open就可以了，所以有了虚拟文件系统。<br>不过我们现在不想管，我们就一个文件系统minix。因为我怕乱了，额。</p>
       
         <div class="readmore">
           <a href="/EMBEDDED/mini2440/文件系统理解.html" class="flat-box">
@@ -524,12 +513,9 @@
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      前情提要
-
-最近想在mini2440上模仿linux 0.12的代码实现arm版本的linux。
-一来是想巩固下arm，在就是学习下操作系统的相关只是。
-哎、最后之前的想法非常幼稚，心想学就学最新，当时想看懂linux 3.x的版本。
-没想到越看越老，从3
+      <p><strong>前情提要</strong></p>
+<p>最近想在mini2440上模仿linux 0.12的代码实现arm版本的linux。<br>一来是想巩固下arm，在就是学习下操作系统的相关只是。<br>哎、最后之前的想法非常幼稚，心想学就学最新，当时想看懂linux 3.x的版本。<br>没想到越看越老，从3.x到2.x, 再到0.12 呵。<br>我想真把 0.12 玩的非常通其实也不是件易事。<br>从硬件到系统，mmu到进程，等等。如何有机的组在一起运行起来，也是很费精力。</p>
+<p>废话不多说，学习的环境为，gentoo + qemu_mini2440.</p>
       
         <div class="readmore">
           <a href="/EMBEDDED/mini2440/qemu模拟mini2440调试手册.html" class="flat-box">
@@ -741,37 +727,17 @@
         
           <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
         
-          <li><a class="flat-box child" title="/categories/DEVELOP/DEVELOP/" href="/categories/DEVELOP/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
-        
-          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(15)</div></a></li>
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(9)</div></a></li>
         
           <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/LIVE/LIVE/" href="/categories/LIVE/LIVE/"><div class='name'>LIVE</div><div class='badge'>(2)</div></a></li>
+          <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(1)</div></a></li>
         
           <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(11)</div></a></li>
         
           <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
         
-          <li><a class="flat-box child" title="/categories/SYSTEM/SYSTEM/" href="/categories/SYSTEM/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(9)</div></a></li>
-        
           <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/VPN系列之五花八门/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(78)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/arm/EMBEDDED/" href="/categories/arm/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(78)</div></a></li>
-        
-          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/linux/EMBEDDED/" href="/categories/linux/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/笑看人生/EMBEDDED/" href="/categories/笑看人生/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
         
       </ul>
     </div>
@@ -1107,5 +1073,10 @@
 
 
   <script>setLoadingBarProgress(100);</script>
+
+  <script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>
+  <script type="text/javascript">
+  L2Dwidget.init();
+  </script>
 </body>
 </html>

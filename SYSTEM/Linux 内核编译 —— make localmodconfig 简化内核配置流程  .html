@@ -4,11 +4,8 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   
-  <title>Linux 内核编译 —— make localmodconfig 简化内核配置流程 | 芯机智</title>
+  <title>Linux 内核编译 —— make localmodconfig 简化内核配置流程   | 芯机智</title>
   
-  
-  <meta name="description" content="简介： 前些天才知道， Linux 2.6.32 开始引入了一个 make localmodconfig 用于简化 kernel 的配置。
-刚刚找了一下这个方面的资料，分享一下。 Most people uses the kernel shipped b">
   
 
   
@@ -233,7 +230,7 @@
   
     <h1 class="title">
       <a href="/SYSTEM/Linux 内核编译 —— make localmodconfig 简化内核配置流程  .html">
-        Linux 内核编译 —— make localmodconfig 简化内核配置流程
+        Linux 内核编译 —— make localmodconfig 简化内核配置流程  
       </a>
     </h1>
   
@@ -262,7 +259,7 @@
             <div class="new-meta-item date">
   <a class='notlink'>
     <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2017-11-08</p>
+    <p>2019-08-29</p>
   </a>
 </div>
 
@@ -354,10 +351,10 @@
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2017-11-08T14:52:08+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-08-29T13:09:33+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
-    <p>最后更新于 2017年11月8日</p>
+    <p>最后更新于 2019年8月29日</p>
   </a>
 </div>
 
@@ -376,11 +373,9 @@
       
         <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://demonelf.github.io/SYSTEM/Linux 内核编译 —— make localmodconfig 简化内核配置流程  .html&title=Linux 内核编译 —— make localmodconfig 简化内核配置流程 | 芯机智&summary=简介：
-前些天才知道， Linux 2.6.32 开始引入了一个 make localmodconfig 用于简化 kernel 的配置。
-刚刚找了一下这个方面的资料，分享一下。
-
-Most people uses the kernel shipped b"
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://demonelf.github.io/SYSTEM/Linux 内核编译 —— make localmodconfig 简化内核配置流程  .html&title=Linux 内核编译 —— make localmodconfig 简化内核配置流程   | 芯机智&summary=简介：前些天才知道， Linux 2.6.32 开始引入了一个 make localmodconfig 用于简化 kernel 的配置。刚刚找了一下这个方面的资料，分享一下。
+Most people uses the kernel shipped by distros - and that’s good. But some people like to compile their own kernels from kernel.org, or maybe they like following the Linux development and want to try it. Configuring your own kernel, however, has become a very difficult and tedious task - there’re too many options, and some times userspace software will stop working if you don’t enable some key option. You can use a standard distro .config file, but it takes too much time to compile all the options it enables.
+To make the process of configuration easier, a new build target has been added: make localmodconfig. It runs “lsmod” to find all the modules loaded on the current running system. It will read all the Makefiles to map which CONFIG enables a module. It will read the Kconfig files to find the dependencies and selects that may be needed to support a CONFIG. Finally, it reads the .config file and removes any module “=m” that is not needed to enable the currently loaded modules. With this tool, you can strip a distro .config of all the unuseful drivers that are not needed in our machine, and it will take much less time to build the kernel. There’s an additional “make localyesconfig” target, in case you don’t want to use modules and/or initrds."
           
           >
           
@@ -392,11 +387,9 @@ Most people uses the kernel shipped b"
       
         <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://demonelf.github.io/SYSTEM/Linux 内核编译 —— make localmodconfig 简化内核配置流程  .html&title=Linux 内核编译 —— make localmodconfig 简化内核配置流程 | 芯机智&summary=简介：
-前些天才知道， Linux 2.6.32 开始引入了一个 make localmodconfig 用于简化 kernel 的配置。
-刚刚找了一下这个方面的资料，分享一下。
-
-Most people uses the kernel shipped b"
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://demonelf.github.io/SYSTEM/Linux 内核编译 —— make localmodconfig 简化内核配置流程  .html&title=Linux 内核编译 —— make localmodconfig 简化内核配置流程   | 芯机智&summary=简介：前些天才知道， Linux 2.6.32 开始引入了一个 make localmodconfig 用于简化 kernel 的配置。刚刚找了一下这个方面的资料，分享一下。
+Most people uses the kernel shipped by distros - and that’s good. But some people like to compile their own kernels from kernel.org, or maybe they like following the Linux development and want to try it. Configuring your own kernel, however, has become a very difficult and tedious task - there’re too many options, and some times userspace software will stop working if you don’t enable some key option. You can use a standard distro .config file, but it takes too much time to compile all the options it enables.
+To make the process of configuration easier, a new build target has been added: make localmodconfig. It runs “lsmod” to find all the modules loaded on the current running system. It will read all the Makefiles to map which CONFIG enables a module. It will read the Kconfig files to find the dependencies and selects that may be needed to support a CONFIG. Finally, it reads the .config file and removes any module “=m” that is not needed to enable the currently loaded modules. With this tool, you can strip a distro .config of all the unuseful drivers that are not needed in our machine, and it will take much less time to build the kernel. There’s an additional “make localyesconfig” target, in case you don’t want to use modules and/or initrds."
           
           >
           
@@ -408,11 +401,9 @@ Most people uses the kernel shipped b"
       
         <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=http://demonelf.github.io/SYSTEM/Linux 内核编译 —— make localmodconfig 简化内核配置流程  .html&title=Linux 内核编译 —— make localmodconfig 简化内核配置流程 | 芯机智&summary=简介：
-前些天才知道， Linux 2.6.32 开始引入了一个 make localmodconfig 用于简化 kernel 的配置。
-刚刚找了一下这个方面的资料，分享一下。
-
-Most people uses the kernel shipped b"
+          href="http://service.weibo.com/share/share.php?url=http://demonelf.github.io/SYSTEM/Linux 内核编译 —— make localmodconfig 简化内核配置流程  .html&title=Linux 内核编译 —— make localmodconfig 简化内核配置流程   | 芯机智&summary=简介：前些天才知道， Linux 2.6.32 开始引入了一个 make localmodconfig 用于简化 kernel 的配置。刚刚找了一下这个方面的资料，分享一下。
+Most people uses the kernel shipped by distros - and that’s good. But some people like to compile their own kernels from kernel.org, or maybe they like following the Linux development and want to try it. Configuring your own kernel, however, has become a very difficult and tedious task - there’re too many options, and some times userspace software will stop working if you don’t enable some key option. You can use a standard distro .config file, but it takes too much time to compile all the options it enables.
+To make the process of configuration easier, a new build target has been added: make localmodconfig. It runs “lsmod” to find all the modules loaded on the current running system. It will read all the Makefiles to map which CONFIG enables a module. It will read the Kconfig files to find the dependencies and selects that may be needed to support a CONFIG. Finally, it reads the .config file and removes any module “=m” that is not needed to enable the currently loaded modules. With this tool, you can strip a distro .config of all the unuseful drivers that are not needed in our machine, and it will take much less time to build the kernel. There’s an additional “make localyesconfig” target, in case you don’t want to use modules and/or initrds."
           
           >
           
@@ -455,9 +446,9 @@ Most people uses the kernel shipped b"
                         <span class="art-item-right" aria-hidden="true">
                             <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                             <h4>
-                                <a href="/SYSTEM/mariadb配置允许远程访问方式 .html" rel="prev" title="mariadb配置允许远程访问方式">
+                                <a href="/SYSTEM/Github上怎么修改别人的项目并且提交给原作者！图文并茂！.html" rel="prev" title="Github上怎么修改别人的项目并且提交给原作者！图文并茂！">
                                     
-                                        mariadb配置允许远程访问方式
+                                        Github上怎么修改别人的项目并且提交给原作者！图文并茂！
                                     
                                 </a>
                             </h4>
@@ -476,7 +467,21 @@ Most people uses the kernel shipped b"
 
 
 
-  
+  <article class="post white-box comments">
+    <section class="article typo">
+      <h4><i class="fas fa-comments fa-fw" aria-hidden="true"></i>&nbsp;评论</h4>
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-spinner fa-spin fa-fw"></i>
+          </div>
+        </section>
+      
+    </section>
+  </article>
 
 
   
@@ -490,7 +495,7 @@ Most people uses the kernel shipped b"
 
   <script>
     window.subData = {
-      title: 'Linux 内核编译 —— make localmodconfig 简化内核配置流程',
+      title: 'Linux 内核编译 —— make localmodconfig 简化内核配置流程  ',
       tools: true
     }
   </script>
@@ -677,37 +682,17 @@ Most people uses the kernel shipped b"
         
           <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
         
-          <li><a class="flat-box child" title="/categories/DEVELOP/DEVELOP/" href="/categories/DEVELOP/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
-        
-          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(15)</div></a></li>
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(9)</div></a></li>
         
           <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/LIVE/LIVE/" href="/categories/LIVE/LIVE/"><div class='name'>LIVE</div><div class='badge'>(2)</div></a></li>
+          <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(1)</div></a></li>
         
           <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(11)</div></a></li>
         
           <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
         
-          <li><a class="flat-box child" title="/categories/SYSTEM/SYSTEM/" href="/categories/SYSTEM/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(9)</div></a></li>
-        
           <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/VPN系列之五花八门/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(78)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/arm/EMBEDDED/" href="/categories/arm/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(78)</div></a></li>
-        
-          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/linux/EMBEDDED/" href="/categories/linux/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/笑看人生/EMBEDDED/" href="/categories/笑看人生/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
         
       </ul>
     </div>
@@ -923,6 +908,36 @@ Most people uses the kernel shipped b"
 
 
 
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+    
+      <script src="/js/volantis.js"></script>
+    
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var notify = 'true' == true;
+  var verify = 'true' == true;
+  var valine = new Valine();
+  valine.init({
+    el: '#valine_container',
+    notify: notify,
+    verify: verify,
+    guest_info: guest_info,
+    
+    appId: "NfaaXWquq5k1rwaMUIzzbl5a-gzGzoHsz",
+    appKey: "go00HAC2DEHP5NdbD4b0am79",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'mp',
+    lang:'zh-cn',
+    highlight:'true'
+  })
+  </script>
+
 
 
   <script src="/js/app.js"></script>
@@ -1043,5 +1058,10 @@ Most people uses the kernel shipped b"
 
 
   <script>setLoadingBarProgress(100);</script>
+
+  <script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>
+  <script type="text/javascript">
+  L2Dwidget.init();
+  </script>
 </body>
 </html>

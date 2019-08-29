@@ -257,756 +257,8 @@
       
         
   <h2 class="title">
-    <a href="/EMBEDDED/mini2440/编写操作系统思路.html">
-      编写操作系统思路
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-08-29</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/EMBEDDED/mini2440/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>EMBEDDED&nbsp;/&nbsp;mini2440</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      计算机基本硬件：I/O接口 硬盘 内存 CPU 时钟 看门狗
-
-​ 内存(有可能需要考虑 MMU和cache等)
-
-​ CPU(中断)
-
-操作系统分为 两部分 ：
-
- 1. 资源部分：以文件系统的方式呈现
- 2. 调度部分：以多进程的方式呈现
-
-操作系统说
-      
-        <div class="readmore">
-          <a href="/EMBEDDED/mini2440/编写操作系统思路.html" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/EMBEDDED/mini2440/文件系统理解.html">
-      文件系统理解
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-08-29</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/EMBEDDED/mini2440/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>EMBEDDED&nbsp;/&nbsp;mini2440</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      以下都是自己瞎理解，并不一定对，但会慢慢完善。
-
-我们可以想象下，linux文件系统，是吧我们想利用的资源，以虚拟一种树状目录结构管理。最初我们主要想把，硬盘上的内容以树状的结构管理起来。
-但是发现，其实好多硬件都可以放到这个树中。例如：字符设备串口等。
-
-      
-        <div class="readmore">
-          <a href="/EMBEDDED/mini2440/文件系统理解.html" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/EMBEDDED/mini2440/qemu模拟mini2440调试手册.html">
-      qemu模拟mini2440调试手册
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-08-29</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/EMBEDDED/mini2440/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>EMBEDDED&nbsp;/&nbsp;mini2440</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      前情提要
-
-最近想在mini2440上模仿linux 0.12的代码实现arm版本的linux。
-一来是想巩固下arm，在就是学习下操作系统的相关只是。
-哎、最后之前的想法非常幼稚，心想学就学最新，当时想看懂linux 3.x的版本。
-没想到越看越老，从3
-      
-        <div class="readmore">
-          <a href="/EMBEDDED/mini2440/qemu模拟mini2440调试手册.html" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/EMBEDDED/BCM芯片FP原理及相关SDK数据结构介绍.html">
-      BCM芯片FP原理及相关SDK数据结构介绍
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-08-29</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/EMBEDDED/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>EMBEDDED</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      作者: 北京—小武
-
-
-邮箱：night_elf1020@163.com
-
-
-新浪微博：北京-小武
-
-
-BCM芯片有几个大的模块： VLAN、L2、L3和FP等几个，其中FP的使用也最为灵活，能解析匹配数据包文的前128字节比特级的内容，动作包括转发、丢弃
-      
-        <div class="readmore">
-          <a href="/EMBEDDED/BCM芯片FP原理及相关SDK数据结构介绍.html" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/EMBEDDED/BCM56151路由学习总结.html">
-      BCM56151路由学习总结
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-08-29</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/EMBEDDED/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>EMBEDDED</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      1. 
-    
-    # BCM包处理原理
-    
-    
-
-
-
-
-L2转发流程
-
-
- 1. 
-    
-    # L2转发流程
-    
-    
-
-对于交换芯片来说，L2转发是一个最基本的功能。
-
-
-2.1 L2功能主要包括：
-
-
-ingre
-      
-        <div class="readmore">
-          <a href="/EMBEDDED/BCM56151路由学习总结.html" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/EMBEDDED/ARM内核全解析，从ARM7,ARM9到Cortex-A7,A8,A9,A12,A15到Cortex-A53,A57.html">
-      ARM内核全解析，从ARM7,ARM9到Cortex-A7,A8,A9,A12,A15到Cortex-A53,A57
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-08-29</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/EMBEDDED/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>EMBEDDED</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      前不久ARM正式宣布推出新款ARMv8架构的Cortex-A50处理器系列产品，以此来扩大ARM在高性能与低功耗领域的领先地位，进一步抢占移动终端市场份额。Cortex-A50是继Cortex-A15之后的又一重量级产品，将会直接影响到主流PC市场的占有率
-      
-        <div class="readmore">
-          <a href="/EMBEDDED/ARM内核全解析，从ARM7,ARM9到Cortex-A7,A8,A9,A12,A15到Cortex-A53,A57.html" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/EMBEDDED/1588v2（PTP）协议实体类型详解.html">
-      1588v2（PTP）协议实体类型详解
-    </a>
-  </h2>
-
-
-      
-      <div class='new-meta-box'>
-        
-          
-        
-          
-            
-  <div class='new-meta-item author'>
-    <a href="http://demonelf.github.io" rel="nofollow">
-      
-        <i class="fas fa-user" aria-hidden="true"></i>
-      
-      <p>madhex</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-    <p>2019-08-29</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  
-  <div class='new-meta-item category'>
-    <a href='/categories/EMBEDDED/' rel="nofollow">
-      <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>EMBEDDED</p>
-    </a>
-  </div>
-
-
-          
-        
-          
-            
-
-          
-        
-          
-            
-
-          
-        
-      </div>
-      
-        <hr>
-      
-    </div>
-  </section>
-
-
-  <section class="article typo">
-    <div class="article-entry" itemprop="articleBody">
-      PTP共有5种实体类型：
-
-
- * 普通时钟（Ordinaryclock），
-   
- * 边界时钟（Boundaryclock），
-   
- * E2E透传时钟（End-to-end transparent clock），
-   
- * P2P透传时钟（
-      
-        <div class="readmore">
-          <a href="/EMBEDDED/1588v2（PTP）协议实体类型详解.html" class="flat-box">
-            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
-            阅读全文
-          </a>
-        </div>
-      
-    </div>
-    
-  </section>
-</article>
-
-          </div>
-        
-      
-        
-          <div class='post-wrapper'>
-            <article class="post reveal ">
-  
-
-
-  <section class='meta'>
-    
-    
-    <div class="meta" id="header-meta">
-      
-        
-  <h2 class="title">
-    <a href="/NETWORK/静态路由使用下一跳IP与出接口的区别.html">
-      静态路由使用下一跳IP与出接口的区别
+    <a href="/NETWORK/Gentoo下利用pptpd搭建PPTP服务器 .html">
+      Gentoo下利用pptpd搭建PPTP服务器 
     </a>
   </h2>
 
@@ -1073,17 +325,15 @@ ingre
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      配置下一跳为出接口的
-
-好处是不用知道下一跳具体ip可以实现动态学习的效果
-
-缺点在于下一跳路由器必须支持这种基本的arp代理功能.
-
-拓扑图： 
-以太网链路中：两个接口之间的通信是靠MAC地址，根据MAC地址，将数据封装成数据帧后传送到网络，进而通过物理
+      <p>首先检查当前系统的linux kernel有没有支持ppp, netfilter, mppe和 netfilter的nat,如果没有，请先配置支持这些组建，编译更新内核，然后重启系统。这块不再详述，如果想知道详细情况，可以留言问我。<br>接着安装必要软件</p>
+<blockquote>
+<p>emerge ppp</p>
+<p>emerge pptpd</p>
+</blockquote>
+<p>然后修改配置文件<br>先是pptpd的配置文件 /etc/pptpd.conf<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">ppp /usr/sbin/pppd</div><div class="line">option /etc/ppp/options.pptpd</div><div class="line">logwtmp</div><div class="line">localip 172.16.0.1</div><div class="line">remoteip 172.16.0.2-254</div></pre></td></tr></table></figure></p>
       
         <div class="readmore">
-          <a href="/NETWORK/静态路由使用下一跳IP与出接口的区别.html" class="flat-box">
+          <a href="/NETWORK/Gentoo下利用pptpd搭建PPTP服务器 .html" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             阅读全文
           </a>
@@ -1110,8 +360,8 @@ ingre
       
         
   <h2 class="title">
-    <a href="/NETWORK/关于linux 802.1d (bridge) 和 802.1q(vlan) 实现的再思考.html">
-      关于linux 802
+    <a href="/VPN系列之五花八门/vpn系列文章概述.html">
+      vpn系列文章概述
     </a>
   </h2>
 
@@ -1149,9 +399,9 @@ ingre
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/NETWORK/' rel="nofollow">
+    <a href='/categories/VPN系列之五花八门/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>NETWORK</p>
+      <p>VPN系列之五花八门</p>
     </a>
   </div>
 
@@ -1178,10 +428,18 @@ ingre
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      ​ linux bridge - (brctl)实现了ieee 802.1d协议，这个实现，应该是不能支持VLAN的功能。也就是说，这个实现，只能承载一个广播域，而不能承载多个广播域。当然，可以创建多个bridge device，每个bridge都对应不同
+      <h2 id="我们要讨论的相关vpn"><a href="#我们要讨论的相关vpn" class="headerlink" title="我们要讨论的相关vpn"></a>我们要讨论的相关vpn</h2><ol>
+<li>l2tp</li>
+<li>pptp</li>
+<li>ipsec</li>
+<li>websocket vpn</li>
+<li>dns vpn</li>
+<li>mpls vpn</li>
+</ol>
+<p>由于ppp协议是以上大部分vpn的核心技术,所以我们还要讨论ppp相关技术.</p>
       
         <div class="readmore">
-          <a href="/NETWORK/关于linux 802.1d (bridge) 和 802.1q(vlan) 实现的再思考.html" class="flat-box">
+          <a href="/VPN系列之五花八门/vpn系列文章概述.html" class="flat-box">
             <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
             阅读全文
           </a>
@@ -1208,8 +466,8 @@ ingre
       
         
   <h2 class="title">
-    <a href="/NETWORK/三层交换机路由设计方案.html">
-      三层交换机路由设计方案
+    <a href="/VPN系列之五花八门/ppp协议总结.html">
+      ppp协议总结
     </a>
   </h2>
 
@@ -1247,9 +505,9 @@ ingre
             
   
   <div class='new-meta-item category'>
-    <a href='/categories/NETWORK/' rel="nofollow">
+    <a href='/categories/VPN系列之五花八门/' rel="nofollow">
       <i class="fas fa-folder-open" aria-hidden="true"></i>
-      <p>NETWORK</p>
+      <p>VPN系列之五花八门</p>
     </a>
   </div>
 
@@ -1276,8 +534,737 @@ ingre
 
   <section class="article typo">
     <div class="article-entry" itemprop="articleBody">
-      <iframe src="http://docs.google.com/viewer?url=http://www.madhex.com/NETWORK/三层交换机路由设计方案.doc&embedded=true" width="100%" height="480" scrolling="no" style="border: none;"></iframe>
+      <h2 id="协议规范"><a href="#协议规范" class="headerlink" title="协议规范"></a>协议规范</h2><h2 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h2><figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">ppp_info</span>&#123;</span></div><div class="line">	<span class="keyword">int</span> unit;			<span class="comment">/**/</span></div><div class="line">	<span class="keyword">int</span> dev_fd;			<span class="comment">/**/</span></div><div class="line">	<span class="keyword">int</span> lcp_fd;			<span class="comment">/**/</span></div><div class="line">	<span class="keyword">int</span> ppp_fd;			<span class="comment">/**/</span></div><div class="line">	<span class="keyword">int</span> remote_id;		<span class="comment">/**/</span></div><div class="line">	<span class="keyword">char</span>	*user;		<span class="comment">/* Username for authentication */</span></div><div class="line">	<span class="keyword">char</span>	*passwd;	<span class="comment">/* Password for authentication */</span></div><div class="line">	<span class="keyword">char</span> *ifname;</div><div class="line">	<span class="keyword">char</span> attach_inter[<span class="number">16</span>];</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> distance;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> weight;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> gateway;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> dns;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> auth;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> auth_type;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">char</span> down_flag;			<span class="comment">//避免PPP主动down掉和手动清除冲突</span></div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> unique;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> dns_value;</div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> wins_value;</div><div class="line">	<span class="keyword">char</span> usergrp[MAXNAMELEN];</div><div class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">prefix_ipv4</span> <span class="title">localaddr</span>;</span></div><div class="line">	<span class="keyword">unsigned</span> <span class="keyword">int</span> peer_address;			<span class="comment">//tunnip</span></div><div class="line">	<span class="keyword">int</span> lcp_detect_interval_time;		<span class="comment">//for change interval time of lcp echo request</span></div><div class="line">	<span class="keyword">int</span> lcp_detect_lost_times;			<span class="comment">//for change times of no respons lcp echo request</span></div><div class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">thread</span> * <span class="title">lcp_thread</span>;</span></div><div class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">thread</span> * <span class="title">ipcp_rthread</span>;</span></div><div class="line">    <span class="keyword">void</span> *conn;</div><div class="line">    <span class="keyword">void</span> *priv_data;</div><div class="line">    <span class="keyword">int</span> natid;</div><div class="line">	<span class="keyword">int</span> mtu;</div><div class="line">	Ppp_if_type iftype;</div><div class="line">	<span class="keyword">int</span> (*manage_auto_down) (<span class="keyword">char</span> *ifname);</div><div class="line">	<span class="keyword">int</span> (*ipcp_up_cb) (struct ppp_cb_info *cb_info);</div><div class="line">	<span class="keyword">int</span> (*ipcp_down_cb) (struct ppp_cb_info *cb_info);</div><div class="line">	<span class="keyword">int</span> (*lcp_auth) (<span class="keyword">char</span> *name, <span class="keyword">char</span> *group, <span class="keyword">char</span> *password, <span class="keyword">unsigned</span> <span class="keyword">char</span> *challenge, <span class="keyword">int</span> unit, <span class="keyword">int</span> type);</div><div class="line">	<span class="keyword">int</span> (*check_rqci)(__u32 addr);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+      
+        <div class="readmore">
+          <a href="/VPN系列之五花八门/ppp协议总结.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+    
+  </section>
+</article>
 
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/DEVELOP/软件架构模式.html">
+      软件架构模式
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2019-08-29</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/DEVELOP/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>DEVELOP</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <p><img src="images/cover.png" alt="cover"></p>
+<p>软件架构模式  Mark Richards 著<br>版权归 © 2015 O’Reilly Media, Inc. 所有.      </p>
+<p>原书发布链接为<a href="http://www.oreilly.com/programming/free/software-architecture-patterns.csp" target="_blank" rel="external">Software Architecture Patterns</a>.</p>
+      
+        <div class="readmore">
+          <a href="/DEVELOP/软件架构模式.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/DEVELOP/编写多进程、线程同步问题总结.html">
+      编写多进程、线程同步问题总结
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2019-08-29</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/DEVELOP/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>DEVELOP</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <p>注: 多进程时所主要解决的就是进程同步问题。</p>
+<ol>
+<li>进程同步:<br>进程同步的主要任务是对多个相关进程在执行次序上进行协调，以使并发执行的诸进程之间能有效地共享资源和相互合作，从而使程序的执行具有可再现性。</li>
+</ol>
+<h1 id="1-1-进程同步存在的问题"><a href="#1-1-进程同步存在的问题" class="headerlink" title="1.1 进程同步存在的问题:"></a>1.1 进程同步存在的问题:</h1>
+      
+        <div class="readmore">
+          <a href="/DEVELOP/编写多进程、线程同步问题总结.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/DEVELOP/pty示例代码.html">
+      pty示例代码
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2019-08-29</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/DEVELOP/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>DEVELOP</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <figure class="highlight c"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">define</span> _XOPEN_SOURCE</span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pty.h&gt;</span></span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">        <span class="keyword">int</span> fd_m, fd_s;</div><div class="line">        <span class="keyword">int</span> len;</div><div class="line">        <span class="keyword">const</span> <span class="keyword">char</span> *pts_name;</div><div class="line">        <span class="keyword">char</span> send_buf[<span class="number">64</span>] = <span class="string">"abc\ndefghijk\nlmn"</span>;</div><div class="line">        <span class="keyword">char</span> recv_buf[<span class="number">64</span>] = &#123;<span class="number">0</span>&#125;;</div><div class="line"></div><div class="line">        fd_m = open(<span class="string">"/dev/ptmx"</span>, O_RDWR | O_NOCTTY);</div><div class="line">        <span class="keyword">if</span> (fd_m &lt; <span class="number">0</span>) &#123;</div><div class="line">                <span class="built_in">printf</span>(<span class="string">"open /dev/ptmx fail1\n"</span>);</div><div class="line">                <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (grantpt(fd_m) &lt; <span class="number">0</span> || unlockpt(fd_m) &lt; <span class="number">0</span>) &#123;</div><div class="line">                <span class="built_in">printf</span>(<span class="string">"grantpt and unlockpt fail\n"</span>);</div><div class="line">                <span class="keyword">goto</span> err;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        pts_name = (<span class="keyword">const</span> <span class="keyword">char</span> *)ptsname(fd_m);</div><div class="line">        fd_s = open(pts_name, O_RDONLY | O_NOCTTY);</div><div class="line">        <span class="keyword">if</span> (fd_s &lt; <span class="number">0</span>) &#123;</div><div class="line">                <span class="built_in">printf</span>(<span class="string">"open /dev/ptmx fail2\n"</span>);</div><div class="line">                <span class="keyword">goto</span> err;</div><div class="line">        &#125;</div><div class="line"></div><div class="line">        len = write(fd_m, send_buf, <span class="built_in">strlen</span>(send_buf));</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"write len=%d\n"</span>, len);</div><div class="line"></div><div class="line">        len = read(fd_s, recv_buf, <span class="keyword">sizeof</span>(recv_buf));</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"read len=%d, recv_buf=[%s]\n"</span>, len, recv_buf);</div><div class="line"></div><div class="line">        len = read(fd_s, recv_buf, <span class="keyword">sizeof</span>(recv_buf));</div><div class="line">        <span class="built_in">printf</span>(<span class="string">"read len=%d, recv_buf=[%s]\n"</span>, len, recv_buf);</div><div class="line"></div><div class="line">        close(fd_m);</div><div class="line">        close(fd_s);</div><div class="line">        <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line"></div><div class="line">err:</div><div class="line">        <span class="keyword">if</span> (fd_m)</div><div class="line">                close(fd_m);</div><div class="line">        <span class="keyword">if</span> (fd_s)</div><div class="line">                close(fd_s);</div><div class="line"></div><div class="line">        <span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/DEVELOP/Git常用命令图表.html">
+      Git常用命令图表
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2019-08-29</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/DEVELOP/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>DEVELOP</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <p>有这几个git命令就够用了</p>
+<p><img src="Git常用命令图表.png" alt=""></p>
+<p>示例: 保存本地/home/example_a目录到本地/home/example_b目录</p>
+      
+        <div class="readmore">
+          <a href="/DEVELOP/Git常用命令图表.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/SYSTEM/使用SSH反向隧道进行内网穿透.html">
+      使用SSH反向隧道进行内网穿透
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2019-08-29</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/SYSTEM/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>SYSTEM</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <p><strong>1，前提条件</strong></p>
+<table>
+<thead>
+<tr>
+<th>环境</th>
+<th>系统类型</th>
+<th>本地用户</th>
+<th>SSH服务端口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A机位于公司的NAT网络</td>
+<td>安装在VMware里的Debian 8 64bit虚拟机</td>
+<td>userA</td>
+<td>22</td>
+</tr>
+<tr>
+<td>B机是一台有公网IP的VPS</td>
+<td>CentOS 6 64bit</td>
+<td>userVPS</td>
+<td>1022</td>
+</tr>
+<tr>
+<td>C机位于家庭的NAT网络</td>
+<td>Windows系统</td>
+<td>–</td>
+<td>–</td>
+</tr>
+</tbody>
+</table>
+<p>实现目的：使得位于家庭NAT网络内的C机，可以SSH访问位于公司NAT网络内的A机。</p>
+      
+        <div class="readmore">
+          <a href="/SYSTEM/使用SSH反向隧道进行内网穿透.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/SYSTEM/从wordpress换hexo博客后.html">
+      从wordpress换hexo博客后
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2019-08-29</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/SYSTEM/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>SYSTEM</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <p>之前用wordpress做blog, 为什么换为hexo呢?</p>
+<p>第一 </p>
+<p>​    wordpress的文章都保存在服务器的数据库, 维护不是很直观.</p>
+      
+        <div class="readmore">
+          <a href="/SYSTEM/从wordpress换hexo博客后.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
+      
+    </div>
+    
+  </section>
+</article>
+
+          </div>
+        
+      
+        
+          <div class='post-wrapper'>
+            <article class="post reveal ">
+  
+
+
+  <section class='meta'>
+    
+    
+    <div class="meta" id="header-meta">
+      
+        
+  <h2 class="title">
+    <a href="/SYSTEM/x11vnc利用xvfd实现远程vncserver.html">
+      x11vnc利用xvfd实现远程vncserver
+    </a>
+  </h2>
+
+
+      
+      <div class='new-meta-box'>
+        
+          
+        
+          
+            
+  <div class='new-meta-item author'>
+    <a href="http://demonelf.github.io" rel="nofollow">
+      
+        <i class="fas fa-user" aria-hidden="true"></i>
+      
+      <p>madhex</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+    <p>2019-08-29</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  
+  <div class='new-meta-item category'>
+    <a href='/categories/SYSTEM/' rel="nofollow">
+      <i class="fas fa-folder-open" aria-hidden="true"></i>
+      <p>SYSTEM</p>
+    </a>
+  </div>
+
+
+          
+        
+          
+            
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+      
+        <hr>
+      
+    </div>
+  </section>
+
+
+  <section class="article typo">
+    <div class="article-entry" itemprop="articleBody">
+      <p>当然你可以直接安装vncserver实现以下功能。<br>例如：TigerVNC</p>
+<p>环境：gentoo</p>
+<p>安装：xvfd</p>
+      
+        <div class="readmore">
+          <a href="/SYSTEM/x11vnc利用xvfd实现远程vncserver.html" class="flat-box">
+            <i class="fas fa-book-open fa-fw" aria-hidden="true"></i>
+            阅读全文
+          </a>
+        </div>
       
     </div>
     
@@ -1296,7 +1283,7 @@ ingre
         <div class="prev-next">
           
           <p class="current">
-            1 / 2
+            1 / 4
           </p>
           
             <a class="next" rel="next" href="/archives/2019/page/2/">
@@ -1498,37 +1485,17 @@ ingre
         
           <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
         
-          <li><a class="flat-box child" title="/categories/DEVELOP/DEVELOP/" href="/categories/DEVELOP/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
-        
-          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(15)</div></a></li>
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(9)</div></a></li>
         
           <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/LIVE/LIVE/" href="/categories/LIVE/LIVE/"><div class='name'>LIVE</div><div class='badge'>(2)</div></a></li>
+          <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(1)</div></a></li>
         
           <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(11)</div></a></li>
         
           <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
         
-          <li><a class="flat-box child" title="/categories/SYSTEM/SYSTEM/" href="/categories/SYSTEM/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(9)</div></a></li>
-        
           <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/VPN系列之五花八门/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(78)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/arm/EMBEDDED/" href="/categories/arm/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(78)</div></a></li>
-        
-          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/linux/EMBEDDED/" href="/categories/linux/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/笑看人生/EMBEDDED/" href="/categories/笑看人生/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
         
       </ul>
     </div>
@@ -1872,5 +1839,10 @@ ingre
 
 
   <script>setLoadingBarProgress(100);</script>
+
+  <script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>
+  <script type="text/javascript">
+  L2Dwidget.init();
+  </script>
 </body>
 </html>

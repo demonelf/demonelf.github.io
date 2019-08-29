@@ -7,9 +7,6 @@
   <title>Gentoo下利用pptpd搭建PPTP服务器  | 芯机智</title>
   
   
-  <meta name="description" content="首先检查当前系统的linux kernel有没有支持ppp, netfilter, mppe和
-netfilter的nat,如果没有，请先配置支持这些组建，编译更新内核，然后重启系统。这块不再详述，如果想知道详细情况，可以留言问我。 接着安装必要软件 e">
-  
 
   
   <link rel="alternate" href="/atom.xml" title="芯机智">
@@ -346,7 +343,7 @@ netfilter的nat,如果没有，请先配置支持这些组建，编译更新内�
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-08-29T12:00:00+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2019-08-29T14:29:11+08:00">
   <a class='notlink'>
     <i class="fas fa-clock" aria-hidden="true"></i>
     <p>最后更新于 2019年8月29日</p>
@@ -368,10 +365,12 @@ netfilter的nat,如果没有，请先配置支持这些组建，编译更新内�
       
         <a class="-mob-share-qq" title="QQ好友" rel="external nofollow noopener noreferrer"
           
-          href="http://connect.qq.com/widget/shareqq/index.html?url=http://demonelf.github.io/NETWORK/Gentoo下利用pptpd搭建PPTP服务器 .html&title=Gentoo下利用pptpd搭建PPTP服务器  | 芯机智&summary=首先检查当前系统的linux kernel有没有支持ppp, netfilter, mppe和 netfilter的nat,如果没有，请先配置支持这些组建，编译更新内核，然后重启系统。这块不再详述，如果想知道详细情况，可以留言问我。
-接着安装必要软件
+          href="http://connect.qq.com/widget/shareqq/index.html?url=http://demonelf.github.io/NETWORK/Gentoo下利用pptpd搭建PPTP服务器 .html&title=Gentoo下利用pptpd搭建PPTP服务器  | 芯机智&summary=首先检查当前系统的linux kernel有没有支持ppp, netfilter, mppe和 netfilter的nat,如果没有，请先配置支持这些组建，编译更新内核，然后重启系统。这块不再详述，如果想知道详细情况，可以留言问我。接着安装必要软件
 
-e"
+emerge ppp
+emerge pptpd
+
+然后修改配置文件先是pptpd的配置文件 /etc/pptpd.conf12345ppp /usr/sbin/pppdoption /etc/ppp/options.pptpdlogwtmplocalip 172.16.0.1remoteip 172.16.0.2-254"
           
           >
           
@@ -383,10 +382,12 @@ e"
       
         <a class="-mob-share-qzone" title="QQ空间" rel="external nofollow noopener noreferrer"
           
-          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://demonelf.github.io/NETWORK/Gentoo下利用pptpd搭建PPTP服务器 .html&title=Gentoo下利用pptpd搭建PPTP服务器  | 芯机智&summary=首先检查当前系统的linux kernel有没有支持ppp, netfilter, mppe和 netfilter的nat,如果没有，请先配置支持这些组建，编译更新内核，然后重启系统。这块不再详述，如果想知道详细情况，可以留言问我。
-接着安装必要软件
+          href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://demonelf.github.io/NETWORK/Gentoo下利用pptpd搭建PPTP服务器 .html&title=Gentoo下利用pptpd搭建PPTP服务器  | 芯机智&summary=首先检查当前系统的linux kernel有没有支持ppp, netfilter, mppe和 netfilter的nat,如果没有，请先配置支持这些组建，编译更新内核，然后重启系统。这块不再详述，如果想知道详细情况，可以留言问我。接着安装必要软件
 
-e"
+emerge ppp
+emerge pptpd
+
+然后修改配置文件先是pptpd的配置文件 /etc/pptpd.conf12345ppp /usr/sbin/pppdoption /etc/ppp/options.pptpdlogwtmplocalip 172.16.0.1remoteip 172.16.0.2-254"
           
           >
           
@@ -398,10 +399,12 @@ e"
       
         <a class="-mob-share-weibo" title="微博" rel="external nofollow noopener noreferrer"
           
-          href="http://service.weibo.com/share/share.php?url=http://demonelf.github.io/NETWORK/Gentoo下利用pptpd搭建PPTP服务器 .html&title=Gentoo下利用pptpd搭建PPTP服务器  | 芯机智&summary=首先检查当前系统的linux kernel有没有支持ppp, netfilter, mppe和 netfilter的nat,如果没有，请先配置支持这些组建，编译更新内核，然后重启系统。这块不再详述，如果想知道详细情况，可以留言问我。
-接着安装必要软件
+          href="http://service.weibo.com/share/share.php?url=http://demonelf.github.io/NETWORK/Gentoo下利用pptpd搭建PPTP服务器 .html&title=Gentoo下利用pptpd搭建PPTP服务器  | 芯机智&summary=首先检查当前系统的linux kernel有没有支持ppp, netfilter, mppe和 netfilter的nat,如果没有，请先配置支持这些组建，编译更新内核，然后重启系统。这块不再详述，如果想知道详细情况，可以留言问我。接着安装必要软件
 
-e"
+emerge ppp
+emerge pptpd
+
+然后修改配置文件先是pptpd的配置文件 /etc/pptpd.conf12345ppp /usr/sbin/pppdoption /etc/ppp/options.pptpdlogwtmplocalip 172.16.0.1remoteip 172.16.0.2-254"
           
           >
           
@@ -425,28 +428,14 @@ e"
         
             <div class="prev-next">
                 
-                    <section class="prev">
-                        <span class="art-item-left">
-                            <h6><i class="fas fa-chevron-left" aria-hidden="true"></i>&nbsp;上一页</h6>
-                            <h4>
-                                <a href="/NETWORK/Incapsula免费CDN服务申请使用及加速效果测评.html" rel="prev" title="Incapsula免费CDN服务申请使用及加速效果测评">
-                                  
-                                      Incapsula免费CDN服务申请使用及加速效果测评
-                                  
-                                </a>
-                            </h4>
-                            
-                        </span>
-                    </section>
-                
                 
                     <section class="next">
                         <span class="art-item-right" aria-hidden="true">
                             <h6>下一页&nbsp;<i class="fas fa-chevron-right" aria-hidden="true"></i></h6>
                             <h4>
-                                <a href="/LIVE/自己选择的路.html" rel="prev" title="自己选择的路">
+                                <a href="/VPN系列之五花八门/vpn系列文章概述.html" rel="prev" title="vpn系列文章概述">
                                     
-                                        自己选择的路
+                                        vpn系列文章概述
                                     
                                 </a>
                             </h4>
@@ -465,7 +454,21 @@ e"
 
 
 
-  
+  <article class="post white-box comments">
+    <section class="article typo">
+      <h4><i class="fas fa-comments fa-fw" aria-hidden="true"></i>&nbsp;评论</h4>
+      
+      
+      
+      
+        <section id="comments">
+          <div id="valine_container" class="valine_thread">
+            <i class="fas fa-spinner fa-spin fa-fw"></i>
+          </div>
+        </section>
+      
+    </section>
+  </article>
 
 
   
@@ -666,37 +669,17 @@ e"
         
           <li><a class="flat-box" title="/categories/DEVELOP/" href="/categories/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
         
-          <li><a class="flat-box child" title="/categories/DEVELOP/DEVELOP/" href="/categories/DEVELOP/DEVELOP/"><div class='name'>DEVELOP</div><div class='badge'>(4)</div></a></li>
-        
-          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(15)</div></a></li>
+          <li><a class="flat-box" title="/categories/EMBEDDED/" href="/categories/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(9)</div></a></li>
         
           <li><a class="flat-box child" title="/categories/EMBEDDED/mini2440/" href="/categories/EMBEDDED/mini2440/"><div class='name'>mini2440</div><div class='badge'>(3)</div></a></li>
         
-          <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(3)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/LIVE/LIVE/" href="/categories/LIVE/LIVE/"><div class='name'>LIVE</div><div class='badge'>(2)</div></a></li>
+          <li><a class="flat-box" title="/categories/LIVE/" href="/categories/LIVE/"><div class='name'>LIVE</div><div class='badge'>(1)</div></a></li>
         
           <li><a class="flat-box" title="/categories/NETWORK/" href="/categories/NETWORK/"><div class='name'>NETWORK</div><div class='badge'>(11)</div></a></li>
         
           <li><a class="flat-box" title="/categories/SYSTEM/" href="/categories/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(12)</div></a></li>
         
-          <li><a class="flat-box child" title="/categories/SYSTEM/SYSTEM/" href="/categories/SYSTEM/SYSTEM/"><div class='name'>SYSTEM</div><div class='badge'>(9)</div></a></li>
-        
           <li><a class="flat-box" title="/categories/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/VPN系列之五花八门/VPN系列之五花八门/" href="/categories/VPN系列之五花八门/VPN系列之五花八门/"><div class='name'>VPN系列之五花八门</div><div class='badge'>(2)</div></a></li>
-        
-          <li><a class="flat-box" title="/categories/arm/" href="/categories/arm/"><div class='name'>arm</div><div class='badge'>(78)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/arm/EMBEDDED/" href="/categories/arm/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(78)</div></a></li>
-        
-          <li><a class="flat-box" title="/categories/linux/" href="/categories/linux/"><div class='name'>linux</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/linux/EMBEDDED/" href="/categories/linux/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box" title="/categories/笑看人生/" href="/categories/笑看人生/"><div class='name'>笑看人生</div><div class='badge'>(1)</div></a></li>
-        
-          <li><a class="flat-box child" title="/categories/笑看人生/EMBEDDED/" href="/categories/笑看人生/EMBEDDED/"><div class='name'>EMBEDDED</div><div class='badge'>(1)</div></a></li>
         
       </ul>
     </div>
@@ -912,6 +895,36 @@ e"
 
 
 
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  
+    
+      <script src="/js/volantis.js"></script>
+    
+  
+  <script>
+  var GUEST_INFO = ['nick','mail','link'];
+  var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+    return GUEST_INFO.indexOf(item) > -1
+  });
+  var notify = 'true' == true;
+  var verify = 'true' == true;
+  var valine = new Valine();
+  valine.init({
+    el: '#valine_container',
+    notify: notify,
+    verify: verify,
+    guest_info: guest_info,
+    
+    appId: "NfaaXWquq5k1rwaMUIzzbl5a-gzGzoHsz",
+    appKey: "go00HAC2DEHP5NdbD4b0am79",
+    placeholder: "快来评论吧~",
+    pageSize:'10',
+    avatar:'mp',
+    lang:'zh-cn',
+    highlight:'true'
+  })
+  </script>
+
 
 
   <script src="/js/app.js"></script>
@@ -1032,5 +1045,10 @@ e"
 
 
   <script>setLoadingBarProgress(100);</script>
+
+  <script src="https://eqcn.ajz.miesnfu.com/wp-content/plugins/wp-3d-pony/live2dw/lib/L2Dwidget.min.js"></script>
+  <script type="text/javascript">
+  L2Dwidget.init();
+  </script>
 </body>
 </html>
